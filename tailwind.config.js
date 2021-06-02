@@ -1,3 +1,4 @@
+const colors = require("tailwindcss/colors");
 module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
@@ -5,10 +6,12 @@ module.exports = {
   },
   purge: ["./**/*.html", "./**/*.tsx"],
   theme: {
-    textColor: {
-      primary: "#0070f3",
+    colors: {
+      ...colors,
+      loopring: {
+        DEFAULT: "#1c42ff",
+      },
     },
-    extend: {},
   },
   variants: {},
   plugins: [],

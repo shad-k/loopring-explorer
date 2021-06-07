@@ -32,7 +32,6 @@ export default function Home() {
   const { data, error } = useSWR(FETCH_BLOCKS);
   const { data: txsData, error: txsError } = useSWR(FETCH_TXS);
 
-  console.log(data, error);
   return (
     <div className="w-full lg:w-4/5 m-auto mt-12">
       <div className="h-56 rounded-2xl bg-gradient-to-b from-indigo-100 to-indigo-60 p-5">

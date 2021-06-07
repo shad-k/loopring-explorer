@@ -6,7 +6,6 @@ import { SWRConfig } from "swr";
 import request from "graphql-request";
 
 import "../styles/globals.scss";
-import SearchForm from "../components/SearchForm";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -22,19 +21,19 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <SWRConfig value={swrOptions}>
-      <main className="w-screen h-screen">
+      <main className="w-screen h-screen bg-gradient-to-b from-indigo-50 to-white text-gray-900">
         <Head>
           <title>Loopring V2 Explorer</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.png" />
         </Head>
-        <header className="bg-loopring w-screen px-4 py-2 text-white">
+        <header className="bg-white w-screen px-4 py-2">
           <div className="container h-full w-full lg:w-4/5 m-auto flex md:items-center justify-between flex-col md:flex-row">
             <div
               onClick={() => router.push("/")}
               className="h-full flex items-center"
             >
               <Image
-                src="/loopring-white.svg"
+                src="/loopring-black.svg"
                 width="40"
                 height="40"
                 className="h-full"
@@ -42,7 +41,6 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
               />
               <span className="ml-2 mr-12">LoopringV2 Explorer</span>
             </div>
-            <SearchForm className="flex md:w-2/5 mt-2 md:mt-0" />
           </div>
         </header>
         <Component {...pageProps} />

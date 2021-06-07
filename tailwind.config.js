@@ -1,4 +1,3 @@
-const colors = require("tailwindcss/colors");
 module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
@@ -6,10 +5,14 @@ module.exports = {
   },
   purge: ["./**/*.html", "./**/*.tsx"],
   theme: {
-    colors: {
-      ...colors,
-      loopring: {
-        DEFAULT: "#1c42ff",
+    extend: {
+      colors: {
+        indigo: {
+          60: "#F6F8FF",
+        },
+      },
+      boxShadow: {
+        custom: "0px 14px 11px -5px #EBEFFF",
       },
     },
   },

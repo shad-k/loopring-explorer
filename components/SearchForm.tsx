@@ -12,10 +12,13 @@ const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
     >
       <input
         type="text"
-        className="h-8 flex-1 rounded px-1"
+        className="h-12 flex-1 rounded-sm px-1"
         placeholder="Search for block or tx hash"
       />
-      <button type="submit" className="bg-indigo-500 py-1 px-1 ml-2 rounded">
+      <button
+        type="submit"
+        className="bg-indigo-700 py-1 px-8 ml-2 rounded text-white h-12"
+      >
         Search
       </button>
     </form>

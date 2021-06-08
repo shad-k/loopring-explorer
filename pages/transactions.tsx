@@ -20,32 +20,29 @@ export default function Home() {
   const { data, error } = useSWR(FETCH_TXS);
 
   return (
-    <div className="w-full lg:w-4/5 m-auto mt-12">
-      <SearchForm className="float-right flex md:w-2/5 m-auto mb-5" />
-      <div className="clear-right">
-        <h1 className="text-3xl mb-5">Latest Transactions</h1>
-        <table className="table-auto w-full border-collapse border">
-          <thead className="text-left border">
-            <tr>
-              <th className="p-1">Transaction ID</th>
-              <th>Block ID</th>
-              <th>Submitted At</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data &&
-              data.transactions.map((tx) => {
-                return (
-                  <tr className="border">
-                    <td className="p-1">{tx.id}</td>
-                    <td>{tx.block.id}</td>
-                    <td>{getDateString(tx.block.timestamp)}</td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-      </div>
+    <div>
+      <h1 className="text-3xl mb-5">Latest Transactions</h1>
+      <table className="table-auto w-full border-collapse border">
+        <thead className="text-left border">
+          <tr>
+            <th className="p-1">Transaction ID</th>
+            <th>Block ID</th>
+            <th>Submitted At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data &&
+            data.transactions.map((tx) => {
+              return (
+                <tr className="border">
+                  <td className="p-1">{tx.id}</td>
+                  <td>{tx.block.id}</td>
+                  <td>{getDateString(tx.block.timestamp)}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
     </div>
   );
 }

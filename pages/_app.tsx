@@ -6,10 +6,16 @@ import { SWRConfig } from "swr";
 import request from "graphql-request";
 import Link from "next/link";
 
+import SearchForm from "../components/SearchForm";
 import "../styles/globals.scss";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
+
+  let isHomePage = false;
+  if (router && router.pathname === "/") {
+    isHomePage = true;
+  }
 
   const swrOptions = {
     fetcher: (query) =>
@@ -55,7 +61,20 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             </nav>
           </div>
         </header>
-        <Component {...pageProps} />
+        <div className="w-full lg:w-4/5 m-auto mt-12">
+          {isHomePage ? (
+            <div className="h-56 rounded-2xl bg-gradient-to-b from-indigo-100 to-indigo-60 p-5">
+              <h1 className="text-4xl text-center">Loopring Explorer</h1>
+              <SearchForm className="flex md:w-3/5 m-auto" />
+            </div>
+          ) : (
+            <>
+              <SearchForm className="float-right flex md:w-2/5 m-auto mb-5" />
+              <div className="clear-right" />
+            </>
+          )}
+          <Component {...pageProps} />
+        </div>
       </main>
     </SWRConfig>
   );

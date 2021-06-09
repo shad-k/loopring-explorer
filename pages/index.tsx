@@ -49,9 +49,19 @@ export default function Home() {
               data.blocks.map((block) => {
                 return (
                   <tr className="border">
-                    <td className="p-1">{block.id}</td>
+                    <td className="p-1">
+                      <Link href={`/block/${block.id}`}>
+                        <a className="text-indigo-800">{block.id}</a>
+                      </Link>
+                    </td>
                     <td>{getDateString(block.timestamp)}</td>
-                    <td>{getTrimmedTxHash(block.txHash, 15)}</td>
+                    <td>
+                      <Link href={`/block/${block.id}`}>
+                        <a className="text-indigo-800">
+                          {getTrimmedTxHash(block.txHash, 15)}
+                        </a>
+                      </Link>
+                    </td>
                   </tr>
                 );
               })}
@@ -78,7 +88,11 @@ export default function Home() {
               txsData.transactions.map((tx) => {
                 return (
                   <tr className="border">
-                    <td className="p-1">{tx.id}</td>
+                    <td className="p-1">
+                      <Link href={`/block/${tx.id}`}>
+                        <a className="text-indigo-800">{tx.id}</a>
+                      </Link>
+                    </td>
                     <td>{tx.block.id}</td>
                     <td>{getDateString(tx.block.timestamp)}</td>
                   </tr>

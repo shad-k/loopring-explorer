@@ -1,12 +1,13 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 import useBlocks from "../hooks/useBlocks";
 
 import Pagination from "../components/Pagination";
+import AppLink from "../components/AppLink";
 
 import getDateString from "../utils/getDateString";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
-import { useRouter } from "next/router";
 
 const Home: React.FC<{}> = () => {
   const [currentPage, setPage] = React.useState(1);
@@ -29,6 +30,7 @@ const Home: React.FC<{}> = () => {
             <th className="p-1">Block ID</th>
             <th>Submitted At</th>
             <th>L1 Tx</th>
+            <th>Included in L1 block</th>
           </tr>
         </thead>
         <tbody>
@@ -36,9 +38,14 @@ const Home: React.FC<{}> = () => {
             data.blocks.map((block) => {
               return (
                 <tr className="border" key={block.id}>
-                  <td className="p-1">{block.id}</td>
+                  <td className="p-1">
+                    <AppLink path="block" block={block.id} />
+                  </td>
                   <td>{getDateString(block.timestamp)}</td>
-                  <td>{getTrimmedTxHash(block.txHash, 15)}</td>
+                  <td>{getTrimmedTxHash(block.txHash, 25)}</td>
+                  <td>
+                    <AppLink path="block" block={block.height} isExplorerLink />
+                  </td>
                 </tr>
               );
             })}

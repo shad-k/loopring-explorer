@@ -10,6 +10,9 @@ const FETCH_BLOCKS = gql`
     $orderBy: Block_orderBy
     $orderDirection: OrderDirection
   ) {
+    proxy(id: 0) {
+      blockCount
+    }
     blocks(
       skip: $skip
       first: $first
@@ -33,13 +36,6 @@ const FETCH_BLOCKS = gql`
     }
   }
 `;
-
-type RequestVariables = {
-  skip?: number;
-  first?: number;
-  orderBy?: string;
-  orderDirection?: string;
-};
 
 const useBlocks = (
   skip = 0,

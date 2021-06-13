@@ -1,9 +1,24 @@
+import React from "react";
+
 import useBlocks from "../hooks/useBlocks";
+
+import Pagination from "../components/Pagination";
+
 import getDateString from "../utils/getDateString";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
+import { useRouter } from "next/router";
 
-export default function Home() {
-  const { data, error, isLoading } = useBlocks();
+const Home: React.FC<{}> = () => {
+  const [currentPage, setPage] = React.useState(1);
+  const { data, error, isLoading } = useBlocks((currentPage - 1) * 10, 10);
+  const router = useRouter();
+
+  const pageChangeHandler = (page) => {
+    router.push({ pathname: router.pathname, query: { page } }, undefined, {
+      shallow: true,
+    });
+    setPage(page);
+  };
 
   return (
     <div className="bg-white shadow-custom rounded p-4">
@@ -29,6 +44,13 @@ export default function Home() {
             })}
         </tbody>
       </table>
+      <Pagination
+        currentPage={currentPage}
+        total={data && data.proxy.blockCount}
+        onPageChange={pageChangeHandler}
+      />
     </div>
   );
-}
+};
+
+export default Home;

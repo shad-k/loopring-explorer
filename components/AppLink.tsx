@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 
+import { EXPLORER_URL } from "../utils/config";
+
 interface Props {
   path: "block" | "transaction";
   block?: string;
@@ -18,7 +20,7 @@ const AppLink: React.FC<Props> = ({
   block,
   tx,
   isExplorerLink = false,
-  explorerURL = "https://etherscan.io/",
+  explorerURL = EXPLORER_URL,
 }) => {
   let link;
   if (path === "block") {

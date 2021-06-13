@@ -3,6 +3,8 @@ import { gql } from "graphql-request";
 import useSWR from "swr";
 import request from "graphql-request";
 
+import { LOOPRING_SUBGRAPH } from "../utils/config";
+
 const FETCH_BLOCKS = gql`
   query blocks(
     $skip: Int
@@ -54,12 +56,7 @@ const useBlocks = (
 
   const { data, error } = useSWR(
     [FETCH_BLOCKS, memoVariables],
-    (query, variables) =>
-      request(
-        "https://api.thegraph.com/subgraphs/name/protofire/loopring-exchange-v2",
-        query,
-        variables
-      )
+    (query, variables) => request(LOOPRING_SUBGRAPH, query, variables)
   );
 
   return {

@@ -39,12 +39,16 @@ const Home: React.FC<{}> = () => {
               return (
                 <tr className="border" key={block.id}>
                   <td className="p-1">
-                    <AppLink path="block" block={block.id} />
+                    <AppLink path="block" block={block.id}>
+                      {block.id}
+                    </AppLink>
                   </td>
                   <td>{getDateString(block.timestamp)}</td>
                   <td>{getTrimmedTxHash(block.txHash, 25)}</td>
                   <td>
-                    <AppLink path="block" block={block.height} isExplorerLink />
+                    <AppLink path="block" block={block.height} isExplorerLink>
+                      {block.height}
+                    </AppLink>
                   </td>
                 </tr>
               );

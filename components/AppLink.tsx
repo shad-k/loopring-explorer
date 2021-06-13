@@ -15,12 +15,13 @@ const makeExplorerURL = (explorerURL: string, link: string): string => {
   return `${explorerURL}${explorerURL.substr(-1) === "/" ? "" : "/"}${link}`;
 };
 
-const AppLink: React.FC<Props> = ({
+const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   path,
   block,
   tx,
   isExplorerLink = false,
   explorerURL = EXPLORER_URL,
+  children,
 }) => {
   let link;
   if (path === "block") {
@@ -41,7 +42,7 @@ const AppLink: React.FC<Props> = ({
         className={isExplorerLink ? "text-blue-700" : "text-indigo-800"}
         target={isExplorerLink ? "_blank" : "_self"}
       >
-        {block || tx}
+        {children}
       </a>
     </Link>
   );

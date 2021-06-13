@@ -1,36 +1,18 @@
-import { gql } from "graphql-request";
-import useSWR from "swr";
 import Link from "next/link";
 
-import SearchForm from "../components/SearchForm";
 import getDateString from "../utils/getDateString";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
-
-const FETCH_BLOCKS = gql`
-  query blocks {
-    blocks(first: 10, orderBy: id, orderDirection: desc) {
-      id
-      timestamp
-      txHash
-    }
-  }
-`;
-
-const FETCH_TXS = gql`
-  query transactions {
-    transactions(first: 10, orderBy: id, orderDirection: desc) {
-      id
-      block {
-        id
-        timestamp
-      }
-    }
-  }
-`;
+import useBlocks from "../hooks/useBlocks";
+import useTransactions from "../hooks/useTransactions";
+import AppLink from "../components/AppLink";
 
 export default function Home() {
-  const { data, error } = useSWR(FETCH_BLOCKS);
-  const { data: txsData, error: txsError } = useSWR(FETCH_TXS);
+  const { data, error, isLoading } = useBlocks();
+  const {
+    data: txsData,
+    error: txError,
+    isLoading: txIsLoading,
+  } = useTransactions();
 
   return (
     <div className="flex mt-10 justify-around">
@@ -50,17 +32,19 @@ export default function Home() {
                 return (
                   <tr className="border">
                     <td className="p-1">
-                      <Link href={`/block/${block.id}`}>
-                        <a className="text-indigo-800">{block.id}</a>
-                      </Link>
+                      <AppLink path="block" block={block.id}>
+                        {block.id}
+                      </AppLink>
                     </td>
                     <td>{getDateString(block.timestamp)}</td>
                     <td>
-                      <Link href={`/block/${block.id}`}>
-                        <a className="text-indigo-800">
-                          {getTrimmedTxHash(block.txHash, 15)}
-                        </a>
-                      </Link>
+                      <AppLink
+                        path="transaction"
+                        tx={block.txHash}
+                        isExplorerLink
+                      >
+                        {getTrimmedTxHash(block.txHash, 15)}
+                      </AppLink>
                     </td>
                   </tr>
                 );
@@ -89,11 +73,15 @@ export default function Home() {
                 return (
                   <tr className="border">
                     <td className="p-1">
-                      <Link href={`/block/${tx.id}`}>
-                        <a className="text-indigo-800">{tx.id}</a>
-                      </Link>
+                      <AppLink path="transaction" tx={tx.id}>
+                        {tx.id}
+                      </AppLink>
                     </td>
-                    <td>{tx.block.id}</td>
+                    <td>
+                      <AppLink path="block" block={tx.block.id}>
+                        {tx.block.id}
+                      </AppLink>
+                    </td>
                     <td>{getDateString(tx.block.timestamp)}</td>
                   </tr>
                 );

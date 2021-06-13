@@ -1,25 +1,12 @@
-import { gql } from "graphql-request";
-import useSWR from "swr";
-import SearchForm from "../components/SearchForm";
-
+import useBlocks from "../hooks/useBlocks";
 import getDateString from "../utils/getDateString";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 
-const FETCH_BLOCKS = gql`
-  query blocks {
-    blocks(first: 10, orderBy: id, orderDirection: desc) {
-      id
-      timestamp
-      txHash
-    }
-  }
-`;
-
 export default function Home() {
-  const { data, error } = useSWR(FETCH_BLOCKS);
+  const { data, error, isLoading } = useBlocks();
 
   return (
-    <div>
+    <div className="bg-white shadow-custom rounded p-4">
       <h1 className="text-3xl mb-5">Latest Blocks</h1>
       <table className="table-auto w-full border-collapse border">
         <thead className="text-left border">
@@ -33,7 +20,7 @@ export default function Home() {
           {data &&
             data.blocks.map((block) => {
               return (
-                <tr className="border">
+                <tr className="border" key={block.id}>
                   <td className="p-1">{block.id}</td>
                   <td>{getDateString(block.timestamp)}</td>
                   <td>{getTrimmedTxHash(block.txHash, 15)}</td>

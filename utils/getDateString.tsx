@@ -3,7 +3,6 @@ const getPaddedNumber = (num: number): string => {
 };
 
 const getTime = (date: Date): string => {
-  console.log(date.getUTCFullYear());
   const hours = date.getUTCHours();
   const minutes = date.getUTCMinutes();
   const seconds = date.getUTCSeconds();

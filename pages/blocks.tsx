@@ -10,16 +10,21 @@ import getDateString from "../utils/getDateString";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 
 const Blocks: React.FC<{}> = () => {
-  const [currentPage, setPage] = React.useState(1);
-  const { data, error, isLoading } = useBlocks((currentPage - 1) * 10, 10);
   const router = useRouter();
+  const [currentPage, setPage] = React.useState<number>(1);
+  const { data, error, isLoading } = useBlocks((currentPage - 1) * 10, 10);
 
   const pageChangeHandler = (page) => {
     router.push({ pathname: router.pathname, query: { page } }, undefined, {
       shallow: true,
     });
-    setPage(page);
   };
+
+  React.useEffect(() => {
+    if (router.query && router.query.page) {
+      setPage(parseInt(router.query.page as string));
+    }
+  }, [router.query]);
 
   return (
     <div className="bg-white shadow-custom rounded p-4">

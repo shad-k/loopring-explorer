@@ -8,15 +8,23 @@ interface Props {
 }
 
 const PaginationButton: React.FC<
-  React.PropsWithChildren<{ onClick?: () => void }>
-> = ({ children, onClick }) => {
+  React.PropsWithChildren<{
+    onClick?: () => void;
+    disabled?: boolean;
+    className?: string;
+    isActive?: boolean;
+  }>
+> = ({ children, onClick, disabled, className, isActive }) => {
   return (
-    <div
-      className="border-l border-r text-indigo-900 px-3 py-1 flex items-center"
+    <button
+      className={`border-l border-r ${
+        isActive ? "text-white bg-indigo-700" : "text-indigo-900"
+      } px-3 py-1 flex items-center ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
-    </div>
+    </button>
   );
 };
 
@@ -26,27 +34,65 @@ const Pagination: React.FC<Props> = ({
   total,
   entriesPerPage = 10,
 }) => {
-  const pageButtons = [1, 2, 3, 4];
-  const totalPages = Math.ceil(total / entriesPerPage);
+  const [pageButtons, setPageButtons] = React.useState([1, 2, 3, 4]);
+  const totalPages = React.useMemo(() => {
+    return Math.ceil(total / entriesPerPage);
+  }, []);
+
+  React.useEffect(() => {
+    if (currentPage === totalPages) {
+      setPageButtons([
+        currentPage - 3,
+        currentPage - 2,
+        currentPage - 1,
+        currentPage,
+      ]);
+    } else if (currentPage > 4) {
+      setPageButtons([
+        currentPage - 2,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+      ]);
+    } else {
+      setPageButtons([1, 2, 3, 4]);
+    }
+  }, [currentPage]);
 
   return (
     <div className="flex h-8 mt-2 justify-end">
       <div className="flex bg-white items-center rounded border">
         <PaginationButton onClick={() => onPageChange(1)}>«</PaginationButton>
-        <PaginationButton onClick={() => onPageChange(currentPage - 1)}>
+        <PaginationButton
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           ‹
         </PaginationButton>
+        {currentPage > 4 && (
+          <PaginationButton
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            ...
+          </PaginationButton>
+        )}
         {pageButtons.map((page) => {
-          if (page <= totalPages) {
-            return (
-              <PaginationButton onClick={() => onPageChange(page)} key={page}>
-                {page}
-              </PaginationButton>
-            );
-          }
+          return (
+            <PaginationButton
+              onClick={() => onPageChange(page)}
+              key={page}
+              isActive={currentPage === page}
+            >
+              {page}
+            </PaginationButton>
+          );
         })}
-        <PaginationButton>...</PaginationButton>
-        <PaginationButton onClick={() => onPageChange(currentPage + 1)}>
+        {currentPage < totalPages && <PaginationButton>...</PaginationButton>}
+        <PaginationButton
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
           ›
         </PaginationButton>
         <PaginationButton onClick={() => onPageChange(totalPages)}>

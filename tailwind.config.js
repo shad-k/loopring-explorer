@@ -14,6 +14,9 @@ module.exports = {
       boxShadow: {
         custom: "0px 14px 11px -5px #EBEFFF",
       },
+      minHeight: {
+        table: "500px",
+      },
     },
   },
   variants: {},

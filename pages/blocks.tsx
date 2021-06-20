@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import useBlocks from "../hooks/useBlocks";
 
+import TableLoader from "../components/TableLoader";
 import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 
@@ -27,12 +28,12 @@ const Blocks: React.FC<{}> = () => {
   }, [router.query]);
 
   return (
-    <div className="bg-white shadow-custom rounded p-4">
+    <div className="bg-white shadow-custom rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Latest Blocks</h1>
-      <table className="table-auto w-full border-collapse border">
+      <table className="table-auto w-full border-collapse border table-fixed">
         <thead className="text-left border">
           <tr>
-            <th className="p-1">Block ID</th>
+            <th className="p-1 w-1/6">Block ID</th>
             <th>Submitted At</th>
             <th>L1 Tx</th>
             <th>Included in L1 block</th>
@@ -60,11 +61,12 @@ const Blocks: React.FC<{}> = () => {
             })}
         </tbody>
       </table>
-      {data.blocks && data.blocks.length === 0 && (
+      {data && data.blocks && data.blocks.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transactions to show
         </div>
       )}
+      {isLoading && <TableLoader />}
       <Pagination
         currentPage={currentPage}
         total={data && data.proxy.blockCount}

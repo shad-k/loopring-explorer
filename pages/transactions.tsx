@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import useTransactions from "../hooks/useTransactions";
 
+import TableLoader from "../components/TableLoader";
 import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 import getDateString from "../utils/getDateString";
@@ -103,7 +104,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
   }
 
   return (
-    <div className="bg-white shadow-custom rounded p-4">
+    <div className="bg-white shadow-custom rounded p-4 min-h-table">
       {!blockIDFilter ? (
         <h1 className="text-3xl mb-5">Latest Transactions</h1>
       ) : (
@@ -175,6 +176,12 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
             })}
         </tbody>
       </table>
+      {filteredData && filteredData.length === 0 && (
+        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+          No transactions to show
+        </div>
+      )}
+      {isLoading && <TableLoader />}
       {filteredData && filteredData.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transactions to show

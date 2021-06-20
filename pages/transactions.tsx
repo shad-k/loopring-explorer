@@ -16,7 +16,7 @@ const FETCH_TXS = gql`
   }
 `;
 
-export default function Home() {
+const Transaction = () => {
   const { data, error } = useSWR(FETCH_TXS);
 
   return (
@@ -45,4 +45,6 @@ export default function Home() {
       </table>
     </div>
   );
-}
+};
+
+export default Transaction;

@@ -9,7 +9,7 @@ import AppLink from "../components/AppLink";
 import getDateString from "../utils/getDateString";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 
-const Home: React.FC<{}> = () => {
+const Blocks: React.FC<{}> = () => {
   const [currentPage, setPage] = React.useState(1);
   const { data, error, isLoading } = useBlocks((currentPage - 1) * 10, 10);
   const router = useRouter();
@@ -64,4 +64,4 @@ const Home: React.FC<{}> = () => {
   );
 };
 
-export default Home;
+export default Blocks;

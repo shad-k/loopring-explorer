@@ -60,6 +60,11 @@ const Blocks: React.FC<{}> = () => {
             })}
         </tbody>
       </table>
+      {data.blocks && data.blocks.length === 0 && (
+        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+          No transactions to show
+        </div>
+      )}
       <Pagination
         currentPage={currentPage}
         total={data && data.proxy.blockCount}

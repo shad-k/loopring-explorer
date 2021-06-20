@@ -36,7 +36,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
     }
     if (router.query && router.query.block) {
       setBlockId(router.query.block);
-    } else {
+    } else if (!blockIDFilter) {
       setBlockId(undefined);
     }
 
@@ -107,7 +107,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
       {!blockIDFilter ? (
         <h1 className="text-3xl mb-5">Latest Transactions</h1>
       ) : (
-        <h2 className="text-3xl mb-5">
+        <h2 className="text-2xl mb-5">
           Transactions in block #{blockIDFilter}
         </h2>
       )}
@@ -120,7 +120,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
           name="txType"
           defaultValue={txType}
         >
-          <option value="all">All Tx Type</option>
+          <option value="all">All Transactions</option>
           <option value="SpotTrade">SpotTrade</option>
           <option value="Deposit">Deposit</option>
           <option value="Withdrawal">Withdrawal</option>

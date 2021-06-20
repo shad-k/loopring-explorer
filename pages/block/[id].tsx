@@ -5,16 +5,17 @@ import useBlock from "../../hooks/useBlock";
 import getDateString from "../../utils/getDateString";
 import weiToGwei from "../../utils/weiToGwei";
 import AppLink from "../../components/AppLink";
+import Transactions from "../transactions";
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
   const blockId = router.query.id;
   const { data, error } = useBlock(blockId);
-  console.log(blockId, data);
+
   return (
     <div className="bg-white shadow-custom rounded p-4">
       <h1 className="text-3xl mb-5">Block #{blockId}</h1>
-      <div className="border rounded w-full">
+      <div className="border rounded w-full mb-10">
         {data && (
           <table className="w-full table-auto table-fixed">
             <tbody>
@@ -65,6 +66,7 @@ const Block: React.FC<{}> = () => {
           </table>
         )}
       </div>
+      <Transactions blockIDFilter={blockId as string} />
     </div>
   );
 };

@@ -55,6 +55,11 @@ export default function Home() {
           </tbody>
         </table>
         {isLoading && <TableLoader />}
+        {error && (
+          <div className="flex items-center justify-center text-red-400 text-xl border h-4/6">
+            Couldn't fetch blocks
+          </div>
+        )}
         <Link href="/blocks">
           <a className="bg-indigo-700 text-white text-center m-auto mt-5 w-2/5 block rounded py-2">
             View More Blocks
@@ -93,6 +98,11 @@ export default function Home() {
           </tbody>
         </table>
         {txIsLoading && <TableLoader />}
+        {txError && (
+          <div className="h-4/6 flex items-center justify-center text-red-400 text-xl">
+            Couldn't fetch transactions
+          </div>
+        )}
         <Link href="/transactions">
           <a className="bg-indigo-700 text-white text-center m-auto mt-5 w-3/6 block rounded py-2">
             View More Transactions

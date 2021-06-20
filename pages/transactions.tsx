@@ -187,6 +187,11 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
           No transactions to show
         </div>
       )}
+      {error && (
+        <div className="h-40 flex items-center justify-center text-red-400 text-xl">
+          Couldn't fetch transactions
+        </div>
+      )}
       {!blockId && (
         <Pagination
           currentPage={currentPage}

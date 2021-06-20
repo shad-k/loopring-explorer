@@ -67,6 +67,11 @@ const Blocks: React.FC<{}> = () => {
         </div>
       )}
       {isLoading && <TableLoader />}
+      {error && (
+        <div className="h-40 flex items-center justify-center text-red-400 text-xl">
+          Couldn't fetch blocks
+        </div>
+      )}
       <Pagination
         currentPage={currentPage}
         total={data && data.proxy.blockCount}

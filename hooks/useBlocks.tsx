@@ -3,6 +3,7 @@ import { gql } from "graphql-request";
 import useSWR from "swr";
 import request from "graphql-request";
 
+import { block } from "../graphql/fragments";
 import { LOOPRING_SUBGRAPH } from "../utils/config";
 
 const FETCH_BLOCKS = gql`
@@ -21,22 +22,10 @@ const FETCH_BLOCKS = gql`
       orderBy: $orderBy
       orderDirection: $orderDirection
     ) {
-      id
-      timestamp
-      txHash
-      gasUsed
-      gasPrice
-      height
-      blockHash
-      operatorAccountID
-      operatorAccount {
-        address
-      }
-      transactions {
-        id
-      }
+      ...BlockFragment
     }
   }
+  ${block}
 `;
 
 const useBlocks = (

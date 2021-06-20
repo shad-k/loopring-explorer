@@ -14,12 +14,12 @@ const PaginationButton: React.FC<
     className?: string;
     isActive?: boolean;
   }>
-> = ({ children, onClick, disabled, className, isActive }) => {
+> = ({ children, onClick, disabled, className = "", isActive }) => {
   return (
     <button
       className={`border-l border-r ${
         isActive ? "text-white bg-indigo-700" : "text-indigo-900"
-      } px-3 py-1 flex items-center ${className}`}
+      } py-2 w-12 flex items-center justify-center ${className}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -48,19 +48,14 @@ const Pagination: React.FC<Props> = ({
         currentPage,
       ]);
     } else if (currentPage > 4) {
-      setPageButtons([
-        currentPage - 2,
-        currentPage - 1,
-        currentPage,
-        currentPage + 1,
-      ]);
+      setPageButtons([currentPage - 1, currentPage, currentPage + 1]);
     } else {
       setPageButtons([1, 2, 3, 4]);
     }
   }, [currentPage]);
 
   return (
-    <div className="flex h-8 mt-2 justify-end">
+    <div className="flex h-10 mt-2 justify-end">
       <div className="flex bg-white items-center rounded border">
         <PaginationButton onClick={() => onPageChange(1)}>«</PaginationButton>
         <PaginationButton
@@ -88,16 +83,20 @@ const Pagination: React.FC<Props> = ({
             </PaginationButton>
           );
         })}
-        {currentPage < totalPages && <PaginationButton>...</PaginationButton>}
+        {(currentPage < totalPages || !totalPages) && (
+          <PaginationButton>...</PaginationButton>
+        )}
         <PaginationButton
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           ›
         </PaginationButton>
-        <PaginationButton onClick={() => onPageChange(totalPages)}>
-          »
-        </PaginationButton>
+        {!!totalPages && (
+          <PaginationButton onClick={() => onPageChange(totalPages)}>
+            »
+          </PaginationButton>
+        )}
       </div>
     </div>
   );

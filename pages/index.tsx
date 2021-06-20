@@ -30,7 +30,7 @@ export default function Home() {
             {data &&
               data.blocks.map((block) => {
                 return (
-                  <tr className="border">
+                  <tr className="border" key={block.id}>
                     <td className="p-1">
                       <AppLink path="block" block={block.id}>
                         {block.id}
@@ -71,7 +71,7 @@ export default function Home() {
             {txsData &&
               txsData.transactions.map((tx) => {
                 return (
-                  <tr className="border">
+                  <tr className="border" key={tx.id}>
                     <td className="p-1">
                       <AppLink path="transaction" tx={tx.id}>
                         {tx.id}

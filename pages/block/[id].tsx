@@ -3,20 +3,19 @@ import { useRouter } from "next/router";
 
 import useBlock from "../../hooks/useBlock";
 import getDateString from "../../utils/getDateString";
-import weiToGwei from "../../utils/weiToGwei";
 import AppLink from "../../components/AppLink";
 import Transactions from "../transactions";
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
   const blockId = router.query.id;
-  const { data, error } = useBlock(blockId);
+  const { data, error, isLoading } = useBlock(blockId);
 
   return (
     <div className="bg-white shadow-custom rounded p-4">
       <h1 className="text-3xl mb-5">Block #{blockId}</h1>
       <div className="border rounded w-full mb-10">
-        {data && (
+        {data && data.block && (
           <table className="w-full table-auto table-fixed">
             <tbody>
               <tr className="border">
@@ -41,7 +40,7 @@ const Block: React.FC<{}> = () => {
               </tr>
               <tr className="border">
                 <td className="p-2">Submitted at</td>
-                <td>{getDateString(data.block.timestamp * 1000)}</td>
+                <td>{getDateString(data.block.timestamp)}</td>
               </tr>
               <tr className="border">
                 <td className="p-2">Operator ID</td>
@@ -66,7 +65,12 @@ const Block: React.FC<{}> = () => {
           </table>
         )}
       </div>
-      <Transactions blockIDFilter={blockId as string} />
+      {data && data.block && <Transactions blockIDFilter={blockId as string} />}
+      {data && !isLoading && !data.block && (
+        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+          No block found
+        </div>
+      )}
     </div>
   );
 };

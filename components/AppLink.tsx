@@ -48,7 +48,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   } else if (path === "transaction") {
     link = `tx/${tx}`;
   } else if (path === "account") {
-    link = `account/${accountId}`;
+    link = `${isExplorerLink ? "address" : "account"}/${accountId}`;
   }
 
   if (isExplorerLink) {

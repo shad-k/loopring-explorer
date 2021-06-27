@@ -16,3 +16,32 @@ export const block = gql`
     }
   }
 `;
+
+export const spotTrade = gql`
+  fragment SpotTradeFragment on SpotTrade {
+    id
+    accountA {
+      id
+      address
+    }
+    accountB {
+      id
+      address
+    }
+    tokenA {
+      name
+      symbol
+      decimals
+    }
+    tokenB {
+      name
+      symbol
+      decimals
+    }
+    tokenAPrice
+    tokenBPrice
+    fillSA
+    fillSB
+    __typename
+  }
+`;

@@ -3,8 +3,9 @@ import React from "react";
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 
-const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, toAccount, token, amount, data, __typename } = transaction;
+const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
+  const { block, fromAccount, token, amount, feeToken, fee, data, __typename } =
+    transaction;
 
   return (
     <>
@@ -25,14 +26,18 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td>{__typename}</td>
       </tr>
       <tr className="border">
-        <td className="p-2">Deposited From</td>
+        <td className="p-2">Withdrawn To</td>
         <td>
-          <AppLink path="account" accountId={toAccount.id}>
-            {toAccount.id}
+          <AppLink path="account" accountId={fromAccount.id}>
+            {fromAccount.id}
           </AppLink>
           &nbsp; (
-          <AppLink path="account" accountId={toAccount.address} isExplorerLink>
-            {toAccount.address}
+          <AppLink
+            path="account"
+            accountId={fromAccount.address}
+            isExplorerLink
+          >
+            {fromAccount.address}
           </AppLink>
           )
         </td>
@@ -41,6 +46,12 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">Amount</td>
         <td>
           {amount / Math.pow(10, token.decimals)} {token.symbol}
+        </td>
+      </tr>
+      <tr className="border">
+        <td className="p-2">Fee</td>
+        <td>
+          {fee / Math.pow(10, feeToken.decimals)} {feeToken.symbol}
         </td>
       </tr>
       <tr className="border">
@@ -55,4 +66,4 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
   );
 };
 
-export default Deposit;
+export default Withdrawal;

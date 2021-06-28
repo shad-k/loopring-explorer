@@ -61,7 +61,6 @@ export const spotTrade = gql`
 export const deposit = gql`
   fragment DepositFragment on Deposit {
     id
-    __typename
     toAccount {
       ...AccountFragment
     }
@@ -69,6 +68,26 @@ export const deposit = gql`
       ...TokenFragment
     }
     amount
+    __typename
+  }
+  ${account}
+  ${token}
+`;
+
+export const withdrawal = gql`
+  fragment WithdrawalFragment on Withdrawal {
+    fromAccount {
+      ...AccountFragment
+    }
+    token {
+      ...TokenFragment
+    }
+    feeToken {
+      ...TokenFragment
+    }
+    amount
+    fee
+    __typename
   }
   ${account}
   ${token}

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import useTransaction from "../../hooks/useTransaction";
 import SpotTrade from "../../components/transactionDetail/SpotTrade";
 import Deposit from "../../components/transactionDetail/Deposit";
+import Withdrawal from "../../components/transactionDetail/Withdrawal";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -18,6 +19,8 @@ const Transaction: React.FC<{}> = () => {
         return <SpotTrade transaction={data.transaction} />;
       case "Deposit":
         return <Deposit transaction={data.transaction} />;
+      case "Withdrawal":
+        return <Withdrawal transaction={data.transaction} />;
       default:
         return type;
     }

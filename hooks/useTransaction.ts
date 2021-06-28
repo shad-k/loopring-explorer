@@ -3,7 +3,7 @@ import useSWR from "swr";
 import request from "graphql-request";
 
 import { LOOPRING_SUBGRAPH } from "../utils/config";
-import { spotTrade, deposit, withdrawal } from "../graphql/fragments";
+import { spotTrade, deposit, withdrawal, transfer } from "../graphql/fragments";
 
 const FETCH_TRANSACTION = gql`
   query transaction($id: ID!) {
@@ -18,11 +18,8 @@ const FETCH_TRANSACTION = gql`
       ...SpotTradeFragment
       ...DepositFragment
       ...WithdrawalFragment
+      ...TransferFragment
 
-      ... on Transfer {
-        id
-        __typename
-      }
       ... on AccountUpdate {
         id
         __typename
@@ -40,6 +37,7 @@ const FETCH_TRANSACTION = gql`
   ${spotTrade}
   ${deposit}
   ${withdrawal}
+  ${transfer}
 `;
 
 const useTransaction = (id) => {

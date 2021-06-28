@@ -92,3 +92,23 @@ export const withdrawal = gql`
   ${account}
   ${token}
 `;
+
+export const transfer = gql`
+  fragment TransferFragment on Transfer {
+    fromAccount {
+      ...AccountFragment
+    }
+    toAccount {
+      ...AccountFragment
+    }
+    token {
+      ...TokenFragment
+    }
+    feeToken {
+      ...TokenFragment
+    }
+    amount
+    fee
+    __typename
+  }
+`;

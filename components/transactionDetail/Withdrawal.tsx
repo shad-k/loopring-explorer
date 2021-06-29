@@ -2,6 +2,7 @@ import React from "react";
 
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
+import getTokenAmount from "../../utils/getTokenAmount";
 
 const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
   const { block, fromAccount, token, amount, feeToken, fee, data, __typename } =
@@ -45,13 +46,13 @@ const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Amount</td>
         <td>
-          {amount / Math.pow(10, token.decimals)} {token.symbol}
+          {getTokenAmount(amount, token.decimals)} {token.symbol}
         </td>
       </tr>
       <tr className="border">
         <td className="p-2">Fee</td>
         <td>
-          {fee / Math.pow(10, feeToken.decimals)} {feeToken.symbol}
+          {getTokenAmount(fee, feeToken.decimals)} {feeToken.symbol}
         </td>
       </tr>
       <tr className="border">

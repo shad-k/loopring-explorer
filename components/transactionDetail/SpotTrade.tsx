@@ -2,6 +2,7 @@ import React from "react";
 
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
+import getTokenAmount from "../../utils/getTokenAmount";
 
 const SpotTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
   const {
@@ -63,8 +64,8 @@ const SpotTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Trade</td>
         <td>
-          {fillSA / Math.pow(10, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
-          {fillSB / Math.pow(10, tokenB.decimals)} {tokenB.symbol}
+          {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
+          {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}
         </td>
       </tr>
       <tr className="border">

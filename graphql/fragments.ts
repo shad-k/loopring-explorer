@@ -112,3 +112,19 @@ export const transfer = gql`
     __typename
   }
 `;
+
+export const accountUpdate = gql`
+  fragment AccountUpdateFragment on AccountUpdate {
+    user {
+      id
+      address
+      publicKey
+    }
+    feeToken {
+      ...TokenFragment
+    }
+    fee
+    nonce
+    __typename
+  }
+`;

@@ -6,6 +6,7 @@ import SpotTrade from "../../components/transactionDetail/SpotTrade";
 import Deposit from "../../components/transactionDetail/Deposit";
 import Withdrawal from "../../components/transactionDetail/Withdrawal";
 import Transfer from "../../components/transactionDetail/Transfer";
+import AccountUpdate from "../../components/transactionDetail/AccountUpdate";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -24,6 +25,8 @@ const Transaction: React.FC<{}> = () => {
         return <Withdrawal transaction={data.transaction} />;
       case "Transfer":
         return <Transfer transaction={data.transaction} />;
+      case "AccountUpdate":
+        return <AccountUpdate transaction={data.transaction} />;
       default:
         return type;
     }

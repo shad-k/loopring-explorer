@@ -182,11 +182,6 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
         </div>
       )}
       {isLoading && <TableLoader />}
-      {filteredData && filteredData.length === 0 && (
-        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
-          No transactions to show
-        </div>
-      )}
       {error && (
         <div className="h-40 flex items-center justify-center text-red-400 text-xl">
           Couldn't fetch transactions

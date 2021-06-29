@@ -1,8 +1,23 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
-  const search = (event) => {
+  const router = useRouter();
+
+  const search: React.EventHandler<React.SyntheticEvent> = (
+    event: React.SyntheticEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
+    const { query } = event.currentTarget;
+
+    router.push({
+      pathname: "/search",
+      query: {
+        q: query.value,
+      },
+    });
+
+    event.currentTarget.reset();
   };
 
   return (
@@ -12,8 +27,10 @@ const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
     >
       <input
         type="text"
+        name="query"
         className="h-12 flex-1 rounded-sm px-1"
-        placeholder="Search for block or tx hash"
+        placeholder="Search for block, tx or account ID"
+        onFocus={() => router.prefetch("/search")}
       />
       <button
         type="submit"

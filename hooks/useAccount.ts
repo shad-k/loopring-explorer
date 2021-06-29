@@ -8,6 +8,7 @@ import { account, token } from "../graphql/fragments";
 const FETCH_ACCOUNT = gql`
   query account($id: ID!) {
     account(id: $id) {
+      id
       ...AccountFragment
       balances {
         id

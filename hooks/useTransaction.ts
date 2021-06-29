@@ -18,6 +18,7 @@ import {
 const FETCH_TRANSACTION = gql`
   query transaction($id: ID!) {
     transaction(id: $id) {
+      id
       block {
         id
         blockHash

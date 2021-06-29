@@ -16,7 +16,6 @@ const FETCH_BLOCK = gql`
 `;
 
 const useBlock = (id) => {
-  console.log(id);
   const { data, error } = useSWR([FETCH_BLOCK, id], (query, id) =>
     request(LOOPRING_SUBGRAPH, query, {
       id,

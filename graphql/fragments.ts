@@ -1,14 +1,15 @@
 import { gql } from "graphql-request";
 
-const account = gql`
+export const account = gql`
   fragment AccountFragment on Account {
     id
     address
   }
 `;
 
-const token = gql`
+export const token = gql`
   fragment TokenFragment on Token {
+    id
     name
     symbol
     decimals
@@ -54,8 +55,6 @@ export const spotTrade = gql`
     fillSB
     __typename
   }
-  ${account}
-  ${token}
 `;
 
 export const deposit = gql`
@@ -70,8 +69,6 @@ export const deposit = gql`
     amount
     __typename
   }
-  ${account}
-  ${token}
 `;
 
 export const withdrawal = gql`
@@ -89,8 +86,6 @@ export const withdrawal = gql`
     fee
     __typename
   }
-  ${account}
-  ${token}
 `;
 
 export const transfer = gql`
@@ -125,6 +120,45 @@ export const accountUpdate = gql`
     }
     fee
     nonce
+    __typename
+  }
+`;
+
+export const ammUpdate = gql`
+  fragment AmmUpdateFragment on AmmUpdate {
+    pool {
+      id
+      address
+      balances {
+        id
+        balance
+        token {
+          ...TokenFragment
+        }
+      }
+    }
+    tokenID
+    feeBips
+    tokenWeight
+    nonce
+    balance
+    tokenBalances {
+      id
+      balance
+      token {
+        ...TokenFragment
+      }
+    }
+    __typename
+  }
+`;
+
+export const signatureVerification = gql`
+  fragment SignatureVerificationFragment on SignatureVerification {
+    account {
+      ...AccountFragment
+    }
+    verificationData
     __typename
   }
 `;

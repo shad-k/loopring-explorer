@@ -4,11 +4,15 @@ import request from "graphql-request";
 
 import { LOOPRING_SUBGRAPH } from "../utils/config";
 import {
+  account,
+  token,
   spotTrade,
   deposit,
   withdrawal,
   transfer,
   accountUpdate,
+  ammUpdate,
+  signatureVerification,
 } from "../graphql/fragments";
 
 const FETCH_TRANSACTION = gql`
@@ -26,22 +30,21 @@ const FETCH_TRANSACTION = gql`
       ...WithdrawalFragment
       ...TransferFragment
       ...AccountUpdateFragment
-
-      ... on AmmUpdate {
-        id
-        __typename
-      }
-      ... on SignatureVerification {
-        id
-        __typename
-      }
+      ...AmmUpdateFragment
+      ...SignatureVerificationFragment
     }
   }
+
+  ${account}
+  ${token}
+
   ${spotTrade}
   ${deposit}
   ${withdrawal}
   ${transfer}
   ${accountUpdate}
+  ${ammUpdate}
+  ${signatureVerification}
 `;
 
 const useTransaction = (id) => {

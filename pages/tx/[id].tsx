@@ -7,6 +7,7 @@ import Deposit from "../../components/transactionDetail/Deposit";
 import Withdrawal from "../../components/transactionDetail/Withdrawal";
 import Transfer from "../../components/transactionDetail/Transfer";
 import AccountUpdate from "../../components/transactionDetail/AccountUpdate";
+import SignatureVerification from "../../components/transactionDetail/SignatureVerification";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -27,6 +28,8 @@ const Transaction: React.FC<{}> = () => {
         return <Transfer transaction={data.transaction} />;
       case "AccountUpdate":
         return <AccountUpdate transaction={data.transaction} />;
+      case "SignatureVerification":
+        return <SignatureVerification transaction={data.transaction} />;
       default:
         return type;
     }

@@ -28,13 +28,13 @@ const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
       <input
         type="text"
         name="query"
-        className="h-12 flex-1 rounded-sm px-1"
+        className="h-10 flex-1 rounded-xl px-3 placeholder-loopring-lightBlue placeholder-opacity-70"
         placeholder="Search for block, tx or account ID"
         onFocus={() => router.prefetch("/search")}
       />
       <button
         type="submit"
-        className="bg-indigo-700 py-1 px-8 ml-2 rounded text-white h-12"
+        className="bg-loopring-darkBlue py-1 px-10 ml-2 rounded-xl text-white h-10"
       >
         Search
       </button>

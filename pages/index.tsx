@@ -7,7 +7,9 @@ import AppLink from "../components/AppLink";
 import TableLoader from "../components/TableLoader";
 
 import getDateString from "../utils/getDateString";
+import getTimeFromNow from "../utils/getTimeFromNow";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
+import getTokenAmount from "../utils/getTokenAmount";
 
 export default function Home() {
   const { data, error, isLoading } = useBlocks();
@@ -18,29 +20,56 @@ export default function Home() {
   } = useTransactions();
 
   return (
-    <div className="flex mt-10 justify-around">
-      <div className="bg-white shadow-custom rounded p-4 w-6/12 min-h-table">
-        <h2 className="text-center text-2xl">Latest Blocks</h2>
-        <table className="table-auto w-full border-collapse border">
-          <thead className="text-left border">
+    <div className="mt-10 w-11/12 m-auto">
+      <div className="grid grid-cols-3 gap-16">
+        <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
+          <span>Transactions</span>
+          <span className="text-3xl mt-4">3,000,000</span>
+        </div>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
+          <span>Blocks Submitted</span>
+          <span className="text-3xl mt-4">50,000</span>
+        </div>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
+          <span>L2 Accounts</span>
+          <span className="text-3xl mt-4">20,000</span>
+        </div>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
+          <span>Avg. Block Time</span>
+          <span className="text-3xl mt-4">30 mins</span>
+        </div>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
+          <span>Avg. Txs per Block</span>
+          <span className="text-3xl mt-4">1000</span>
+        </div>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
+          <span>Last Block Submitted</span>
+          <span className="text-3xl mt-4">10 mins ago</span>
+        </div>
+      </div>
+      <div className="w-full mt-8 flex flex-col justify-between">
+        <h2 className="text-2xl font-bold p-2">Latest Blocks</h2>
+        <table className="table-auto w-full border">
+          <thead className="border border-loopring-blue bg-loopring-blue text-white">
             <tr>
-              <th className="p-1">Block ID</th>
-              <th>Submitted At</th>
+              <th className="p-2">Block ID</th>
               <th>L1 Tx</th>
+              <th>Size</th>
+              <th>Fee</th>
+              <th>Submitted</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {data &&
               data.blocks.map((block) => {
                 return (
-                  <tr className="border" key={block.id}>
-                    <td className="p-1">
+                  <tr key={block.id} className="ml-2">
+                    <td className="py-2 border-b">
                       <AppLink path="block" block={block.id}>
                         {block.id}
                       </AppLink>
                     </td>
-                    <td>{getDateString(block.timestamp)}</td>
-                    <td>
+                    <td className="border-b">
                       <AppLink
                         path="transaction"
                         tx={block.txHash}
@@ -48,6 +77,19 @@ export default function Home() {
                       >
                         {getTrimmedTxHash(block.txHash, 15)}
                       </AppLink>
+                    </td>
+                    <td className="border-b text-loopring-gray">
+                      {block.blockSize}
+                    </td>
+                    <td className="border-b text-loopring-gray">
+                      {getTokenAmount(
+                        block.gasPrice * block.gasUsed,
+                        18
+                      ).toFixed(2)}{" "}
+                      ETH
+                    </td>
+                    <td className="border-b text-loopring-gray">
+                      {getTimeFromNow(block.timestamp)}
                     </td>
                   </tr>
                 );
@@ -61,37 +103,39 @@ export default function Home() {
           </div>
         )}
         <Link href="/blocks">
-          <a className="bg-indigo-700 text-white text-center m-auto mt-5 w-2/5 block rounded py-2">
+          <a className="bg-loopring-darkBlue text-white text-center mt-5 block rounded-lg py-2 px-6 self-end">
             View More Blocks
           </a>
         </Link>
       </div>
-      <div className="bg-white shadow-custom rounded p-4 w-5/12 min-h-table">
-        <h2 className="text-center text-2xl">Latest Transactions</h2>
-        <table className="table-auto w-full border-collapse border">
-          <thead className="text-left border">
+      <div className="w-full mt-8 flex flex-col justify-between">
+        <h2 className="text-2xl font-bold p-2">Latest Transactions</h2>
+        <table className="table-auto w-full border">
+          <thead className="border border-loopring-blue bg-loopring-blue text-white">
             <tr>
-              <th className="p-1">Transaction ID</th>
+              <th className="p-2">Transaction ID</th>
               <th>Block ID</th>
               <th>Submitted At</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {txsData &&
               txsData.transactions.map((tx) => {
                 return (
                   <tr className="border" key={tx.id}>
-                    <td className="p-1">
+                    <td className="py-2 border-b">
                       <AppLink path="transaction" tx={tx.id}>
                         {tx.id}
                       </AppLink>
                     </td>
-                    <td>
+                    <td className="py-2 border-b">
                       <AppLink path="block" block={tx.block.id}>
                         {tx.block.id}
                       </AppLink>
                     </td>
-                    <td>{getDateString(tx.block.timestamp)}</td>
+                    <td className="py-2 border-b">
+                      {getDateString(tx.block.timestamp)}
+                    </td>
                   </tr>
                 );
               })}
@@ -104,7 +148,7 @@ export default function Home() {
           </div>
         )}
         <Link href="/transactions">
-          <a className="bg-indigo-700 text-white text-center m-auto mt-5 w-3/6 block rounded py-2">
+          <a className="bg-loopring-darkBlue text-white text-center mt-5 mb-6 block rounded-lg py-2 px-6 self-end">
             View More Transactions
           </a>
         </Link>

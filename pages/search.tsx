@@ -28,8 +28,8 @@ const Search: React.FC<{}> = () => {
   if (loaded && results.length === 0) {
     return (
       <div className="bg-white shadow-custom rounded px-4 py-10 h-40 mt-24 flex items-center justify-between flex-col text-center">
-        <h2 className="text-3xl text-indigo-900">No results found</h2>
-        <div className="text-lg text-indigo-700">
+        <h2 className="text-3xl text-loopring-blue">No results found</h2>
+        <div className="text-lg text-loopring-blue">
           We couldn't find any block, transaction or account with ID:&nbsp;
           <span className="font-bold">{searchQuery}</span>
         </div>
@@ -40,7 +40,7 @@ const Search: React.FC<{}> = () => {
   if (loaded && results.length > 1) {
     return (
       <div className="bg-white shadow-custom rounded px-4 py-10 min-h-table mt-24">
-        <h2 className="text-3xl text-indigo-900">Search Results</h2>
+        <h2 className="text-3xl text-loopring-blue">Search Results</h2>
         <span className="mb-4">
           We found {results.length} results with ID {searchQuery}
         </span>

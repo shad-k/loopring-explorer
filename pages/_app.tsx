@@ -17,25 +17,24 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   }
 
   return (
-    <main className="w-screen h-screen bg-gradient-to-b from-indigo-50 to-white text-gray-900">
+    <main className="w-screen h-screen text-loopring-blue">
       <Head>
         <title>Loopring V2 Explorer</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
       <header className="bg-white w-screen px-4 py-2">
-        <div className="container h-full w-full lg:w-4/5 m-auto flex md:items-center justify-between">
+        <div className="container h-full w-full lg:w-11/12 m-auto flex md:items-center justify-between">
           <div
             onClick={() => router.push("/")}
-            className="h-full flex items-center w-4/5 cursor-pointer"
+            className="h-full flex items-center w-4/6 cursor-pointer"
           >
             <Image
-              src="/loopring-black.svg"
-              width="40"
+              src="/logo-blue.svg"
+              width="100"
               height="40"
               className="h-full"
               alt="Loopring Logo"
             />
-            <span className="ml-1 mr-12">Loopring</span>
           </div>
           <nav className="flex-1 flex justify-between">
             <Link href="/">
@@ -47,20 +46,27 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             <Link href="/exchange">
               <a>Exchange</a>
             </Link>
+            <Link href="https://loopring.io/">
+              <a target="_blank">Wallet</a>
+            </Link>
           </nav>
         </div>
       </header>
-      <div className="w-full lg:w-4/5 m-auto mt-12">
+      <div className="w-full">
         {isHomePage ? (
-          <div className="h-56 rounded-2xl bg-gradient-to-b from-indigo-100 to-indigo-60 p-5">
-            <h1 className="text-4xl text-center">Loopring Explorer</h1>
-            <SearchForm className="flex md:w-3/5 m-auto" />
+          <div className="px-10 py-8 bg-loopring-blue pb-20">
+            <div className="lg:w-11/12 m-auto">
+              <h1 className="text-4xl text-white">
+                The Loopring zkRollup Explorer
+              </h1>
+              <SearchForm className="flex md:w-3/5 mt-4" />
+            </div>
           </div>
         ) : (
-          <>
-            <SearchForm className="float-right flex md:w-2/5 m-auto mb-5" />
+          <div className="px-10 py-1 bg-loopring-blue">
+            <SearchForm className="float-right flex md:w-3/5 m-4" />
             <div className="clear-right" />
-          </>
+          </div>
         )}
         <Component {...pageProps} />
       </div>

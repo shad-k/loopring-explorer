@@ -27,6 +27,7 @@ interface AccountLink {
 type Props = {
   isExplorerLink?: boolean;
   explorerURL?: string;
+  className?: string;
 } & (TxLink | BlockLink | AccountLink);
 
 const makeExplorerURL = (explorerURL: string, link: string): string => {
@@ -41,6 +42,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   isExplorerLink = false,
   explorerURL = EXPLORER_URL,
   children,
+  className,
 }) => {
   let link;
   if (path === "block") {
@@ -60,7 +62,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <Link href={link}>
       <a
-        className={isExplorerLink ? "text-blue-700" : "text-indigo-800"}
+        className={`text-loopring-blue ${className || ""}`}
         target={isExplorerLink ? "_blank" : "_self"}
       >
         {children}

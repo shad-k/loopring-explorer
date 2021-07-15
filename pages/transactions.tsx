@@ -140,7 +140,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
         )}
         <button
           type="submit"
-          className="bg-indigo-700 px-6 ml-2 rounded text-white h-9"
+          className="bg-loopring-darkBlue px-6 ml-2 rounded text-white h-9"
         >
           Filter
         </button>

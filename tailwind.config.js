@@ -7,6 +7,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        loopring: {
+          blue: "#256BE5",
+          darkBlue: "#084BE8",
+          lightBlue: "#5076B7",
+          gray: "#656567",
+        },
         indigo: {
           60: "#F6F8FF",
         },

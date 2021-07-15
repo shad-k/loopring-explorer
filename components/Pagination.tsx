@@ -18,7 +18,7 @@ const PaginationButton: React.FC<
   return (
     <button
       className={`border-l border-r ${
-        isActive ? "text-white bg-indigo-700" : "text-indigo-900"
+        isActive ? "text-white bg-loopring-darkblue" : "text-loopring-blue"
       } py-2 w-12 flex items-center justify-center ${className}`}
       onClick={onClick}
       disabled={disabled}

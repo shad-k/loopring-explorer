@@ -31,7 +31,7 @@ const FETCH_BLOCKS = gql`
 const useBlocks = (
   skip = 0,
   first = 10,
-  orderBy = "id",
+  orderBy = "internalID",
   orderDirection = "desc"
 ) => {
   const memoVariables = useMemo(() => {

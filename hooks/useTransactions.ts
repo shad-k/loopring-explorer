@@ -14,6 +14,9 @@ const FETCH_TXS = gql`
     $block: Block_height
     $where: Transaction_filter
   ) {
+    proxy(id: 0) {
+      transactionCount
+    }
     transactions(
       skip: $skip
       first: $first
@@ -62,7 +65,7 @@ const FETCH_TXS = gql`
 const useTransactions = (
   skip = 0,
   first = 10,
-  orderBy = "id",
+  orderBy = "internalID",
   orderDirection = "desc",
   block = null
 ) => {

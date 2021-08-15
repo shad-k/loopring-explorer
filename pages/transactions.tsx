@@ -108,9 +108,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
       {!blockIDFilter ? (
         <h1 className="text-3xl mb-5">Latest Transactions</h1>
       ) : (
-        <h2 className="text-2xl mb-5">
-          Transactions in block #{blockIDFilter}
-        </h2>
+        <h2 className="text-2xl">Transactions in block #{blockIDFilter}</h2>
       )}
       <form
         className="my-2 flex justify-end items-center"

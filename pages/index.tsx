@@ -48,7 +48,9 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold p-2">Latest Blocks</h2>
+        <h2 className="text-2xl font-bold p-2 text-loopring-blue">
+          Latest Blocks
+        </h2>
         <table className="table-auto w-full border">
           <thead className="border border-loopring-blue bg-loopring-blue text-white">
             <tr>
@@ -109,7 +111,9 @@ export default function Home() {
         </Link>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold p-2">Latest Transactions</h2>
+        <h2 className="text-2xl font-bold p-2 text-loopring-blue">
+          Latest Transactions
+        </h2>
         <table className="table-auto w-full border">
           <thead className="border border-loopring-blue bg-loopring-blue text-white">
             <tr>

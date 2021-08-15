@@ -17,7 +17,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   }
 
   return (
-    <main className="w-screen h-screen text-loopring-blue">
+    <main className="w-screen h-screen text-loopring-gray">
       <Head>
         <title>Loopring V2 Explorer</title>
         <link rel="icon" href="/favicon.png" />
@@ -36,7 +36,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
               alt="Loopring Logo"
             />
           </div>
-          <nav className="flex-1 flex justify-between">
+          <nav className="flex-1 flex justify-between text-loopring-blue">
             <Link href="/">
               <a>Home</a>
             </Link>

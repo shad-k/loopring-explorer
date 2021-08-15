@@ -30,7 +30,19 @@ const FETCH_TXS = gql`
         timestamp
       }
 
-      ... on SpotTrade {
+      ... on Swap {
+        id
+        __typename
+      }
+      ... on OrderbookTrade {
+        id
+        __typename
+      }
+      ... on Add {
+        id
+        __typename
+      }
+      ... on Remove {
         id
         __typename
       }
@@ -67,23 +79,33 @@ const useTransactions = (
   first = 10,
   orderBy = "internalID",
   orderDirection = "desc",
-  block = null
+  block = null,
+  typename = null
 ) => {
   const memoVariables = useMemo(() => {
-    if (block) {
-      return {
-        where: {
-          block,
-        },
-      };
-    }
-    return {
+    const variables = {
       skip,
       first,
       orderBy,
       orderDirection,
+      where: {},
     };
-  }, [skip, first, orderBy, orderDirection, block]);
+
+    if (block) {
+      variables.where = {
+        ...variables.where,
+        block,
+      };
+    }
+    if (typename) {
+      variables.where = {
+        ...variables.where,
+        typename,
+      };
+    }
+    return variables;
+  }, [skip, first, orderBy, orderDirection, block, typename]);
+
   const { data, error } = useSWR(
     [FETCH_TXS, memoVariables],
     (query, variables) => request(LOOPRING_SUBGRAPH, query, variables)

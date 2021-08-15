@@ -16,19 +16,27 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
   const [blockId, setBlockId] = React.useState(
     router.query.block || blockIDFilter
   );
-  const [txType, setTxType] = React.useState(router.query.type || "all");
+  const [txType, setTxType] = React.useState(
+    (router.query.type as string) || "all"
+  );
+
   const { data, error, isLoading } = useTransactions(
     (currentPage - 1) * 10,
     10,
-    "id",
+    "internalID",
     "desc",
-    blockId
+    blockId,
+    txType === "all" ? null : txType
   );
 
   const pageChangeHandler = (page) => {
-    router.push({ pathname: router.pathname, query: { page } }, undefined, {
-      shallow: true,
-    });
+    router.push(
+      { pathname: router.pathname, query: { ...router.query, page } },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   };
 
   React.useEffect(() => {
@@ -40,9 +48,8 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
     } else if (!blockIDFilter) {
       setBlockId(undefined);
     }
-
     if (router.query && router.query.type) {
-      setTxType(router.query.type);
+      setTxType(router.query.type as string);
     }
   }, [router.query]);
 
@@ -67,7 +74,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
       } else {
         const { block, ...restQuery } = router.query;
         router.push(
-          { pathname: router.pathname, query: { ...restQuery } },
+          { pathname: router.pathname, query: { ...restQuery, page: 1 } },
           undefined,
           {
             shallow: true,
@@ -78,30 +85,18 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
 
     if (txTypeInput && txTypeInput.value !== txType) {
       // if used on the block detail page
-      if (blockIDFilter) {
-        setTxType(txTypeInput.value);
-      } else {
-        router.push(
-          {
-            pathname: router.pathname,
-            query: { ...router.query, type: txTypeInput.value },
-          },
-          undefined,
-          {
-            shallow: true,
-          }
-        );
-      }
+      router.push(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, type: txTypeInput.value, page: 1 },
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      );
     }
   };
-
-  let filteredData;
-  if (data) {
-    filteredData =
-      txType === "all"
-        ? data.transactions
-        : data.transactions.filter((tx) => tx.__typename === txType);
-  }
 
   return (
     <div className="bg-white shadow-custom rounded p-4 min-h-table">
@@ -120,10 +115,13 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
           defaultValue={txType}
         >
           <option value="all">All Transactions</option>
-          <option value="SpotTrade">SpotTrade</option>
+          <option value="Swap">Swap</option>
+          <option value="OrderbookTrade">OrderbookTrade</option>
+          <option value="Add">Add</option>
+          <option value="Remove">Remove</option>
+          <option value="Transfer">Transfer</option>
           <option value="Deposit">Deposit</option>
           <option value="Withdrawal">Withdrawal</option>
-          <option value="Transfer">Transfer</option>
           <option value="AccountUpdate">AccountUpdate</option>
           <option value="AmmUpdate">AmmUpdate</option>
           <option value="SignatureVerification">SignatureVerification</option>
@@ -153,8 +151,8 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
           </tr>
         </thead>
         <tbody>
-          {filteredData &&
-            filteredData.map((tx) => {
+          {data &&
+            data.transactions.map((tx) => {
               return (
                 <tr className="border" key={tx.id}>
                   <td className="p-1">
@@ -174,7 +172,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
             })}
         </tbody>
       </table>
-      {filteredData && filteredData.length === 0 && (
+      {data && data.transactions.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transactions to show
         </div>
@@ -185,12 +183,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
           Couldn't fetch transactions
         </div>
       )}
-      {!blockId && (
-        <Pagination
-          currentPage={currentPage}
-          onPageChange={pageChangeHandler}
-        />
-      )}
+      <Pagination currentPage={currentPage} onPageChange={pageChangeHandler} />
     </div>
   );
 };

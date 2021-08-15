@@ -1,3 +1,3 @@
 export const LOOPRING_SUBGRAPH =
-  "https://api.thegraph.com/subgraphs/name/protofire/loopring-exchange-v2";
+  "https://api.thegraph.com/subgraphs/name/juanmardefago/aasdasd";
 export const EXPLORER_URL = "https://etherscan.io/";

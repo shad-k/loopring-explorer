@@ -38,12 +38,12 @@ const Add: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">User Account</td>
         <td>
-          <AppLink path="account" accountId={account.id}>
-            {account.id}
-          </AppLink>
-          &nbsp; (
           <AppLink path="account" accountId={account.address} isExplorerLink>
             {account.address}
+          </AppLink>
+          &nbsp; (
+          <AppLink path="account" accountId={account.id}>
+            {account.id}
           </AppLink>
           )
         </td>
@@ -51,12 +51,12 @@ const Add: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Pool</td>
         <td>
-          <AppLink path="account" accountId={pool.id}>
-            {pool.id}
-          </AppLink>
-          &nbsp; (
           <AppLink path="account" accountId={pool.address} isExplorerLink>
             {pool.address}
+          </AppLink>
+          &nbsp; (
+          <AppLink path="account" accountId={pool.id}>
+            {pool.id}
           </AppLink>
           )
         </td>

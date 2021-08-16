@@ -41,12 +41,12 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">User Account</td>
         <td>
-          <AppLink path="account" accountId={account.id}>
-            {account.id}
-          </AppLink>
-          &nbsp; (
           <AppLink path="account" accountId={account.address} isExplorerLink>
             {account.address}
+          </AppLink>
+          &nbsp; (
+          <AppLink path="account" accountId={account.id}>
+            {account.id}
           </AppLink>
           )
         </td>

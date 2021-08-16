@@ -38,10 +38,6 @@ const Transfer: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">From</td>
         <td>
-          <AppLink path="account" accountId={fromAccount.id}>
-            {fromAccount.id}
-          </AppLink>
-          &nbsp; (
           <AppLink
             path="account"
             accountId={fromAccount.address}
@@ -49,18 +45,22 @@ const Transfer: React.FC<{ transaction: any }> = ({ transaction }) => {
           >
             {fromAccount.address}
           </AppLink>
+          &nbsp; (
+          <AppLink path="account" accountId={fromAccount.id}>
+            {fromAccount.id}
+          </AppLink>
           )
         </td>
       </tr>
       <tr className="border">
         <td className="p-2">to</td>
         <td>
-          <AppLink path="account" accountId={toAccount.id}>
-            {toAccount.id}
-          </AppLink>
-          &nbsp; (
           <AppLink path="account" accountId={toAccount.address} isExplorerLink>
             {toAccount.address}
+          </AppLink>
+          &nbsp; (
+          <AppLink path="account" accountId={toAccount.id}>
+            {toAccount.id}
           </AppLink>
           )
         </td>

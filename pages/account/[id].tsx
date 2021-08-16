@@ -12,7 +12,7 @@ const Account: React.FC<{}> = () => {
   const accountId = router.query.id;
   const { data, error, isLoading } = useAccount(accountId);
 
-  const { address, createdAt, balances, __typename } =
+  const { address, createdAtTransaction, balances, __typename } =
     (data && data.account) || {};
 
   return (
@@ -38,10 +38,11 @@ const Account: React.FC<{}> = () => {
                 <td className="p-2 w-1/5">Created at</td>
                 <td>
                   Tx{" "}
-                  <AppLink path="transaction" tx={createdAt.id}>
-                    #<span className="font-bold">{createdAt.id}</span>
+                  <AppLink path="transaction" tx={createdAtTransaction.id}>
+                    #
+                    <span className="font-bold">{createdAtTransaction.id}</span>
                   </AppLink>
-                  &nbsp;at {getDateString(createdAt.block.timestamp)}
+                  &nbsp;at {getDateString(createdAtTransaction.block.timestamp)}
                 </td>
               </tr>
             </tbody>

@@ -17,7 +17,7 @@ const FETCH_ACCOUNT = gql`
           ...TokenFragment
         }
       }
-      createdAt {
+      createdAtTransaction {
         id
         block {
           timestamp

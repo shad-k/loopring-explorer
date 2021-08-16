@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import useAccount from "../../hooks/useAccount";
 import AppLink from "../../components/AppLink";
+import Transactions from "../transactions";
 
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
@@ -82,6 +83,9 @@ const Account: React.FC<{}> = () => {
             </tbody>
           </table>
         </div>
+      )}
+      {data && data.account && (
+        <Transactions accountIdFilter={[accountId as string]} />
       )}
     </div>
   );

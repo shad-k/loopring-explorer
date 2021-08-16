@@ -76,18 +76,3 @@ const Block: React.FC<{}> = () => {
 };
 
 export default Block;
-
-// timestamp
-//   txHash
-//   gasUsed
-//   gasPrice
-//   height
-//   blockHash
-//   operatorAccountID
-//   operatorAccount {
-//     address
-//   }
-//   transactions {
-//     id
-//     hash
-//   }

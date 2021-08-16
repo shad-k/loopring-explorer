@@ -8,9 +8,10 @@ import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 import getDateString from "../utils/getDateString";
 
-const Transactions: React.FC<{ blockIDFilter?: string }> = ({
-  blockIDFilter,
-}) => {
+const Transactions: React.FC<{
+  blockIDFilter?: string;
+  accountIdFilter?: Array<string>;
+}> = ({ blockIDFilter, accountIdFilter }) => {
   const router = useRouter();
   const [currentPage, setPage] = React.useState<number>(1);
   const [blockId, setBlockId] = React.useState(
@@ -26,7 +27,8 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
     "internalID",
     "desc",
     blockId,
-    txType === "all" ? null : txType
+    txType === "all" ? null : txType,
+    accountIdFilter
   );
 
   const pageChangeHandler = (page) => {
@@ -99,11 +101,17 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
   };
 
   return (
-    <div className="bg-white shadow-custom rounded p-4 min-h-table">
-      {!blockIDFilter ? (
-        <h1 className="text-3xl mb-5">Latest Transactions</h1>
-      ) : (
+    <div
+      className={`bg-white shadow-custom rounded ${
+        !accountIdFilter ? "p-4" : "pt-8 pb-4"
+      } min-h-table`}
+    >
+      {blockIDFilter ? (
         <h2 className="text-2xl">Transactions in block #{blockIDFilter}</h2>
+      ) : accountIdFilter ? (
+        <h2 className="text-2xl">Transactions in account #{accountIdFilter}</h2>
+      ) : (
+        <h1 className="text-3xl mb-5">Latest Transactions</h1>
       )}
       <form
         className="my-2 flex justify-end items-center"
@@ -126,7 +134,7 @@ const Transactions: React.FC<{ blockIDFilter?: string }> = ({
           <option value="AmmUpdate">AmmUpdate</option>
           <option value="SignatureVerification">SignatureVerification</option>
         </select>
-        {!blockIDFilter && (
+        {!blockIDFilter && !accountIdFilter && (
           <input
             type="text"
             className="h-9 rounded-sm px-1 border w-1/5"

@@ -80,7 +80,8 @@ const useTransactions = (
   orderBy = "internalID",
   orderDirection = "desc",
   block = null,
-  typename = null
+  typename = null,
+  accounts = []
 ) => {
   const memoVariables = useMemo(() => {
     const variables = {
@@ -95,6 +96,12 @@ const useTransactions = (
       variables.where = {
         ...variables.where,
         block,
+      };
+    }
+    if (accounts.length > 0) {
+      variables.where = {
+        ...variables.where,
+        accounts,
       };
     }
     if (typename) {

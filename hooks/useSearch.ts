@@ -1,12 +1,12 @@
 import React from "react";
-import useAccount from "./useAccount";
+import useAccounts from "./useAccounts";
 import useBlock from "./useBlock";
 import useTransaction from "./useTransaction";
 
 const useSearch = (query: string) => {
   const { data: blockData, isLoading: blockIsLoading } = useBlock(query);
   const { data: txData, isLoading: txIsLoading } = useTransaction(query);
-  const { data: accountData, isLoading: accountIsLoading } = useAccount(query);
+  const { data: accountData, isLoading: accountIsLoading } = useAccounts(query);
 
   const [resultLoaded, setResultLoaded] = React.useState(false);
 
@@ -34,11 +34,11 @@ const useSearch = (query: string) => {
           tx: txData.transaction,
         });
       }
-      if (accountData && accountData.account) {
+      if (accountData && accountData.accounts[0]) {
         allResults.push({
           type: "account",
-          link: `/account/${accountData.account.id}`,
-          account: accountData.account,
+          link: `/account/${accountData.accounts[0].id}`,
+          account: accountData.accounts[0],
         });
       }
 

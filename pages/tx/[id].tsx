@@ -2,12 +2,16 @@ import React from "react";
 import { useRouter } from "next/router";
 
 import useTransaction from "../../hooks/useTransaction";
-import SpotTrade from "../../components/transactionDetail/SpotTrade";
 import Deposit from "../../components/transactionDetail/Deposit";
 import Withdrawal from "../../components/transactionDetail/Withdrawal";
 import Transfer from "../../components/transactionDetail/Transfer";
 import AccountUpdate from "../../components/transactionDetail/AccountUpdate";
 import SignatureVerification from "../../components/transactionDetail/SignatureVerification";
+import AmmUpdate from "../../components/transactionDetail/AmmUpdate";
+import Add from "../../components/transactionDetail/Add";
+import Remove from "../../components/transactionDetail/Remove";
+import Swap from "../../components/transactionDetail/Swap";
+import OrderbookTrade from "../../components/transactionDetail/OrderbookTrade";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -18,8 +22,14 @@ const Transaction: React.FC<{}> = () => {
 
   const renderTransactionDetails = (type) => {
     switch (type) {
-      case "SpotTrade":
-        return <SpotTrade transaction={data.transaction} />;
+      case "Add":
+        return <Add transaction={data.transaction} />;
+      case "Remove":
+        return <Remove transaction={data.transaction} />;
+      case "Swap":
+        return <Swap transaction={data.transaction} />;
+      case "OrderbookTrade":
+        return <OrderbookTrade transaction={data.transaction} />;
       case "Deposit":
         return <Deposit transaction={data.transaction} />;
       case "Withdrawal":
@@ -30,6 +40,8 @@ const Transaction: React.FC<{}> = () => {
         return <AccountUpdate transaction={data.transaction} />;
       case "SignatureVerification":
         return <SignatureVerification transaction={data.transaction} />;
+      case "AmmUpdate":
+        return <AmmUpdate transaction={data.transaction} />;
       default:
         return type;
     }

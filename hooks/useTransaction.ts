@@ -6,7 +6,11 @@ import { LOOPRING_SUBGRAPH } from "../utils/config";
 import {
   account,
   token,
-  spotTrade,
+  pool,
+  add,
+  remove,
+  swap,
+  orderbookTrade,
   deposit,
   withdrawal,
   transfer,
@@ -26,7 +30,10 @@ const FETCH_TRANSACTION = gql`
       }
       data
 
-      ...SpotTradeFragment
+      ...AddFragment
+      ...RemoveFragment
+      ...SwapFragment
+      ...OrderbookTradeFragment
       ...DepositFragment
       ...WithdrawalFragment
       ...TransferFragment
@@ -38,8 +45,12 @@ const FETCH_TRANSACTION = gql`
 
   ${account}
   ${token}
+  ${pool}
 
-  ${spotTrade}
+  ${add}
+  ${remove}
+  ${swap}
+  ${orderbookTrade}
   ${deposit}
   ${withdrawal}
   ${transfer}

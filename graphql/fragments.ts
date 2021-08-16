@@ -36,8 +36,89 @@ export const block = gql`
   ${account}
 `;
 
-export const spotTrade = gql`
-  fragment SpotTradeFragment on SpotTrade {
+export const pool = gql`
+  fragment PoolFragment on Pool {
+    id
+    address
+    balances {
+      id
+      balance
+      token {
+        ...TokenFragment
+      }
+    }
+  }
+`;
+
+export const add = gql`
+  fragment AddFragment on Add {
+    id
+    account {
+      ...AccountFragment
+    }
+    pool {
+      ...PoolFragment
+    }
+    token {
+      ...TokenFragment
+    }
+    feeToken {
+      ...TokenFragment
+    }
+    amount
+    fee
+    __typename
+  }
+`;
+
+export const remove = gql`
+  fragment RemoveFragment on Remove {
+    id
+    account {
+      ...AccountFragment
+    }
+    pool {
+      ...PoolFragment
+    }
+    token {
+      ...TokenFragment
+    }
+    feeToken {
+      ...TokenFragment
+    }
+    amount
+    fee
+    __typename
+  }
+`;
+
+export const swap = gql`
+  fragment SwapFragment on Swap {
+    id
+    account {
+      ...AccountFragment
+    }
+    pool {
+      ...PoolFragment
+    }
+    tokenA {
+      ...TokenFragment
+    }
+    tokenB {
+      ...TokenFragment
+    }
+    tokenAPrice
+    tokenBPrice
+    fillSA
+    fillSB
+    protocolFeeA
+    protocolFeeB
+    __typename
+  }
+`;
+
+export const orderbookTrade = gql`
+  fragment OrderbookTradeFragment on OrderbookTrade {
     id
     accountA {
       ...AccountFragment
@@ -129,15 +210,7 @@ export const accountUpdate = gql`
 export const ammUpdate = gql`
   fragment AmmUpdateFragment on AmmUpdate {
     pool {
-      id
-      address
-      balances {
-        id
-        balance
-        token {
-          ...TokenFragment
-        }
-      }
+      ...PoolFragment
     }
     tokenID
     feeBips

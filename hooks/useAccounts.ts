@@ -61,7 +61,7 @@ const useAccounts = (id) => {
   if (id && id.startsWith("0x")) {
     variables = {
       where: {
-        address: id,
+        address: id.toLowerCase(),
       },
     };
   }

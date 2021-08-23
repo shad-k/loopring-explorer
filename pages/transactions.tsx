@@ -1,12 +1,15 @@
 import React from "react";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import request from "graphql-request";
 
-import useTransactions from "../hooks/useTransactions";
+import useTransactions, { FETCH_TXS } from "../hooks/useTransactions";
 
 import TableLoader from "../components/TableLoader";
 import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 import getDateString from "../utils/getDateString";
+import { LOOPRING_SUBGRAPH } from "../utils/config";
 
 const Transactions: React.FC<{
   blockIDFilter?: string;
@@ -20,6 +23,10 @@ const Transactions: React.FC<{
   const [txType, setTxType] = React.useState(
     (router.query.type as string) || "all"
   );
+  const [showDownloadModal, setShowDownloadModal] =
+    React.useState<boolean>(false);
+  const [showDownloadButton, setShowDownloadButton] =
+    React.useState<boolean>(false);
 
   const { data, error, isLoading } = useTransactions(
     (currentPage - 1) * 10,
@@ -97,6 +104,65 @@ const Transactions: React.FC<{
           shallow: true,
         }
       );
+    }
+  };
+
+  const makeCSV = async (transactions) => {
+    const csv = ["Transaction ID,Block ID,Submitted At,Tx Type"];
+    transactions.forEach((tx) => {
+      csv.push(
+        [
+          tx.id,
+          tx.block.id,
+          getDateString(tx.block.timestamp),
+          tx.__typename,
+        ].join(",")
+      );
+    });
+
+    const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+
+    // Download link
+    const downloadLink = document.getElementById(
+      "csv-download"
+    ) as HTMLAnchorElement;
+
+    // File name
+    downloadLink.download = "transactions";
+
+    // We have to create a link to the file
+    downloadLink.href = URL.createObjectURL(csvFile);
+  };
+
+  const getAllTransactions = async (page: number) => {
+    const txs = await request(LOOPRING_SUBGRAPH, FETCH_TXS, {
+      skip: page * 20,
+      first: 20,
+      orderBy: "internalID",
+      orderDirection: "desc",
+      where: {
+        accounts: accountIdFilter,
+      },
+    });
+
+    if (txs.transactions.length > 0) {
+      const nextTxs = await getAllTransactions(page + 1);
+      return [...txs.transactions, ...nextTxs];
+    }
+
+    return [...txs.transactions];
+  };
+
+  const downloadCSV = async () => {
+    setShowDownloadModal(true);
+    if (data.transactions && data.transactions.lenght < 10) {
+      await makeCSV(data.transactions);
+      setShowDownloadButton(true);
+    } else {
+      const allTxs = await getAllTransactions(0);
+
+      await makeCSV(allTxs);
+      setShowDownloadButton(true);
     }
   };
 
@@ -191,7 +257,50 @@ const Transactions: React.FC<{
           Couldn't fetch transactions
         </div>
       )}
-      <Pagination currentPage={currentPage} onPageChange={pageChangeHandler} />
+      <div className="flex justify-between w-full">
+        {accountIdFilter ? (
+          <button
+            className="bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm"
+            onClick={downloadCSV}
+          >
+            Download as CSV
+          </button>
+        ) : (
+          <span />
+        )}
+        <Pagination
+          currentPage={currentPage}
+          onPageChange={pageChangeHandler}
+        />
+      </div>
+      {showDownloadModal && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-25 flex justify-center items-center">
+          <div className="bg-white w-1/3 p-6 rounded flex flex-col justify-between items-center relative">
+            <div
+              onClick={() => setShowDownloadModal(false)}
+              className="absolute right-4 top-1 text-2xl cursor-pointer"
+            >
+              &times;
+            </div>
+            <h4 className="text-2xl text-black text-center">
+              {showDownloadButton
+                ? "Your CSV is ready"
+                : "Please wait while we get your CSV ready"}
+            </h4>
+            <a
+              id="csv-download"
+              className={`bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm flex justify-center items-center ${
+                !showDownloadButton ? "bg-opacity-25" : ""
+              }`}
+            >
+              Download
+              {showDownloadButton ? null : (
+                <div className="ml-2 animate-spin border-l border-white rounded-full w-4 h-4"></div>
+              )}
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

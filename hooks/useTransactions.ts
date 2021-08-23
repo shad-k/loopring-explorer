@@ -5,7 +5,7 @@ import request from "graphql-request";
 
 import { LOOPRING_SUBGRAPH } from "../utils/config";
 
-const FETCH_TXS = gql`
+export const FETCH_TXS = gql`
   query transactions(
     $skip: Int
     $first: Int

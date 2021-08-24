@@ -22,29 +22,35 @@ export default function Home() {
   return (
     <div className="mt-10 w-11/12 m-auto">
       <div className="grid grid-cols-3 gap-16">
-        <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
-          <span>Transactions</span>
-          <span className="text-3xl mt-4">3,000,000</span>
+        <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+          <span className=" mb-4">Transactions</span>
+          <span className="text-3xl flex-1">
+            {txsData && txsData.proxy.transactionCount}
+          </span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
-          <span>Blocks Submitted</span>
-          <span className="text-3xl mt-4">50,000</span>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+          <span className=" mb-4">Blocks Submitted</span>
+          <span className="text-3xl flex-1">
+            {data && data.proxy.blockCount}
+          </span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
-          <span>L2 Accounts</span>
-          <span className="text-3xl mt-4">20,000</span>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+          <span className=" mb-4">L2 Accounts</span>
+          <span className="text-3xl flex-1">20,000</span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
-          <span>Avg. Block Time</span>
-          <span className="text-3xl mt-4">30 mins</span>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+          <span className=" mb-4">Avg. Block Time</span>
+          <span className="text-3xl flex-1">30 mins</span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
-          <span>Avg. Txs per Block</span>
-          <span className="text-3xl mt-4">1000</span>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+          <span className=" mb-4">Avg. Txs per Block</span>
+          <span className="text-3xl flex-1">1000</span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center">
-          <span>Last Block Submitted</span>
-          <span className="text-3xl mt-4">10 mins ago</span>
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+          <span className=" mb-4">Last Block Submitted</span>
+          <span className="text-3xl flex-1">
+            {data && getTimeFromNow(data.blocks[0].timestamp)} ago
+          </span>
         </div>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">

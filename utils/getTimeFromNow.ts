@@ -3,6 +3,11 @@ const getTimeFromNow = (timestamp) => {
   const diffInMinutes = Math.ceil(diff / 60000);
   if (diffInMinutes > 60) {
     const hours = Math.floor(diffInMinutes / 60);
+
+    if (hours > 24) {
+      const days = Math.floor(hours / 24);
+      return `${days} days ${hours - days * 24} hours`;
+    }
     return `${hours} hours ${diffInMinutes - hours * 60} mins`;
   } else {
     return `${diffInMinutes} mins`;

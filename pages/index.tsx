@@ -97,7 +97,7 @@ export default function Home() {
                       ETH
                     </td>
                     <td className="border-b text-loopring-gray">
-                      {getTimeFromNow(block.timestamp)}
+                      {getDateString(block.timestamp)}
                     </td>
                   </tr>
                 );

@@ -126,6 +126,7 @@ export default function Home() {
               <th className="p-2">Transaction ID</th>
               <th>Block ID</th>
               <th>Submitted At</th>
+              <th>Transaction Type</th>
             </tr>
           </thead>
           <tbody className="text-center">
@@ -146,6 +147,7 @@ export default function Home() {
                     <td className="py-2 border-b">
                       {getDateString(tx.block.timestamp)}
                     </td>
+                    <td className="py-2 border-b">{tx.__typename}</td>
                   </tr>
                 );
               })}

@@ -17,6 +17,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
     fillSB,
     tokenAPrice,
     tokenBPrice,
+    pair,
     __typename,
   } = transaction;
 
@@ -54,8 +55,10 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Swap</td>
         <td>
-          {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
-          {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}{" "}
+          <AppLink path="pair" pair={pair.id}>
+            {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
+            {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}{" "}
+          </AppLink>
           <button
             className="hover:bg-blue-100 p-2 mx-2 rounded hover:underline"
             onClick={() => setPriceDirectionAtoB((val) => !val)}

@@ -107,6 +107,9 @@ export const swap = gql`
     tokenB {
       ...TokenFragment
     }
+    pair {
+      id
+    }
     tokenAPrice
     tokenBPrice
     fillSA

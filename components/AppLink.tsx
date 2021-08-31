@@ -13,6 +13,7 @@ interface NotBlock {
 
 interface NotAccount {
   accountId?: never;
+  address?: never;
 }
 
 interface NotToken {
@@ -36,6 +37,7 @@ interface BlockLink extends NotTx, NotAccount, NotToken, NotPair {
 interface AccountLink extends NotTx, NotBlock, NotToken, NotPair {
   path: "account";
   accountId: string;
+  address?: string;
 }
 
 interface TokenLink extends NotTx, NotBlock, NotAccount, NotPair {
@@ -63,6 +65,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   block,
   tx,
   accountId,
+  address,
   pair,
   token,
   isExplorerLink = false,
@@ -90,14 +93,25 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   }
 
   return (
-    <Link href={link}>
-      <a
-        className={`text-loopring-blue ${className || ""}`}
-        target={isExplorerLink ? "_blank" : "_self"}
-      >
-        {children}
-      </a>
-    </Link>
+    <div
+      className={`items-center justify-center ${className || "inline-flex"}`}
+    >
+      <Link href={link}>
+        <a
+          className={`text-loopring-blue `}
+          target={isExplorerLink ? "_blank" : "_self"}
+        >
+          {children}
+        </a>
+      </Link>
+      {path === "account" && address && (
+        <Link href={makeExplorerURL(explorerURL, `address/${address}`)}>
+          <a className="ml-2 w-5 h-5" target="_blank">
+            <img className="w-full h-full" src="/outgoing.svg" />
+          </a>
+        </Link>
+      )}
+    </div>
   );
 };
 

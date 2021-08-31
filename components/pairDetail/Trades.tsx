@@ -44,30 +44,20 @@ const Trades: React.FC<{
                   <td className="p-1">
                     <AppLink
                       path="account"
-                      accountId={accountA.address}
-                      isExplorerLink
+                      accountId={accountA.id}
+                      address={accountA.address}
                     >
-                      {getTrimmedTxHash(accountA.address, 10, true)}
-                    </AppLink>
-                    &nbsp; (
-                    <AppLink path="account" accountId={accountA.id}>
                       {accountA.id}
                     </AppLink>
-                    )
                   </td>
                   <td>
                     <AppLink
                       path="account"
-                      accountId={accountB.address}
-                      isExplorerLink
+                      accountId={accountB.id}
+                      address={accountB.address}
                     >
-                      {getTrimmedTxHash(accountB.address, 10, true)}
-                    </AppLink>
-                    &nbsp; (
-                    <AppLink path="account" accountId={accountB.id}>
                       {accountB.id}
                     </AppLink>
-                    )
                   </td>
                   <td>
                     {tokenAAmount > 1 ? tokenAAmount.toFixed(2) : tokenAAmount}{" "}

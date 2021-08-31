@@ -45,16 +45,11 @@ const Swaps: React.FC<{
                   <td>
                     <AppLink
                       path="account"
-                      accountId={account.address}
-                      isExplorerLink
+                      accountId={account.id}
+                      address={account.address}
                     >
-                      {getTrimmedTxHash(account.address, 10, true)}
-                    </AppLink>
-                    &nbsp; (
-                    <AppLink path="account" accountId={account.id}>
                       {account.id}
                     </AppLink>
-                    )
                   </td>
                   <td>{getTimeFromNow(block.timestamp)} ago</td>
                   {/* <td>{getDateString(tx.block.timestamp)}</td> */}

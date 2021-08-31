@@ -4,7 +4,7 @@ import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 
 const AmmUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, account, verificationData, data, __typename } = transaction;
+  const { block, data, __typename } = transaction;
 
   return (
     <>

@@ -28,14 +28,13 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Deposited From</td>
         <td>
-          <AppLink path="account" accountId={toAccount.address} isExplorerLink>
-            {toAccount.address}
-          </AppLink>
-          &nbsp; (
-          <AppLink path="account" accountId={toAccount.id}>
+          <AppLink
+            path="account"
+            accountId={toAccount.id}
+            address={toAccount.address}
+          >
             {toAccount.id}
           </AppLink>
-          )
         </td>
       </tr>
       <tr className="border">

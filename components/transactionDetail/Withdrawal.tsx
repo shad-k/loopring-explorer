@@ -31,16 +31,11 @@ const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td>
           <AppLink
             path="account"
-            accountId={fromAccount.address}
-            isExplorerLink
+            accountId={fromAccount.id}
+            address={fromAccount.address}
           >
-            {fromAccount.address}
-          </AppLink>
-          &nbsp; (
-          <AppLink path="account" accountId={fromAccount.id}>
             {fromAccount.id}
           </AppLink>
-          )
         </td>
       </tr>
       <tr className="border">

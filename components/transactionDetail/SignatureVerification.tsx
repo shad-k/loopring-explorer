@@ -29,14 +29,13 @@ const SignatureVerification: React.FC<{ transaction: any }> = ({
       <tr className="border">
         <td className="p-2">Account</td>
         <td>
-          <AppLink path="account" accountId={account.address} isExplorerLink>
-            {account.address}
-          </AppLink>
-          &nbsp; (
-          <AppLink path="account" accountId={account.id}>
+          <AppLink
+            path="account"
+            accountId={account.id}
+            address={account.address}
+          >
             {account.id}
           </AppLink>
-          )
         </td>
       </tr>
       <tr className="border">

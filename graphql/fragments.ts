@@ -28,7 +28,6 @@ export const block = gql`
     blockSize
     gasPrice
     gasUsed
-    operatorAccountID
     operatorAccount {
       ...AccountFragment
     }

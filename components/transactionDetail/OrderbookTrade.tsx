@@ -38,27 +38,25 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Account 1</td>
         <td>
-          <AppLink path="account" accountId={accountA.address} isExplorerLink>
-            {accountA.address}
-          </AppLink>
-          &nbsp; (
-          <AppLink path="account" accountId={accountA.id}>
+          <AppLink
+            path="account"
+            accountId={accountA.id}
+            address={accountA.address}
+          >
             {accountA.id}
           </AppLink>
-          )
         </td>
       </tr>
       <tr className="border">
         <td className="p-2">Account 2</td>
         <td>
-          <AppLink path="account" accountId={accountB.address} isExplorerLink>
-            {accountB.address}
-          </AppLink>
-          &nbsp; (
-          <AppLink path="account" accountId={accountB.id}>
+          <AppLink
+            path="account"
+            accountId={accountB.id}
+            address={accountB.address}
+          >
             {accountB.id}
           </AppLink>
-          )
         </td>
       </tr>
       <tr className="border">

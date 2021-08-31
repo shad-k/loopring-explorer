@@ -29,14 +29,9 @@ const AccountUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border">
         <td className="p-2">Account</td>
         <td>
-          <AppLink path="account" accountId={user.id}>
+          <AppLink path="account" accountId={user.id} address={user.address}>
             {user.id}
           </AppLink>
-          &nbsp; (
-          <AppLink path="account" accountId={user.address} isExplorerLink>
-            {user.address}
-          </AppLink>
-          )
         </td>
       </tr>
       <tr className="border">

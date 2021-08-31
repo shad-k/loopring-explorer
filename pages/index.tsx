@@ -72,7 +72,7 @@ export default function Home() {
               data.blocks.map((block) => {
                 return (
                   <tr key={block.id} className="ml-2">
-                    <td className="py-2 border-b">
+                    <td className="py-2 border-b text-center">
                       <AppLink path="block" block={block.id}>
                         {block.id}
                       </AppLink>

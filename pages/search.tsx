@@ -64,7 +64,7 @@ const Search: React.FC<{}> = () => {
             };
           }
           return (
-            <AppLink {...appLinkProps}>
+            <AppLink {...appLinkProps} className="block">
               <div
                 key={`${result.type}-${searchQuery}`}
                 className="my-4 flex items-center justify-between border px-2 py-4 rounded"

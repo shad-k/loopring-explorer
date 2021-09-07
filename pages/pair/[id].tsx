@@ -88,8 +88,8 @@ const Pair: React.FC<{}> = () => {
         <div className="bg-loopring-blue text-white rounded p-4 lg:mr-4 lg:w-2/12">
           <h3 className="text-3xl">Volume (24hrs)</h3>
           <div className="flex flex-col ">
-            <span className="text-xl">Swap + Orderbook:</span>
-            <span className="text-2xl">
+            <span className="mt-4">Swap + Orderbook:</span>
+            <span className="text-3xl">
               $
               {token0USDPrice
                 ? numeral(
@@ -101,9 +101,9 @@ const Pair: React.FC<{}> = () => {
                 : ""}
             </span>
           </div>
-          <div className="flex flex-col my-4">
-            <span className="text-xl">Swap:</span>
-            <span className="text-2xl">
+          <div className="flex flex-col my-3">
+            <span>Swap:</span>
+            <span className="text-3xl">
               $
               {token0USDPrice
                 ? numeral(
@@ -116,8 +116,8 @@ const Pair: React.FC<{}> = () => {
             </span>
           </div>
           <div className="flex flex-col ">
-            <span className="text-xl">Orderbook</span>
-            <span className="text-2xl">
+            <span>Orderbook</span>
+            <span className="text-3xl">
               $
               {token0USDPrice
                 ? numeral(

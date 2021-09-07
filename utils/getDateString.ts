@@ -29,7 +29,11 @@ const getMonth = (date: Date): string => {
   return months[date.getUTCMonth()];
 };
 
-const getDateString = (date: number, inMS = false): string => {
+const getDateString = (
+  date: number,
+  inMS = false,
+  includeTime = true
+): string => {
   let dateObj: Date;
   if (!inMS) {
     dateObj = new Date(date * 1000);
@@ -37,9 +41,15 @@ const getDateString = (date: number, inMS = false): string => {
     dateObj = new Date(date);
   }
 
+  if (!includeTime) {
+    return `${getMonth(dateObj)}-${getPaddedNumber(
+      dateObj.getUTCDate()
+    )}-${dateObj.getUTCFullYear()}`;
+  }
+
   return `${getMonth(dateObj)}-${getPaddedNumber(
     dateObj.getUTCDate()
-  )}-${dateObj.getUTCFullYear()} ${getTime(dateObj)} `;
+  )}-${dateObj.getUTCFullYear()} ${getTime(dateObj)}`;
 };
 
 export default getDateString;

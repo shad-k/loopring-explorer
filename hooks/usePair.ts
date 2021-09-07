@@ -64,6 +64,29 @@ const FETCH_PAIR = gql`
         }
         ...OrderbookTradeFragment
       }
+      dailyEntities(skip: 1, first: 90, orderDirection: desc, orderBy: dayEnd) {
+        dayEnd
+        tradedVolumeToken0
+        tradedVolumeToken1
+        tradedVolumeToken0Swap
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Orderbook
+        tradedVolumeToken1Orderbook
+      }
+      weeklyEntities(
+        skip: 1
+        first: 90
+        orderDirection: desc
+        orderBy: weekEnd
+      ) {
+        weekEnd
+        tradedVolumeToken0
+        tradedVolumeToken1
+        tradedVolumeToken0Swap
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Orderbook
+        tradedVolumeToken1Orderbook
+      }
       __typename
     }
   }

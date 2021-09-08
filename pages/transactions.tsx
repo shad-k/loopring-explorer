@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import request from "graphql-request";
 
 import useTransactions, { FETCH_TXS } from "../hooks/useTransactions";
@@ -10,6 +9,8 @@ import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 import getDateString from "../utils/getDateString";
 import { LOOPRING_SUBGRAPH } from "../utils/config";
+import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
+import getTimeFromNow from "../utils/getTimeFromNow";
 
 const Transactions: React.FC<{
   blockIDFilter?: string;
@@ -216,15 +217,17 @@ const Transactions: React.FC<{
         </button>
       </form>
       <table className="table-auto w-full border-collapse border table-fixed">
-        <thead className="text-left border">
+        <thead className="border border-loopring-blue bg-loopring-blue text-white">
           <tr>
-            <th className="p-1">Transaction ID</th>
-            <th>Block ID</th>
-            <th>Submitted At</th>
-            <th>Tx Type</th>
+            <th className="p-2">Tx ID</th>
+            <th>Type</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Amount</th>
+            <th>Verified</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {data &&
             data.transactions.map((tx) => {
               return (
@@ -234,13 +237,9 @@ const Transactions: React.FC<{
                       {tx.id}
                     </AppLink>
                   </td>
-                  <td>
-                    <AppLink path="block" block={tx.block.id}>
-                      {tx.block.id}
-                    </AppLink>
-                  </td>
-                  <td>{getDateString(tx.block.timestamp)}</td>
                   <td>{tx.__typename}</td>
+                  <TransactionTableDetails tx={tx} type={tx.__typename} />
+                  <td>{getTimeFromNow(tx.block.timestamp)} ago</td>
                 </tr>
               );
             })}

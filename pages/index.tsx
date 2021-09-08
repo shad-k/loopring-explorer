@@ -4,6 +4,7 @@ import useBlocks from "../hooks/useBlocks";
 import useTransactions from "../hooks/useTransactions";
 
 import AppLink from "../components/AppLink";
+import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
 import TableLoader from "../components/TableLoader";
 
 import getDateString from "../utils/getDateString";
@@ -123,10 +124,12 @@ export default function Home() {
         <table className="table-auto w-full border">
           <thead className="border border-loopring-blue bg-loopring-blue text-white">
             <tr>
-              <th className="p-2">Transaction ID</th>
-              <th>Block ID</th>
-              <th>Submitted At</th>
-              <th>Transaction Type</th>
+              <th className="p-2">Tx ID</th>
+              <th>Type</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Amount</th>
+              <th>Verified</th>
             </tr>
           </thead>
           <tbody className="text-center">
@@ -139,15 +142,11 @@ export default function Home() {
                         {tx.id}
                       </AppLink>
                     </td>
-                    <td className="py-2 border-b">
-                      <AppLink path="block" block={tx.block.id}>
-                        {tx.block.id}
-                      </AppLink>
-                    </td>
-                    <td className="py-2 border-b">
-                      {getDateString(tx.block.timestamp)}
-                    </td>
                     <td className="py-2 border-b">{tx.__typename}</td>
+                    <TransactionTableDetails type={tx.__typename} tx={tx} />
+                    <td className="py-2 border-b">
+                      {getTimeFromNow(tx.block.timestamp)} ago
+                    </td>
                   </tr>
                 );
               })}

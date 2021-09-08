@@ -4,6 +4,21 @@ import useSWR from "swr";
 import request from "graphql-request";
 
 import { LOOPRING_SUBGRAPH } from "../utils/config";
+import {
+  account,
+  accountUpdate,
+  add,
+  ammUpdate,
+  deposit,
+  orderbookTrade,
+  pool,
+  remove,
+  signatureVerification,
+  swap,
+  token,
+  transfer,
+  withdrawal,
+} from "../graphql/fragments";
 
 export const FETCH_TXS = gql`
   query transactions(
@@ -25,53 +40,41 @@ export const FETCH_TXS = gql`
       block: $block
       where: $where
     ) {
+      id
       block {
         id
+        blockHash
         timestamp
       }
+      data
 
-      ... on Swap {
-        id
-        __typename
-      }
-      ... on OrderbookTrade {
-        id
-        __typename
-      }
-      ... on Add {
-        id
-        __typename
-      }
-      ... on Remove {
-        id
-        __typename
-      }
-      ... on Deposit {
-        id
-        __typename
-      }
-      ... on Withdrawal {
-        id
-        __typename
-      }
-      ... on Transfer {
-        id
-        __typename
-      }
-      ... on AccountUpdate {
-        id
-        __typename
-      }
-      ... on AmmUpdate {
-        id
-        __typename
-      }
-      ... on SignatureVerification {
-        id
-        __typename
-      }
+      ...AddFragment
+      ...RemoveFragment
+      ...SwapFragment
+      ...OrderbookTradeFragment
+      ...DepositFragment
+      ...WithdrawalFragment
+      ...TransferFragment
+      ...AccountUpdateFragment
+      ...AmmUpdateFragment
+      ...SignatureVerificationFragment
     }
   }
+
+  ${account}
+  ${token}
+  ${pool}
+
+  ${swap}
+  ${add}
+  ${remove}
+  ${orderbookTrade}
+  ${deposit}
+  ${withdrawal}
+  ${transfer}
+  ${accountUpdate}
+  ${ammUpdate}
+  ${signatureVerification}
 `;
 
 const useTransactions = (

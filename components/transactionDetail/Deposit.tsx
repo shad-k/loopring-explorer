@@ -33,7 +33,7 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={toAccount.id}
             address={toAccount.address}
           >
-            {toAccount.id}
+            {toAccount.address}
           </AppLink>
         </td>
       </tr>

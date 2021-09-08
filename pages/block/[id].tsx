@@ -48,9 +48,8 @@ const Block: React.FC<{}> = () => {
                   <AppLink
                     path="account"
                     accountId={data.block.operatorAccount.id}
-                    address={data.block.operatorAccount.address}
                   >
-                    {data.block.operatorAccount.id}
+                    {data.block.operatorAccount.address}
                   </AppLink>
                 </td>
               </tr>

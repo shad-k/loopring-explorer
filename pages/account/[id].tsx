@@ -24,10 +24,13 @@ const Account: React.FC<{}> = () => {
           <table className="w-full table-auto table-fixed">
             <tbody>
               <tr className="border">
-                <td className="p-2 w-1/5">Address</td>
+                <td className="p-2 w-1/5">L1 Address</td>
                 <td>
                   <AppLink path="account" accountId={address} isExplorerLink>
-                    {address}
+                    <span className="flex items-center">
+                      {address}
+                      <img className="ml-2 w-5 h-5" src="/outgoing.svg" />
+                    </span>
                   </AppLink>
                 </td>
               </tr>

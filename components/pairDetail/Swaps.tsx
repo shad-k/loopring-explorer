@@ -43,12 +43,8 @@ const Swaps: React.FC<{
                     {tokenB.symbol}{" "}
                   </td>
                   <td>
-                    <AppLink
-                      path="account"
-                      accountId={account.id}
-                      address={account.address}
-                    >
-                      {account.id}
+                    <AppLink path="account" accountId={account.id}>
+                      {getTrimmedTxHash(account.address, 7)}
                     </AppLink>
                   </td>
                   <td>{getTimeFromNow(block.timestamp)} ago</td>

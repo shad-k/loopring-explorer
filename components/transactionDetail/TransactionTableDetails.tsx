@@ -11,11 +11,7 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
       return (
         <>
           <td>
-            <AppLink
-              path="account"
-              address={tx.account.address}
-              accountId={tx.account.id}
-            >
+            <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
@@ -31,11 +27,7 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
         <>
           <td></td>
           <td>
-            <AppLink
-              path="account"
-              address={tx.account.address}
-              accountId={tx.account.id}
-            >
+            <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
@@ -49,11 +41,7 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
       return (
         <>
           <td>
-            <AppLink
-              path="account"
-              address={tx.account.address}
-              accountId={tx.account.id}
-            >
+            <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
@@ -65,20 +53,12 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
       return (
         <>
           <td>
-            <AppLink
-              path="account"
-              address={tx.accountA.address}
-              accountId={tx.accountA.id}
-            >
+            <AppLink path="account" accountId={tx.accountA.id}>
               {getTrimmedTxHash(tx.accountA.address, 7)}
             </AppLink>
           </td>
           <td>
-            <AppLink
-              path="account"
-              address={tx.accountB.address}
-              accountId={tx.accountB.id}
-            >
+            <AppLink path="account" accountId={tx.accountB.id}>
               {getTrimmedTxHash(tx.accountB.address, 7)}
             </AppLink>
           </td>
@@ -127,20 +107,12 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
       return (
         <>
           <td>
-            <AppLink
-              path="account"
-              address={tx.fromAccount.address}
-              accountId={tx.fromAccount.id}
-            >
+            <AppLink path="account" accountId={tx.fromAccount.id}>
               {getTrimmedTxHash(tx.fromAccount.address, 7)}
             </AppLink>
           </td>
           <td>
-            <AppLink
-              path="account"
-              address={tx.toAccount.address}
-              accountId={tx.toAccount.id}
-            >
+            <AppLink path="account" accountId={tx.toAccount.id}>
               {getTrimmedTxHash(tx.toAccount.address, 7)}
             </AppLink>
           </td>
@@ -154,11 +126,7 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
       return (
         <>
           <td>
-            <AppLink
-              path="account"
-              address={tx.user.address}
-              accountId={tx.user.id}
-            >
+            <AppLink path="account" accountId={tx.user.id}>
               {getTrimmedTxHash(tx.user.address, 7)}
             </AppLink>
           </td>
@@ -178,11 +146,7 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
       return (
         <>
           <td>
-            <AppLink
-              path="account"
-              address={tx.account.address}
-              accountId={tx.account.id}
-            >
+            <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>

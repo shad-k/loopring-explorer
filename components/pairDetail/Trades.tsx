@@ -42,21 +42,13 @@ const Trades: React.FC<{
               return (
                 <tr className="border" key={id}>
                   <td className="p-1">
-                    <AppLink
-                      path="account"
-                      accountId={accountA.id}
-                      address={accountA.address}
-                    >
-                      {accountA.id}
+                    <AppLink path="account" accountId={accountA.id}>
+                      {getTrimmedTxHash(accountA.address)}
                     </AppLink>
                   </td>
                   <td>
-                    <AppLink
-                      path="account"
-                      accountId={accountB.id}
-                      address={accountB.address}
-                    >
-                      {accountB.id}
+                    <AppLink path="account" accountId={accountB.id}>
+                      {getTrimmedTxHash(accountB.address)}
                     </AppLink>
                   </td>
                   <td>

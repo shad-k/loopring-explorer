@@ -204,12 +204,15 @@ const Pair: React.FC<{}> = () => {
         transactions={swaps}
         pageChangeHandler={(page) => setSwapPage(page)}
         page={swapPage}
+        token0USDPrice={token0USDPrice}
       />
       <h3 className="text-2xl font-light mt-5">Order Book Transactions</h3>
       <Trades
         transactions={trades}
         pageChangeHandler={(page) => setOrderbookPage(page)}
         page={orderbookPage}
+        token0USDPrice={token0USDPrice}
+        token0={token0.symbol}
       />
     </div>
   );

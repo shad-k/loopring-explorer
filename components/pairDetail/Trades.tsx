@@ -10,19 +10,22 @@ const Trades: React.FC<{
   transactions: Array<any>;
   pageChangeHandler: (page: number) => void;
   page: number;
-}> = ({ transactions, pageChangeHandler, page }) => {
+  token0USDPrice: number;
+  token0: string;
+}> = ({ transactions, pageChangeHandler, page, token0USDPrice, token0 }) => {
   return (
     <>
       <table className="table-auto w-full border-collapse border table-fixed">
-        <thead className="text-left border">
+        <thead className="text-left text-center border border-loopring-blue bg-loopring-blue text-white">
           <tr>
-            <th className="p-1">From</th>
+            <th className="p-2">From</th>
             <th>To</th>
             <th>Amounts</th>
+            <th>Total Amount</th>
             <th>Time</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {transactions.length > 0 &&
             transactions.map((tx) => {
               const {
@@ -39,9 +42,10 @@ const Trades: React.FC<{
 
               const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
               const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
+              console.log(token0, tokenA.symbol, tokenB.symbol);
               return (
                 <tr className="border" key={id}>
-                  <td className="p-1">
+                  <td className="p-2">
                     <AppLink path="account" accountId={accountA.id}>
                       {getTrimmedTxHash(accountA.address)}
                     </AppLink>
@@ -56,6 +60,13 @@ const Trades: React.FC<{
                     {tokenA.symbol} &harr;{" "}
                     {tokenBAmount > 1 ? tokenBAmount.toFixed(2) : tokenBAmount}{" "}
                     {tokenB.symbol}{" "}
+                  </td>
+                  <td>
+                    $
+                    {(token0 === tokenA.symbol
+                      ? tokenAAmount * token0USDPrice
+                      : tokenBAmount * token0USDPrice
+                    ).toFixed(2)}
                   </td>
                   <td>{getTimeFromNow(block.timestamp)} ago</td>
                   {/* <td>{getDateString(tx.block.timestamp)}</td> */}

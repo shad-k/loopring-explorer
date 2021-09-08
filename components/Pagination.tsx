@@ -35,12 +35,11 @@ const Pagination: React.FC<Props> = ({
   entriesPerPage = 10,
 }) => {
   const [pageButtons, setPageButtons] = React.useState([1, 2, 3, 4]);
-  const totalPages = React.useMemo(() => {
-    return Math.ceil(total / entriesPerPage);
-  }, []);
+  const totalPages = Math.ceil(total / entriesPerPage);
+  console.log("totalPages", totalPages, total, entriesPerPage);
 
   React.useEffect(() => {
-    if (currentPage === totalPages) {
+    if (currentPage === totalPages && totalPages > 4) {
       setPageButtons([
         currentPage - 3,
         currentPage - 2,
@@ -49,6 +48,12 @@ const Pagination: React.FC<Props> = ({
       ]);
     } else if (currentPage > 4) {
       setPageButtons([currentPage - 1, currentPage, currentPage + 1]);
+    } else if (totalPages && totalPages < 4) {
+      const buttons = [];
+      for (let i = 1; i <= totalPages; i++) {
+        buttons.push(i);
+      }
+      setPageButtons(buttons);
     } else {
       setPageButtons([1, 2, 3, 4]);
     }
@@ -83,7 +88,7 @@ const Pagination: React.FC<Props> = ({
             </PaginationButton>
           );
         })}
-        {(currentPage < totalPages || !totalPages) && (
+        {((currentPage < totalPages && totalPages > 4) || !totalPages) && (
           <PaginationButton>...</PaginationButton>
         )}
         <PaginationButton

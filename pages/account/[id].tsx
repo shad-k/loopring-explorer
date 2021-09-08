@@ -7,14 +7,32 @@ import Transactions from "../transactions";
 
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
+import Pagination from "../../components/Pagination";
 
 const Account: React.FC<{}> = () => {
   const router = useRouter();
   const accountId = router.query.id;
   const { data, error, isLoading } = useAccount(accountId);
 
+  const TOTAL_COUNT = 10;
+
+  const [balancePage, setBalancePage] = React.useState<number>(1);
+
   const { address, createdAtTransaction, balances, __typename } =
     (data && data.account) || {};
+
+  const pageStart = (balancePage - 1) * TOTAL_COUNT;
+  const pageEnd = balancePage * TOTAL_COUNT;
+
+  const filteredBalances = React.useMemo(() => {
+    if (balances && balances.length > 0) {
+      return balances.filter(
+        ({ token, balance }) =>
+          !((!token.name && !token.symbol) || balance == 0)
+      );
+    }
+    return null;
+  }, [balances]);
 
   return (
     <div className="bg-white shadow-custom rounded p-4 min-h-table">
@@ -58,33 +76,40 @@ const Account: React.FC<{}> = () => {
           No transaction found
         </div>
       )}
-      {balances && balances.length > 0 && (
+      {filteredBalances && filteredBalances.length > 0 && (
         <div>
           <h3 className="text-xl mb-5">Token Balances</h3>
-          <table className="w-full table-auto table-fixed border">
-            <thead className="text-left">
+          <table className="w-full table-auto table-fixed">
+            <thead className="text-center border border-loopring-blue bg-loopring-blue text-white">
               <tr>
                 <th className="p-2">Token</th>
                 <th>Balance</th>
               </tr>
             </thead>
-            <tbody>
-              {balances.map((accountTokenBalance) => {
-                const { id, balance, token } = accountTokenBalance;
-                if ((!token.name && !token.symbol) || balance == 0) {
+            <tbody className="text-center">
+              {filteredBalances.map((accountTokenBalance, index) => {
+                if (index >= pageStart && index < pageEnd) {
+                  const { id, balance, token } = accountTokenBalance;
+                  return (
+                    <tr key={id} className="border rounded">
+                      <td className="p-2">
+                        {token.name} ({token.symbol})
+                      </td>
+                      <td>{getTokenAmount(balance, token.decimals)}</td>
+                    </tr>
+                  );
+                } else {
                   return null;
                 }
-                return (
-                  <tr key={id} className="border rounded">
-                    <td className="p-2">
-                      {token.name} ({token.symbol})
-                    </td>
-                    <td>{getTokenAmount(balance, token.decimals)}</td>
-                  </tr>
-                );
               })}
             </tbody>
           </table>
+          <Pagination
+            currentPage={balancePage}
+            onPageChange={(page) => setBalancePage(page)}
+            total={filteredBalances.length}
+            entriesPerPage={10}
+          />
         </div>
       )}
       {data && data.account && (

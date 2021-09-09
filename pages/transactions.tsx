@@ -9,7 +9,9 @@ import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 import getDateString from "../utils/getDateString";
 import { LOOPRING_SUBGRAPH } from "../utils/config";
-import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
+import TransactionTableDetails, {
+  getCSVTransactionDetailFields,
+} from "../components/transactionDetail/TransactionTableDetails";
 import getTimeFromNow from "../utils/getTimeFromNow";
 
 const Transactions: React.FC<{
@@ -109,14 +111,22 @@ const Transactions: React.FC<{
   };
 
   const makeCSV = async (transactions) => {
-    const csv = ["Transaction ID,Block ID,Submitted At,Tx Type"];
+    const csv = ["Tx ID,Type,From,To,Amount,Verified At"];
     transactions.forEach((tx) => {
+      console.log(
+        [
+          tx.id,
+          tx.__typename,
+          ...getCSVTransactionDetailFields(tx),
+          getDateString(tx.block.timestamp),
+        ].join(",")
+      );
       csv.push(
         [
           tx.id,
-          tx.block.id,
-          getDateString(tx.block.timestamp),
           tx.__typename,
+          ...getCSVTransactionDetailFields(tx),
+          getDateString(tx.block.timestamp),
         ].join(",")
       );
     });
@@ -291,6 +301,7 @@ const Transactions: React.FC<{
               className={`bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm flex justify-center items-center ${
                 !showDownloadButton ? "bg-opacity-25" : ""
               }`}
+              onClick={() => setShowDownloadModal(false)}
             >
               Download
               {showDownloadButton ? null : (

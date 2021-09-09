@@ -65,9 +65,9 @@ export const FETCH_TXS = gql`
   ${token}
   ${pool}
 
-  ${swap}
   ${add}
   ${remove}
+  ${swap}
   ${orderbookTrade}
   ${deposit}
   ${withdrawal}

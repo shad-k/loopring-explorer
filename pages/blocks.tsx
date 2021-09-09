@@ -7,8 +7,9 @@ import TableLoader from "../components/TableLoader";
 import Pagination from "../components/Pagination";
 import AppLink from "../components/AppLink";
 
-import getDateString from "../utils/getDateString";
+import getTimeFromNow from "../utils/getTimeFromNow";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
+import getTokenAmount from "../utils/getTokenAmount";
 
 const Blocks: React.FC<{}> = () => {
   const router = useRouter();
@@ -35,31 +36,43 @@ const Blocks: React.FC<{}> = () => {
           <thead className="border border-loopring-blue bg-loopring-blue text-white text-center">
             <tr>
               <th className="p-2 whitespace-nowrap">Block ID</th>
-              <th className="p-2 whitespace-nowrap">Submitted At</th>
               <th className="p-2 whitespace-nowrap">L1 Tx</th>
-              <th className="p-2 whitespace-nowrap">Included in L1 block</th>
+              <th className="p-2 whitespace-nowrap">Size</th>
+              <th className="p-2 whitespace-nowrap">Fee</th>
+              <th className="p-2 whitespace-nowrap">Verified At</th>
             </tr>
           </thead>
           <tbody className="text-center">
             {data &&
               data.blocks.map((block) => {
                 return (
-                  <tr className="border" key={block.id}>
-                    <td className="p-2 whitespace-nowrap">
+                  <tr key={block.id} className="ml-2">
+                    <td className="p-2 border-b whitespace-nowrap">
                       <AppLink path="block" block={block.id}>
                         {block.id}
                       </AppLink>
                     </td>
-                    <td className="p-2 whitespace-nowrap">
-                      {getDateString(block.timestamp)}
-                    </td>
-                    <td className="p-2 whitespace-nowrap">
-                      {getTrimmedTxHash(block.txHash, 25)}
-                    </td>
-                    <td className="p-2 whitespace-nowrap">
-                      <AppLink path="block" block={block.height} isExplorerLink>
-                        {block.height}
+                    <td className="p-2 border-b whitespace-nowrap">
+                      <AppLink
+                        path="transaction"
+                        tx={block.txHash}
+                        isExplorerLink
+                      >
+                        {getTrimmedTxHash(block.txHash, 15)}
                       </AppLink>
+                    </td>
+                    <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                      {block.blockSize}
+                    </td>
+                    <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                      {getTokenAmount(
+                        block.gasPrice * block.gasUsed,
+                        18
+                      ).toFixed(2)}{" "}
+                      ETH
+                    </td>
+                    <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                      {getTimeFromNow(block.timestamp)}
                     </td>
                   </tr>
                 );

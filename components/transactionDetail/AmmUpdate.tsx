@@ -9,7 +9,7 @@ const AmmUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}

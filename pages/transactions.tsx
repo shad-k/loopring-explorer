@@ -191,11 +191,11 @@ const Transactions: React.FC<{
         <h1 className="text-3xl mb-5">Latest Transactions</h1>
       )}
       <form
-        className="my-2 flex justify-end items-center"
+        className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center"
         onSubmit={submitHandler}
       >
         <select
-          className="h-9 rounded-sm px-2 border w-1/5 mr-2"
+          className="h-9 rounded-sm px-2 border w-full lg:w-1/5 mb-2 lg:mb-0 lg:mr-2"
           name="txType"
           defaultValue={txType}
         >
@@ -214,7 +214,7 @@ const Transactions: React.FC<{
         {!blockIDFilter && !accountIdFilter && (
           <input
             type="text"
-            className="h-9 rounded-sm px-1 border w-1/5"
+            className="h-9 rounded-sm px-1 border w-full lg:w-1/5 mb-2 lg:mb-0"
             placeholder="Filter by block"
             name="block"
           />
@@ -226,35 +226,43 @@ const Transactions: React.FC<{
           Filter
         </button>
       </form>
-      <table className="table-auto w-full border-collapse border table-fixed">
-        <thead className="border border-loopring-blue bg-loopring-blue text-white">
-          <tr>
-            <th className="p-2">Tx ID</th>
-            <th>Type</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Amount</th>
-            <th>Verified</th>
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {data &&
-            data.transactions.map((tx) => {
-              return (
-                <tr className="border" key={tx.id}>
-                  <td className="p-1">
-                    <AppLink path="transaction" tx={tx.id}>
-                      {tx.id}
-                    </AppLink>
-                  </td>
-                  <td>{tx.__typename}</td>
-                  <TransactionTableDetails tx={tx} type={tx.__typename} />
-                  <td>{getTimeFromNow(tx.block.timestamp)} ago</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      <div className="w-full overflow-auto">
+        <table className="table-auto w-full border-collapse border">
+          <thead className="border border-loopring-blue bg-loopring-blue text-white">
+            <tr>
+              <th className="p-2 whitespace-nowrap">Tx ID</th>
+              <th className="p-2 whitespace-nowrap">Type</th>
+              <th className="p-2 whitespace-nowrap">From</th>
+              <th className="p-2 whitespace-nowrap">To</th>
+              <th className="p-2 whitespace-nowrap">Amount</th>
+              <th className="p-2 whitespace-nowrap">Verified</th>
+            </tr>
+          </thead>
+          <tbody className="text-center">
+            {data &&
+              data.transactions.map((tx) => {
+                return (
+                  <tr className="border" key={tx.id}>
+                    <td className="p-2 whitespace-nowrap">
+                      <AppLink path="transaction" tx={tx.id}>
+                        {tx.id}
+                      </AppLink>
+                    </td>
+                    <td className="p-2 whitespace-nowrap">{tx.__typename}</td>
+                    <TransactionTableDetails
+                      tx={tx}
+                      type={tx.__typename}
+                      cellClassName="p-2 whitespace-nowrap"
+                    />
+                    <td className="p-2 whitespace-nowrap">
+                      {getTimeFromNow(tx.block.timestamp)} ago
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
       {data && data.transactions.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transactions to show
@@ -266,10 +274,10 @@ const Transactions: React.FC<{
           Couldn't fetch transactions
         </div>
       )}
-      <div className="flex justify-between w-full">
+      <div className="flex flex-col lg:flex-row justify-between w-full">
         {accountIdFilter ? (
           <button
-            className="bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm"
+            className="bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm order-2 lg:order-none"
             onClick={downloadCSV}
           >
             Download as CSV

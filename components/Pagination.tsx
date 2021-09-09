@@ -19,7 +19,7 @@ const PaginationButton: React.FC<
     <button
       className={`border-l border-r ${
         isActive ? "text-white bg-loopring-darkBlue" : "text-loopring-blue"
-      } py-2 w-12 flex items-center justify-center ${className}`}
+      } py-2 lg:w-12 flex flex-1 items-center justify-center ${className}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -36,7 +36,6 @@ const Pagination: React.FC<Props> = ({
 }) => {
   const [pageButtons, setPageButtons] = React.useState([1, 2, 3, 4]);
   const totalPages = Math.ceil(total / entriesPerPage);
-  console.log("totalPages", totalPages, total, entriesPerPage);
 
   React.useEffect(() => {
     if (currentPage === totalPages && totalPages > 4) {
@@ -60,8 +59,8 @@ const Pagination: React.FC<Props> = ({
   }, [currentPage]);
 
   return (
-    <div className="flex h-10 mt-2 justify-end">
-      <div className="flex bg-white items-center rounded border">
+    <div className="flex h-10 mt-2 justify-end w-full lg:w-auto">
+      <div className="flex bg-white items-center rounded border w-full lg:w-auto">
         <PaginationButton onClick={() => onPageChange(1)}>«</PaginationButton>
         <PaginationButton
           onClick={() => onPageChange(currentPage - 1)}

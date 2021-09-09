@@ -3,6 +3,7 @@ import React from "react";
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
   const {
@@ -20,7 +21,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}
@@ -39,7 +40,10 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">Account 1</td>
         <td>
           <AppLink path="account" accountId={accountA.id}>
-            {accountA.address}
+            <span className="hidden lg:block">{accountA.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(accountA.address)}
+            </span>
           </AppLink>
         </td>
       </tr>
@@ -47,7 +51,10 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">Account 2</td>
         <td>
           <AppLink path="account" accountId={accountB.id}>
-            {accountB.address}
+            <span className="hidden lg:block">{accountB.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(accountB.address)}
+            </span>
           </AppLink>
         </td>
       </tr>

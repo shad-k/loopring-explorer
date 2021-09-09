@@ -8,6 +8,7 @@ import Transactions from "../transactions";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
 import Pagination from "../../components/Pagination";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const Account: React.FC<{}> = () => {
   const router = useRouter();
@@ -42,11 +43,14 @@ const Account: React.FC<{}> = () => {
           <table className="w-full table-auto table-fixed">
             <tbody>
               <tr className="border">
-                <td className="p-2 w-1/5">L1 Address</td>
+                <td className="p-2 lg:w-1/5 whitespace-nowrap">L1 Address</td>
                 <td>
                   <AppLink path="account" accountId={address} isExplorerLink>
-                    <span className="flex items-center">
-                      {address}
+                    <span className="flex items-center break-all">
+                      <span className="hidden lg:block">{address}</span>
+                      <span className="lg:hidden">
+                        {getTrimmedTxHash(address, 7)}
+                      </span>
                       <img className="ml-2 w-5 h-5" src="/outgoing.svg" />
                     </span>
                   </AppLink>

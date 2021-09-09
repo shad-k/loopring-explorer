@@ -75,11 +75,11 @@ const Pair: React.FC<{}> = () => {
       <h1 className="text-3xl mb-5">
         {token0.symbol} / {token1.symbol}
       </h1>
-      <div className="rounded-md border border-gray-200 inline px-2 py-1">
+      <div className="rounded-md border border-gray-200 lg:inline px-2 py-1">
         1 {token0.symbol} = {getTokenAmount(token0Price, token1.decimals)}{" "}
         {token1.symbol}
       </div>
-      <div className="rounded-md border border-gray-200 inline px-2 py-1 ml-2">
+      <div className="rounded-md border border-gray-200 lg:inline px-2 py-1 mt-2 lg:mt-0 lg:ml-2">
         1 {token1.symbol} = {getTokenAmount(token1Price, token0.decimals)}{" "}
         {token0.symbol}
       </div>

@@ -63,21 +63,22 @@ export const getCSVTransactionDetailFields = (tx) => {
   }
 };
 
-const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
-  type,
-  tx,
-}) => {
+const TransactionTableDetails: React.FC<{
+  type: string;
+  tx: any;
+  cellClassName?: string;
+}> = ({ type, tx, cellClassName }) => {
   switch (type) {
     case "Add":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
-          <td></td>
-          <td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}>
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
@@ -86,13 +87,13 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
     case "Remove":
       return (
         <>
-          <td></td>
-          <td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
@@ -101,35 +102,35 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
     case "Swap":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
-          <td></td>
-          <td></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
         </>
       );
     case "OrderbookTrade":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.accountA.id}>
               {getTrimmedTxHash(tx.accountA.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.accountB.id}>
               {getTrimmedTxHash(tx.accountB.address, 7)}
             </AppLink>
           </td>
-          <td></td>
+          <td className={cellClassName}></td>
         </>
       );
     case "Deposit":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink
               path="account"
               address={tx.toAccount.address}
@@ -139,12 +140,12 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
               {getTrimmedTxHash(tx.toAccount.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.toAccount.id}>
               {getTrimmedTxHash(tx.toAccount.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
@@ -153,12 +154,12 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
     case "Withdrawal":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.fromAccount.id}>
               {getTrimmedTxHash(tx.fromAccount.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             <AppLink
               path="account"
               address={tx.fromAccount.address}
@@ -168,7 +169,7 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
               {getTrimmedTxHash(tx.fromAccount.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
@@ -177,17 +178,17 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
     case "Transfer":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.fromAccount.id}>
               {getTrimmedTxHash(tx.fromAccount.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.toAccount.id}>
               {getTrimmedTxHash(tx.toAccount.address, 7)}
             </AppLink>
           </td>
-          <td>
+          <td className={cellClassName}>
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
@@ -196,33 +197,33 @@ const TransactionTableDetails: React.FC<{ type: string; tx: any }> = ({
     case "AccountUpdate":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.user.id}>
               {getTrimmedTxHash(tx.user.address, 7)}
             </AppLink>
           </td>
-          <td></td>
-          <td></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
         </>
       );
     case "AmmUpdate":
       return (
         <>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
         </>
       );
     case "SignatureVerification":
       return (
         <>
-          <td>
+          <td className={cellClassName}>
             <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 7)}
             </AppLink>
           </td>
-          <td></td>
-          <td></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
         </>
       );
     default:

@@ -3,6 +3,7 @@ import React from "react";
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
   const { block, fromAccount, token, amount, feeToken, fee, data, __typename } =
@@ -11,7 +12,7 @@ const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}
@@ -34,7 +35,7 @@ const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={fromAccount.id}
             address={fromAccount.address}
           >
-            {fromAccount.id}
+            {getTrimmedTxHash(fromAccount.address)}
           </AppLink>
         </td>
       </tr>

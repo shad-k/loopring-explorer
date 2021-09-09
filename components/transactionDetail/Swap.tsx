@@ -3,6 +3,7 @@ import React from "react";
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
   const [priceDirectionAtoB, setPriceDirectionAtoB] =
@@ -24,7 +25,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}
@@ -43,7 +44,10 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">User Account</td>
         <td>
           <AppLink path="account" accountId={account.id}>
-            {account.address}
+            <span className="hidden lg:block">{account.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(account.address)}
+            </span>
           </AppLink>
         </td>
       </tr>
@@ -55,7 +59,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
             {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}{" "}
           </AppLink>
           <button
-            className="hover:bg-blue-100 p-2 mx-2 rounded hover:underline"
+            className="hover:bg-blue-100 lg:p-2 lg:mx-2 rounded hover:underline"
             onClick={() => setPriceDirectionAtoB((val) => !val)}
           >
             (

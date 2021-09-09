@@ -5,6 +5,7 @@ import useBlock from "../../hooks/useBlock";
 import getDateString from "../../utils/getDateString";
 import AppLink from "../../components/AppLink";
 import Transactions from "../transactions";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
@@ -19,8 +20,8 @@ const Block: React.FC<{}> = () => {
           <table className="w-full table-auto table-fixed">
             <tbody>
               <tr className="border">
-                <td className="p-2 w-1/5">Block Hash</td>
-                <td>{data.block.blockHash}</td>
+                <td className="p-2 lg:w-1/5">Block Hash</td>
+                <td className="break-all">{data.block.blockHash}</td>
               </tr>
               <tr className="border">
                 <td className="p-2">Block Size</td>
@@ -28,13 +29,16 @@ const Block: React.FC<{}> = () => {
               </tr>
               <tr className="border">
                 <td className="p-2">L1 Transaction Hash</td>
-                <td>
+                <td className="break-all">
                   <AppLink
                     path="transaction"
                     isExplorerLink
                     tx={data.block.txHash}
                   >
-                    {data.block.txHash}
+                    <span className="hidden lg:block">{data.block.txHash}</span>
+                    <span className="lg:hidden">
+                      {getTrimmedTxHash(data.block.txHash, 10)}
+                    </span>
                   </AppLink>
                 </td>
               </tr>
@@ -44,12 +48,17 @@ const Block: React.FC<{}> = () => {
               </tr>
               <tr className="border">
                 <td className="p-2">Operator ID</td>
-                <td>
+                <td className="break-all">
                   <AppLink
                     path="account"
                     accountId={data.block.operatorAccount.id}
                   >
-                    {data.block.operatorAccount.address}
+                    <span className="hidden lg:block">
+                      {data.block.operatorAccount.address}
+                    </span>
+                    <span className="lg:hidden">
+                      {getTrimmedTxHash(data.block.operatorAccount.address, 7)}
+                    </span>
                   </AppLink>
                 </td>
               </tr>

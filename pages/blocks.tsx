@@ -30,37 +30,43 @@ const Blocks: React.FC<{}> = () => {
   return (
     <div className="bg-white shadow-custom rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Latest Blocks</h1>
-      <table className="table-auto w-full border-collapse border table-fixed">
-        <thead className="text-left border">
-          <tr>
-            <th className="p-1 w-1/6">Block ID</th>
-            <th>Submitted At</th>
-            <th>L1 Tx</th>
-            <th>Included in L1 block</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data &&
-            data.blocks.map((block) => {
-              return (
-                <tr className="border" key={block.id}>
-                  <td className="p-1">
-                    <AppLink path="block" block={block.id}>
-                      {block.id}
-                    </AppLink>
-                  </td>
-                  <td>{getDateString(block.timestamp)}</td>
-                  <td>{getTrimmedTxHash(block.txHash, 25)}</td>
-                  <td>
-                    <AppLink path="block" block={block.height} isExplorerLink>
-                      {block.height}
-                    </AppLink>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      <div className="w-full overflow-auto">
+        <table className="table-auto w-full border-collapse border">
+          <thead className="border border-loopring-blue bg-loopring-blue text-white text-center">
+            <tr>
+              <th className="p-2 whitespace-nowrap">Block ID</th>
+              <th className="p-2 whitespace-nowrap">Submitted At</th>
+              <th className="p-2 whitespace-nowrap">L1 Tx</th>
+              <th className="p-2 whitespace-nowrap">Included in L1 block</th>
+            </tr>
+          </thead>
+          <tbody className="text-center">
+            {data &&
+              data.blocks.map((block) => {
+                return (
+                  <tr className="border" key={block.id}>
+                    <td className="p-2 whitespace-nowrap">
+                      <AppLink path="block" block={block.id}>
+                        {block.id}
+                      </AppLink>
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      {getDateString(block.timestamp)}
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      {getTrimmedTxHash(block.txHash, 25)}
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      <AppLink path="block" block={block.height} isExplorerLink>
+                        {block.height}
+                      </AppLink>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
       {data && data.blocks && data.blocks.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transactions to show

@@ -3,6 +3,7 @@ import React from "react";
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
   const { block, toAccount, token, amount, data, __typename } = transaction;
@@ -10,7 +11,7 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}
@@ -33,7 +34,10 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={toAccount.id}
             address={toAccount.address}
           >
-            {toAccount.address}
+            <span className="hidden lg:block">{toAccount.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(toAccount.address)}
+            </span>
           </AppLink>
         </td>
       </tr>

@@ -9,6 +9,9 @@ const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
   ) => {
     event.preventDefault();
     const { query } = event.currentTarget;
+    if (!query || (query && !query.value)) {
+      return;
+    }
 
     router.push({
       pathname: "/search",
@@ -22,19 +25,19 @@ const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <form
-      className={`h-full justify-between items-center ${className}`}
+      className={`h-full flex-col lg:flex-row justify-between items-center ${className}`}
       onSubmit={search}
     >
       <input
         type="text"
         name="query"
-        className="h-10 flex-1 rounded-xl px-3 placeholder-loopring-lightBlue placeholder-opacity-70"
+        className="h-10 w-full lg:w-auto flex-1 rounded-xl px-3 py-3 lg:py-0 placeholder-loopring-lightBlue placeholder-opacity-70"
         placeholder="Search for block, tx or account ID"
         onFocus={() => router.prefetch("/search")}
       />
       <button
         type="submit"
-        className="bg-loopring-darkBlue py-1 px-10 ml-2 rounded-xl text-white h-10"
+        className="bg-loopring-darkBlue mt-4 lg:mt-0 py-1 px-10 ml-2 rounded-xl text-white h-10"
       >
         Search
       </button>

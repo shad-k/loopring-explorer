@@ -1,3 +1,4 @@
+import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -10,6 +11,7 @@ import "../styles/globals.scss";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
+  const [showNav, setShowNav] = React.useState(false);
 
   let isHomePage = false;
   if (router && router.pathname === "/") {
@@ -36,18 +38,56 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
               alt="Loopring Logo"
             />
           </div>
-          <nav className="flex-1 flex justify-between text-loopring-blue">
+          {showNav && (
+            <div
+              className="fixed bg-black bg-opacity-30 h-full w-full top-0 left-0 lg:hidden"
+              onClick={() => setShowNav(false)}
+            />
+          )}
+          <button onClick={() => setShowNav(true)} className="lg:hidden">
+            <div className="h-1 w-6 bg-black m-1" />
+            <div className="h-1 w-6 bg-black m-1" />
+            <div className="h-1 w-6 bg-black m-1" />
+          </button>
+          <nav
+            className={`flex-1 flex flex-col lg:flex-row lg:justify-between text-loopring-blue fixed w-3/4 h-full lg:static bg-white top-0 right-0 text-xl lg:text-base transition-transform duration-500 transform lg:transform-none ${
+              showNav ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
             <Link href="/">
-              <a>Home</a>
+              <a
+                className="border-b border-t p-2 lg:border-none lg:p-0"
+                onClick={() => setShowNav(false)}
+              >
+                Home
+              </a>
             </Link>
             <Link href="https://docs3.loopring.io/en/basics/contracts.html">
-              <a target="_blank">Contracts</a>
+              <a
+                target="_blank"
+                className="border-b border-t p-2 lg:border-none lg:p-0"
+                onClick={() => setShowNav(false)}
+              >
+                Contracts
+              </a>
             </Link>
-            <Link href="/exchange">
-              <a>Exchange</a>
+            <Link href="https://exchange.loopring.io/">
+              <a
+                target="_blank"
+                className="border-b border-t p-2 lg:border-none lg:p-0"
+                onClick={() => setShowNav(false)}
+              >
+                Exchange
+              </a>
             </Link>
             <Link href="https://loopring.io/">
-              <a target="_blank">Wallet</a>
+              <a
+                target="_blank"
+                className="border-b border-t p-2 lg:border-none lg:p-0"
+                onClick={() => setShowNav(false)}
+              >
+                Wallet
+              </a>
             </Link>
           </nav>
         </div>
@@ -63,8 +103,8 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             </div>
           </div>
         ) : (
-          <div className="px-10 py-1 bg-loopring-blue">
-            <SearchForm className="float-right flex md:w-3/5 m-4" />
+          <div className="px-4 lg:px-10 py-1 bg-loopring-blue">
+            <SearchForm className="lg:float-right flex w-full lg:w-3/5 mx-0 my-4 lg:m-4 " />
             <div className="clear-right" />
           </div>
         )}

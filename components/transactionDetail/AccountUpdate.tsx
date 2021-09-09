@@ -4,6 +4,7 @@ import AppLink from "../AppLink";
 
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const AccountUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
   const { block, user, feeToken, fee, data, __typename } = transaction;
@@ -11,7 +12,7 @@ const AccountUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}
@@ -30,13 +31,14 @@ const AccountUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">Account</td>
         <td>
           <AppLink path="account" accountId={user.id}>
-            {user.address}
+            <span className="hidden lg:block">{user.address}</span>
+            <span className="lg:hidden">{getTrimmedTxHash(user.address)}</span>
           </AppLink>
         </td>
       </tr>
       <tr className="border">
         <td className="p-2">New Public Key</td>
-        <td>{user.publicKey}</td>
+        <td className="break-all">{user.publicKey}</td>
       </tr>
       <tr className="border">
         <td className="p-2">Fee</td>

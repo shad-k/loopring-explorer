@@ -14,49 +14,60 @@ const Swaps: React.FC<{
 }> = ({ transactions, pageChangeHandler, page, token0USDPrice }) => {
   return (
     <>
-      <table className="table-auto w-full border-collapse border table-fixed">
-        <thead className="text-left text-center border border-loopring-blue bg-loopring-blue text-white">
-          <tr>
-            <th></th>
-            <th className="p-2">Amounts</th>
-            <th>Total Amount</th>
-            <th>Account</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {transactions.length > 0 &&
-            transactions.map((tx) => {
-              const { id, tokenA, tokenB, fillSA, fillSB, account, block } = tx;
+      <div className="w-full overflow-auto">
+        <table className="table-auto w-full border-collapse border">
+          <thead className="text-left text-center border border-loopring-blue bg-loopring-blue text-white">
+            <tr>
+              <th></th>
+              <th className="p-2 whitespace-nowrap">Amounts</th>
+              <th className="p-2 whitespace-nowrap">Total Amount</th>
+              <th className="p-2 whitespace-nowrap">Account</th>
+              <th className="p-2 whitespace-nowrap">Time</th>
+            </tr>
+          </thead>
+          <tbody className="text-center">
+            {transactions.length > 0 &&
+              transactions.map((tx) => {
+                const { id, tokenA, tokenB, fillSA, fillSB, account, block } =
+                  tx;
 
-              const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
-              const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
-              return (
-                <tr className="border" key={id}>
-                  <td className="p-2">
-                    <AppLink path="transaction" tx={id}>
-                      Swap {tokenA.symbol} for {tokenB.symbol}
-                    </AppLink>
-                  </td>
-                  <td>
-                    {tokenAAmount > 1 ? tokenAAmount.toFixed(2) : tokenAAmount}{" "}
-                    {tokenA.symbol} &harr;{" "}
-                    {tokenBAmount > 1 ? tokenBAmount.toFixed(2) : tokenBAmount}{" "}
-                    {tokenB.symbol}{" "}
-                  </td>
-                  <td>${(tokenAAmount * token0USDPrice).toFixed(2)}</td>
-                  <td>
-                    <AppLink path="account" accountId={account.id}>
-                      {getTrimmedTxHash(account.address, 7)}
-                    </AppLink>
-                  </td>
-                  <td>{getTimeFromNow(block.timestamp)} ago</td>
-                  {/* <td>{getDateString(tx.block.timestamp)}</td> */}
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+                const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
+                const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
+                return (
+                  <tr className="border" key={id}>
+                    <td className="p-2 whitespace-nowrap">
+                      <AppLink path="transaction" tx={id}>
+                        Swap {tokenA.symbol} for {tokenB.symbol}
+                      </AppLink>
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      {tokenAAmount > 1
+                        ? tokenAAmount.toFixed(2)
+                        : tokenAAmount}{" "}
+                      {tokenA.symbol} &harr;{" "}
+                      {tokenBAmount > 1
+                        ? tokenBAmount.toFixed(2)
+                        : tokenBAmount}{" "}
+                      {tokenB.symbol}{" "}
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      ${(tokenAAmount * token0USDPrice).toFixed(2)}
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      <AppLink path="account" accountId={account.id}>
+                        {getTrimmedTxHash(account.address, 7)}
+                      </AppLink>
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
+                      {getTimeFromNow(block.timestamp)} ago
+                    </td>
+                    {/* <td>{getDateString(tx.block.timestamp)}</td> */}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
       <Pagination currentPage={page} onPageChange={pageChangeHandler} />
     </>
   );

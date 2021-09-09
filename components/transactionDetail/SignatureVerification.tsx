@@ -2,6 +2,7 @@ import React from "react";
 
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const SignatureVerification: React.FC<{ transaction: any }> = ({
   transaction,
@@ -11,7 +12,7 @@ const SignatureVerification: React.FC<{ transaction: any }> = ({
   return (
     <>
       <tr className="border">
-        <td className="p-2 w-1/5">Block #</td>
+        <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
             {block.id}
@@ -30,7 +31,10 @@ const SignatureVerification: React.FC<{ transaction: any }> = ({
         <td className="p-2">Account</td>
         <td>
           <AppLink path="account" accountId={account.id}>
-            {account.address}
+            <span className="hidden lg:block">{account.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(account.address)}
+            </span>
           </AppLink>
         </td>
       </tr>

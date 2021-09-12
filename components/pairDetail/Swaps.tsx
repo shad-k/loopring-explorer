@@ -55,7 +55,7 @@ const Swaps: React.FC<{
                     </td>
                     <td className="p-2 whitespace-nowrap">
                       <AppLink path="account" accountId={account.id}>
-                        {getTrimmedTxHash(account.address, 7)}
+                        {getTrimmedTxHash(account.address, 10, true)}
                       </AppLink>
                     </td>
                     <td className="p-2 whitespace-nowrap">

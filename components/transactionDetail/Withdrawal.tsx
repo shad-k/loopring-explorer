@@ -35,7 +35,10 @@ const Withdrawal: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={fromAccount.id}
             address={fromAccount.address}
           >
-            {getTrimmedTxHash(fromAccount.address)}
+            <span className="hidden lg:block">{fromAccount.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(fromAccount.address, 10, true)}
+            </span>
           </AppLink>
         </td>
       </tr>

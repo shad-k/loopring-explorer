@@ -57,7 +57,11 @@ const Block: React.FC<{}> = () => {
                       {data.block.operatorAccount.address}
                     </span>
                     <span className="lg:hidden">
-                      {getTrimmedTxHash(data.block.operatorAccount.address, 7)}
+                      {getTrimmedTxHash(
+                        data.block.operatorAccount.address,
+                        10,
+                        true
+                      )}
                     </span>
                   </AppLink>
                 </td>

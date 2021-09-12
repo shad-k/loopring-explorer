@@ -42,7 +42,7 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
           <AppLink path="account" accountId={account.id}>
             <span className="hidden lg:block">{account.address}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(account.address)}
+              {getTrimmedTxHash(account.address, 10, true)}
             </span>
           </AppLink>
         </td>
@@ -52,7 +52,9 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td>
           <AppLink path="account" accountId={pool.id}>
             <span className="hidden lg:block">{pool.address}</span>
-            <span className="lg:hidden">{getTrimmedTxHash(pool.address)}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(pool.address, 10, true)}
+            </span>
           </AppLink>
         </td>
       </tr>

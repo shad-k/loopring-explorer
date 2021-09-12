@@ -48,12 +48,12 @@ const Trades: React.FC<{
                   <tr className="border" key={id}>
                     <td className="p-2 whitespace-nowrap">
                       <AppLink path="account" accountId={accountA.id}>
-                        {getTrimmedTxHash(accountA.address)}
+                        {getTrimmedTxHash(accountA.address, 10, true)}
                       </AppLink>
                     </td>
                     <td className="p-2 whitespace-nowrap">
                       <AppLink path="account" accountId={accountB.id}>
-                        {getTrimmedTxHash(accountB.address)}
+                        {getTrimmedTxHash(accountB.address, 10, true)}
                       </AppLink>
                     </td>
                     <td className="p-2 whitespace-nowrap">

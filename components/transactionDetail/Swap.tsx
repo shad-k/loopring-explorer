@@ -46,7 +46,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
           <AppLink path="account" accountId={account.id}>
             <span className="hidden lg:block">{account.address}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(account.address)}
+              {getTrimmedTxHash(account.address, 10, true)}
             </span>
           </AppLink>
         </td>

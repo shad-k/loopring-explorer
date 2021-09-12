@@ -62,7 +62,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                 Home
               </a>
             </Link>
-            <Link href="https://docs3.loopring.io/en/basics/contracts.html">
+            <Link href="https://docs.loopring.io/en/basics/contracts.html">
               <a
                 target="_blank"
                 className="border-b border-t p-2 lg:border-none lg:p-0"

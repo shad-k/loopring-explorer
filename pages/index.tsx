@@ -1,4 +1,5 @@
 import Link from "next/link";
+import numeral from "numeral";
 
 import useBlocks from "../hooks/useBlocks";
 import useTransactions from "../hooks/useTransactions";
@@ -26,13 +27,13 @@ export default function Home() {
         <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
           <span className=" mb-4">Transactions</span>
           <span className="text-3xl flex-1">
-            {txsData && txsData.proxy.transactionCount}
+            {txsData && numeral(txsData.proxy.transactionCount).format("0,0")}
           </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
           <span className=" mb-4">Blocks Submitted</span>
           <span className="text-3xl flex-1">
-            {data && data.proxy.blockCount}
+            {data && numeral(data.proxy.blockCount).format("0,0")}
           </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
@@ -45,7 +46,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
           <span className=" mb-4">Avg. Txs per Block</span>
-          <span className="text-3xl flex-1">1000</span>
+          <span className="text-3xl flex-1">{numeral(1000).format("0,0")}</span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
           <span className=" mb-4">Last Block Submitted</span>

@@ -42,7 +42,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
           <AppLink path="account" accountId={accountA.id}>
             <span className="hidden lg:block">{accountA.address}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountA.address)}
+              {getTrimmedTxHash(accountA.address, 10, true)}
             </span>
           </AppLink>
         </td>
@@ -53,7 +53,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
           <AppLink path="account" accountId={accountB.id}>
             <span className="hidden lg:block">{accountB.address}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountB.address)}
+              {getTrimmedTxHash(accountB.address, 10, true)}
             </span>
           </AppLink>
         </td>

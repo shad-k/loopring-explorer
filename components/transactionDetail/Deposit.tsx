@@ -36,7 +36,7 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
           >
             <span className="hidden lg:block">{toAccount.address}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(toAccount.address)}
+              {getTrimmedTxHash(toAccount.address, 10, true)}
             </span>
           </AppLink>
         </td>

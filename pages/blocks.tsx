@@ -82,7 +82,7 @@ const Blocks: React.FC<{}> = () => {
       </div>
       {data && data.blocks && data.blocks.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
-          No transactions to show
+          No blocks to show
         </div>
       )}
       {isLoading && <TableLoader />}

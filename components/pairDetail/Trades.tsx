@@ -43,7 +43,6 @@ const Trades: React.FC<{
 
                 const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
                 const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
-                console.log(token0, tokenA.symbol, tokenB.symbol);
                 return (
                   <tr className="border" key={id}>
                     <td className="p-2 whitespace-nowrap">
@@ -82,6 +81,11 @@ const Trades: React.FC<{
           </tbody>
         </table>
       </div>
+      {transactions && transactions.length === 0 && (
+        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+          No transactions to show
+        </div>
+      )}
       <Pagination currentPage={page} onPageChange={pageChangeHandler} />
     </>
   );

@@ -3,6 +3,7 @@ import numeral from "numeral";
 
 import useBlocks from "../hooks/useBlocks";
 import useTransactions from "../hooks/useTransactions";
+import usePairs from "../hooks/usePairs";
 
 import AppLink from "../components/AppLink";
 import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
@@ -20,6 +21,11 @@ export default function Home() {
     error: txError,
     isLoading: txIsLoading,
   } = useTransactions();
+  const {
+    data: pairsData,
+    error: pairsError,
+    isLoading: pairsIsLoading,
+  } = usePairs();
 
   return (
     <div className="mt-10 w-11/12 m-auto">
@@ -172,6 +178,51 @@ export default function Home() {
         <Link href="/transactions">
           <a className="bg-loopring-darkBlue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
             View More Transactions
+          </a>
+        </Link>
+      </div>
+      <div className="w-full mt-8 flex flex-col justify-between">
+        <h2 className="text-2xl font-bold p-2 text-loopring-blue">Pairs</h2>
+        <div className="w-full overflow-x-auto">
+          <table className="table-auto w-full border">
+            <thead className="border border-loopring-blue bg-loopring-blue text-white break-none">
+              <tr>
+                <th className="p-2 whitespace-nowrap">Pair ID</th>
+                <th className="p-2 whitespace-nowrap">Token A</th>
+                <th className="p-2 whitespace-nowrap">Token B</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              {pairsData &&
+                pairsData.pairs.map((pair) => {
+                  return (
+                    <tr className="border" key={pair.id}>
+                      <td className="p-2 border-b whitespace-nowrap">
+                        <AppLink path="pair" pair={pair.id}>
+                          {pair.id}
+                        </AppLink>
+                      </td>
+                      <td className="p-2 border-b whitespace-nowrap">
+                        {pair.token0.symbol}
+                      </td>
+                      <td className="p-2 border-b whitespace-nowrap">
+                        {pair.token1.symbol}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+        {pairsIsLoading && <TableLoader />}
+        {pairsError && (
+          <div className="h-4/6 flex items-center justify-center text-red-400 text-xl">
+            Couldn't fetch pairs
+          </div>
+        )}
+        <Link href="/pairs">
+          <a className="bg-loopring-darkBlue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
+            View More Pairs
           </a>
         </Link>
       </div>

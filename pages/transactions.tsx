@@ -113,14 +113,6 @@ const Transactions: React.FC<{
   const makeCSV = async (transactions) => {
     const csv = ["Tx ID,Type,From,To,Amount,Verified At"];
     transactions.forEach((tx) => {
-      console.log(
-        [
-          tx.id,
-          tx.__typename,
-          ...getCSVTransactionDetailFields(tx),
-          getDateString(tx.block.timestamp),
-        ].join(",")
-      );
       csv.push(
         [
           tx.id,

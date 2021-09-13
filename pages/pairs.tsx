@@ -47,7 +47,7 @@ const Pairs: React.FC<{}> = () => {
                       </AppLink>
                     </td>
                     <td className="p-2 border-b whitespace-nowrap">
-                      {pair.token0.name} ({pair.token0.symbol})
+                      {pair.token0.symbol}
                     </td>
                     <td className="p-2 border-b whitespace-nowrap">
                       {pair.token1.symbol}

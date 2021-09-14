@@ -23,41 +23,69 @@ export const getCSVTransactionDetailFields = (tx) => {
         makeCSVLink(tx.account),
         "",
         makeCSVTokenAmount(tx.amount, tx.token),
+        makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Remove":
       return [
         "",
         makeCSVLink(tx.account),
         makeCSVTokenAmount(tx.amount, tx.token),
+        makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Swap":
-      return [makeCSVLink(tx.account), "", ""];
+      return [
+        makeCSVLink(tx.account),
+        "",
+        "",
+        tx.feeA > 0
+          ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
+          : tx.feeB > 0
+          ? makeCSVTokenAmount(tx.feeB, tx.tokenA)
+          : null,
+      ];
     case "OrderbookTrade":
-      return [makeCSVLink(tx.accountA), makeCSVLink(tx.accountB), ""];
+      return [
+        makeCSVLink(tx.accountA),
+        makeCSVLink(tx.accountB),
+        "",
+        tx.feeA > 0
+          ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
+          : tx.feeB > 0
+          ? makeCSVTokenAmount(tx.feeB, tx.tokenA)
+          : null,
+      ];
     case "Deposit":
       return [
         makeL1ExplorerCSVLink(tx.toAccount),
         makeCSVLink(tx.toAccount),
         makeCSVTokenAmount(tx.amount, tx.token),
+        "",
       ];
     case "Withdrawal":
       return [
         makeCSVLink(tx.fromAccount),
         makeL1ExplorerCSVLink(tx.fromAccount),
         makeCSVTokenAmount(tx.amount, tx.token),
+        makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Transfer":
       return [
         makeCSVLink(tx.fromAccount),
         makeCSVLink(tx.toAccount),
         makeCSVTokenAmount(tx.amount, tx.token),
+        makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "AccountUpdate":
-      return [makeCSVLink(tx.user), "", ""];
+      return [
+        makeCSVLink(tx.user),
+        "",
+        "",
+        makeCSVTokenAmount(tx.fee, tx.feeToken),
+      ];
     case "AmmUpdate":
-      return ["", "", ""];
+      return ["", "", "", ""];
     case "SignatureVerification":
-      return [makeCSVLink(tx.account), "", ""];
+      return [makeCSVLink(tx.account), "", "", ""];
     default:
       return ["", "", ""];
   }

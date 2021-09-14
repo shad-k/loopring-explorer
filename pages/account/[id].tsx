@@ -45,13 +45,17 @@ const Account: React.FC<{}> = () => {
               <tr className="border">
                 <td className="p-2 lg:w-1/5 whitespace-nowrap">L1 Address</td>
                 <td>
-                  <AppLink path="account" accountId={address} isExplorerLink>
+                  <AppLink
+                    path="account"
+                    accountId={address}
+                    isExplorerLink
+                    address={address}
+                  >
                     <span className="flex items-center break-all">
                       <span className="hidden lg:block">{address}</span>
                       <span className="lg:hidden">
                         {getTrimmedTxHash(address, 7)}
                       </span>
-                      <img className="ml-2 w-5 h-5" src="/outgoing.svg" />
                     </span>
                   </AppLink>
                 </td>

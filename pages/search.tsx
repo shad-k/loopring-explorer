@@ -30,7 +30,8 @@ const Search: React.FC<{}> = () => {
       <div className="bg-white shadow-custom rounded px-4 py-10 h-40 mt-24 flex items-center justify-between flex-col text-center">
         <h2 className="text-3xl text-loopring-blue">No results found</h2>
         <div className="text-lg text-loopring-blue">
-          We couldn't find any block, transaction or account with ID:&nbsp;
+          We couldn't find any block, transaction or account with
+          ID/address/ENS:&nbsp;
           <span className="font-bold">{searchQuery}</span>
         </div>
       </div>

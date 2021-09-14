@@ -57,7 +57,7 @@ export default function Home() {
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
           <span className=" mb-4">Last Block Submitted</span>
           <span className="text-3xl flex-1">
-            {data && getTimeFromNow(data.blocks[0].timestamp)} ago
+            {data && getTimeFromNow(data.blocks[0].timestamp)}
           </span>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function Home() {
                         ETH
                       </td>
                       <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
-                        {getTimeFromNow(block.timestamp)} ago
+                        {getTimeFromNow(block.timestamp)}
                       </td>
                     </tr>
                   );
@@ -162,7 +162,7 @@ export default function Home() {
                         cellClassName="p-2 border-b whitespace-nowrap"
                       />
                       <td className="p-2 border-b whitespace-nowrap">
-                        {getTimeFromNow(tx.block.timestamp)} ago
+                        {getTimeFromNow(tx.block.timestamp)}
                       </td>
                     </tr>
                   );

@@ -59,7 +59,7 @@ const Swaps: React.FC<{
                       </AppLink>
                     </td>
                     <td className="p-2 whitespace-nowrap">
-                      {getTimeFromNow(block.timestamp)} ago
+                      {getTimeFromNow(block.timestamp)}
                     </td>
                     {/* <td>{getDateString(tx.block.timestamp)}</td> */}
                   </tr>

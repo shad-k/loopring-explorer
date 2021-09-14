@@ -12,11 +12,11 @@ const getTimeFromNow = (timestamp) => {
         return getDateString(timestamp, false, false);
       }
 
-      return `${days}d ${hours - days * 24}h`;
+      return `${days}d ${hours - days * 24}h ago`;
     }
-    return `${hours}h ${diffInMinutes - hours * 60}m`;
+    return `${hours}h ${diffInMinutes - hours * 60}m ago`;
   } else {
-    return `${diffInMinutes} mins`;
+    return `${diffInMinutes}m ago`;
   }
 };
 

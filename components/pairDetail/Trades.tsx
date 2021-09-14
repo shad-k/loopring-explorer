@@ -73,7 +73,7 @@ const Trades: React.FC<{
                       ).toFixed(2)}
                     </td>
                     <td className="p-2 whitespace-nowrap">
-                      {getTimeFromNow(block.timestamp)} ago
+                      {getTimeFromNow(block.timestamp)}
                     </td>
                   </tr>
                 );

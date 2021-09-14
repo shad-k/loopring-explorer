@@ -72,7 +72,7 @@ const Blocks: React.FC<{}> = () => {
                       ETH
                     </td>
                     <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
-                      {getTimeFromNow(block.timestamp)} ago
+                      {getTimeFromNow(block.timestamp)}
                     </td>
                   </tr>
                 );

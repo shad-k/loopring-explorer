@@ -42,14 +42,14 @@ const getDateString = (
   }
 
   if (!includeTime) {
-    return `${getMonth(dateObj)}-${getPaddedNumber(
-      dateObj.getUTCDate()
-    )}-${dateObj.getUTCFullYear()}`;
+    return `${getPaddedNumber(dateObj.getUTCDate())}.${getPaddedNumber(
+      dateObj.getUTCMonth() + 1
+    )}.${dateObj.getUTCFullYear()}`;
   }
 
-  return `${getMonth(dateObj)}-${getPaddedNumber(
-    dateObj.getUTCDate()
-  )}-${dateObj.getUTCFullYear()} ${getTime(dateObj)}`;
+  return `${getPaddedNumber(dateObj.getUTCDate())}.${getPaddedNumber(
+    dateObj.getUTCMonth() + 1
+  )}.${dateObj.getUTCFullYear()} ${getTime(dateObj)}`;
 };
 
 export default getDateString;

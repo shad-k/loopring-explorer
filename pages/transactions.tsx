@@ -248,7 +248,7 @@ const Transactions: React.FC<{
                       cellClassName="p-2 whitespace-nowrap"
                     />
                     <td className="p-2 whitespace-nowrap">
-                      {getTimeFromNow(tx.block.timestamp)} ago
+                      {getTimeFromNow(tx.block.timestamp)}
                     </td>
                   </tr>
                 );

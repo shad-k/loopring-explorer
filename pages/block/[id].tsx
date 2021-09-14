@@ -43,7 +43,7 @@ const Block: React.FC<{}> = () => {
                 </td>
               </tr>
               <tr className="border">
-                <td className="p-2">Submitted at</td>
+                <td className="p-2">Verified at</td>
                 <td>{getDateString(data.block.timestamp)}</td>
               </tr>
               <tr className="border">

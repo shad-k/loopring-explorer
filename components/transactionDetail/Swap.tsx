@@ -19,6 +19,8 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
     tokenAPrice,
     tokenBPrice,
     pair,
+    feeA,
+    feeB,
     __typename,
   } = transaction;
 
@@ -66,18 +68,26 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
             {priceDirectionAtoB ? (
               <>
                 1 {tokenA.symbol} ={" "}
-                {getTokenAmount(tokenAPrice, tokenB.decimals).toFixed(2)}{" "}
-                {tokenB.symbol}
+                {getTokenAmount(tokenAPrice, tokenB.decimals)} {tokenB.symbol}
               </>
             ) : (
               <>
                 1 {tokenB.symbol} ={" "}
-                {getTokenAmount(tokenBPrice, tokenA.decimals).toFixed(2)}{" "}
-                {tokenA.symbol}
+                {getTokenAmount(tokenBPrice, tokenA.decimals)} {tokenA.symbol}
               </>
             )}
             )
           </button>
+        </td>
+      </tr>
+      <tr className="border">
+        <td className="p-2">Fee</td>
+        <td>
+          {feeA > 0
+            ? `${getTokenAmount(feeA, tokenB.decimals)} ${tokenB.symbol}`
+            : feeB > 0
+            ? `${getTokenAmount(feeB, tokenA.decimals)} ${tokenA.symbol}`
+            : null}
         </td>
       </tr>
       <tr className="border">

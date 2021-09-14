@@ -139,6 +139,7 @@ export default function Home() {
                 <th className="p-2 whitespace-nowrap">From</th>
                 <th className="p-2 whitespace-nowrap">To</th>
                 <th className="p-2 whitespace-nowrap">Amount</th>
+                <th className="p-2 whitespace-nowrap">Fee</th>
                 <th className="p-2 whitespace-nowrap">Verified At</th>
               </tr>
             </thead>

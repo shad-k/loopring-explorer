@@ -115,6 +115,8 @@ export const swap = gql`
     fillSB
     protocolFeeA
     protocolFeeB
+    feeA
+    feeB
     __typename
   }
 `;
@@ -138,6 +140,10 @@ export const orderbookTrade = gql`
     tokenBPrice
     fillSA
     fillSB
+    fillAmountBorSA
+    fillAmountBorSB
+    feeA
+    feeB
     __typename
   }
 `;

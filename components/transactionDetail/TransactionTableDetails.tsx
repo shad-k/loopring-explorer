@@ -82,6 +82,9 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
         </>
       );
     case "Remove":
@@ -97,6 +100,9 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
         </>
       );
     case "Swap":
@@ -109,6 +115,17 @@ const TransactionTableDetails: React.FC<{
           </td>
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            {tx.feeA > 0
+              ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${
+                  tx.tokenB.symbol
+                }`
+              : tx.feeB > 0
+              ? `${getTokenAmount(tx.feeB, tx.tokenA.decimals)} ${
+                  tx.tokenA.symbol
+                }`
+              : null}
+          </td>
         </>
       );
     case "OrderbookTrade":
@@ -125,6 +142,17 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            {tx.feeA > 0
+              ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${
+                  tx.tokenB.symbol
+                }`
+              : tx.feeB > 0
+              ? `${getTokenAmount(tx.feeB, tx.tokenA.decimals)} ${
+                  tx.tokenA.symbol
+                }`
+              : null}
+          </td>
         </>
       );
     case "Deposit":
@@ -149,6 +177,7 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
+          <td className={cellClassName}></td>
         </>
       );
     case "Withdrawal":
@@ -173,6 +202,9 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
         </>
       );
     case "Transfer":
@@ -192,6 +224,9 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
           </td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
         </>
       );
     case "AccountUpdate":
@@ -204,11 +239,15 @@ const TransactionTableDetails: React.FC<{
           </td>
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
         </>
       );
     case "AmmUpdate":
       return (
         <>
+          <td className={cellClassName}></td>
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
@@ -222,6 +261,7 @@ const TransactionTableDetails: React.FC<{
               {getTrimmedTxHash(tx.account.address, 10, true)}
             </AppLink>
           </td>
+          <td className={cellClassName}></td>
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
         </>

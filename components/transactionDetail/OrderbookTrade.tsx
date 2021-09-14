@@ -15,6 +15,8 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
     data,
     fillSA,
     fillSB,
+    feeA,
+    feeB,
     __typename,
   } = transaction;
 
@@ -63,6 +65,16 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td>
           {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
           {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}
+        </td>
+      </tr>
+      <tr className="border">
+        <td className="p-2">Fee</td>
+        <td>
+          {feeA > 0
+            ? `${getTokenAmount(feeA, tokenB.decimals)} ${tokenB.symbol}`
+            : feeB > 0
+            ? `${getTokenAmount(feeB, tokenA.decimals)} ${tokenA.symbol}`
+            : null}
         </td>
       </tr>
       <tr className="border">

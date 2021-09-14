@@ -1,3 +1,5 @@
+import getDateString from "./getDateString";
+
 const getTimeFromNow = (timestamp) => {
   const diff = Date.now() - timestamp * 1000;
   const diffInMinutes = Math.ceil(diff / 60000);
@@ -6,9 +8,13 @@ const getTimeFromNow = (timestamp) => {
 
     if (hours > 24) {
       const days = Math.floor(hours / 24);
-      return `${days} days ${hours - days * 24} hours`;
+      if (days > 7) {
+        return getDateString(timestamp, false, false);
+      }
+
+      return `${days}d ${hours - days * 24}h`;
     }
-    return `${hours} hours ${diffInMinutes - hours * 60} mins`;
+    return `${hours}h ${diffInMinutes - hours * 60}m`;
   } else {
     return `${diffInMinutes} mins`;
   }

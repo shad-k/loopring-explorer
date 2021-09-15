@@ -21,6 +21,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
     pair,
     feeA,
     feeB,
+    pool,
     __typename,
   } = transaction;
 
@@ -88,6 +89,17 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
             : feeB > 0
             ? `${getTokenAmount(feeB, tokenA.decimals)} ${tokenA.symbol}`
             : null}
+        </td>
+      </tr>
+      <tr className="border">
+        <td className="p-2">Pool</td>
+        <td>
+          <AppLink path="account" accountId={pool.id}>
+            <span className="hidden lg:block">{pool.address}</span>
+            <span className="lg:hidden">
+              {getTrimmedTxHash(pool.address, 10, true)}
+            </span>
+          </AppLink>
         </td>
       </tr>
       <tr className="border">

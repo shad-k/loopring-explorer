@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-import useAccount from "../../hooks/useAccount";
+import useAccounts from "../../hooks/useAccounts";
 import AppLink from "../../components/AppLink";
 import Transactions from "../transactions";
 
@@ -13,15 +13,15 @@ import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 const Account: React.FC<{}> = () => {
   const router = useRouter();
   const accountId = router.query.id;
-  const { data, error, isLoading } = useAccount(accountId);
+  const { data, error, isLoading } = useAccounts(accountId);
 
   const TOTAL_COUNT = 10;
 
   const [balancePage, setBalancePage] = React.useState<number>(1);
 
-  const { address, createdAtTransaction, balances, __typename } =
-    (data && data.account) || {};
-
+  const { address, createdAtTransaction, balances, __typename, id } =
+    (data && data.accounts.length > 0 && data.accounts[0]) || {};
+  console.log(data);
   const pageStart = (balancePage - 1) * TOTAL_COUNT;
   const pageEnd = balancePage * TOTAL_COUNT;
 
@@ -33,13 +33,13 @@ const Account: React.FC<{}> = () => {
       );
     }
     return null;
-  }, [balances]);
-
+  }, [data, balances]);
+  console.log(filteredBalances, balances);
   return (
     <div className="bg-white shadow-custom rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Account #{accountId}</h1>
       <div className="border rounded w-full mb-10">
-        {data && data.account && (
+        {data && data.accounts.length > 0 && (
           <table className="w-full table-auto table-fixed">
             <tbody>
               <tr className="border">
@@ -79,7 +79,7 @@ const Account: React.FC<{}> = () => {
           </table>
         )}
       </div>
-      {data && !isLoading && !data.account && (
+      {data && !isLoading && data.accounts.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transaction found
         </div>
@@ -120,8 +120,12 @@ const Account: React.FC<{}> = () => {
           />
         </div>
       )}
-      {data && data.account && (
-        <Transactions accountIdFilter={[accountId as string]} />
+      {data && data.accounts.length > 0 && (
+        <Transactions
+          accountIdFilter={[
+            (accountId as string).startsWith("0x") ? id : accountId,
+          ]}
+        />
       )}
     </div>
   );

@@ -6,6 +6,8 @@ import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
+  const [priceDirectionAtoB, setPriceDirectionAtoB] =
+    React.useState<boolean>(true);
   const {
     block,
     accountA,
@@ -17,6 +19,8 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
     fillSB,
     feeA,
     feeB,
+    tokenAPrice,
+    tokenBPrice,
     __typename,
   } = transaction;
 
@@ -36,7 +40,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
       </tr>
       <tr className="border">
         <td className="p-2">Transaction Type</td>
-        <td>{__typename}</td>
+        <td>Trade</td>
       </tr>
       <tr className="border">
         <td className="p-2">Account 1</td>
@@ -65,6 +69,24 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td>
           {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
           {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}
+          <button
+            className="hover:bg-blue-100 lg:p-2 lg:mx-2 rounded hover:underline"
+            onClick={() => setPriceDirectionAtoB((val) => !val)}
+          >
+            (
+            {priceDirectionAtoB ? (
+              <>
+                1 {tokenA.symbol} ={" "}
+                {getTokenAmount(tokenAPrice, tokenB.decimals)} {tokenB.symbol}
+              </>
+            ) : (
+              <>
+                1 {tokenB.symbol} ={" "}
+                {getTokenAmount(tokenBPrice, tokenA.decimals)} {tokenA.symbol}
+              </>
+            )}
+            )
+          </button>
         </td>
       </tr>
       <tr className="border">

@@ -35,7 +35,7 @@ export const getCSVTransactionDetailFields = (tx) => {
     case "Swap":
       return [
         makeCSVLink(tx.account),
-        "",
+        makeCSVLink(tx.pool),
         "",
         tx.feeA > 0
           ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
@@ -141,7 +141,11 @@ const TransactionTableDetails: React.FC<{
               {getTrimmedTxHash(tx.account.address, 10, true)}
             </AppLink>
           </td>
-          <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.pool.id}>
+              {getTrimmedTxHash(tx.pool.address, 10, true)}
+            </AppLink>
+          </td>
           <td className={cellClassName}></td>
           <td className={cellClassName}>
             {tx.feeA > 0

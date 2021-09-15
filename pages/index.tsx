@@ -37,7 +37,7 @@ export default function Home() {
           </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
-          <span className=" mb-4">Blocks Submitted</span>
+          <span className=" mb-4">Blocks</span>
           <span className="text-3xl flex-1">
             {data && numeral(data.proxy.blockCount).format("0,0")}
           </span>

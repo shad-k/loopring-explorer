@@ -47,7 +47,7 @@ const Block: React.FC<{}> = () => {
                 <td>{getDateString(data.block.timestamp)}</td>
               </tr>
               <tr className="border">
-                <td className="p-2">Operator ID</td>
+                <td className="p-2">Operator Address</td>
                 <td className="break-all">
                   <AppLink
                     path="account"

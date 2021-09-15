@@ -32,8 +32,8 @@ const Transactions: React.FC<{
     React.useState<boolean>(false);
 
   const { data, error, isLoading } = useTransactions(
-    (currentPage - 1) * 10,
-    10,
+    (currentPage - 1) * 25,
+    25,
     "internalID",
     "desc",
     blockId,
@@ -175,6 +175,8 @@ const Transactions: React.FC<{
         return "Amm Join";
       case "Remove":
         return "Amm Exit";
+      case "OrderbookTrade":
+        return "Trade";
       default:
         return type;
     }
@@ -204,7 +206,7 @@ const Transactions: React.FC<{
         >
           <option value="all">All Transactions</option>
           <option value="Swap">Swap</option>
-          <option value="OrderbookTrade">OrderbookTrade</option>
+          <option value="OrderbookTrade">Trade</option>
           <option value="Add">Amm Join</option>
           <option value="Remove">Amm Exit</option>
           <option value="Transfer">Transfer</option>

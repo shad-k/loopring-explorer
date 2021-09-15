@@ -14,7 +14,7 @@ import getTokenAmount from "../utils/getTokenAmount";
 const Blocks: React.FC<{}> = () => {
   const router = useRouter();
   const [currentPage, setPage] = React.useState<number>(1);
-  const { data, error, isLoading } = useBlocks((currentPage - 1) * 10, 10);
+  const { data, error, isLoading } = useBlocks((currentPage - 1) * 25, 25);
 
   const pageChangeHandler = (page) => {
     router.push({ pathname: router.pathname, query: { page } }, undefined, {

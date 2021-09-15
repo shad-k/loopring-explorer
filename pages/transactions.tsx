@@ -169,6 +169,17 @@ const Transactions: React.FC<{
     }
   };
 
+  const getTransactionType = (type) => {
+    switch (type) {
+      case "Add":
+        return "Amm Join";
+      case "Remove":
+        return "Amm Exit";
+      default:
+        return type;
+    }
+  };
+
   return (
     <div
       className={`bg-white shadow-custom rounded ${
@@ -194,8 +205,8 @@ const Transactions: React.FC<{
           <option value="all">All Transactions</option>
           <option value="Swap">Swap</option>
           <option value="OrderbookTrade">OrderbookTrade</option>
-          <option value="Add">Add</option>
-          <option value="Remove">Remove</option>
+          <option value="Add">Amm Join</option>
+          <option value="Remove">Amm Exit</option>
           <option value="Transfer">Transfer</option>
           <option value="Deposit">Deposit</option>
           <option value="Withdrawal">Withdrawal</option>
@@ -241,7 +252,9 @@ const Transactions: React.FC<{
                         {tx.id}
                       </AppLink>
                     </td>
-                    <td className="p-2 whitespace-nowrap">{tx.__typename}</td>
+                    <td className="p-2 whitespace-nowrap">
+                      {getTransactionType(tx.__typename)}
+                    </td>
                     <TransactionTableDetails
                       tx={tx}
                       type={tx.__typename}

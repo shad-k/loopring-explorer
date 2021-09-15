@@ -34,7 +34,7 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
       </tr>
       <tr className="border">
         <td className="p-2">Transaction Type</td>
-        <td>{__typename}</td>
+        <td>Amm Exit</td>
       </tr>
       <tr className="border">
         <td className="p-2">User Account</td>

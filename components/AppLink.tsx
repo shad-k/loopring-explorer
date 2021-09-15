@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { EXPLORER_URL } from "../utils/config";
 
@@ -73,6 +74,8 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
 }) => {
+  const router = useRouter();
+
   let link;
   if (path === "block") {
     link = `block/${block}`;
@@ -94,13 +97,25 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
     link = `/${link}`;
   }
 
+  if (router.asPath === link) {
+    return (
+      <div
+        className={`items-center justify-center ${
+          className || "inline-flex"
+        } text-loopring-gray`}
+      >
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
       className={`items-center justify-center ${className || "inline-flex"}`}
     >
       <Link href={link}>
         <a
-          className={`text-loopring-blue `}
+          className={`text-loopring-blue`}
           target={isExplorerLink ? "_blank" : "_self"}
         >
           {children}

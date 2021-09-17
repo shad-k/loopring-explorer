@@ -7,6 +7,9 @@ import { block } from "../graphql/fragments";
 
 const FETCH_BLOCK = gql`
   query block($id: ID!) {
+    proxy(id: 0) {
+      blockCount
+    }
     block(id: $id) {
       ...BlockFragment
       data

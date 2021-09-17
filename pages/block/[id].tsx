@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import useBlock from "../../hooks/useBlock";
 import getDateString from "../../utils/getDateString";
@@ -12,9 +13,28 @@ const Block: React.FC<{}> = () => {
   const blockId = router.query.id;
   const { data, error, isLoading } = useBlock(blockId);
 
+  const blockCount = data ? data.proxy.blockCount : null;
+  const blockIdInt = blockId ? parseInt(blockId as string) : null;
+
   return (
     <div className="bg-white shadow-custom rounded p-4">
-      <h1 className="text-3xl mb-5">Block #{blockId}</h1>
+      <h1 className="text-3xl mb-5 flex items-center">
+        Block #{blockId}
+        {blockIdInt > 1 && (
+          <Link href={`/block/${blockIdInt - 1}`}>
+            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
+              ‹
+            </a>
+          </Link>
+        )}
+        {blockCount && blockIdInt < blockCount && (
+          <Link href={`/block/${blockIdInt + 1}`}>
+            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
+              ›
+            </a>
+          </Link>
+        )}
+      </h1>
       <div className="border rounded w-full mb-10">
         {data && data.block && (
           <table className="w-full table-auto table-fixed">

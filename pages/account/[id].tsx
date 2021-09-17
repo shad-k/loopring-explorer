@@ -21,7 +21,6 @@ const Account: React.FC<{}> = () => {
 
   const { address, createdAtTransaction, balances, __typename, id } =
     (data && data.accounts.length > 0 && data.accounts[0]) || {};
-  console.log(data);
   const pageStart = (balancePage - 1) * TOTAL_COUNT;
   const pageEnd = balancePage * TOTAL_COUNT;
 
@@ -34,7 +33,6 @@ const Account: React.FC<{}> = () => {
     }
     return null;
   }, [data, balances]);
-  console.log(filteredBalances, balances);
   return (
     <div className="bg-white shadow-custom rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Account #{accountId}</h1>

@@ -27,6 +27,7 @@ const FETCH_TRANSACTION = gql`
         id
         blockHash
         timestamp
+        transactionCount
       }
       data
 

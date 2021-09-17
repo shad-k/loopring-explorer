@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import useTransaction from "../../hooks/useTransaction";
 import Deposit from "../../components/transactionDetail/Deposit";
@@ -18,7 +19,7 @@ const Transaction: React.FC<{}> = () => {
   const txId = router.query.id;
   const { data, error, isLoading } = useTransaction(txId);
 
-  const { __typename } = (data && data.transaction) || {};
+  const { __typename, block } = (data && data.transaction) || {};
 
   const renderTransactionDetails = (type) => {
     switch (type) {
@@ -47,9 +48,28 @@ const Transaction: React.FC<{}> = () => {
     }
   };
 
+  const transactionCount = block ? block.transactionCount - 1 : null;
+  const txInBlock = txId && parseInt((txId as string).split("-")[1]);
+
   return (
     <div className="bg-white shadow-custom rounded p-4">
-      <h1 className="text-3xl mb-5">Transaction #{txId}</h1>
+      <h1 className="text-3xl mb-5 flex items-center">
+        Transaction #{txId}
+        {txInBlock > 0 && (
+          <Link href={block ? `/tx/${block.id}-${txInBlock - 1}` : ""}>
+            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
+              ‹
+            </a>
+          </Link>
+        )}
+        {transactionCount && txInBlock < transactionCount && (
+          <Link href={block ? `/tx/${block.id}-${txInBlock + 1}` : ""}>
+            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
+              ›
+            </a>
+          </Link>
+        )}
+      </h1>
       <div className="border rounded w-full mb-10">
         {data && data.transaction && (
           <table className="w-full table-auto table-fixed">

@@ -59,13 +59,11 @@ const useAccounts = (id) => {
 
   React.useEffect(() => {
     setAddress(null);
-    console.log(id);
 
     if (id) {
       (async () => {
         if (id && id.indexOf(".") > -1) {
           const address = await provider.resolveName(id);
-          console.log(address);
           setAddress(address);
         } else if (id && id.startsWith("0x")) {
           setAddress(id.toLowerCase());
@@ -75,8 +73,6 @@ const useAccounts = (id) => {
       })();
     }
   }, [id]);
-
-  console.log(address);
 
   let variables: any = {
     skip: 0,

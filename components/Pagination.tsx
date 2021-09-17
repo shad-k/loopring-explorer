@@ -15,13 +15,17 @@ const PaginationButton: React.FC<
     isActive?: boolean;
   }>
 > = ({ children, onClick, disabled, className = "", isActive }) => {
+  if (disabled) {
+    return null;
+  }
   return (
     <button
       className={`border-l border-r ${
         isActive ? "text-white bg-loopring-darkBlue" : "text-loopring-blue"
-      } py-2 lg:w-12 flex flex-1 items-center justify-center ${className}`}
+      } p-2 flex flex-1 items-center justify-center ${className}`}
       onClick={onClick}
       disabled={disabled}
+      style={{ minWidth: "48px" }}
     >
       {children}
     </button>
@@ -35,7 +39,8 @@ const Pagination: React.FC<Props> = ({
   entriesPerPage = 10,
 }) => {
   const [pageButtons, setPageButtons] = React.useState([1, 2, 3, 4]);
-  const totalPages = Math.ceil(total / entriesPerPage);
+  const [totalPages, setTotalPages] = React.useState<number>();
+  const [prevTotal, setPrevTotal] = React.useState(total);
 
   React.useEffect(() => {
     if (currentPage === totalPages && totalPages > 4) {
@@ -56,12 +61,28 @@ const Pagination: React.FC<Props> = ({
     } else {
       setPageButtons([1, 2, 3, 4]);
     }
-  }, [currentPage]);
+  }, [currentPage, totalPages]);
+
+  React.useEffect(() => {
+    if ((total && !totalPages) || (total && total !== prevTotal)) {
+      setTotalPages(Math.ceil(total / entriesPerPage));
+      setPrevTotal(total);
+    }
+  }, [total]);
+
+  if (total == 0) {
+    return null;
+  }
 
   return (
     <div className="flex h-10 mt-2 justify-end w-full lg:w-auto">
       <div className="flex bg-white items-center rounded border w-full lg:w-auto">
-        <PaginationButton onClick={() => onPageChange(1)}>«</PaginationButton>
+        <PaginationButton
+          onClick={() => onPageChange(1)}
+          disabled={currentPage === 1}
+        >
+          «
+        </PaginationButton>
         <PaginationButton
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -87,7 +108,7 @@ const Pagination: React.FC<Props> = ({
             </PaginationButton>
           );
         })}
-        {((currentPage < totalPages && totalPages > 4) || !totalPages) && (
+        {((currentPage < totalPages - 4 && totalPages > 4) || !totalPages) && (
           <PaginationButton>...</PaginationButton>
         )}
         <PaginationButton
@@ -97,7 +118,10 @@ const Pagination: React.FC<Props> = ({
           ›
         </PaginationButton>
         {!!totalPages && (
-          <PaginationButton onClick={() => onPageChange(totalPages)}>
+          <PaginationButton
+            onClick={() => onPageChange(totalPages)}
+            disabled={currentPage === totalPages}
+          >
             »
           </PaginationButton>
         )}

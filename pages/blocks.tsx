@@ -85,7 +85,7 @@ const Blocks: React.FC<{}> = () => {
           No blocks to show
         </div>
       )}
-      {isLoading && <TableLoader />}
+      {isLoading && <TableLoader rows={25} />}
       {error && (
         <div className="h-40 flex items-center justify-center text-red-400 text-xl">
           Couldn't fetch blocks
@@ -95,6 +95,7 @@ const Blocks: React.FC<{}> = () => {
         currentPage={currentPage}
         total={data && data.proxy.blockCount}
         onPageChange={pageChangeHandler}
+        entriesPerPage={25}
       />
     </div>
   );

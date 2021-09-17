@@ -10,6 +10,17 @@ const FETCH_BLOCK = gql`
     block(id: $id) {
       ...BlockFragment
       data
+      transactionCount
+      depositCount
+      withdrawalCount
+      transferCount
+      addCount
+      removeCount
+      orderbookTradeCount
+      swapCount
+      accountUpdateCount
+      ammUpdateCount
+      signatureVerificationCount
     }
   }
   ${block}

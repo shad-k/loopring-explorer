@@ -31,6 +31,16 @@ export const FETCH_TXS = gql`
   ) {
     proxy(id: 0) {
       transactionCount
+      depositCount
+      withdrawalCount
+      transferCount
+      addCount
+      removeCount
+      orderbookTradeCount
+      swapCount
+      accountUpdateCount
+      ammUpdateCount
+      signatureVerificationCount
     }
     transactions(
       skip: $skip
@@ -45,6 +55,17 @@ export const FETCH_TXS = gql`
         id
         blockHash
         timestamp
+        transactionCount
+        depositCount
+        withdrawalCount
+        transferCount
+        addCount
+        removeCount
+        orderbookTradeCount
+        swapCount
+        accountUpdateCount
+        ammUpdateCount
+        signatureVerificationCount
       }
       data
 

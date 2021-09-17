@@ -17,12 +17,14 @@ import getTimeFromNow from "../utils/getTimeFromNow";
 const Transactions: React.FC<{
   blockIDFilter?: string;
   accountIdFilter?: Array<string>;
-}> = ({ blockIDFilter, accountIdFilter }) => {
+  transactionCounts?: { [index: string]: number };
+}> = ({ blockIDFilter, accountIdFilter, transactionCounts }) => {
   const router = useRouter();
   const [currentPage, setPage] = React.useState<number>(1);
   const [blockId, setBlockId] = React.useState(
     router.query.block || blockIDFilter
   );
+
   const [txType, setTxType] = React.useState(
     (router.query.type as string) || "all"
   );
@@ -31,9 +33,10 @@ const Transactions: React.FC<{
   const [showDownloadButton, setShowDownloadButton] =
     React.useState<boolean>(false);
 
+  const ENTRIES_PER_PAGE = accountIdFilter || blockIDFilter ? 10 : 25;
   const { data, error, isLoading } = useTransactions(
-    (currentPage - 1) * 25,
-    25,
+    (currentPage - 1) * ENTRIES_PER_PAGE,
+    ENTRIES_PER_PAGE,
     "internalID",
     "desc",
     blockId,
@@ -182,6 +185,69 @@ const Transactions: React.FC<{
     }
   };
 
+  const getTotalTransactionCount = (type, proxy) => {
+    if (!proxy) {
+      return null;
+    }
+
+    switch (type) {
+      case "all":
+        return proxy.transactionCount;
+      case "Deposit":
+        return proxy.depositCount;
+      case "Withdrawal":
+        return proxy.withdrawalCount;
+      case "Transfer":
+        return proxy.transferCount;
+      case "Add":
+        return proxy.addCount;
+      case "Remove":
+        return proxy.removeCount;
+      case "OrderbookTrade":
+        return proxy.orderbookTradeCount;
+      case "Swap":
+        return proxy.swapCount;
+      case "AccountUpdate":
+        return proxy.accountUpdateCount;
+      case "AmmUpdate":
+        return proxy.ammUpdateCount;
+      case "SignatureVerification":
+        return proxy.signatureVerificationCount;
+      default:
+        return null;
+    }
+  };
+
+  let blockTransactionCounts;
+  if (blockId && data && data.transactions.length > 0) {
+    const {
+      transactionCount,
+      depositCount,
+      withdrawalCount,
+      transferCount,
+      addCount,
+      removeCount,
+      orderbookTradeCount,
+      swapCount,
+      accountUpdateCount,
+      ammUpdateCount,
+      signatureVerificationCount,
+    } = data.transactions[0].block;
+    blockTransactionCounts = {
+      transactionCount,
+      depositCount,
+      withdrawalCount,
+      transferCount,
+      addCount,
+      removeCount,
+      orderbookTradeCount,
+      swapCount,
+      accountUpdateCount,
+      ammUpdateCount,
+      signatureVerificationCount,
+    };
+  }
+
   return (
     <div
       className={`bg-white shadow-custom rounded ${
@@ -202,19 +268,43 @@ const Transactions: React.FC<{
         <select
           className="h-9 rounded-sm px-2 border w-full lg:w-1/5 mb-2 lg:mb-0 lg:mr-2"
           name="txType"
-          defaultValue={txType}
         >
-          <option value="all">All Transactions</option>
-          <option value="Swap">Swap</option>
-          <option value="OrderbookTrade">Trade</option>
-          <option value="Add">Amm Join</option>
-          <option value="Remove">Amm Exit</option>
-          <option value="Transfer">Transfer</option>
-          <option value="Deposit">Deposit</option>
-          <option value="Withdrawal">Withdrawal</option>
-          <option value="AccountUpdate">AccountUpdate</option>
-          <option value="AmmUpdate">AmmUpdate</option>
-          <option value="SignatureVerification">SignatureVerification</option>
+          <option value="all" selected={txType === "all"}>
+            All Transactions
+          </option>
+          <option value="Swap" selected={txType === "Swap"}>
+            Swap
+          </option>
+          <option value="OrderbookTrade" selected={txType === "OrderbookTrade"}>
+            Trade
+          </option>
+          <option value="Add" selected={txType === "Add"}>
+            Amm Join
+          </option>
+          <option value="Remove" selected={txType === "Remove"}>
+            Amm Exit
+          </option>
+          <option value="Transfer" selected={txType === "Transfer"}>
+            Transfer
+          </option>
+          <option value="Deposit" selected={txType === "Deposit"}>
+            Deposit
+          </option>
+          <option value="Withdrawal" selected={txType === "Withdrawal"}>
+            Withdrawal
+          </option>
+          <option value="AccountUpdate" selected={txType === "AccountUpdate"}>
+            AccountUpdate
+          </option>
+          <option value="AmmUpdate" selected={txType === "AmmUpdate"}>
+            AmmUpdate
+          </option>
+          <option
+            value="SignatureVerification"
+            selected={txType === "SignatureVerification"}
+          >
+            SignatureVerification
+          </option>
         </select>
         {!blockIDFilter && !accountIdFilter && (
           <input
@@ -222,6 +312,7 @@ const Transactions: React.FC<{
             className="h-9 rounded-sm px-1 border w-full lg:w-1/5 mb-2 lg:mb-0"
             placeholder="Filter by block"
             name="block"
+            defaultValue={blockId}
           />
         )}
         <button
@@ -276,7 +367,7 @@ const Transactions: React.FC<{
           No transactions to show
         </div>
       )}
-      {isLoading && <TableLoader />}
+      {isLoading && <TableLoader rows={ENTRIES_PER_PAGE} columns={6} />}
       {error && (
         <div className="h-40 flex items-center justify-center text-red-400 text-xl">
           Couldn't fetch transactions
@@ -296,6 +387,19 @@ const Transactions: React.FC<{
         <Pagination
           currentPage={currentPage}
           onPageChange={pageChangeHandler}
+          total={
+            accountIdFilter
+              ? null
+              : getTotalTransactionCount(
+                  txType,
+                  blockId
+                    ? blockTransactionCounts
+                    : blockIDFilter
+                    ? transactionCounts
+                    : data && data.proxy
+                )
+          }
+          entriesPerPage={ENTRIES_PER_PAGE}
         />
       </div>
       {showDownloadModal && (

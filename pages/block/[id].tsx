@@ -78,7 +78,24 @@ const Block: React.FC<{}> = () => {
           </table>
         )}
       </div>
-      {data && data.block && <Transactions blockIDFilter={blockId as string} />}
+      {data && data.block && (
+        <Transactions
+          blockIDFilter={blockId as string}
+          transactionCounts={{
+            transactionCount: data.block.transactionCount,
+            depositCount: data.block.depositCount,
+            withdrawalCount: data.block.withdrawalCount,
+            transferCount: data.block.transferCount,
+            addCount: data.block.addCount,
+            removeCount: data.block.removeCount,
+            orderbookTradeCount: data.block.orderbookTradeCount,
+            swapCount: data.block.swapCount,
+            accountUpdateCount: data.block.accountUpdateCount,
+            ammUpdateCount: data.block.ammUpdateCount,
+            signatureVerificationCount: data.block.signatureVerificationCount,
+          }}
+        />
+      )}
       {data && !isLoading && !data.block && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No block found

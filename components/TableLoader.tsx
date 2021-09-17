@@ -1,26 +1,26 @@
 import React from "react";
 
-const TableLoader: React.FC<{}> = () => {
+const TableLoader: React.FC<{ rows?: number; columns?: number }> = ({
+  rows = 10,
+  columns = 5,
+}) => {
+  const rowsContent = [];
+  const columnsContent = [];
+  for (let i = 0; i < columns; i++) {
+    columnsContent.push(
+      <div key={i} className="h-4 bg-gray-300 rounded flex-1 mx-2" />
+    );
+  }
+  for (let i = 0; i < rows; i++) {
+    rowsContent.push(
+      <div key={i} className="flex w-full justify-between mb-4">
+        {columnsContent}
+      </div>
+    );
+  }
   return (
-    <div className="animate-pulse flex flex-col h-32 w-full border justify-between p-2 flex-wrap mb-40">
-      <div className="flex w-full space-x-4">
-        <div className="h-4 bg-gray-300 rounded w-1/6" />
-        <div className="h-4 bg-gray-300 rounded w-1/6" />
-        <div className="h-4 bg-gray-300 rounded w-2/6" />
-        <div className="h-4 bg-gray-300 rounded w-2/6" />
-      </div>
-      <div className="flex w-full space-x-4">
-        <div className="h-4 bg-gray-300 rounded w-1/6" />
-        <div className="h-4 bg-gray-300 rounded w-1/6" />
-        <div className="h-4 bg-gray-300 rounded w-2/6" />
-        <div className="h-4 bg-gray-300 rounded w-2/6" />
-      </div>
-      <div className="flex w-full space-x-4">
-        <div className="h-4 bg-gray-300 rounded w-1/6" />
-        <div className="h-4 bg-gray-300 rounded w-1/6" />
-        <div className="h-4 bg-gray-300 rounded w-2/6" />
-        <div className="h-4 bg-gray-300 rounded w-2/6" />
-      </div>
+    <div className="animate-pulse flex flex-col w-full border justify-between py-2 flex-wrap mb-40">
+      {rowsContent}
     </div>
   );
 };

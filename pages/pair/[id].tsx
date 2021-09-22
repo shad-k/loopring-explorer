@@ -18,10 +18,16 @@ const Pair: React.FC<{}> = () => {
   const [chart, setChart] = React.useState("swap+orderbook");
   const { data, isLoading } = usePair(pairId, swapPage, 10, orderbookPage, 10);
   const { price: token0USDPrice } = useTokenUSDPrice(
-    data && (data as any).pair.token0.symbol
+    data &&
+      (data as any).pair &&
+      (data as any).pair.token0 &&
+      (data as any).pair.token0.symbol
   );
   const { price: token1USDPrice } = useTokenUSDPrice(
-    data && (data as any).pair.token1.symbol
+    data &&
+      (data as any).pair &&
+      (data as any).pair.token1 &&
+      (data as any).pair.token1.symbol
   );
   const dailyVolumeData = React.useMemo(() => {
     if (data && token0USDPrice) {
@@ -56,7 +62,7 @@ const Pair: React.FC<{}> = () => {
     }
   }, [data, token0USDPrice]);
 
-  if ((isLoading && !data) || !data) {
+  if ((isLoading && !data) || !data || (data && !(data as any).pair)) {
     return null;
   }
 

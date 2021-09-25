@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import SearchForm from "../components/SearchForm";
 import "../styles/globals.scss";
+import DarkModeToggle from "../components/DarkModeToggle";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -34,6 +35,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       document.documentElement.classList.add("dark");
     }
     setDarkMode((val) => !val);
+    setShowNav(false);
   };
 
   return (
@@ -63,12 +65,12 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             />
           )}
           <button onClick={() => setShowNav(true)} className="lg:hidden">
-            <div className="h-1 w-6 bg-black m-1" />
-            <div className="h-1 w-6 bg-black m-1" />
-            <div className="h-1 w-6 bg-black m-1" />
+            <div className="h-1 w-6 bg-loopring-blue dark:bg-white m-1" />
+            <div className="h-1 w-6 bg-loopring-blue dark:bg-white m-1" />
+            <div className="h-1 w-6 bg-loopring-blue dark:bg-white m-1" />
           </button>
           <nav
-            className={`flex-1 flex flex-col lg:flex-row lg:justify-between text-loopring-blue fixed w-3/4 h-full lg:static bg-white top-0 right-0 text-xl lg:text-base transition-transform duration-500 transform lg:transform-none ${
+            className={`flex-1 flex flex-col lg:flex-row lg:justify-between text-loopring-blue fixed w-3/4 h-full lg:static bg-white top-0 -right-2 text-xl lg:text-base transition-transform duration-500 transform lg:transform-none ${
               showNav ? "translate-x-0" : "translate-x-full"
             } dark:bg-loopring-dark-background dark:text-loopring-dark-gray`}
           >
@@ -107,8 +109,8 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                 Wallet
               </a>
             </Link>
-            <button onClick={toggleDarkMode}>
-              {darkMode ? "Dark" : "Light"}
+            <button onClick={toggleDarkMode} className="self-start p-2 lg:p-0">
+              <DarkModeToggle isDarkModeOn={darkMode} />
             </button>
           </nav>
         </div>

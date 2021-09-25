@@ -27,7 +27,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
 
   return (
     <>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
@@ -35,15 +35,15 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Verified at</td>
         <td>{getDateString(block.timestamp)}</td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
         <td>{__typename}</td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">User Account</td>
         <td>
           <AppLink path="account" accountId={account.id}>
@@ -54,7 +54,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Swap</td>
         <td>
           <AppLink path="pair" pair={pair.id}>
@@ -81,7 +81,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
           </button>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Fee</td>
         <td>
           {feeA > 0
@@ -91,7 +91,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
             : null}
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Pool</td>
         <td>
           <AppLink path="account" accountId={pool.id}>
@@ -102,10 +102,10 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Data</td>
         <td>
-          <div className="break-all bg-gray-100 h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
             {data}
           </div>
         </td>

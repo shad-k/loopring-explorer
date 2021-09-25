@@ -34,13 +34,13 @@ const Account: React.FC<{}> = () => {
     return null;
   }, [data, balances]);
   return (
-    <div className="bg-white shadow-custom rounded p-4 min-h-table">
+    <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Account #{accountId}</h1>
-      <div className="border rounded w-full mb-10">
+      <div className="border dark:border-loopring-dark-darkBlue rounded w-full mb-10 overflow-auto">
         {data && data.accounts.length > 0 && (
           <table className="w-full table-auto table-fixed">
             <tbody>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2 lg:w-1/5 whitespace-nowrap">L1 Address</td>
                 <td>
                   <AppLink
@@ -58,17 +58,18 @@ const Account: React.FC<{}> = () => {
                   </AppLink>
                 </td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2 w-1/5">Account Type</td>
                 <td>{__typename}</td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2 w-1/5">Created at</td>
                 <td>
                   Tx{" "}
                   <AppLink path="transaction" tx={createdAtTransaction.id}>
-                    #
-                    <span className="font-bold">{createdAtTransaction.id}</span>
+                    <span className="font-bold dark:text-white">
+                      #{createdAtTransaction.id}
+                    </span>
                   </AppLink>
                   &nbsp;at {getDateString(createdAtTransaction.block.timestamp)}
                 </td>
@@ -78,7 +79,7 @@ const Account: React.FC<{}> = () => {
         )}
       </div>
       {data && !isLoading && data.accounts.length === 0 && (
-        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+        <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
           No transaction found
         </div>
       )}
@@ -86,7 +87,7 @@ const Account: React.FC<{}> = () => {
         <div>
           <h3 className="text-xl mb-5">Token Balances</h3>
           <table className="w-full table-auto table-fixed">
-            <thead className="text-center border border-loopring-blue bg-loopring-blue text-white">
+            <thead className="text-center bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
               <tr>
                 <th className="p-2">Token</th>
                 <th>Balance</th>
@@ -97,11 +98,16 @@ const Account: React.FC<{}> = () => {
                 if (index >= pageStart && index < pageEnd) {
                   const { id, balance, token } = accountTokenBalance;
                   return (
-                    <tr key={id} className="border rounded">
-                      <td className="p-2">
+                    <tr
+                      key={id}
+                      className="border rounded dark:border-loopring-dark-background"
+                    >
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue dark:text-white">
                         {token.name} ({token.symbol})
                       </td>
-                      <td>{getTokenAmount(balance, token.decimals)}</td>
+                      <td className="border-b dark:border-loopring-dark-darkBlue dark:text-white">
+                        {getTokenAmount(balance, token.decimals)}
+                      </td>
                     </tr>
                   );
                 } else {

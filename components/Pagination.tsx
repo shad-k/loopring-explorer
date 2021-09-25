@@ -20,8 +20,10 @@ const PaginationButton: React.FC<
   }
   return (
     <button
-      className={`border-l border-r ${
-        isActive ? "text-white bg-loopring-darkBlue" : "text-loopring-blue"
+      className={`border-l border-r dark:border-loopring-dark-darkBlue ${
+        isActive
+          ? "text-white dark:text-loopring-dark-background bg-loopring-darkBlue dark:bg-loopring-dark-gray"
+          : "text-loopring-blue dark:bg-loopring-dark-background dark:text-white"
       } p-2 flex flex-1 items-center justify-center ${className}`}
       onClick={onClick}
       disabled={disabled}
@@ -76,7 +78,7 @@ const Pagination: React.FC<Props> = ({
 
   return (
     <div className="flex h-10 mt-2 justify-end w-full lg:w-auto">
-      <div className="flex bg-white items-center rounded border w-full lg:w-auto">
+      <div className="flex bg-white items-center rounded border dark:border-loopring-dark-darkBlue w-full lg:w-auto overflow-hidden">
         <PaginationButton
           onClick={() => onPageChange(1)}
           disabled={currentPage === 1}

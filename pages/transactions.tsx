@@ -250,7 +250,7 @@ const Transactions: React.FC<{
 
   return (
     <div
-      className={`bg-white shadow-custom rounded ${
+      className={`bg-white dark:bg-loopring-dark-background rounded ${
         !accountIdFilter ? "p-4" : "pt-8 pb-4"
       } min-h-table`}
     >
@@ -309,7 +309,7 @@ const Transactions: React.FC<{
         {!blockIDFilter && !accountIdFilter && (
           <input
             type="text"
-            className="h-9 rounded-sm px-1 border w-full lg:w-1/5 mb-2 lg:mb-0"
+            className="h-9 rounded-sm px-1 border w-full lg:w-1/5 mb-2 lg:mb-0 placeholder-loopring-lightBlue placeholder-opacity-70"
             placeholder="Filter by block"
             name="block"
             defaultValue={blockId}
@@ -317,14 +317,14 @@ const Transactions: React.FC<{
         )}
         <button
           type="submit"
-          className="bg-loopring-darkBlue px-6 ml-2 rounded text-white h-9"
+          className="bg-loopring-darkBlue dark:bg-loopring-dark-blue px-6 ml-2 rounded text-white h-9"
         >
           Filter
         </button>
       </form>
       <div className="w-full overflow-auto">
-        <table className="table-auto w-full border-collapse border">
-          <thead className="border border-loopring-blue bg-loopring-blue text-white">
+        <table className="table-auto w-full border-collapse">
+          <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
             <tr>
               <th className="p-2 whitespace-nowrap">Tx ID</th>
               <th className="p-2 whitespace-nowrap">Type</th>
@@ -339,21 +339,24 @@ const Transactions: React.FC<{
             {data &&
               data.transactions.map((tx) => {
                 return (
-                  <tr className="border" key={tx.id}>
-                    <td className="p-2 whitespace-nowrap">
+                  <tr
+                    className="border dark:border-loopring-dark-background"
+                    key={tx.id}
+                  >
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       <AppLink path="transaction" tx={tx.id}>
                         {tx.id}
                       </AppLink>
                     </td>
-                    <td className="p-2 whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {getTransactionType(tx.__typename)}
                     </td>
                     <TransactionTableDetails
                       tx={tx}
                       type={tx.__typename}
-                      cellClassName="p-2 whitespace-nowrap"
+                      cellClassName="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white"
                     />
-                    <td className="p-2 whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {getTimeFromNow(tx.block.timestamp)}
                     </td>
                   </tr>

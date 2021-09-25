@@ -77,7 +77,7 @@ const Pair: React.FC<{}> = () => {
   } = (data as any).pair; // need to do this because of TS complaining. Already have a null check above so this should be fine
 
   return (
-    <div className="bg-white shadow-custom rounded p-4 m-2">
+    <div className="bg-white dark:bg-loopring-dark-background rounded p-4 m-2">
       <h1 className="text-3xl mb-5">
         {token0.symbol} / {token1.symbol}
       </h1>
@@ -90,8 +90,8 @@ const Pair: React.FC<{}> = () => {
         {token0.symbol}
       </div>
 
-      <div className="flex flex-col lg:flex-row my-4 border rounded lg:pr-2 relative">
-        <div className="bg-loopring-blue text-white rounded p-4 lg:mr-4 lg:w-2/12">
+      <div className="flex flex-col lg:flex-row my-4 border dark:border-loopring-dark-darkBlue rounded lg:pr-2 relative">
+        <div className="bg-loopring-blue dark:bg-loopring-dark-darkBlue text-white rounded p-4 lg:mr-4 lg:w-2/12">
           <h3 className="text-3xl">Volume (24hrs)</h3>
           <div className="flex flex-col ">
             <span className="mt-4">Swap + Orderbook:</span>
@@ -142,7 +142,7 @@ const Pair: React.FC<{}> = () => {
             onClick={() => setChart("swap+orderbook")}
             className={`border rounded px-2 py-1 text-sm ${
               chart === "swap+orderbook"
-                ? "bg-loopring-darkBlue text-white"
+                ? "bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white"
                 : "bg-white text-loopring-blue"
             }`}
           >
@@ -152,7 +152,7 @@ const Pair: React.FC<{}> = () => {
             onClick={() => setChart("swap")}
             className={`border rounded px-2 py-1 text-sm mx-2 ${
               chart === "swap"
-                ? "bg-loopring-darkBlue text-white"
+                ? "bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white"
                 : "bg-white text-loopring-blue"
             }`}
           >
@@ -162,7 +162,7 @@ const Pair: React.FC<{}> = () => {
             onClick={() => setChart("orderbook")}
             className={`border rounded px-2 py-1 text-sm ${
               chart === "orderbook"
-                ? "bg-loopring-darkBlue text-white"
+                ? "bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white"
                 : "bg-white text-loopring-blue"
             }`}
           >

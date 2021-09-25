@@ -12,26 +12,44 @@ import "../styles/globals.scss";
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
   const [showNav, setShowNav] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(false);
 
   let isHomePage = false;
   if (router && router.pathname === "/") {
     isHomePage = true;
   }
 
+  React.useEffect(() => {
+    if (document.documentElement.classList.contains("dark")) {
+      setDarkMode(true);
+    }
+  });
+
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      localStorage.setItem("darkMode", "false");
+      document.documentElement.classList.remove("dark");
+    } else {
+      localStorage.setItem("darkMode", "true");
+      document.documentElement.classList.add("dark");
+    }
+    setDarkMode((val) => !val);
+  };
+
   return (
-    <main className="w-screen h-screen text-loopring-gray">
+    <main className="w-screen h-screen text-loopring-gray dark:text-loopring-dark-gray">
       <Head>
         <title>Loopring V2 Explorer</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <header className="bg-white w-screen px-4 py-2">
+      <header className="bg-white w-screen px-4 py-2 dark:bg-loopring-dark-background">
         <div className="container h-full w-full lg:w-11/12 m-auto flex md:items-center justify-between">
           <div
             onClick={() => router.push("/")}
             className="h-full flex items-center w-4/6 cursor-pointer"
           >
             <Image
-              src="/logo-blue.svg"
+              src={darkMode ? "/logo-white.svg" : "/logo-blue.svg"}
               width="100"
               height="40"
               className="h-full"
@@ -52,7 +70,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           <nav
             className={`flex-1 flex flex-col lg:flex-row lg:justify-between text-loopring-blue fixed w-3/4 h-full lg:static bg-white top-0 right-0 text-xl lg:text-base transition-transform duration-500 transform lg:transform-none ${
               showNav ? "translate-x-0" : "translate-x-full"
-            }`}
+            } dark:bg-loopring-dark-background dark:text-loopring-dark-gray`}
           >
             <Link href="/">
               <a
@@ -89,12 +107,15 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                 Wallet
               </a>
             </Link>
+            <button onClick={toggleDarkMode}>
+              {darkMode ? "Dark" : "Light"}
+            </button>
           </nav>
         </div>
       </header>
-      <div className="w-full">
+      <div className="w-full min-h-page dark:bg-loopring-dark-background">
         {isHomePage ? (
-          <div className="px-10 py-8 bg-loopring-blue pb-20">
+          <div className="px-10 py-8 bg-loopring-blue pb-20 dark:bg-loopring-dark-darkBlue">
             <div className="lg:w-11/12 m-auto">
               <h1 className="text-4xl text-white">
                 The Loopring zkRollup Explorer
@@ -103,7 +124,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             </div>
           </div>
         ) : (
-          <div className="px-4 lg:px-10 py-1 bg-loopring-blue">
+          <div className="px-4 lg:px-10 py-1 bg-loopring-blue dark:bg-loopring-dark-darkBlue">
             <SearchForm className="lg:float-right flex w-full lg:w-3/5 mx-0 my-4 lg:m-4 " />
             <div className="clear-right" />
           </div>

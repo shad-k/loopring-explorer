@@ -102,7 +102,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
       <div
         className={`items-center justify-center ${
           className || "inline-flex"
-        } text-loopring-gray`}
+        } text-loopring-gray dark:text-white`}
       >
         {children}
       </div>
@@ -115,7 +115,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
     >
       <Link href={link}>
         <a
-          className={`text-loopring-blue`}
+          className={`text-loopring-blue dark:text-loopring-dark-blue`}
           target={isExplorerLink ? "_blank" : "_self"}
         >
           {children}

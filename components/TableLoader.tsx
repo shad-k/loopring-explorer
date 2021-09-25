@@ -13,13 +13,16 @@ const TableLoader: React.FC<{ rows?: number; columns?: number }> = ({
   }
   for (let i = 0; i < rows; i++) {
     rowsContent.push(
-      <div key={i} className="flex w-full justify-between mb-4">
+      <div
+        key={i}
+        className="flex w-full justify-between mb-4 border-b dark:border-loopring-dark-background items-center pt-1 pb-4"
+      >
         {columnsContent}
       </div>
     );
   }
   return (
-    <div className="animate-pulse flex flex-col w-full border justify-between py-2 flex-wrap mb-40">
+    <div className="animate-pulse flex flex-col w-full border dark:border-loopring-dark-background justify-between py-2 flex-wrap mb-40">
       {rowsContent}
     </div>
   );

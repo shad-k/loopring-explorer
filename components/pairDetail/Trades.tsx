@@ -16,8 +16,8 @@ const Trades: React.FC<{
   return (
     <>
       <div className="w-full overflow-auto">
-        <table className="table-auto w-full border-collapse border">
-          <thead className="text-left text-center border border-loopring-blue bg-loopring-blue text-white">
+        <table className="table-auto w-full border-collapse">
+          <thead className="text-left text-center border border-loopring-blue dark:border-loopring-dark-darkBlue bg-loopring-blue dark:bg-loopring-dark-darkBlue text-white">
             <tr>
               <th className="p-2 whitespace-nowrap">From</th>
               <th className="p-2 whitespace-nowrap">To</th>
@@ -44,18 +44,21 @@ const Trades: React.FC<{
                 const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
                 const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
                 return (
-                  <tr className="border" key={id}>
-                    <td className="p-2 whitespace-nowrap">
+                  <tr
+                    className="border dark:border-loopring-dark-background"
+                    key={id}
+                  >
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                       <AppLink path="account" accountId={accountA.id}>
                         {getTrimmedTxHash(accountA.address, 10, true)}
                       </AppLink>
                     </td>
-                    <td className="p-2 whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                       <AppLink path="account" accountId={accountB.id}>
                         {getTrimmedTxHash(accountB.address, 10, true)}
                       </AppLink>
                     </td>
-                    <td className="p-2 whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {tokenAAmount > 1
                         ? tokenAAmount.toFixed(2)
                         : tokenAAmount}{" "}
@@ -65,14 +68,14 @@ const Trades: React.FC<{
                         : tokenBAmount}{" "}
                       {tokenB.symbol}{" "}
                     </td>
-                    <td className="p-2 whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       $
                       {(token0 === tokenA.symbol
                         ? tokenAAmount * token0USDPrice
                         : tokenBAmount * token0USDPrice
                       ).toFixed(2)}
                     </td>
-                    <td className="p-2 whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {getTimeFromNow(block.timestamp)}
                     </td>
                   </tr>

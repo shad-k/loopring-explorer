@@ -29,11 +29,11 @@ const Blocks: React.FC<{}> = () => {
   }, [router.query]);
 
   return (
-    <div className="bg-white shadow-custom rounded p-4 min-h-table">
+    <div className="bg-white dark:bg-loopring-dark-background  rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Latest Blocks</h1>
       <div className="w-full overflow-auto">
-        <table className="table-auto w-full border-collapse border">
-          <thead className="border border-loopring-blue bg-loopring-blue text-white text-center">
+        <table className="table-auto w-full border-collapse">
+          <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue text-white text-center dark:bg-loopring-dark-darkBlue">
             <tr>
               <th className="p-2 whitespace-nowrap">Block ID</th>
               <th className="p-2 whitespace-nowrap">L1 Tx</th>
@@ -46,13 +46,16 @@ const Blocks: React.FC<{}> = () => {
             {data &&
               data.blocks.map((block) => {
                 return (
-                  <tr key={block.id} className="ml-2">
-                    <td className="p-2 border-b whitespace-nowrap">
+                  <tr
+                    key={block.id}
+                    className="border dark:border-loopring-dark-background ml-2"
+                  >
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                       <AppLink path="block" block={block.id}>
                         {block.id}
                       </AppLink>
                     </td>
-                    <td className="p-2 border-b whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                       <AppLink
                         path="transaction"
                         tx={block.txHash}
@@ -61,17 +64,17 @@ const Blocks: React.FC<{}> = () => {
                         {getTrimmedTxHash(block.txHash, 15)}
                       </AppLink>
                     </td>
-                    <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
                       {block.blockSize}
                     </td>
-                    <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
                       {getTokenAmount(
                         block.gasPrice * block.gasUsed,
                         18
                       ).toFixed(2)}{" "}
                       ETH
                     </td>
-                    <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
                       {getTimeFromNow(block.timestamp)}
                     </td>
                   </tr>
@@ -81,7 +84,7 @@ const Blocks: React.FC<{}> = () => {
         </table>
       </div>
       {data && data.blocks && data.blocks.length === 0 && (
-        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+        <div className="text-gray-400 dark:text-white dark:text-loopring-dark-gray text-2xl h-40 flex items-center justify-center w-full border">
           No blocks to show
         </div>
       )}

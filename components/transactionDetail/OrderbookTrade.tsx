@@ -26,7 +26,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
 
   return (
     <>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
@@ -34,15 +34,15 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Verified at</td>
         <td>{getDateString(block.timestamp)}</td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
         <td>Trade</td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Account 1</td>
         <td>
           <AppLink path="account" accountId={accountA.id}>
@@ -53,7 +53,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Account 2</td>
         <td>
           <AppLink path="account" accountId={accountB.id}>
@@ -64,7 +64,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Trade</td>
         <td>
           {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
@@ -89,7 +89,7 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
           </button>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Fee</td>
         <td>
           {feeA > 0
@@ -99,10 +99,10 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
             : null}
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Data</td>
         <td>
-          <div className="break-all bg-gray-100 h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
             {data}
           </div>
         </td>

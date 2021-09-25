@@ -37,7 +37,7 @@ const SearchForm: React.FC<{ className?: string }> = ({ className }) => {
       />
       <button
         type="submit"
-        className="bg-loopring-darkBlue mt-4 lg:mt-0 py-1 px-10 ml-2 rounded-xl text-white h-10"
+        className="bg-loopring-darkBlue mt-4 lg:mt-0 py-1 px-10 ml-2 rounded-xl text-white h-10 dark:bg-loopring-dark-blue"
       >
         Search
       </button>

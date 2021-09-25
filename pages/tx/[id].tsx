@@ -52,7 +52,7 @@ const Transaction: React.FC<{}> = () => {
   const txInBlock = txId && parseInt((txId as string).split("-")[1]);
 
   return (
-    <div className="bg-white shadow-custom rounded p-4">
+    <div className="bg-white dark:bg-loopring-dark-background rounded p-4">
       <h1 className="text-3xl mb-5 flex items-center">
         Transaction #{txId}
         {txInBlock > 0 && (
@@ -70,7 +70,7 @@ const Transaction: React.FC<{}> = () => {
           </Link>
         )}
       </h1>
-      <div className="border rounded w-full mb-10">
+      <div className="border dark:border-loopring-dark-darkBlue rounded w-full mb-10 overflow-auto">
         {data && data.transaction && (
           <table className="w-full table-auto table-fixed">
             <tbody>{renderTransactionDetails(__typename)}</tbody>
@@ -78,7 +78,7 @@ const Transaction: React.FC<{}> = () => {
         )}
       </div>
       {data && !isLoading && !data.transaction && (
-        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+        <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
           No transaction found
         </div>
       )}

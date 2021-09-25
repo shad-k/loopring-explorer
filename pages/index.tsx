@@ -9,7 +9,6 @@ import AppLink from "../components/AppLink";
 import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
 import TableLoader from "../components/TableLoader";
 
-import getDateString from "../utils/getDateString";
 import getTimeFromNow from "../utils/getTimeFromNow";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 import getTokenAmount from "../utils/getTokenAmount";
@@ -30,31 +29,31 @@ export default function Home() {
   return (
     <div className="mt-10 w-11/12 m-auto">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-16">
-        <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+        <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Transactions</span>
           <span className="text-3xl flex-1">
             {txsData && numeral(txsData.proxy.transactionCount).format("0,0")}
           </span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Blocks</span>
           <span className="text-3xl flex-1">
             {data && numeral(data.proxy.blockCount).format("0,0")}
           </span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">L2 Accounts</span>
           <span className="text-3xl flex-1">20,000</span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Avg. Block Time</span>
           <span className="text-3xl flex-1">30 mins</span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Avg. Txs per Block</span>
           <span className="text-3xl flex-1">{numeral(1000).format("0,0")}</span>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue text-loopring-lightBlue items-center justify-center h-32">
+        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Last Block Submitted</span>
           <span className="text-3xl flex-1">
             {data && getTimeFromNow(data.blocks[0].timestamp)}
@@ -62,12 +61,12 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold p-2 text-loopring-blue">
+        <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">
           Latest Blocks
         </h2>
         <div className="w-full overflow-x-auto">
-          <table className="table-auto w-full border">
-            <thead className="border border-loopring-blue bg-loopring-blue text-white">
+          <table className="table-auto w-full">
+            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
               <tr>
                 <th className="p-2 whitespace-nowrap">Block ID</th>
                 <th className="p-2 whitespace-nowrap">L1 Tx</th>
@@ -80,13 +79,16 @@ export default function Home() {
               {data &&
                 data.blocks.map((block) => {
                   return (
-                    <tr key={block.id} className="ml-2">
-                      <td className="p-2 border-b whitespace-nowrap">
+                    <tr
+                      key={block.id}
+                      className="border dark:border-loopring-dark-background ml-2"
+                    >
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                         <AppLink path="block" block={block.id}>
                           {block.id}
                         </AppLink>
                       </td>
-                      <td className="p-2 border-b whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                         <AppLink
                           path="transaction"
                           tx={block.txHash}
@@ -95,17 +97,17 @@ export default function Home() {
                           {getTrimmedTxHash(block.txHash, 15)}
                         </AppLink>
                       </td>
-                      <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
                         {block.blockSize}
                       </td>
-                      <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
                         {getTokenAmount(
                           block.gasPrice * block.gasUsed,
                           18
                         ).toFixed(2)}{" "}
                         ETH
                       </td>
-                      <td className="p-2 border-b text-loopring-gray whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
                         {getTimeFromNow(block.timestamp)}
                       </td>
                     </tr>
@@ -116,23 +118,23 @@ export default function Home() {
         </div>
         {isLoading && <TableLoader />}
         {error && (
-          <div className="flex items-center justify-center text-red-400 text-xl border h-4/6">
+          <div className="flex items-center justify-center text-red-400 text-xl border dark:border-loopring-dark-darkBlue h-4/6">
             Couldn't fetch blocks
           </div>
         )}
         <Link href="/blocks">
-          <a className="bg-loopring-darkBlue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 lg:self-end">
+          <a className="bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 lg:self-end">
             View More Blocks
           </a>
         </Link>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold p-2 text-loopring-blue">
+        <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">
           Latest Transactions
         </h2>
         <div className="w-full overflow-x-auto">
-          <table className="table-auto w-full border">
-            <thead className="border border-loopring-blue bg-loopring-blue text-white break-none">
+          <table className="table-auto w-full">
+            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
                 <th className="p-2 whitespace-nowrap">Tx ID</th>
                 <th className="p-2 whitespace-nowrap">Type</th>
@@ -147,21 +149,24 @@ export default function Home() {
               {txsData &&
                 txsData.transactions.map((tx) => {
                   return (
-                    <tr className="border" key={tx.id}>
-                      <td className="p-2 border-b whitespace-nowrap">
+                    <tr
+                      className="border dark:border-loopring-dark-background"
+                      key={tx.id}
+                    >
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                         <AppLink path="transaction" tx={tx.id}>
                           {tx.id}
                         </AppLink>
                       </td>
-                      <td className="p-2 border-b whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {tx.__typename}
                       </td>
                       <TransactionTableDetails
                         type={tx.__typename}
                         tx={tx}
-                        cellClassName="p-2 border-b whitespace-nowrap"
+                        cellClassName="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white"
                       />
-                      <td className="p-2 border-b whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {getTimeFromNow(tx.block.timestamp)}
                       </td>
                     </tr>
@@ -172,21 +177,23 @@ export default function Home() {
         </div>
         {txIsLoading && <TableLoader />}
         {txError && (
-          <div className="h-4/6 flex items-center justify-center text-red-400 text-xl">
+          <div className="h-4/6 flex items-center justify-center text-red-400 border dark:border-loopring-dark-darkBlue text-xl">
             Couldn't fetch transactions
           </div>
         )}
         <Link href="/transactions">
-          <a className="bg-loopring-darkBlue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
+          <a className="bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
             View More Transactions
           </a>
         </Link>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold p-2 text-loopring-blue">Pairs</h2>
+        <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">
+          Pairs
+        </h2>
         <div className="w-full overflow-x-auto">
-          <table className="table-auto w-full border">
-            <thead className="border border-loopring-blue bg-loopring-blue text-white break-none">
+          <table className="table-auto w-full">
+            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
                 <th className="p-2 whitespace-nowrap">Pair ID</th>
                 <th className="p-2 whitespace-nowrap">Token A</th>
@@ -197,16 +204,19 @@ export default function Home() {
               {pairsData &&
                 pairsData.pairs.map((pair) => {
                   return (
-                    <tr className="border" key={pair.id}>
-                      <td className="p-2 border-b whitespace-nowrap">
+                    <tr
+                      className="border dark:border-loopring-dark-background"
+                      key={pair.id}
+                    >
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                         <AppLink path="pair" pair={pair.id}>
                           {pair.id}
                         </AppLink>
                       </td>
-                      <td className="p-2 border-b whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {pair.token0.symbol}
                       </td>
-                      <td className="p-2 border-b whitespace-nowrap">
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {pair.token1.symbol}
                       </td>
                     </tr>
@@ -217,12 +227,12 @@ export default function Home() {
         </div>
         {pairsIsLoading && <TableLoader />}
         {pairsError && (
-          <div className="h-4/6 flex items-center justify-center text-red-400 text-xl">
+          <div className="h-4/6 flex items-center justify-center text-red-400 border dark:border-loopring-dark-darkBlue text-xl">
             Couldn't fetch pairs
           </div>
         )}
         <Link href="/pairs">
-          <a className="bg-loopring-darkBlue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
+          <a className="bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
             View More Pairs
           </a>
         </Link>

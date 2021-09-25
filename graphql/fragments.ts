@@ -27,7 +27,6 @@ export const block = gql`
     blockHash
     blockSize
     gasPrice
-    gasUsed
     operatorAccount {
       ...AccountFragment
     }

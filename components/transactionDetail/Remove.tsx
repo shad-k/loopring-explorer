@@ -20,7 +20,7 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
 
   return (
     <>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2 lg:w-1/5">Block #</td>
         <td>
           <AppLink path="block" block={block.id}>
@@ -28,15 +28,15 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Verified at</td>
         <td>{getDateString(block.timestamp)}</td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
         <td>Amm Exit</td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">User Account</td>
         <td>
           <AppLink path="account" accountId={account.id}>
@@ -47,7 +47,7 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Pool</td>
         <td>
           <AppLink path="account" accountId={pool.id}>
@@ -58,22 +58,22 @@ const Remove: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Token Removed</td>
         <td>
           {getTokenAmount(amount, token.decimals)} {token.symbol}
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Fee</td>
         <td>
           {getTokenAmount(fee, feeToken.decimals)} {feeToken.symbol}
         </td>
       </tr>
-      <tr className="border">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Data</td>
         <td>
-          <div className="break-all bg-gray-100 h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
             {data}
           </div>
         </td>

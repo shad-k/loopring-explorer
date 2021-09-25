@@ -17,7 +17,7 @@ const Block: React.FC<{}> = () => {
   const blockIdInt = blockId ? parseInt(blockId as string) : null;
 
   return (
-    <div className="bg-white shadow-custom rounded p-4">
+    <div className="bg-white dark:bg-loopring-dark-background rounded p-4">
       <h1 className="text-3xl mb-5 flex items-center">
         Block #{blockId}
         {blockIdInt > 1 && (
@@ -35,19 +35,19 @@ const Block: React.FC<{}> = () => {
           </Link>
         )}
       </h1>
-      <div className="border rounded w-full mb-10">
+      <div className="border dark:border-loopring-dark-darkBlue rounded w-full mb-10">
         {data && data.block && (
           <table className="w-full table-auto table-fixed">
             <tbody>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2 lg:w-1/5">Block Hash</td>
                 <td className="break-all">{data.block.blockHash}</td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">Block Size</td>
                 <td>{data.block.blockSize}</td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">L1 Transaction Hash</td>
                 <td className="break-all">
                   <AppLink
@@ -62,11 +62,11 @@ const Block: React.FC<{}> = () => {
                   </AppLink>
                 </td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">Verified at</td>
                 <td>{getDateString(data.block.timestamp)}</td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">Operator Address</td>
                 <td className="break-all">
                   <AppLink
@@ -86,10 +86,10 @@ const Block: React.FC<{}> = () => {
                   </AppLink>
                 </td>
               </tr>
-              <tr className="border">
+              <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">Raw Data</td>
                 <td>
-                  <div className="break-all bg-gray-100 h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+                  <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
                     {data.block.data}
                   </div>
                 </td>

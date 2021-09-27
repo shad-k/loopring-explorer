@@ -11,7 +11,8 @@ const Swaps: React.FC<{
   pageChangeHandler: (page: number) => void;
   page: number;
   token0USDPrice: number;
-}> = ({ transactions, pageChangeHandler, page, token0USDPrice }) => {
+  token0: string;
+}> = ({ transactions, pageChangeHandler, page, token0USDPrice, token0 }) => {
   return (
     <>
       <div className="w-full overflow-auto">
@@ -33,6 +34,13 @@ const Swaps: React.FC<{
 
                 const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
                 const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
+
+                console.log(
+                  fillSA,
+                  tokenA.decimals,
+                  token0USDPrice,
+                  (tokenAAmount * token0USDPrice).toFixed(2)
+                );
                 return (
                   <tr
                     className="border dark:border-loopring-dark-background"
@@ -54,7 +62,11 @@ const Swaps: React.FC<{
                       {tokenB.symbol}{" "}
                     </td>
                     <td className="p-2 whitespace-nowrap border-b dark:border-loopring-dark-darkBlue dark:text-white">
-                      ${(tokenAAmount * token0USDPrice).toFixed(2)}
+                      $
+                      {(token0 === tokenA.symbol
+                        ? tokenAAmount * token0USDPrice
+                        : tokenBAmount * token0USDPrice
+                      ).toFixed(2)}
                     </td>
                     <td className="p-2 whitespace-nowrap border-b dark:border-loopring-dark-darkBlue dark:text-white">
                       <AppLink path="account" accountId={account.id}>

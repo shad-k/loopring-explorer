@@ -211,6 +211,7 @@ const Pair: React.FC<{}> = () => {
         pageChangeHandler={(page) => setSwapPage(page)}
         page={swapPage}
         token0USDPrice={token0USDPrice}
+        token0={token0.symbol}
       />
       <h3 className="text-2xl font-light mt-5">Order Book Transactions</h3>
       <Trades

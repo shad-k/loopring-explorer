@@ -69,7 +69,7 @@ const Blocks: React.FC<{}> = () => {
                     </td>
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
                       {getTokenAmount(
-                        block.gasPrice * block.gasUsed,
+                        block.gasPrice * block.gasLimit,
                         18
                       ).toFixed(2)}{" "}
                       ETH

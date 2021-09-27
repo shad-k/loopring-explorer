@@ -102,7 +102,7 @@ export default function Home() {
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
                         {getTokenAmount(
-                          block.gasPrice * block.gasUsed,
+                          block.gasPrice * block.gasLimit,
                           18
                         ).toFixed(2)}{" "}
                         ETH

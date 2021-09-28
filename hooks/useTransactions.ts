@@ -125,7 +125,7 @@ const useTransactions = (
     if (accounts.length > 0) {
       variables.where = {
         ...variables.where,
-        accounts,
+        accounts_contains: accounts,
       };
     }
     if (typename) {

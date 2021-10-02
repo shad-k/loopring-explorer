@@ -139,6 +139,7 @@ export const orderbookTrade = gql`
     tokenBPrice
     fillSA
     fillSB
+    fillBA
     fillAmountBorSA
     fillAmountBorSB
     feeA

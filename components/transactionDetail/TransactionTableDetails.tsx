@@ -181,7 +181,10 @@ const TransactionTableDetails: React.FC<{
               {getTrimmedTxHash(tx.accountB.address, 10, true)}
             </AppLink>
           </td>
-          <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fillBA, tx.tokenB.decimals).toFixed(4)}{" "}
+            {tx.tokenB.symbol}
+          </td>
           <td className={cellClassName}>
             {tx.feeA > 0
               ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${

@@ -112,6 +112,7 @@ export const swap = gql`
     tokenBPrice
     fillSA
     fillSB
+    fillBA
     protocolFeeA
     protocolFeeB
     feeA

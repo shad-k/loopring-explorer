@@ -105,7 +105,11 @@ const TransactionTableDetails: React.FC<{
               {getTrimmedTxHash(tx.account.address, 10, true)}
             </AppLink>
           </td>
-          <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.pool.id}>
+              {getTrimmedTxHash(tx.pool.address, 10, true)}
+            </AppLink>
+          </td>
           <td className={cellClassName}>
             {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
             {tx.token.symbol}
@@ -118,7 +122,11 @@ const TransactionTableDetails: React.FC<{
     case "Remove":
       return (
         <>
-          <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.pool.id}>
+              {getTrimmedTxHash(tx.pool.address, 10, true)}
+            </AppLink>
+          </td>
           <td className={cellClassName}>
             <AppLink path="account" accountId={tx.account.id}>
               {getTrimmedTxHash(tx.account.address, 10, true)}

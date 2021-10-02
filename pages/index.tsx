@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import numeral from "numeral";
 
@@ -26,6 +27,29 @@ export default function Home() {
     isLoading: pairsIsLoading,
   } = usePairs();
 
+  let avgBlockDetails = React.useMemo(() => {
+    if (data && data.blocks.length > 0) {
+      let avgTransactionCount = 0;
+      let blockTime = Date.now();
+      let avgTimeBetweenBlocks = 0;
+      data.blocks.forEach((block) => {
+        avgTransactionCount += parseInt(block.transactionCount);
+        avgTimeBetweenBlocks += blockTime - block.timestamp * 1000;
+        blockTime = block.timestamp * 1000;
+      });
+      return {
+        transactionCount: avgTransactionCount / data.blocks.length,
+        timeBetweenBlocks: `${Math.floor(
+          avgTimeBetweenBlocks / (data.blocks.length * 1000 * 60)
+        )} mins`,
+      };
+    }
+    return {
+      transactionCount: null,
+      timeBetweenBlocks: null,
+    };
+  }, [data]);
+
   return (
     <div className="mt-10 w-11/12 m-auto">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-16">
@@ -43,15 +67,22 @@ export default function Home() {
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">L2 Accounts</span>
-          <span className="text-3xl flex-1">20,000</span>
+          <span className="text-3xl flex-1">
+            {numeral(33219).format("0,0")}
+          </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Avg. Block Time</span>
-          <span className="text-3xl flex-1">30 mins</span>
+          <span className="text-3xl flex-1">
+            {avgBlockDetails.timeBetweenBlocks}
+          </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Avg. Txs per Block</span>
-          <span className="text-3xl flex-1">{numeral(1000).format("0,0")}</span>
+          <span className="text-3xl flex-1">
+            {avgBlockDetails.transactionCount &&
+              numeral(avgBlockDetails.transactionCount).format("0,0")}
+          </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
           <span className=" mb-4">Last Block Submitted</span>

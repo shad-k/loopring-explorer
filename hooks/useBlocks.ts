@@ -23,6 +23,7 @@ const FETCH_BLOCKS = gql`
       orderDirection: $orderDirection
     ) {
       ...BlockFragment
+      transactionCount
     }
   }
   ${block}

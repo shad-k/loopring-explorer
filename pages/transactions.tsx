@@ -219,6 +219,8 @@ const Transactions: React.FC<{
         return proxy.swapNFTCount;
       case "WithdrawalNFT":
         return proxy.withdrawalNFTCount;
+      case "TransferNFT":
+        return proxy.transferNFTCount;
       default:
         return null;
     }
@@ -241,6 +243,7 @@ const Transactions: React.FC<{
       tradeNFTCount,
       swapNFTCount,
       withdrawalNFTCount,
+      transferNFTCount,
     } = data.transactions[0].block;
     blockTransactionCounts = {
       transactionCount,
@@ -257,6 +260,7 @@ const Transactions: React.FC<{
       tradeNFTCount,
       swapNFTCount,
       withdrawalNFTCount,
+      transferNFTCount,
     };
   }
 
@@ -304,6 +308,9 @@ const Transactions: React.FC<{
           </option>
           <option value="Transfer" selected={txType === "Transfer"}>
             Transfer
+          </option>
+          <option value="TransferNFT" selected={txType === "TransferNFT"}>
+            TransferNFT
           </option>
           <option value="Deposit" selected={txType === "Deposit"}>
             Deposit

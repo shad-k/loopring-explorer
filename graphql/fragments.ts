@@ -289,3 +289,19 @@ export const withdrawalNFT = gql`
     __typename
   }
 `;
+
+export const transferNFT = gql`
+  fragment TransferNFTFragment on TransferNFT {
+    fromAccount {
+      ...AccountFragment
+    }
+    toAccount {
+      ...AccountFragment
+    }
+    feeToken {
+      ...TokenFragment
+    }
+    fee
+    __typename
+  }
+`;

@@ -27,6 +27,7 @@ const FETCH_BLOCK = gql`
       tradeNFTCount
       swapNFTCount
       withdrawalNFTCount
+      transferNFTCount
     }
   }
   ${block}

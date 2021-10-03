@@ -18,6 +18,7 @@ import {
   token,
   transfer,
   withdrawal,
+  tradeNFT,
 } from "../graphql/fragments";
 
 export const FETCH_TXS = gql`
@@ -41,6 +42,7 @@ export const FETCH_TXS = gql`
       accountUpdateCount
       ammUpdateCount
       signatureVerificationCount
+      tradeNFTCount
     }
     transactions(
       skip: $skip
@@ -51,6 +53,7 @@ export const FETCH_TXS = gql`
       where: $where
     ) {
       id
+      internalID
       block {
         id
         blockHash
@@ -79,6 +82,7 @@ export const FETCH_TXS = gql`
       ...AccountUpdateFragment
       ...AmmUpdateFragment
       ...SignatureVerificationFragment
+      ...TradeNFTFragment
     }
   }
 
@@ -96,6 +100,7 @@ export const FETCH_TXS = gql`
   ${accountUpdate}
   ${ammUpdate}
   ${signatureVerification}
+  ${tradeNFT}
 `;
 
 const useTransactions = (

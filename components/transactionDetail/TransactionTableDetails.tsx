@@ -21,13 +21,13 @@ export const getCSVTransactionDetailFields = (tx) => {
     case "Add":
       return [
         makeCSVLink(tx.account),
-        "",
+        makeCSVLink(tx.pool),
         makeCSVTokenAmount(tx.amount, tx.token),
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Remove":
       return [
-        "",
+        makeCSVLink(tx.pool),
         makeCSVLink(tx.account),
         makeCSVTokenAmount(tx.amount, tx.token),
         makeCSVTokenAmount(tx.fee, tx.feeToken),
@@ -36,7 +36,7 @@ export const getCSVTransactionDetailFields = (tx) => {
       return [
         makeCSVLink(tx.account),
         makeCSVLink(tx.pool),
-        "",
+        makeCSVTokenAmount(tx.fillBA, tx.tokenB),
         tx.feeA > 0
           ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
           : tx.feeB > 0
@@ -47,7 +47,7 @@ export const getCSVTransactionDetailFields = (tx) => {
       return [
         makeCSVLink(tx.accountA),
         makeCSVLink(tx.accountB),
-        "",
+        makeCSVTokenAmount(tx.fillBA, tx.tokenB),
         tx.feeA > 0
           ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
           : tx.feeB > 0
@@ -309,6 +309,28 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
           <td className={cellClassName}></td>
+        </>
+      );
+    case "TradeNFT":
+      return (
+        <>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.accountSeller.id}>
+              {getTrimmedTxHash(tx.accountSeller.address, 10, true)}
+            </AppLink>
+          </td>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.accountBuyer.id}>
+              {getTrimmedTxHash(tx.accountBuyer.address, 10, true)}
+            </AppLink>
+          </td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.realizedNFTPrice, tx.token.decimals)}{" "}
+            {tx.token.symbol}
+          </td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.feeBuyer, tx.token.decimals)} {tx.token.symbol}
+          </td>
         </>
       );
     default:

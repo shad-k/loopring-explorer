@@ -246,3 +246,21 @@ export const signatureVerification = gql`
     __typename
   }
 `;
+
+export const tradeNFT = gql`
+  fragment TradeNFTFragment on TradeNFT {
+    accountSeller {
+      ...AccountFragment
+    }
+    accountBuyer {
+      ...AccountFragment
+    }
+    token {
+      ...TokenFragment
+    }
+    realizedNFTPrice
+    feeBuyer
+    protocolFeeBuyer
+    __typename
+  }
+`;

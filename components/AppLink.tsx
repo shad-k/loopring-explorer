@@ -97,7 +97,13 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
     link = `/${link}`;
   }
 
-  if (router.asPath === link) {
+  const routerPathname = router.asPath.match(/(.+)\?.*/);
+
+  if (
+    routerPathname &&
+    routerPathname.length > 0 &&
+    routerPathname[1] === link
+  ) {
     return (
       <div
         className={`items-center justify-center ${

@@ -20,6 +20,7 @@ import {
   withdrawal,
   tradeNFT,
   swapNFT,
+  withdrawalNFT,
 } from "../graphql/fragments";
 
 export const FETCH_TXS = gql`
@@ -45,6 +46,7 @@ export const FETCH_TXS = gql`
       signatureVerificationCount
       tradeNFTCount
       swapNFTCount
+      withdrawalNFTCount
     }
     transactions(
       skip: $skip
@@ -73,6 +75,7 @@ export const FETCH_TXS = gql`
         signatureVerificationCount
         tradeNFTCount
         swapNFTCount
+        withdrawalNFTCount
       }
       data
 
@@ -88,6 +91,7 @@ export const FETCH_TXS = gql`
       ...SignatureVerificationFragment
       ...TradeNFTFragment
       ...SwapNFTFragment
+      ...WithdrawalNFTFragment
     }
   }
 
@@ -107,6 +111,7 @@ export const FETCH_TXS = gql`
   ${signatureVerification}
   ${tradeNFT}
   ${swapNFT}
+  ${withdrawalNFT}
 `;
 
 const useTransactions = (

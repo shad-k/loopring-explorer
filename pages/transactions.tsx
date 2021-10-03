@@ -217,6 +217,8 @@ const Transactions: React.FC<{
         return proxy.tradeNFTCount;
       case "SwapNFT":
         return proxy.swapNFTCount;
+      case "WithdrawalNFT":
+        return proxy.withdrawalNFTCount;
       default:
         return null;
     }
@@ -238,6 +240,7 @@ const Transactions: React.FC<{
       signatureVerificationCount,
       tradeNFTCount,
       swapNFTCount,
+      withdrawalNFTCount,
     } = data.transactions[0].block;
     blockTransactionCounts = {
       transactionCount,
@@ -253,6 +256,7 @@ const Transactions: React.FC<{
       signatureVerificationCount,
       tradeNFTCount,
       swapNFTCount,
+      withdrawalNFTCount,
     };
   }
 
@@ -280,17 +284,17 @@ const Transactions: React.FC<{
           <option value="all" selected={txType === "all"}>
             All Transactions
           </option>
-          <option value="TradeNFT" selected={txType === "TradeNFT"}>
-            TradeNFT
+          <option value="Swap" selected={txType === "Swap"}>
+            Swap
           </option>
           <option value="SwapNFT" selected={txType === "SwapNFT"}>
             SwapNFT
           </option>
-          <option value="Swap" selected={txType === "Swap"}>
-            Swap
-          </option>
           <option value="OrderbookTrade" selected={txType === "OrderbookTrade"}>
             Trade
+          </option>
+          <option value="TradeNFT" selected={txType === "TradeNFT"}>
+            TradeNFT
           </option>
           <option value="Add" selected={txType === "Add"}>
             Amm Join
@@ -306,6 +310,9 @@ const Transactions: React.FC<{
           </option>
           <option value="Withdrawal" selected={txType === "Withdrawal"}>
             Withdrawal
+          </option>
+          <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
+            WithdrawalNFT
           </option>
           <option value="AccountUpdate" selected={txType === "AccountUpdate"}>
             AccountUpdate

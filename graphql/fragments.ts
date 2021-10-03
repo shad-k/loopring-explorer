@@ -276,3 +276,16 @@ export const swapNFT = gql`
     __typename
   }
 `;
+
+export const withdrawalNFT = gql`
+  fragment WithdrawalNFTFragment on WithdrawalNFT {
+    fromAccount {
+      ...AccountFragment
+    }
+    fee
+    feeToken {
+      ...TokenFragment
+    }
+    __typename
+  }
+`;

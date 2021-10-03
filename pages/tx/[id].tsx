@@ -14,6 +14,7 @@ import Remove from "../../components/transactionDetail/Remove";
 import Swap from "../../components/transactionDetail/Swap";
 import OrderbookTrade from "../../components/transactionDetail/OrderbookTrade";
 import TradeNFT from "../../components/transactionDetail/TradeNFT";
+import SwapNFT from "../../components/transactionDetail/SwapNFT";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -46,6 +47,8 @@ const Transaction: React.FC<{}> = () => {
         return <AmmUpdate transaction={data.transaction} />;
       case "TradeNFT":
         return <TradeNFT transaction={data.transaction} />;
+      case "SwapNFT":
+        return <SwapNFT transaction={data.transaction} />;
       default:
         return type;
     }

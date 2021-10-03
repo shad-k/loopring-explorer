@@ -223,6 +223,8 @@ const Transactions: React.FC<{
         return proxy.transferNFTCount;
       case "MintNFT":
         return proxy.nftMintCount;
+      case "DataNFT":
+        return proxy.nftDataCount;
       default:
         return null;
     }
@@ -247,6 +249,7 @@ const Transactions: React.FC<{
       withdrawalNFTCount,
       transferNFTCount,
       nftMintCount,
+      nftDataCount,
     } = data.transactions[0].block;
     blockTransactionCounts = {
       transactionCount,
@@ -265,6 +268,7 @@ const Transactions: React.FC<{
       withdrawalNFTCount,
       transferNFTCount,
       nftMintCount,
+      nftDataCount,
     };
   }
 
@@ -339,6 +343,9 @@ const Transactions: React.FC<{
             selected={txType === "SignatureVerification"}
           >
             SignatureVerification
+          </option>
+          <option value="DataNFT" selected={txType === "DataNFT"}>
+            DataNFT
           </option>
         </select>
         {!blockIDFilter && !accountIdFilter && (

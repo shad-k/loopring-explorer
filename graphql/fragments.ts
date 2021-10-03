@@ -319,3 +319,9 @@ export const mintNFT = gql`
     __typename
   }
 `;
+
+export const dataNFT = gql`
+  fragment DataNFTFragment on DataNFT {
+    __typename
+  }
+`;

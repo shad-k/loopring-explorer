@@ -117,8 +117,10 @@ export const getCSVTransactionDetailFields = (tx) => {
         // makeCSVTokenAmount(tx.fee, tx.feeToken),
         "",
       ];
+    case "DataNFT":
+      return ["", "", "", ""];
     default:
-      return ["", "", ""];
+      return ["", "", "", ""];
   }
 };
 
@@ -441,6 +443,15 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}>
             {/* {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol} */}
           </td>
+        </>
+      );
+    case "DataNFT":
+      return (
+        <>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
         </>
       );
     default:

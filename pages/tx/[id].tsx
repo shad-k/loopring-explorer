@@ -13,6 +13,7 @@ import Add from "../../components/transactionDetail/Add";
 import Remove from "../../components/transactionDetail/Remove";
 import Swap from "../../components/transactionDetail/Swap";
 import OrderbookTrade from "../../components/transactionDetail/OrderbookTrade";
+import TradeNFT from "../../components/transactionDetail/TradeNFT";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -43,6 +44,8 @@ const Transaction: React.FC<{}> = () => {
         return <SignatureVerification transaction={data.transaction} />;
       case "AmmUpdate":
         return <AmmUpdate transaction={data.transaction} />;
+      case "TradeNFT":
+        return <TradeNFT transaction={data.transaction} />;
       default:
         return type;
     }

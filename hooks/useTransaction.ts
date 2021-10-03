@@ -17,6 +17,12 @@ import {
   accountUpdate,
   ammUpdate,
   signatureVerification,
+  tradeNFT,
+  swapNFT,
+  withdrawalNFT,
+  transferNFT,
+  mintNFT,
+  dataNFT,
 } from "../graphql/fragments";
 
 const FETCH_TRANSACTION = gql`
@@ -41,6 +47,12 @@ const FETCH_TRANSACTION = gql`
       ...AccountUpdateFragment
       ...AmmUpdateFragment
       ...SignatureVerificationFragment
+      ...TradeNFTFragment
+      ...SwapNFTFragment
+      ...WithdrawalNFTFragment
+      ...TransferNFTFragment
+      ...MintNFTFragment
+      ...DataNFTFragment
     }
   }
 
@@ -58,6 +70,12 @@ const FETCH_TRANSACTION = gql`
   ${accountUpdate}
   ${ammUpdate}
   ${signatureVerification}
+  ${tradeNFT}
+  ${swapNFT}
+  ${withdrawalNFT}
+  ${transferNFT}
+  ${mintNFT}
+  ${dataNFT}
 `;
 
 const useTransaction = (id) => {

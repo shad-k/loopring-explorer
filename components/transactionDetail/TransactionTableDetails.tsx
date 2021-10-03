@@ -109,6 +109,14 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
+    case "MintNFT":
+      return [
+        makeCSVLink(tx.minter),
+        makeCSVLink(tx.receiver),
+        "",
+        // makeCSVTokenAmount(tx.fee, tx.feeToken),
+        "",
+      ];
     default:
       return ["", "", ""];
   }
@@ -413,6 +421,25 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}></td>
           <td className={cellClassName}>
             {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
+        </>
+      );
+    case "MintNFT":
+      return (
+        <>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.minter.id}>
+              {getTrimmedTxHash(tx.minter.address, 10, true)}
+            </AppLink>
+          </td>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.receiver.id}>
+              {getTrimmedTxHash(tx.receiver.address, 10, true)}
+            </AppLink>
+          </td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}>
+            {/* {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol} */}
           </td>
         </>
       );

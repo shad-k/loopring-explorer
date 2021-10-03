@@ -305,3 +305,17 @@ export const transferNFT = gql`
     __typename
   }
 `;
+
+export const mintNFT = gql`
+  fragment MintNFTFragment on MintNFT {
+    minter {
+      ...AccountFragment
+    }
+    receiver {
+      ...AccountFragment
+    }
+    fee
+    amount
+    __typename
+  }
+`;

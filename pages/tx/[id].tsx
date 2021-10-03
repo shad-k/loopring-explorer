@@ -17,6 +17,7 @@ import TradeNFT from "../../components/transactionDetail/TradeNFT";
 import SwapNFT from "../../components/transactionDetail/SwapNFT";
 import WithdrawalNFT from "../../components/transactionDetail/WithdrawalNFT";
 import TransferNFT from "../../components/transactionDetail/TransferNFT";
+import MintNFT from "../../components/transactionDetail/MintNFT";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -55,6 +56,8 @@ const Transaction: React.FC<{}> = () => {
         return <WithdrawalNFT transaction={data.transaction} />;
       case "TransferNFT":
         return <TransferNFT transaction={data.transaction} />;
+      case "MintNFT":
+        return <MintNFT transaction={data.transaction} />;
       default:
         return type;
     }

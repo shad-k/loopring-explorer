@@ -215,6 +215,8 @@ const Transactions: React.FC<{
         return proxy.signatureVerificationCount;
       case "TradeNFT":
         return proxy.tradeNFTCount;
+      case "SwapNFT":
+        return proxy.swapNFTCount;
       default:
         return null;
     }
@@ -235,6 +237,7 @@ const Transactions: React.FC<{
       ammUpdateCount,
       signatureVerificationCount,
       tradeNFTCount,
+      swapNFTCount,
     } = data.transactions[0].block;
     blockTransactionCounts = {
       transactionCount,
@@ -249,6 +252,7 @@ const Transactions: React.FC<{
       ammUpdateCount,
       signatureVerificationCount,
       tradeNFTCount,
+      swapNFTCount,
     };
   }
 
@@ -278,6 +282,9 @@ const Transactions: React.FC<{
           </option>
           <option value="TradeNFT" selected={txType === "TradeNFT"}>
             TradeNFT
+          </option>
+          <option value="SwapNFT" selected={txType === "SwapNFT"}>
+            SwapNFT
           </option>
           <option value="Swap" selected={txType === "Swap"}>
             Swap

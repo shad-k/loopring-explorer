@@ -264,3 +264,15 @@ export const tradeNFT = gql`
     __typename
   }
 `;
+
+export const swapNFT = gql`
+  fragment SwapNFTFragment on SwapNFT {
+    accountA {
+      ...AccountFragment
+    }
+    accountB {
+      ...AccountFragment
+    }
+    __typename
+  }
+`;

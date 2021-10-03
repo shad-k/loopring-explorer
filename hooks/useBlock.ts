@@ -24,6 +24,8 @@ const FETCH_BLOCK = gql`
       accountUpdateCount
       ammUpdateCount
       signatureVerificationCount
+      tradeNFTCount
+      swapNFTCount
     }
   }
   ${block}

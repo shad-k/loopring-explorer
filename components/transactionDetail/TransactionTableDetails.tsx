@@ -86,6 +86,15 @@ export const getCSVTransactionDetailFields = (tx) => {
       return ["", "", "", ""];
     case "SignatureVerification":
       return [makeCSVLink(tx.account), "", "", ""];
+    case "TradeNFT":
+      return [
+        makeCSVLink(tx.accountSeller),
+        makeCSVLink(tx.accountBuyer),
+        makeCSVTokenAmount(tx.realizedNFTPrice, tx.token),
+        makeCSVTokenAmount(tx.feeBuyer, tx.token),
+      ];
+    case "SwapNFT":
+      return [makeCSVLink(tx.accountA), makeCSVLink(tx.accountB), "", ""];
     default:
       return ["", "", ""];
   }
@@ -331,6 +340,23 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}>
             {getTokenAmount(tx.feeBuyer, tx.token.decimals)} {tx.token.symbol}
           </td>
+        </>
+      );
+    case "SwapNFT":
+      return (
+        <>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.accountA.id}>
+              {getTrimmedTxHash(tx.accountA.address, 10, true)}
+            </AppLink>
+          </td>
+          <td className={cellClassName}>
+            <AppLink path="account" accountId={tx.accountB.id}>
+              {getTrimmedTxHash(tx.accountB.address, 10, true)}
+            </AppLink>
+          </td>
+          <td className={cellClassName}></td>
+          <td className={cellClassName}></td>
         </>
       );
     default:

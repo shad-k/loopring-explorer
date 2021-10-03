@@ -48,6 +48,17 @@ export const pool = gql`
   }
 `;
 
+export const nft = gql`
+  fragment NFTFragment on NonFungibleToken {
+    id
+    minter {
+      ...AccountFragment
+    }
+    nftType
+    token
+  }
+`;
+
 export const add = gql`
   fragment AddFragment on Add {
     id

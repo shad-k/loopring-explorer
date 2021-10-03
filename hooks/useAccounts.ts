@@ -5,7 +5,7 @@ import request from "graphql-request";
 import { ethers } from "ethers";
 
 import { INFURA_ENDPOINT, LOOPRING_SUBGRAPH } from "../utils/config";
-import { account, token } from "../graphql/fragments";
+import { account, nft, token } from "../graphql/fragments";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
@@ -35,6 +35,19 @@ const FETCH_ACCOUNTS = gql`
           ...TokenFragment
         }
       }
+      slots {
+        id
+        nft {
+          ...NFTFragment
+        }
+        balance
+        createdAtTransaction {
+          id
+          block {
+            timestamp
+          }
+        }
+      }
       createdAtTransaction {
         id
         block {
@@ -52,6 +65,7 @@ const FETCH_ACCOUNTS = gql`
 
   ${account}
   ${token}
+  ${nft}
 `;
 
 const useAccounts = (id) => {

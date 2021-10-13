@@ -8,11 +8,11 @@ interface Props {
 }
 
 const AccountNFTs: React.FC<Props> = ({ slots }) => {
-  const TOTAL_COUNT = 10;
-  const [balancePage, setBalancePage] = React.useState<number>(1);
+  const TOTAL_COUNT = 4;
+  const [nftPage, setNFTPage] = React.useState<number>(1);
 
-  const pageStart = (balancePage - 1) * TOTAL_COUNT;
-  const pageEnd = balancePage * TOTAL_COUNT;
+  const pageStart = (nftPage - 1) * TOTAL_COUNT;
+  const pageEnd = nftPage * TOTAL_COUNT;
 
   return (
     <div>
@@ -47,10 +47,10 @@ const AccountNFTs: React.FC<Props> = ({ slots }) => {
             })}
           </div>
           <Pagination
-            currentPage={balancePage}
-            onPageChange={(page) => setBalancePage(page)}
+            currentPage={nftPage}
+            onPageChange={(page) => setNFTPage(page)}
             total={slots.length}
-            entriesPerPage={10}
+            entriesPerPage={TOTAL_COUNT}
           />
         </>
       )}

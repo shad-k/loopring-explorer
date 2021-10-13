@@ -77,15 +77,18 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
     })();
   }, []);
 
-  if (!imageURL) {
-    return null;
-  }
   return (
-    <div className="w-full h-full flex flex-col justify-end">
-      <img src={imageURL} alt="" className="flex" />
-      <div className="bg-white text-loopring-gray px-1 py-2 font-medium text-sm">
-        {name}
-      </div>
+    <div className="w-full h-full flex flex-col justify-end relative">
+      <img
+        src="/nft-placeholder.svg"
+        className="absolute top-0 right-0 h-full w-full object-cover object-center"
+      />
+      {imageURL && <img src={imageURL} alt={name} className="flex z-10" />}
+      {name && (
+        <div className="bg-white text-loopring-gray px-1 py-2 font-medium text-sm z-10">
+          {name}
+        </div>
+      )}
     </div>
   );
 };

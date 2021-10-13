@@ -13,11 +13,15 @@ import AccountNFTs from "../../components/accountDetail/AccountNFTs";
 
 const Account: React.FC<{}> = () => {
   const router = useRouter();
-  const accountId = router.query.id;
+  const [accountId, setAccountId] = React.useState(router.query.id);
   const { data, error, isLoading } = useAccounts(accountId);
 
   const { address, createdAtTransaction, balances, slots, __typename, id } =
     (data && data.accounts.length > 0 && data.accounts[0]) || {};
+
+  React.useEffect(() => {
+    setAccountId(router.query.id);
+  }, [router.query]);
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
@@ -70,6 +74,7 @@ const Account: React.FC<{}> = () => {
         </div>
       )}
       <TabbedView
+        key={accountId as string}
         tabs={[
           {
             title: "Token Balances",

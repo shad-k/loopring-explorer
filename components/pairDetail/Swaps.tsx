@@ -34,13 +34,6 @@ const Swaps: React.FC<{
 
                 const tokenAAmount = getTokenAmount(fillSA, tokenA.decimals);
                 const tokenBAmount = getTokenAmount(fillSB, tokenB.decimals);
-
-                console.log(
-                  fillSA,
-                  tokenA.decimals,
-                  token0USDPrice,
-                  (tokenAAmount * token0USDPrice).toFixed(2)
-                );
                 return (
                   <tr
                     className="border dark:border-loopring-dark-background"

@@ -73,7 +73,6 @@ const useAccounts = (id) => {
 
   React.useEffect(() => {
     setAddress(null);
-
     if (id) {
       (async () => {
         if (id && id.indexOf(".") > -1) {
@@ -88,16 +87,21 @@ const useAccounts = (id) => {
     }
   }, [id]);
 
-  let variables: any = {
-    skip: 0,
-    first: 1,
-    where: {
-      ...(address && address.startsWith("0x") ? { address } : { id: address }),
-    },
-  };
+  const memoVariables = React.useMemo(() => {
+    return {
+      skip: 0,
+      first: 1,
+      where: {
+        ...(address && address.startsWith("0x")
+          ? { address }
+          : { id: address }),
+      },
+    };
+  }, [address]);
 
-  const { data, error } = useSWR(address ? [FETCH_ACCOUNTS] : null, (query) =>
-    request(LOOPRING_SUBGRAPH, query, variables)
+  const { data, error } = useSWR(
+    address ? [FETCH_ACCOUNTS, memoVariables] : null,
+    (query) => request(LOOPRING_SUBGRAPH, query, memoVariables)
   );
 
   return {

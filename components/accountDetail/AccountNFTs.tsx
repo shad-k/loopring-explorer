@@ -1,6 +1,6 @@
 import React from "react";
 
-import getTokenAmount from "../../utils/getTokenAmount";
+import NFT from "../NFT";
 import Pagination from "../../components/Pagination";
 
 interface Props {
@@ -23,20 +23,22 @@ const AccountNFTs: React.FC<Props> = ({ slots }) => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            {slots.map((nft, index) => {
+            {slots.map((slot, index) => {
               if (index >= pageStart && index < pageEnd) {
-                console.log(nft);
-                const { id, balance } = nft;
+                const { id, balance, nft } = slot;
+                if (balance == 0) {
+                  return null;
+                }
                 return (
                   <div
                     key={id}
-                    className="border rounded dark:border-loopring-dark-background m-4"
+                    className="border rounded dark:border-loopring-dark-darkBlue m-4"
                     style={{
                       minHeight: 300,
                       minWidth: 300,
                     }}
                   >
-                    {id}-{balance}
+                    <NFT nft={nft} />
                   </div>
                 );
               } else {

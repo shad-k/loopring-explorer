@@ -25,8 +25,6 @@ const Search: React.FC<{}> = () => {
     );
   }
 
-  console.log(loaded, results);
-
   if (loaded && results.length === 0) {
     return (
       <div className="bg-white dark:bg-loopring-dark-background rounded px-4 py-10 h-40 mt-24 flex items-center justify-between flex-col text-center">

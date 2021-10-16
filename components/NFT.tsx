@@ -1,7 +1,5 @@
 import React from "react";
-import { ethers } from "ethers";
-
-import { INFURA_ENDPOINT } from "../utils/config";
+import useCachedNFT from "../hooks/useCachedNFT";
 
 interface NFTData {
   id: string;
@@ -14,68 +12,9 @@ interface NFTData {
 }
 
 const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
-  const [imageURL, setImageURL] = React.useState(null);
-  const [name, setName] = React.useState(null);
-  const providerRef = React.useRef(
-    new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT)
-  );
+  const metadata = useCachedNFT(nft);
 
-  const getERC721URI = async () => {
-    try {
-      const contractABIERC721 = [
-        `function tokenURI(uint256 tokenId) public view virtual override returns (string memory)`,
-      ];
-      //TODO: remove default address
-      const nftContract = new ethers.Contract(
-        nft.token ?? "0x4f03b26031198d5b69cdd3b1f6756ed14090c94d",
-        contractABIERC721,
-        providerRef.current
-      );
-      const uri = await nftContract.tokenURI(nft.id);
-      return uri;
-    } catch (error) {
-      console.error(error);
-      return await getERC1155URI();
-    }
-  };
-
-  const getERC1155URI = async () => {
-    try {
-      const contractABIERC1155 = [
-        `function uri(uint256 id) public returns (string memory)`,
-      ];
-      //TODO: remove default address
-      const nftContract = new ethers.Contract(
-        "0x4f03b26031198d5b69cdd3b1f6756ed14090c94d",
-        contractABIERC1155,
-        providerRef.current
-      );
-      const uri = await nftContract.uri(nft.id);
-      return uri;
-    } catch (error) {
-      console.error(error);
-      return await getERC721URI();
-    }
-  };
-
-  const getNFTURI = async () => {
-    if (nft.nftType === 1) {
-      return await getERC721URI();
-    } else {
-      return await getERC1155URI();
-    }
-  };
-
-  React.useEffect(() => {
-    (async () => {
-      const uri = await getNFTURI();
-      const metadata = await fetch(
-        uri.replace("ipfs://", "https://ipfs.io/ipfs/")
-      ).then((res) => res.json());
-      setImageURL(metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"));
-      setName(metadata?.name);
-    })();
-  }, []);
+  const { image, name } = metadata;
 
   return (
     <div className="w-full h-full flex flex-col justify-end relative">
@@ -83,7 +22,9 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
         src="/nft-placeholder.svg"
         className="absolute top-0 right-0 h-full w-full object-cover object-center"
       />
-      {imageURL && <img src={imageURL} alt={name} className="flex z-10" />}
+      {image && (
+        <img src={image as string} alt={name as string} className="flex z-10" />
+      )}
       {name && (
         <div className="bg-white text-loopring-gray px-1 py-2 font-medium text-sm z-10">
           {name}

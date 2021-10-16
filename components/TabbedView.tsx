@@ -15,7 +15,7 @@ const TabbedView: React.FC<Props> = ({ tabs }) => {
       <div className="flex items-center">
         {tabs.map((tab, index) => {
           return (
-            <>
+            <React.Fragment key={index}>
               <h3
                 className={`text-xl mb-5 cursor-pointer border-b-2 ${
                   currentTab === index
@@ -29,7 +29,7 @@ const TabbedView: React.FC<Props> = ({ tabs }) => {
               {index !== tabs.length - 1 && (
                 <div className="h-6 w-0.5 mx-2 mb-5 bg-loopring-gray" />
               )}
-            </>
+            </React.Fragment>
           );
         })}
       </div>

@@ -17,7 +17,7 @@ const NFTDetail: React.FC<{}> = () => {
   return (
     <div className="pt-4 lg:p-12">
       <div className="flex flex-col lg:flex-row">
-        <div className="w-full lg:w-4/12 relative">
+        <div className="w-full lg:w-4/12 relative" style={{ height: 400 }}>
           {!isLoaded && (
             <img
               src="/nft-placeholder.svg"
@@ -28,7 +28,7 @@ const NFTDetail: React.FC<{}> = () => {
             <img
               src={image as string}
               alt={name as string}
-              className="flex z-10 object-contain object-center"
+              className="z-10 object-contain object-center m-auto h-full"
               ref={(imageElement) => {
                 if (imageElement) {
                   imageElement.onload = () => setIsLoaded(true);

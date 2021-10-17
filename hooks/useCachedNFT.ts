@@ -98,20 +98,22 @@ const useCachedNFT = (nft) => {
 
   React.useEffect(() => {
     isMountedRef.current = true;
-    (async () => {
-      const uri = await getNFTURI(nft);
-      const metadata = await getNFTMetadata(uri, nft);
-      isMountedRef.current &&
-        setMetadata({
-          ...metadata,
-          image: metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        });
-    })();
+    if (nft) {
+      (async () => {
+        const uri = await getNFTURI(nft);
+        const metadata = await getNFTMetadata(uri, nft);
+        isMountedRef.current &&
+          setMetadata({
+            ...metadata,
+            image: metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          });
+      })();
+    }
 
     return () => {
       isMountedRef.current = false;
     };
-  }, [nft.id]);
+  }, [nft]);
 
   return metadata;
 };

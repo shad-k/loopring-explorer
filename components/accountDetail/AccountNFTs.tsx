@@ -1,7 +1,8 @@
 import React from "react";
 
 import NFT from "../NFT";
-import Pagination from "../../components/Pagination";
+import Pagination from "../Pagination";
+import AppLink from "../AppLink";
 
 interface Props {
   slots: Array<any>;
@@ -30,16 +31,18 @@ const AccountNFTs: React.FC<Props> = ({ slots }) => {
                   return null;
                 }
                 return (
-                  <div
-                    key={id}
-                    className="border rounded dark:border-loopring-dark-darkBlue m-4"
-                    style={{
-                      minHeight: 300,
-                      minWidth: 300,
-                    }}
-                  >
-                    <NFT nft={nft} />
-                  </div>
+                  <AppLink path="nftSlot" slotId={id}>
+                    <div
+                      key={id}
+                      className="border rounded dark:border-loopring-dark-darkBlue m-4"
+                      style={{
+                        minHeight: 300,
+                        minWidth: 300,
+                      }}
+                    >
+                      <NFT nft={nft} />
+                    </div>
+                  </AppLink>
                 );
               } else {
                 return null;

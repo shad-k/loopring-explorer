@@ -13,17 +13,35 @@ interface NFTData {
 
 const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
   const metadata = useCachedNFT(nft);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   const { image, name } = metadata;
 
   return (
-    <div className="w-full h-full flex flex-col justify-end relative">
-      <img
-        src="/nft-placeholder.svg"
-        className="absolute top-0 right-0 h-full w-full object-cover object-center"
-      />
+    <div
+      className="w-full h-full flex flex-col justify-end relative"
+      style={{
+        minHeight: 300,
+        minWidth: 300,
+      }}
+    >
+      {!isLoaded && (
+        <img
+          src="/nft-placeholder.svg"
+          className="absolute top-0 right-0 h-full w-full object-cover object-center animate-pulse"
+        />
+      )}
       {image && (
-        <img src={image as string} alt={name as string} className="flex z-10" />
+        <img
+          src={image as string}
+          alt={name as string}
+          className="flex z-10"
+          ref={(imageElement) => {
+            if (imageElement) {
+              imageElement.onload = () => setIsLoaded(true);
+            }
+          }}
+        />
       )}
       {name && (
         <div className="bg-white text-loopring-gray px-1 py-2 font-medium text-sm z-10">

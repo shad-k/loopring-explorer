@@ -72,7 +72,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           <nav
             className={`flex-1 flex flex-col lg:flex-row lg:justify-between text-loopring-blue fixed w-3/4 h-full lg:static bg-white top-0 -right-2 text-xl lg:text-base transition-transform duration-500 transform lg:transform-none ${
               showNav ? "translate-x-0" : "translate-x-full"
-            } dark:bg-loopring-dark-background dark:text-loopring-dark-gray`}
+            } dark:bg-loopring-dark-background dark:text-loopring-dark-gray z-20`}
           >
             <Link href="/">
               <a

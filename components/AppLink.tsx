@@ -25,37 +25,46 @@ interface NotPair {
   pair?: never;
 }
 
-interface TxLink extends NotBlock, NotAccount, NotPair, NotToken {
+interface NotNFTSlot {
+  slotId?: never;
+}
+
+interface TxLink extends NotBlock, NotAccount, NotPair, NotToken, NotNFTSlot {
   path: "transaction";
   tx: string;
 }
 
-interface BlockLink extends NotTx, NotAccount, NotToken, NotPair {
+interface BlockLink extends NotTx, NotAccount, NotToken, NotPair, NotNFTSlot {
   path: "block";
   block: string;
 }
 
-interface AccountLink extends NotTx, NotBlock, NotToken, NotPair {
+interface AccountLink extends NotTx, NotBlock, NotToken, NotPair, NotNFTSlot {
   path: "account";
   accountId: string;
   address?: string;
 }
 
-interface TokenLink extends NotTx, NotBlock, NotAccount, NotPair {
+interface TokenLink extends NotTx, NotBlock, NotAccount, NotPair, NotNFTSlot {
   path: "token";
   token: string;
 }
 
-interface PairLink extends NotTx, NotBlock, NotAccount, NotToken {
+interface PairLink extends NotTx, NotBlock, NotAccount, NotToken, NotNFTSlot {
   path: "pair";
   pair: string;
+}
+
+interface NFTSlotLink extends NotTx, NotBlock, NotAccount, NotToken, NotPair {
+  path: "nftSlot";
+  slotId: string;
 }
 
 type Props = {
   isExplorerLink?: boolean;
   explorerURL?: string;
   className?: string;
-} & (TxLink | BlockLink | AccountLink | TokenLink | PairLink);
+} & (TxLink | BlockLink | AccountLink | TokenLink | PairLink | NFTSlotLink);
 
 const makeExplorerURL = (explorerURL: string, link: string): string => {
   return `${explorerURL}${explorerURL.substr(-1) === "/" ? "" : "/"}${link}`;
@@ -69,6 +78,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   address,
   pair,
   token,
+  slotId,
   isExplorerLink = false,
   explorerURL = EXPLORER_URL,
   children,
@@ -89,6 +99,8 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
     link = `pair/${pair}`;
   } else if (path === "token") {
     link = `token/${token}`;
+  } else if (path === "nftSlot") {
+    link = `nft/${slotId}`;
   }
 
   if (isExplorerLink) {

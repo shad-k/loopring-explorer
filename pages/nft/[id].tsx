@@ -16,8 +16,8 @@ const NFTDetail: React.FC<{}> = () => {
   const { image, name } = metadata;
 
   return (
-    <div className="pt-12 lg:w-10/12 mx-auto">
-      <div className="flex flex-col lg:flex-row">
+    <div className="pt-12">
+      <div className="flex flex-col lg:flex-row lg:w-10/12 mx-auto">
         <div className="w-full lg:w-4/12 relative" style={{ height: 400 }}>
           {!isLoaded && (
             <img
@@ -71,12 +71,12 @@ const NFTDetail: React.FC<{}> = () => {
                   </td>
                   <td className="pl-6 dark:text-white">
                     <AppLink path="account" accountId={nft?.minter.id}>
-                      <span className="hidden lg:block">
+                      <span className="hidden xl:block">
                         {nft?.minter.address}
                       </span>
-                      <span className="lg:hidden">
+                      <span className="xl:hidden">
                         {nft?.minter.address &&
-                          getTrimmedTxHash(nft?.minter.address, 10)}
+                          getTrimmedTxHash(nft?.minter.address, 15)}
                       </span>
                     </AppLink>
                   </td>
@@ -92,9 +92,9 @@ const NFTDetail: React.FC<{}> = () => {
                       isExplorerLink
                       accountId={nft?.token}
                     >
-                      <span className="hidden lg:block">{nft?.token}</span>
-                      <span className="lg:hidden">
-                        {nft?.token && getTrimmedTxHash(nft?.token, 10)}
+                      <span className="hidden xl:block">{nft?.token}</span>
+                      <span className="xl:hidden">
+                        {nft?.token && getTrimmedTxHash(nft?.token, 15)}
                       </span>
                     </AppLink>
                   </td>
@@ -117,7 +117,7 @@ const NFTDetail: React.FC<{}> = () => {
         </div>
       </div>
 
-      <div className="w-11/12 mt-8 mx-auto">
+      <div className="mt-8 mx-auto px-4">
         <NFTTransactions />
       </div>
     </div>

@@ -5,6 +5,7 @@ import useCachedNFT from "../../hooks/useCachedNFT";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 import AppLink from "../../components/AppLink";
 import { token } from "../../graphql/fragments";
+import NFTTransactions from "../../components/nftDetail/NFTTransactions";
 
 const NFTDetail: React.FC<{}> = () => {
   const router = useRouter();
@@ -114,6 +115,10 @@ const NFTDetail: React.FC<{}> = () => {
             </table>
           </div>
         </div>
+      </div>
+
+      <div className="w-full mt-8">
+        <NFTTransactions />
       </div>
     </div>
   );

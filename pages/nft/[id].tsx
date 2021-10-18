@@ -16,7 +16,7 @@ const NFTDetail: React.FC<{}> = () => {
   const { image, name } = metadata;
 
   return (
-    <div className="pt-4 lg:p-12">
+    <div className="pt-12 lg:w-10/12 mx-auto">
       <div className="flex flex-col lg:flex-row">
         <div className="w-full lg:w-4/12 relative" style={{ height: 400 }}>
           {!isLoaded && (
@@ -117,7 +117,7 @@ const NFTDetail: React.FC<{}> = () => {
         </div>
       </div>
 
-      <div className="w-full mt-8">
+      <div className="w-11/12 mt-8 mx-auto">
         <NFTTransactions />
       </div>
     </div>

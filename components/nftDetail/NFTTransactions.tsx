@@ -68,7 +68,7 @@ const NFTTransactions: React.FC<{}> = () => {
 
   return (
     <div
-      className={`bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table`}
+      className={`bg-white dark:bg-loopring-dark-background pt-12 rounded min-h-table`}
     >
       <h2 className="text-2xl">Trading History</h2>
       <form

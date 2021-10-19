@@ -147,7 +147,7 @@ const Transactions: React.FC<{
       orderBy: "internalID",
       orderDirection: "desc",
       where: {
-        accounts: accountIdFilter,
+        accounts_contains: [accountIdFilter],
       },
     });
 
@@ -278,92 +278,102 @@ const Transactions: React.FC<{
         !accountIdFilter ? "p-4" : "pt-8 pb-4"
       } min-h-table`}
     >
-      {blockIDFilter ? (
-        <h2 className="text-2xl">Transactions in block #{blockIDFilter}</h2>
-      ) : accountIdFilter ? (
-        <h2 className="text-2xl">Transactions in account #{accountIdFilter}</h2>
-      ) : (
-        <h1 className="text-3xl mb-5">Latest Transactions</h1>
-      )}
-      <form
-        className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center"
-        onSubmit={submitHandler}
-      >
-        <select
-          className="h-9 rounded-sm px-2 border w-full lg:w-1/5 mb-2 lg:mb-0 lg:mr-2"
-          name="txType"
-        >
-          <option value="all" selected={txType === "all"}>
-            All Transactions
-          </option>
-          <option value="Swap" selected={txType === "Swap"}>
-            Swap
-          </option>
-          <option value="SwapNFT" selected={txType === "SwapNFT"}>
-            SwapNFT
-          </option>
-          <option value="OrderbookTrade" selected={txType === "OrderbookTrade"}>
-            Trade
-          </option>
-          <option value="TradeNFT" selected={txType === "TradeNFT"}>
-            TradeNFT
-          </option>
-          <option value="Add" selected={txType === "Add"}>
-            Amm Join
-          </option>
-          <option value="Remove" selected={txType === "Remove"}>
-            Amm Exit
-          </option>
-          <option value="Transfer" selected={txType === "Transfer"}>
-            Transfer
-          </option>
-          <option value="TransferNFT" selected={txType === "TransferNFT"}>
-            TransferNFT
-          </option>
-          <option value="Deposit" selected={txType === "Deposit"}>
-            Deposit
-          </option>
-          <option value="MintNFT" selected={txType === "MintNFT"}>
-            MintNFT
-          </option>
-          <option value="Withdrawal" selected={txType === "Withdrawal"}>
-            Withdrawal
-          </option>
-          <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
-            WithdrawalNFT
-          </option>
-          <option value="AccountUpdate" selected={txType === "AccountUpdate"}>
-            AccountUpdate
-          </option>
-          <option value="AmmUpdate" selected={txType === "AmmUpdate"}>
-            AmmUpdate
-          </option>
-          <option
-            value="SignatureVerification"
-            selected={txType === "SignatureVerification"}
-          >
-            SignatureVerification
-          </option>
-          <option value="DataNFT" selected={txType === "DataNFT"}>
-            DataNFT
-          </option>
-        </select>
-        {!blockIDFilter && !accountIdFilter && (
-          <input
-            type="text"
-            className="h-9 rounded-sm px-1 border w-full lg:w-1/5 mb-2 lg:mb-0 placeholder-loopring-lightBlue placeholder-opacity-70"
-            placeholder="Filter by block"
-            name="block"
-            defaultValue={blockId}
-          />
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between">
+        {blockIDFilter ? (
+          <h2 className="text-2xl font-semibold">
+            Transactions in block #{blockIDFilter}
+          </h2>
+        ) : accountIdFilter ? (
+          <h2 className="text-2xl font-semibold">
+            Transactions in account #{accountIdFilter}
+          </h2>
+        ) : (
+          <h1 className="text-3xl font-bold mb-2 w-1/3">Latest Transactions</h1>
         )}
-        <button
-          type="submit"
-          className="bg-loopring-darkBlue dark:bg-loopring-dark-blue px-6 ml-2 rounded text-white h-9"
+
+        <form
+          className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center flex-1"
+          onSubmit={submitHandler}
         >
-          Filter
-        </button>
-      </form>
+          <select
+            className="h-9 rounded-sm px-2 border w-full lg:w-1/4 mb-2 lg:mb-0 lg:mr-2"
+            name="txType"
+          >
+            <option value="all" selected={txType === "all"}>
+              All Transactions
+            </option>
+            <option value="Swap" selected={txType === "Swap"}>
+              Swap
+            </option>
+            <option value="SwapNFT" selected={txType === "SwapNFT"}>
+              SwapNFT
+            </option>
+            <option
+              value="OrderbookTrade"
+              selected={txType === "OrderbookTrade"}
+            >
+              Trade
+            </option>
+            <option value="TradeNFT" selected={txType === "TradeNFT"}>
+              TradeNFT
+            </option>
+            <option value="Add" selected={txType === "Add"}>
+              Amm Join
+            </option>
+            <option value="Remove" selected={txType === "Remove"}>
+              Amm Exit
+            </option>
+            <option value="Transfer" selected={txType === "Transfer"}>
+              Transfer
+            </option>
+            <option value="TransferNFT" selected={txType === "TransferNFT"}>
+              TransferNFT
+            </option>
+            <option value="Deposit" selected={txType === "Deposit"}>
+              Deposit
+            </option>
+            <option value="MintNFT" selected={txType === "MintNFT"}>
+              MintNFT
+            </option>
+            <option value="Withdrawal" selected={txType === "Withdrawal"}>
+              Withdrawal
+            </option>
+            <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
+              WithdrawalNFT
+            </option>
+            <option value="AccountUpdate" selected={txType === "AccountUpdate"}>
+              AccountUpdate
+            </option>
+            <option value="AmmUpdate" selected={txType === "AmmUpdate"}>
+              AmmUpdate
+            </option>
+            <option
+              value="SignatureVerification"
+              selected={txType === "SignatureVerification"}
+            >
+              SignatureVerification
+            </option>
+            <option value="DataNFT" selected={txType === "DataNFT"}>
+              DataNFT
+            </option>
+          </select>
+          {!blockIDFilter && !accountIdFilter && (
+            <input
+              type="text"
+              className="h-9 rounded-sm px-1 border w-full lg:w-2/5 mb-2 lg:mb-0 placeholder-loopring-lightBlue placeholder-opacity-70"
+              placeholder="Filter by block"
+              name="block"
+              defaultValue={blockId}
+            />
+          )}
+          <button
+            type="submit"
+            className="bg-loopring-darkBlue dark:bg-loopring-dark-blue px-6 ml-2 rounded text-white h-9"
+          >
+            Filter
+          </button>
+        </form>
+      </div>
       <div className="w-full overflow-auto">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">

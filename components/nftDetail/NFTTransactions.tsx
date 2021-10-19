@@ -77,44 +77,46 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
     <div
       className={`bg-white dark:bg-loopring-dark-background pt-12 rounded min-h-table`}
     >
-      <h2 className="text-2xl">Trading History</h2>
-      <form
-        className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center"
-        onSubmit={submitHandler}
-      >
-        <select
-          className="h-9 rounded-sm px-2 border w-full lg:w-1/5 mb-2 lg:mb-0 lg:mr-2"
-          name="txType"
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between">
+        <h2 className="text-2xl font-bold">Trading History</h2>
+        <form
+          className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center"
+          onSubmit={submitHandler}
         >
-          <option value="all" selected={txType === "all"}>
-            All Transactions
-          </option>
-          <option value="SwapNFT" selected={txType === "SwapNFT"}>
-            SwapNFT
-          </option>
-          <option value="TradeNFT" selected={txType === "TradeNFT"}>
-            TradeNFT
-          </option>
-          <option value="TransferNFT" selected={txType === "TransferNFT"}>
-            TransferNFT
-          </option>
-          <option value="MintNFT" selected={txType === "MintNFT"}>
-            MintNFT
-          </option>
-          <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
-            WithdrawalNFT
-          </option>
-          <option value="DataNFT" selected={txType === "DataNFT"}>
-            DataNFT
-          </option>
-        </select>
-        <button
-          type="submit"
-          className="bg-loopring-darkBlue dark:bg-loopring-dark-blue px-6 ml-2 rounded text-white h-9"
-        >
-          Filter
-        </button>
-      </form>
+          <select
+            className="h-9 rounded-sm px-2 border w-full lg:w-1/5 mb-2 lg:mb-0 lg:mr-2"
+            name="txType"
+          >
+            <option value="all" selected={txType === "all"}>
+              All Transactions
+            </option>
+            <option value="SwapNFT" selected={txType === "SwapNFT"}>
+              SwapNFT
+            </option>
+            <option value="TradeNFT" selected={txType === "TradeNFT"}>
+              TradeNFT
+            </option>
+            <option value="TransferNFT" selected={txType === "TransferNFT"}>
+              TransferNFT
+            </option>
+            <option value="MintNFT" selected={txType === "MintNFT"}>
+              MintNFT
+            </option>
+            <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
+              WithdrawalNFT
+            </option>
+            <option value="DataNFT" selected={txType === "DataNFT"}>
+              DataNFT
+            </option>
+          </select>
+          <button
+            type="submit"
+            className="bg-loopring-darkBlue dark:bg-loopring-dark-blue px-6 ml-2 rounded text-white h-9"
+          >
+            Filter
+          </button>
+        </form>
+      </div>
       <div className="w-full overflow-auto">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">

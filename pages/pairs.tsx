@@ -26,7 +26,7 @@ const Pairs: React.FC<{}> = () => {
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
-      <h1 className="text-3xl mb-5">Pairs</h1>
+      <h1 className="text-3xl mb-2 font-bold">Pairs</h1>
       <div className="w-full overflow-auto">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white text-center">

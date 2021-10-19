@@ -30,7 +30,7 @@ const Blocks: React.FC<{}> = () => {
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background  rounded p-4 min-h-table">
-      <h1 className="text-3xl mb-5">Latest Blocks</h1>
+      <h1 className="text-3xl mb-2 font-bold">Latest Blocks</h1>
       <div className="w-full overflow-auto">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue text-white text-center dark:bg-loopring-dark-darkBlue">

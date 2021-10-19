@@ -7,8 +7,16 @@ import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const TransferNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, fromAccount, toAccount, fee, feeToken, data, __typename } =
-    transaction;
+  const {
+    block,
+    fromAccount,
+    toAccount,
+    fee,
+    feeToken,
+    data,
+    toSlot,
+    __typename,
+  } = transaction;
 
   return (
     <>
@@ -47,6 +55,14 @@ const TransferNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
             <span className="lg:hidden">
               {getTrimmedTxHash(toAccount.address, 10, true)}
             </span>
+          </AppLink>
+        </td>
+      </tr>
+      <tr className="border dark:border-loopring-dark-darkBlue">
+        <td className="p-2">NFT</td>
+        <td>
+          <AppLink path="nftSlot" slotId={toSlot.id}>
+            <span>{toSlot.id}</span>
           </AppLink>
         </td>
       </tr>

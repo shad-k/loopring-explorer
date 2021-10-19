@@ -269,6 +269,9 @@ export const tradeNFT = gql`
     token {
       ...TokenFragment
     }
+    slotBuyer {
+      id
+    }
     realizedNFTPrice
     feeBuyer
     protocolFeeBuyer
@@ -283,6 +286,12 @@ export const swapNFT = gql`
     }
     accountB {
       ...AccountFragment
+    }
+    slotABuyer {
+      id
+    }
+    slotBBuyer {
+      id
     }
     __typename
   }
@@ -312,6 +321,9 @@ export const transferNFT = gql`
     feeToken {
       ...TokenFragment
     }
+    toSlot {
+      id
+    }
     fee
     __typename
   }
@@ -325,7 +337,16 @@ export const mintNFT = gql`
     receiver {
       ...AccountFragment
     }
+    receiverSlot {
+      id
+    }
+    nft {
+      id
+    }
     fee
+    feeToken {
+      ...TokenFragment
+    }
     amount
     __typename
   }

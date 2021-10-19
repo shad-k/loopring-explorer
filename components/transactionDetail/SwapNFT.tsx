@@ -6,7 +6,15 @@ import getDateString from "../../utils/getDateString";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const SwapNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, accountA, accountB, data, __typename } = transaction;
+  const {
+    block,
+    accountA,
+    accountB,
+    data,
+    slotABuyer,
+    slotBBuyer,
+    __typename,
+  } = transaction;
 
   return (
     <>
@@ -45,6 +53,22 @@ const SwapNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
             <span className="lg:hidden">
               {getTrimmedTxHash(accountB.address, 10, true)}
             </span>
+          </AppLink>
+        </td>
+      </tr>
+      <tr className="border dark:border-loopring-dark-darkBlue">
+        <td className="p-2">NFT 1</td>
+        <td>
+          <AppLink path="nftSlot" slotId={slotABuyer.id}>
+            <span>{slotABuyer.id}</span>
+          </AppLink>
+        </td>
+      </tr>
+      <tr className="border dark:border-loopring-dark-darkBlue">
+        <td className="p-2">NFT 2</td>
+        <td>
+          <AppLink path="nftSlot" slotId={slotBBuyer.id}>
+            <span>{slotBBuyer.id}</span>
           </AppLink>
         </td>
       </tr>

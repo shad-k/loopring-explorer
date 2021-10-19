@@ -15,6 +15,7 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
     feeBuyer,
     token,
     data,
+    slotBuyer,
     __typename,
   } = transaction;
 
@@ -55,6 +56,14 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
             <span className="lg:hidden">
               {getTrimmedTxHash(accountBuyer.address, 10, true)}
             </span>
+          </AppLink>
+        </td>
+      </tr>
+      <tr className="border dark:border-loopring-dark-darkBlue">
+        <td className="p-2">NFT</td>
+        <td>
+          <AppLink path="nftSlot" slotId={slotBuyer.id}>
+            <span>{slotBuyer.id}</span>
           </AppLink>
         </td>
       </tr>

@@ -7,8 +7,17 @@ import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, minter, receiver, fee, feeToken, data, __typename } =
-    transaction;
+  const {
+    block,
+    minter,
+    receiver,
+    fee,
+    feeToken,
+    data,
+    __typename,
+    nft,
+    receiverSlot,
+  } = transaction;
 
   return (
     <>
@@ -27,6 +36,14 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
         <td>{__typename}</td>
+      </tr>
+      <tr className="border dark:border-loopring-dark-darkBlue">
+        <td className="p-2">NFT</td>
+        <td>
+          <AppLink path="nftSlot" slotId={receiverSlot.id}>
+            <span>{receiverSlot.id}</span>
+          </AppLink>
+        </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Minter</td>
@@ -50,12 +67,12 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      {/* <tr className="border dark:border-loopring-dark-darkBlue">
+      <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Fee</td>
         <td>
           {getTokenAmount(fee, feeToken.decimals)} {feeToken.symbol}
         </td>
-      </tr> */}
+      </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Data</td>
         <td>

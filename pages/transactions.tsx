@@ -147,7 +147,7 @@ const Transactions: React.FC<{
       orderBy: "internalID",
       orderDirection: "desc",
       where: {
-        accounts_contains: [accountIdFilter],
+        accounts_contains: accountIdFilter,
       },
     });
 

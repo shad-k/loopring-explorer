@@ -123,7 +123,7 @@ const NFTTransactions: React.FC<{}> = () => {
           </thead>
           <tbody className="text-center">
             {data &&
-              data.transactions.map((tx) => {
+              data.transactionNFTs.map((tx) => {
                 return (
                   <tr
                     className="border dark:border-loopring-dark-background"
@@ -151,7 +151,7 @@ const NFTTransactions: React.FC<{}> = () => {
           </tbody>
         </table>
       </div>
-      {data && data.transactions.length === 0 && (
+      {data && data.transactionNFTs.length === 0 && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No transactions to show
         </div>

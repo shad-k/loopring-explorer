@@ -27,14 +27,14 @@ import {
 } from "../graphql/fragments";
 
 export const FETCH_NFT_TXS = gql`
-  query transactionsNFTs(
+  query transactionNFTs(
     $skip: Int
     $first: Int
     $orderBy: Transaction_orderBy
     $orderDirection: OrderDirection
     $where: Transaction_filter
   ) {
-    transactionsNFTs(
+    transactionNFTs(
       skip: $skip
       first: $first
       orderBy: $orderBy

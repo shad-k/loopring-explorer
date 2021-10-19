@@ -118,7 +118,7 @@ const NFTDetail: React.FC<{}> = () => {
       </div>
 
       <div className="mt-8 mx-auto px-4">
-        <NFTTransactions />
+        <NFTTransactions nftId={nft?.id} />
       </div>
     </div>
   );

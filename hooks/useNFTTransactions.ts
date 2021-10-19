@@ -30,9 +30,9 @@ export const FETCH_NFT_TXS = gql`
   query transactionNFTs(
     $skip: Int
     $first: Int
-    $orderBy: Transaction_orderBy
+    $orderBy: TransactionNFT_orderBy
     $orderDirection: OrderDirection
-    $where: Transaction_filter
+    $where: TransactionNFT_filter
   ) {
     transactionNFTs(
       skip: $skip

@@ -9,7 +9,7 @@ import AppLink from "../../components/AppLink";
 import TransactionTableDetails from "../../components/transactionDetail/TransactionTableDetails";
 import getTimeFromNow from "../../utils/getTimeFromNow";
 
-const NFTTransactions: React.FC<{}> = () => {
+const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
   const router = useRouter();
   const [currentPage, setPage] = React.useState<number>(1);
 
@@ -17,13 +17,16 @@ const NFTTransactions: React.FC<{}> = () => {
     (router.query.type as string) || "all"
   );
 
+  const [nfts, setNFTs] = React.useState([nftId]);
+
   const ENTRIES_PER_PAGE = 10;
   const { data, error, isLoading } = useNFTTransactions(
     (currentPage - 1) * ENTRIES_PER_PAGE,
     ENTRIES_PER_PAGE,
     "internalID",
     "desc",
-    txType === "all" ? null : txType
+    txType === "all" ? null : txType,
+    nfts
   );
 
   const pageChangeHandler = (page) => {
@@ -35,6 +38,10 @@ const NFTTransactions: React.FC<{}> = () => {
       }
     );
   };
+
+  React.useEffect(() => {
+    setNFTs([nftId]);
+  }, [nftId]);
 
   React.useEffect(() => {
     if (router.query && router.query.page) {

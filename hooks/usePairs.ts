@@ -10,7 +10,7 @@ export const FETCH_PAIRS = gql`
   query pairs(
     $skip: Int
     $first: Int
-    $orderBy: Transaction_orderBy
+    $orderBy: Pair_orderBy
     $orderDirection: OrderDirection
   ) {
     pairs(
@@ -27,6 +27,21 @@ export const FETCH_PAIRS = gql`
       token1 {
         ...TokenFragment
       }
+      dailyEntities(skip: 1, first: 1, orderBy: dayEnd, orderDirection: desc) {
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Swap
+        id
+      }
+      weeklyEntities(
+        skip: 1
+        first: 1
+        orderBy: weekEnd
+        orderDirection: desc
+      ) {
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Swap
+        id
+      }
     }
   }
 
@@ -36,8 +51,8 @@ export const FETCH_PAIRS = gql`
 const usePairs = (
   skip = 0,
   first = 10,
-  orderBy = "internalID",
-  orderDirection = "asc"
+  orderBy = "tradedVolumeToken0Swap",
+  orderDirection = "desc"
 ) => {
   const memoVariables = useMemo(() => {
     const variables = {

@@ -9,10 +9,12 @@ import usePairs from "../hooks/usePairs";
 import AppLink from "../components/AppLink";
 import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
 import TableLoader from "../components/TableLoader";
+import USDPriceValue from "../components/USDPriceValue";
 
 import getTimeFromNow from "../utils/getTimeFromNow";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 import getTokenAmount from "../utils/getTokenAmount";
+import stableCoins from "../utils/stableCoins";
 
 export default function Home() {
   const { data, error, isLoading } = useBlocks();
@@ -229,6 +231,8 @@ export default function Home() {
                 <th className="p-2 whitespace-nowrap">Pair ID</th>
                 <th className="p-2 whitespace-nowrap">Token A</th>
                 <th className="p-2 whitespace-nowrap">Token B</th>
+                <th className="p-2 whitespace-nowrap">24hr Volume (USD)</th>
+                <th className="p-2 whitespace-nowrap">1w Volume (USD)</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -249,6 +253,56 @@ export default function Home() {
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {pair.token1.symbol}
+                      </td>
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
+                        {stableCoins.includes(pair.token0.symbol) ? (
+                          numeral(
+                            getTokenAmount(
+                              pair?.dailyEntities[0]?.tradedVolumeToken0Swap,
+                              pair.token0.decimals
+                            )
+                          ).format("0.0a")
+                        ) : stableCoins.includes(pair.token1.symbol) ? (
+                          numeral(
+                            getTokenAmount(
+                              pair?.dailyEntities[0]?.tradedVolumeToken1Swap,
+                              pair.token1.decimals
+                            )
+                          ).format("0.0a")
+                        ) : (
+                          <USDPriceValue
+                            token={pair.token0}
+                            value={getTokenAmount(
+                              pair?.dailyEntities[0]?.tradedVolumeToken0Swap,
+                              pair.token0.decimals
+                            )}
+                          />
+                        )}
+                      </td>
+                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
+                        {stableCoins.includes(pair.token0.symbol) ? (
+                          numeral(
+                            getTokenAmount(
+                              pair?.weeklyEntities[0]?.tradedVolumeToken0Swap,
+                              pair.token0.decimals
+                            )
+                          ).format("0.0a")
+                        ) : stableCoins.includes(pair.token1.symbol) ? (
+                          numeral(
+                            getTokenAmount(
+                              pair?.weeklyEntities[0]?.tradedVolumeToken1Swap,
+                              pair.token1.decimals
+                            )
+                          ).format("0.0a")
+                        ) : (
+                          <USDPriceValue
+                            token={pair.token0}
+                            value={getTokenAmount(
+                              pair?.weeklyEntities[0]?.tradedVolumeToken0Swap,
+                              pair.token0.decimals
+                            )}
+                          />
+                        )}
                       </td>
                     </tr>
                   );

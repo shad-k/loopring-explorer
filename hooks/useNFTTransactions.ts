@@ -111,10 +111,10 @@ const useNFTTransactions = (
       };
     }
     return variables;
-  }, [skip, first, orderBy, orderDirection, typename]);
+  }, [skip, first, orderBy, orderDirection, typename, nfts]);
 
   const { data, error } = useSWR(
-    [FETCH_NFT_TXS, memoVariables],
+    nfts.length > 0 && !!nfts[0] ? [FETCH_NFT_TXS, memoVariables] : null,
     (query, variables) => request(LOOPRING_SUBGRAPH, query, variables)
   );
 

@@ -1,17 +1,17 @@
 import React from "react";
 import { useRouter } from "next/router";
-import useNFTSlot from "../../hooks/useNFTSlot";
+import useNFT from "../../hooks/useNFT";
 import useCachedNFT from "../../hooks/useCachedNFT";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 import AppLink from "../../components/AppLink";
-import { token } from "../../graphql/fragments";
 import NFTTransactions from "../../components/nftDetail/NFTTransactions";
 
 const NFTDetail: React.FC<{}> = () => {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const { data } = useNFTSlot(router.query.id);
-  const { account, nft, id } = data?.accountNFTSlot ?? {};
+  const { data } = useNFT(router.query.id);
+  const nft = data ? data?.nonFungibleToken : null;
+
   const metadata = useCachedNFT(nft);
   const { image, name } = metadata;
 
@@ -46,37 +46,28 @@ const NFTDetail: React.FC<{}> = () => {
               <div className="w-2/3 animate-pulse h-8 bg-gray-400 rounded" />
             )}
           </h1>
-          <h3 className="text-xl flex-1 p-2 lg:py-2 lg:px-0">
-            Owned By:{" "}
-            <AppLink path="account" accountId={account?.id}>
-              {" "}
-              {account && getTrimmedTxHash(account.address, 10, false)}
-            </AppLink>
-          </h3>
 
-          <div className="w-full overflow-auto">
+          <div className="w-full overflow-auto mt-8">
             <table className="border dark:border-loopring-dark-darkBlue w-full">
               <tbody>
                 <tr>
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
                     NFT ID
                   </td>
-                  <td className="pl-6 dark:text-white">
-                    {id && id.replace(/(.*)-(.*)/, "$2")}
-                  </td>
+                  <td className="pl-6 dark:text-white">{nft?.id}</td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
                     Minter
                   </td>
                   <td className="pl-6 dark:text-white">
-                    <AppLink path="account" accountId={nft?.minter.id}>
+                    <AppLink path="account" accountId={nft?.minter?.id}>
                       <span className="hidden xl:block">
-                        {nft?.minter.address}
+                        {nft?.minter?.address}
                       </span>
                       <span className="xl:hidden">
-                        {nft?.minter.address &&
-                          getTrimmedTxHash(nft?.minter.address, 15)}
+                        {nft?.minter?.address &&
+                          getTrimmedTxHash(nft?.minter?.address, 15)}
                       </span>
                     </AppLink>
                   </td>

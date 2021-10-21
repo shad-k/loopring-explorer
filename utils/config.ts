@@ -1,5 +1,5 @@
 export const LOOPRING_SUBGRAPH =
-  "https://api.thegraph.com/subgraphs/id/QmQqCgXsqoJCLEBKeRqvWTpYoCNf4g9vdTAY5amiqDepGD";
+  "https://api.thegraph.com/subgraphs/id/QmQThyRXcHd33N16NwJxkiuq9sRxPabsdCiW8gcj79W6BS";
 export const EXPLORER_URL = "https://etherscan.io/";
 export const USD_PRICE_ENDPOINT = "https://api.0x.org/swap/v1/price?";
 export const INFURA_ENDPOINT =

@@ -54,7 +54,9 @@ const NFTDetail: React.FC<{}> = () => {
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
                     NFT ID
                   </td>
-                  <td className="pl-6 dark:text-white">{nft?.id}</td>
+                  <td className="pl-6 dark:text-white break-all pr-2">
+                    {nft?.id}
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
@@ -76,7 +78,7 @@ const NFTDetail: React.FC<{}> = () => {
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
                     Token Address
                   </td>
-                  <td className="pl-6 dark:text-white">
+                  <td className="pl-6 dark:text-white pr-2">
                     <AppLink
                       path="account"
                       address={nft?.token}

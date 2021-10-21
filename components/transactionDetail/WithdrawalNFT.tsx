@@ -7,7 +7,8 @@ import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const WithdrawalNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, fromAccount, fee, feeToken, data, __typename } = transaction;
+  const { block, fromAccount, fee, feeToken, data, nfts, __typename } =
+    transaction;
 
   return (
     <>
@@ -44,6 +45,18 @@ const WithdrawalNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
           {getTokenAmount(fee, feeToken.decimals)} {feeToken.symbol}
         </td>
       </tr>
+      {nfts.map((nft, index) => {
+        return (
+          <tr className="border dark:border-loopring-dark-darkBlue">
+            <td className="p-2">NFT {index + 1}</td>
+            <td>
+              <AppLink path="nft" nftId={nft.id}>
+                <span>{nft.id}</span>
+              </AppLink>
+            </td>
+          </tr>
+        );
+      })}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Data</td>
         <td>

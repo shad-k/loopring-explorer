@@ -25,46 +25,46 @@ interface NotPair {
   pair?: never;
 }
 
-interface NotNFTSlot {
-  slotId?: never;
+interface NotNFT {
+  nftId?: never;
 }
 
-interface TxLink extends NotBlock, NotAccount, NotPair, NotToken, NotNFTSlot {
+interface TxLink extends NotBlock, NotAccount, NotPair, NotToken, NotNFT {
   path: "transaction";
   tx: string;
 }
 
-interface BlockLink extends NotTx, NotAccount, NotToken, NotPair, NotNFTSlot {
+interface BlockLink extends NotTx, NotAccount, NotToken, NotPair, NotNFT {
   path: "block";
   block: string;
 }
 
-interface AccountLink extends NotTx, NotBlock, NotToken, NotPair, NotNFTSlot {
+interface AccountLink extends NotTx, NotBlock, NotToken, NotPair, NotNFT {
   path: "account";
   accountId: string;
   address?: string;
 }
 
-interface TokenLink extends NotTx, NotBlock, NotAccount, NotPair, NotNFTSlot {
+interface TokenLink extends NotTx, NotBlock, NotAccount, NotPair, NotNFT {
   path: "token";
   token: string;
 }
 
-interface PairLink extends NotTx, NotBlock, NotAccount, NotToken, NotNFTSlot {
+interface PairLink extends NotTx, NotBlock, NotAccount, NotToken, NotNFT {
   path: "pair";
   pair: string;
 }
 
-interface NFTSlotLink extends NotTx, NotBlock, NotAccount, NotToken, NotPair {
-  path: "nftSlot";
-  slotId: string;
+interface NFTSlot extends NotTx, NotBlock, NotAccount, NotToken, NotPair {
+  path: "nft";
+  nftId: string;
 }
 
 type Props = {
   isExplorerLink?: boolean;
   explorerURL?: string;
   className?: string;
-} & (TxLink | BlockLink | AccountLink | TokenLink | PairLink | NFTSlotLink);
+} & (TxLink | BlockLink | AccountLink | TokenLink | PairLink | NFTSlot);
 
 const makeExplorerURL = (explorerURL: string, link: string): string => {
   return `${explorerURL}${explorerURL.substr(-1) === "/" ? "" : "/"}${link}`;
@@ -78,7 +78,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   address,
   pair,
   token,
-  slotId,
+  nftId,
   isExplorerLink = false,
   explorerURL = EXPLORER_URL,
   children,
@@ -99,8 +99,8 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
     link = `pair/${pair}`;
   } else if (path === "token") {
     link = `token/${token}`;
-  } else if (path === "nftSlot") {
-    link = `nft/${slotId}`;
+  } else if (path === "nft") {
+    link = `nft/${nftId}`;
   }
 
   if (isExplorerLink) {

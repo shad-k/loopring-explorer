@@ -15,7 +15,7 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
     feeBuyer,
     token,
     data,
-    slotBuyer,
+    nfts,
     __typename,
   } = transaction;
 
@@ -59,14 +59,18 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">NFT</td>
-        <td>
-          <AppLink path="nftSlot" slotId={slotBuyer.id}>
-            <span>{slotBuyer.id}</span>
-          </AppLink>
-        </td>
-      </tr>
+      {nfts.map((nft, index) => {
+        return (
+          <tr className="border dark:border-loopring-dark-darkBlue">
+            <td className="p-2">NFT {index + 1}</td>
+            <td>
+              <AppLink path="nft" nftId={nft.id}>
+                <span>{nft.id}</span>
+              </AppLink>
+            </td>
+          </tr>
+        );
+      })}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">NFT Price</td>
         <td>

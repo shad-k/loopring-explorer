@@ -40,8 +40,8 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">NFT</td>
         <td>
-          <AppLink path="nftSlot" slotId={receiverSlot.id}>
-            <span>{receiverSlot.id}</span>
+          <AppLink path="nft" nftId={nft.id}>
+            <span>{nft.id}</span>
           </AppLink>
         </td>
       </tr>

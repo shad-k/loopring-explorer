@@ -24,6 +24,7 @@ import {
   transferNFT,
   mintNFT,
   dataNFT,
+  nft,
 } from "../graphql/fragments";
 
 export const FETCH_TXS = gql`
@@ -110,6 +111,7 @@ export const FETCH_TXS = gql`
   ${account}
   ${token}
   ${pool}
+  ${nft}
 
   ${add}
   ${remove}

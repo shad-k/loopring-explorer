@@ -23,6 +23,7 @@ import {
   transferNFT,
   mintNFT,
   dataNFT,
+  nft,
 } from "../graphql/fragments";
 
 const FETCH_TRANSACTION = gql`
@@ -59,6 +60,7 @@ const FETCH_TRANSACTION = gql`
   ${account}
   ${token}
   ${pool}
+  ${nft}
 
   ${add}
   ${remove}

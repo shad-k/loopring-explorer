@@ -14,7 +14,7 @@ const TransferNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
     fee,
     feeToken,
     data,
-    toSlot,
+    nfts,
     __typename,
   } = transaction;
 
@@ -58,14 +58,18 @@ const TransferNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
           </AppLink>
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">NFT</td>
-        <td>
-          <AppLink path="nftSlot" slotId={toSlot.id}>
-            <span>{toSlot.id}</span>
-          </AppLink>
-        </td>
-      </tr>
+      {nfts.map((nft, index) => {
+        return (
+          <tr className="border dark:border-loopring-dark-darkBlue">
+            <td className="p-2">NFT {index + 1}</td>
+            <td>
+              <AppLink path="nft" nftId={nft.id}>
+                <span>{nft.id}</span>
+              </AppLink>
+            </td>
+          </tr>
+        );
+      })}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Fee</td>
         <td>

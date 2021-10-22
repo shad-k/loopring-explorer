@@ -16,48 +16,54 @@ const uriCache = new LRUCache();
 const metadataCache = new LRUCache();
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
-const getERC721URI = async (nft) => {
+const getERC721URI = async (nft, isFailOver = false) => {
   try {
     const contractABIERC721 = [
       `function tokenURI(uint256 tokenId) public view virtual override returns (string memory)`,
     ];
-    //TODO: remove default address
+
     const nftContract = new ethers.Contract(
-      "0x4f03b26031198d5b69cdd3b1f6756ed14090c94d",
+      nft.token,
       contractABIERC721,
       provider
     );
-    const uri = await nftContract.tokenURI(nft.id);
+
+    const uri = await nftContract.tokenURI(nft.nftID);
     return uri;
   } catch (error) {
     console.error(error);
-    return await getERC1155URI(nft);
+    if (!isFailOver) {
+      return await getERC1155URI(nft, true);
+    }
+    return null;
   }
 };
 
-const getERC1155URI = async (nft) => {
+const getERC1155URI = async (nft, isFailOver = false) => {
   try {
     const contractABIERC1155 = [
       `function uri(uint256 id) public returns (string memory)`,
     ];
-    //TODO: remove default address
+
     const nftContract = new ethers.Contract(
-      "0x4f03b26031198d5b69cdd3b1f6756ed14090c94d",
+      nft.token,
       contractABIERC1155,
       provider
     );
-    const uri = await nftContract.uri(nft.id);
+
+    const uri = await nftContract.uri(nft.nftID);
     return uri;
   } catch (error) {
     console.error(error);
-    return await getERC721URI(nft);
+    if (!isFailOver) {
+      return await getERC721URI(nft, true);
+    }
+    return null;
   }
 };
 
 const getNFTURI = async (nft) => {
-  const cacheKey = `${
-    nft.token ?? "0x4f03b26031198d5b69cdd3b1f6756ed14090c94d"
-  }:${nft.id}`;
+  const cacheKey = nft.id;
   let cacheResult = uriCache.get(cacheKey);
   if (cacheResult) {
     console.log("uriCache: cache hit");
@@ -76,9 +82,7 @@ const getNFTURI = async (nft) => {
 };
 
 const getNFTMetadata = async (uri, nft) => {
-  const cacheKey = `${
-    nft.token ?? "0x4f03b26031198d5b69cdd3b1f6756ed14090c94d"
-  }:${nft.id}`;
+  const cacheKey = nft.id;
   let cacheResult = metadataCache.get(cacheKey);
   if (cacheResult) {
     console.log("metadataCache: cache hit");

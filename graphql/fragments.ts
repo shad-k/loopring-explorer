@@ -54,6 +54,7 @@ export const nft = gql`
     minter {
       ...AccountFragment
     }
+    nftID
     nftType
     token
   }

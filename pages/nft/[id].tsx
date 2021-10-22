@@ -55,7 +55,7 @@ const NFTDetail: React.FC<{}> = () => {
                     NFT ID
                   </td>
                   <td className="pl-6 dark:text-white break-all pr-2">
-                    {nft?.id}
+                    {nft?.nftID}
                   </td>
                 </tr>
                 <tr>

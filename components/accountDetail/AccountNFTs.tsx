@@ -31,7 +31,7 @@ const AccountNFTs: React.FC<Props> = ({ slots }) => {
                   return null;
                 }
                 return (
-                  <AppLink path="nftSlot" slotId={id}>
+                  <AppLink path="nft" nftId={nft.id}>
                     <div
                       key={id}
                       className="border rounded dark:border-loopring-dark-darkBlue m-4"

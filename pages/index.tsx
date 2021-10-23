@@ -15,6 +15,7 @@ import getTimeFromNow from "../utils/getTimeFromNow";
 import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 import getTokenAmount from "../utils/getTokenAmount";
 import stableCoins from "../utils/stableCoins";
+import getTokenIcon from "../utils/getTokenIcon";
 
 export default function Home() {
   const { data, error, isLoading } = useBlocks();
@@ -229,8 +230,7 @@ export default function Home() {
             <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
                 <th className="p-2 whitespace-nowrap">Pair ID</th>
-                <th className="p-2 whitespace-nowrap">Token A</th>
-                <th className="p-2 whitespace-nowrap">Token B</th>
+                <th className="p-2 whitespace-nowrap">Pair</th>
                 <th className="p-2 whitespace-nowrap">24hr Volume (USD)</th>
                 <th className="p-2 whitespace-nowrap">1w Volume (USD)</th>
               </tr>
@@ -249,10 +249,25 @@ export default function Home() {
                         </AppLink>
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
-                        {pair.token0.symbol}
-                      </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
-                        {pair.token1.symbol}
+                        <div className="flex items-center justify-center px-4 lg:p-0">
+                          <img
+                            src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
+                              pair.token1.address,
+                              pair.token1.symbol
+                            )}/logo.png`}
+                            className="token-icon"
+                          />
+                          <img
+                            src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
+                              pair.token0.address,
+                              pair.token0.symbol
+                            )}/logo.png`}
+                            className="token-icon"
+                          />
+                          <span className="ml-2 w-16">
+                            {pair.token0.symbol}/{pair.token1.symbol}
+                          </span>
+                        </div>
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {stableCoins.includes(pair.token0.symbol) ? (

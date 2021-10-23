@@ -23,3 +23,13 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.token-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  box-shadow: rgb(0 0 0 / 8%) 0px 6px 10px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(86, 90, 105);
+  margin: 0 1px;
+}

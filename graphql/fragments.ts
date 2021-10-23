@@ -13,6 +13,7 @@ export const token = gql`
     name
     symbol
     decimals
+    address
   }
 `;
 

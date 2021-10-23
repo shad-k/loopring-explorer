@@ -79,10 +79,15 @@ const Pairs: React.FC<{}> = () => {
                         ).format("0.0a")
                       ) : (
                         <USDPriceValue
-                          token={pair.token0}
-                          value={getTokenAmount(
+                          token0={pair.token0}
+                          value0={getTokenAmount(
                             pair?.dailyEntities[0]?.tradedVolumeToken0Swap,
                             pair.token0.decimals
+                          )}
+                          token1={pair.token1}
+                          value1={getTokenAmount(
+                            pair?.dailyEntities[0]?.tradedVolumeToken1Swap,
+                            pair.token1.decimals
                           )}
                         />
                       )}
@@ -104,10 +109,15 @@ const Pairs: React.FC<{}> = () => {
                         ).format("0.0a")
                       ) : (
                         <USDPriceValue
-                          token={pair.token0}
-                          value={getTokenAmount(
+                          token0={pair.token0}
+                          value0={getTokenAmount(
                             pair?.weeklyEntities[0]?.tradedVolumeToken0Swap,
                             pair.token0.decimals
+                          )}
+                          token1={pair.token1}
+                          value1={getTokenAmount(
+                            pair?.weeklyEntities[0]?.tradedVolumeToken1Swap,
+                            pair.token1.decimals
                           )}
                         />
                       )}

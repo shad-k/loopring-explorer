@@ -229,10 +229,9 @@ export default function Home() {
           <table className="table-auto w-full">
             <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
-                <th className="p-2 whitespace-nowrap">Pair ID</th>
                 <th className="p-2 whitespace-nowrap">Pair</th>
-                <th className="p-2 whitespace-nowrap">24hr Volume (USD)</th>
-                <th className="p-2 whitespace-nowrap">1w Volume (USD)</th>
+                <th className="p-2 whitespace-nowrap">Volume 24H</th>
+                <th className="p-2 whitespace-nowrap">Volume 7D</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -243,31 +242,28 @@ export default function Home() {
                       className="border dark:border-loopring-dark-background"
                       key={pair.id}
                     >
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                        <AppLink path="pair" pair={pair.id}>
-                          {pair.id}
-                        </AppLink>
-                      </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
-                        <div className="flex items-center justify-center px-4 lg:p-0">
-                          <img
-                            src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
-                              pair.token1.address,
-                              pair.token1.symbol
-                            )}/logo.png`}
-                            className="token-icon"
-                          />
-                          <img
-                            src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
-                              pair.token0.address,
-                              pair.token0.symbol
-                            )}/logo.png`}
-                            className="token-icon"
-                          />
-                          <span className="ml-2 w-16">
-                            {pair.token0.symbol}/{pair.token1.symbol}
-                          </span>
-                        </div>
+                        <AppLink path="pair" pair={pair.id}>
+                          <div className="flex items-center justify-center px-4 lg:p-0">
+                            <img
+                              src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
+                                pair.token1.address,
+                                pair.token1.symbol
+                              )}/logo.png`}
+                              className="token-icon"
+                            />
+                            <img
+                              src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
+                                pair.token0.address,
+                                pair.token0.symbol
+                              )}/logo.png`}
+                              className="token-icon"
+                            />
+                            <span className="ml-2 w-16">
+                              {pair.token0.symbol}/{pair.token1.symbol}
+                            </span>
+                          </div>
+                        </AppLink>
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {stableCoins.includes(pair.token0.symbol) ? (
@@ -286,10 +282,15 @@ export default function Home() {
                           ).format("0.0a")
                         ) : (
                           <USDPriceValue
-                            token={pair.token0}
-                            value={getTokenAmount(
+                            token0={pair.token0}
+                            value0={getTokenAmount(
                               pair?.dailyEntities[0]?.tradedVolumeToken0Swap,
                               pair.token0.decimals
+                            )}
+                            token1={pair.token1}
+                            value1={getTokenAmount(
+                              pair?.dailyEntities[0]?.tradedVolumeToken1Swap,
+                              pair.token1.decimals
                             )}
                           />
                         )}
@@ -311,10 +312,15 @@ export default function Home() {
                           ).format("0.0a")
                         ) : (
                           <USDPriceValue
-                            token={pair.token0}
-                            value={getTokenAmount(
+                            token0={pair.token0}
+                            value0={getTokenAmount(
                               pair?.weeklyEntities[0]?.tradedVolumeToken0Swap,
                               pair.token0.decimals
+                            )}
+                            token1={pair.token1}
+                            value1={getTokenAmount(
+                              pair?.weeklyEntities[0]?.tradedVolumeToken1Swap,
+                              pair.token1.decimals
                             )}
                           />
                         )}

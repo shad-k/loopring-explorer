@@ -226,15 +226,15 @@ export default function Home() {
           Pairs
         </h2>
         <div className="w-full overflow-x-auto">
-          <table className="table-auto w-full">
-            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
+          <table className="table-fixed w-full">
+            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none text-left">
               <tr>
                 <th className="p-2 whitespace-nowrap">Pair</th>
                 <th className="p-2 whitespace-nowrap">Volume 24H</th>
                 <th className="p-2 whitespace-nowrap">Volume 7D</th>
               </tr>
             </thead>
-            <tbody className="text-center">
+            <tbody className="text-left">
               {pairsData &&
                 pairsData.pairs.map((pair) => {
                   return (
@@ -244,7 +244,7 @@ export default function Home() {
                     >
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         <AppLink path="pair" pair={pair.id}>
-                          <div className="flex items-center justify-center px-4 lg:p-0">
+                          <div className="flex items-center px-4 lg:p-0">
                             <img
                               src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
                                 pair.token1.address,
@@ -272,14 +272,14 @@ export default function Home() {
                               pair?.dailyEntities[0]?.tradedVolumeToken0Swap,
                               pair.token0.decimals
                             )
-                          ).format("0.0a")
+                          ).format("$0.0a")
                         ) : stableCoins.includes(pair.token1.symbol) ? (
                           numeral(
                             getTokenAmount(
                               pair?.dailyEntities[0]?.tradedVolumeToken1Swap,
                               pair.token1.decimals
                             )
-                          ).format("0.0a")
+                          ).format("$0.0a")
                         ) : (
                           <USDPriceValue
                             token0={pair.token0}
@@ -302,14 +302,14 @@ export default function Home() {
                               pair?.weeklyEntities[0]?.tradedVolumeToken0Swap,
                               pair.token0.decimals
                             )
-                          ).format("0.0a")
+                          ).format("$0.0a")
                         ) : stableCoins.includes(pair.token1.symbol) ? (
                           numeral(
                             getTokenAmount(
                               pair?.weeklyEntities[0]?.tradedVolumeToken1Swap,
                               pair.token1.decimals
                             )
-                          ).format("0.0a")
+                          ).format("$0.0a")
                         ) : (
                           <USDPriceValue
                             token0={pair.token0}

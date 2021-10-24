@@ -22,9 +22,9 @@ const USDPriceValue: React.FC<Props> = ({ token0, value0, token1, value1 }) => {
     return null;
   }
   if (price0) {
-    return <>{numeral(price0 * value0).format("0.0a")}</>;
+    return <>{numeral(price0 * value0).format("$0.0a")}</>;
   } else if (price1) {
-    return <>{numeral(price1 * value1).format("0.0a")}</>;
+    return <>{numeral(price1 * value1).format("$0.0a")}</>;
   } else {
     return null;
   }

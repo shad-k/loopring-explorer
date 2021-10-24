@@ -11,6 +11,7 @@ import USDPriceValue from "../components/USDPriceValue";
 
 import stableCoins from "../utils/stableCoins";
 import getTokenAmount from "../utils/getTokenAmount";
+import getTokenIcon from "../utils/getTokenIcon";
 
 const Pairs: React.FC<{}> = () => {
   const router = useRouter();
@@ -33,17 +34,15 @@ const Pairs: React.FC<{}> = () => {
     <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
       <h1 className="text-3xl mb-2 font-bold">Pairs</h1>
       <div className="w-full overflow-auto">
-        <table className="table-auto w-full border-collapse">
-          <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white text-center">
+        <table className="table-fixed w-full border-collapse">
+          <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white text-left">
             <tr>
-              <th className="p-2 whitespace-nowrap">Pair ID</th>
-              <th className="p-2 whitespace-nowrap">Token A</th>
-              <th className="p-2 whitespace-nowrap">Token B</th>
+              <th className="p-2 whitespace-nowrap">Pair</th>
               <th className="p-2 whitespace-nowrap">24hr Volume (USD)</th>
               <th className="p-2 whitespace-nowrap">1w Volume (USD)</th>
             </tr>
           </thead>
-          <tbody className="text-center">
+          <tbody className="text-left">
             {data &&
               data.pairs.map((pair) => {
                 return (
@@ -51,17 +50,30 @@ const Pairs: React.FC<{}> = () => {
                     key={pair.id}
                     className="border dark:border-loopring-dark-background ml-2"
                   >
-                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue  whitespace-nowrap">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       <AppLink path="pair" pair={pair.id}>
-                        {pair.id}
+                        <div className="flex items-center px-4 lg:p-0">
+                          <img
+                            src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
+                              pair.token1.address,
+                              pair.token1.symbol
+                            )}/logo.png`}
+                            className="token-icon"
+                          />
+                          <img
+                            src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getTokenIcon(
+                              pair.token0.address,
+                              pair.token0.symbol
+                            )}/logo.png`}
+                            className="token-icon"
+                          />
+                          <span className="ml-2 w-16">
+                            {pair.token0.symbol}/{pair.token1.symbol}
+                          </span>
+                        </div>
                       </AppLink>
                     </td>
-                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                      {pair.token0.symbol}
-                    </td>
-                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                      {pair.token1.symbol}
-                    </td>
+
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {stableCoins.includes(pair.token0.symbol) ? (
                         numeral(
@@ -69,14 +81,14 @@ const Pairs: React.FC<{}> = () => {
                             pair?.dailyEntities[0]?.tradedVolumeToken0Swap,
                             pair.token0.decimals
                           )
-                        ).format("0.0a")
+                        ).format("$0.0a")
                       ) : stableCoins.includes(pair.token1.symbol) ? (
                         numeral(
                           getTokenAmount(
                             pair?.dailyEntities[0]?.tradedVolumeToken1Swap,
                             pair.token1.decimals
                           )
-                        ).format("0.0a")
+                        ).format("$0.0a")
                       ) : (
                         <USDPriceValue
                           token0={pair.token0}
@@ -99,14 +111,14 @@ const Pairs: React.FC<{}> = () => {
                             pair?.weeklyEntities[0]?.tradedVolumeToken0Swap,
                             pair.token0.decimals
                           )
-                        ).format("0.0a")
+                        ).format("$0.0a")
                       ) : stableCoins.includes(pair.token1.symbol) ? (
                         numeral(
                           getTokenAmount(
                             pair?.weeklyEntities[0]?.tradedVolumeToken1Swap,
                             pair.token1.decimals
                           )
-                        ).format("0.0a")
+                        ).format("$0.0a")
                       ) : (
                         <USDPriceValue
                           token0={pair.token0}

@@ -81,12 +81,12 @@ const FETCH_TRANSACTION = gql`
 `;
 
 const useTransaction = (id) => {
-  const { data, error } = useSWR([FETCH_TRANSACTION, id], (query, id) =>
-    id
-      ? request(LOOPRING_SUBGRAPH, query, {
-          id,
-        })
-      : null
+  const { data, error } = useSWR(
+    id ? [FETCH_TRANSACTION, id] : null,
+    (query, id) =>
+      request(LOOPRING_SUBGRAPH, query, {
+        id,
+      })
   );
 
   return {

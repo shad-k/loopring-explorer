@@ -8,6 +8,8 @@ interface NFTMetadata {
   [index: string]: unknown;
 }
 
+const IPFS_URL = "https://cf-ipfs.com/ipfs/";
+
 // Two caches need to maintained
 // NFT URI cache {key-> token_address:nft_id}
 // NFT metadata cache { key -> metadata_url}
@@ -88,9 +90,9 @@ const getNFTMetadata = async (uri, nft) => {
     console.log("metadataCache: cache hit");
     return cacheResult;
   } else {
-    const metadata = await fetch(
-      uri.replace("ipfs://", "https://ipfs.io/ipfs/")
-    ).then((res) => res.json());
+    const metadata = await fetch(uri.replace("ipfs://", IPFS_URL)).then((res) =>
+      res.json()
+    );
     metadataCache.set(cacheKey, metadata);
     return metadata;
   }
@@ -109,7 +111,7 @@ const useCachedNFT = (nft) => {
         isMountedRef.current &&
           setMetadata({
             ...metadata,
-            image: metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+            image: metadata?.image?.replace("ipfs://", IPFS_URL),
           });
       })();
     }

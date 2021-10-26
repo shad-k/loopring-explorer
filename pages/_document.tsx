@@ -10,12 +10,7 @@ class CustomDocument extends Document {
             type="text/javascript"
             dangerouslySetInnerHTML={{
               __html: `
-            // On page load or when changing themes, best to add inline in head to avoid FOUC
-            if (localStorage.darkMode === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
               document.documentElement.classList.add('dark')
-            } else {
-              document.documentElement.classList.remove('dark')
-            }
           `,
             }}
           ></script>

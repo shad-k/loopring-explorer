@@ -171,7 +171,7 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
           Couldn't fetch transactions
         </div>
       )}
-      <div className="flex flex-col lg:flex-row justify-between w-full">
+      <div className="flex flex-col lg:flex-row justify-end w-full">
         <Pagination
           currentPage={currentPage}
           onPageChange={pageChangeHandler}

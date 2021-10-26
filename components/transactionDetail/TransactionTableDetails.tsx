@@ -1,3 +1,5 @@
+import numeral from "numeral";
+
 import AppLink from "../AppLink";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 import getTokenAmount from "../../utils/getTokenAmount";
@@ -188,7 +190,10 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.fillBA, tx.tokenB.decimals)} {tx.tokenB.symbol}
+            {numeral(getTokenAmount(tx.fillBA, tx.tokenB.decimals)).format(
+              "0[.]00[00]"
+            )}{" "}
+            {tx.tokenB.symbol}
           </td>
           <td className={cellClassName}>
             {tx.feeA > 0

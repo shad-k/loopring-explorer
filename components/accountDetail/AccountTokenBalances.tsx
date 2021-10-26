@@ -43,10 +43,10 @@ const AccountTokenBalances: React.FC<Props> = ({ balances }) => {
                       className="border rounded dark:border-loopring-dark-background"
                     >
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue dark:text-white">
-                        {token.name} ({token.symbol})
+                        {token.name}
                       </td>
                       <td className="border-b dark:border-loopring-dark-darkBlue dark:text-white">
-                        {getTokenAmount(balance, token.decimals)}
+                        {getTokenAmount(balance, token.decimals)} {token.symbol}
                       </td>
                     </tr>
                   );

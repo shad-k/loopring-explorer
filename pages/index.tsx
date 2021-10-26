@@ -69,7 +69,7 @@ export default function Home() {
           </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">L2 Accounts</span>
+          <span className=" mb-4">Accounts</span>
           <span className="text-3xl flex-1">
             {numeral(33219).format("0,0")}
           </span>

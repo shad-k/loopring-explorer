@@ -82,22 +82,22 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                 Home
               </a>
             </Link>
-            <Link href="https://docs.loopring.io/en/basics/contracts.html">
+            <Link href="https://loopring.org">
               <a
                 target="_blank"
                 className="border-b border-t p-2 lg:border-none lg:p-0"
                 onClick={() => setShowNav(false)}
               >
-                Contracts
+                About
               </a>
             </Link>
-            <Link href="https://exchange.loopring.io/">
+            <Link href="https://app.loopring.io/">
               <a
                 target="_blank"
                 className="border-b border-t p-2 lg:border-none lg:p-0"
                 onClick={() => setShowNav(false)}
               >
-                Exchange
+                Layer2 App
               </a>
             </Link>
             <Link href="https://loopring.io/">
@@ -120,7 +120,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           <div className="px-10 py-8 bg-loopring-blue pb-20 dark:bg-loopring-dark-darkBlue">
             <div className="lg:w-11/12 m-auto">
               <h1 className="text-4xl text-white">
-                The Loopring zkRollup Explorer
+                Loopring zkRollup Explorer
               </h1>
               <SearchForm className="flex md:w-3/5 mt-4" />
             </div>

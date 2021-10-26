@@ -8,7 +8,7 @@ interface NFTMetadata {
   [index: string]: unknown;
 }
 
-const IPFS_URL = "https://cf-ipfs.com/ipfs/";
+const IPFS_URL = "https://cloudflare-ipfs.com/ipfs/";
 
 // Two caches need to maintained
 // NFT URI cache {key-> token_address:nft_id}

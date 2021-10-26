@@ -40,7 +40,11 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Seller</td>
         <td>
-          <AppLink path="account" accountId={accountSeller.id}>
+          <AppLink
+            path="account"
+            accountId={accountSeller.id}
+            address={accountSeller.address}
+          >
             <span className="hidden lg:block">{accountSeller.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(accountSeller.address, 10, true)}
@@ -51,7 +55,11 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Buyer</td>
         <td>
-          <AppLink path="account" accountId={accountBuyer.id}>
+          <AppLink
+            path="account"
+            accountId={accountBuyer.id}
+            address={accountBuyer.address}
+          >
             <span className="hidden lg:block">{accountBuyer.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(accountBuyer.address, 10, true)}

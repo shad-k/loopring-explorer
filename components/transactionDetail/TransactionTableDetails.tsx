@@ -242,12 +242,7 @@ const TransactionTableDetails: React.FC<{
       return (
         <>
           <td className={cellClassName}>
-            <AppLink
-              path="account"
-              address={tx.toAccount.address}
-              accountId={tx.toAccount.id}
-              isExplorerLink
-            >
+            <AppLink path="account" accountId={tx.toAccount.id} isExplorerLink>
               {getTrimmedTxHash(tx.toAccount.address, 10, true)}
             </AppLink>
           </td>
@@ -274,7 +269,6 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}>
             <AppLink
               path="account"
-              address={tx.fromAccount.address}
               accountId={tx.fromAccount.id}
               isExplorerLink
             >
@@ -399,7 +393,6 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}>
             <AppLink
               path="account"
-              address={tx.fromAccount.address}
               accountId={tx.fromAccount.id}
               isExplorerLink
             >

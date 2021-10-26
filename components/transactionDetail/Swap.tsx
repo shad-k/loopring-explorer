@@ -46,7 +46,11 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">User Account</td>
         <td>
-          <AppLink path="account" accountId={account.id}>
+          <AppLink
+            path="account"
+            accountId={account.id}
+            address={account.address}
+          >
             <span className="hidden lg:block">{account.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(account.address, 10, true)}
@@ -94,7 +98,7 @@ const Swap: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Pool</td>
         <td>
-          <AppLink path="account" accountId={pool.id}>
+          <AppLink path="account" accountId={pool.id} address={pool.address}>
             <span className="hidden lg:block">{pool.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(pool.address, 10, true)}

@@ -30,7 +30,7 @@ const AccountUpdate: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Account</td>
         <td>
-          <AppLink path="account" accountId={user.id}>
+          <AppLink path="account" accountId={user.id} address={user.address}>
             <span className="hidden lg:block">{user.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(user.address, 10, true)}

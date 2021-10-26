@@ -48,7 +48,11 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Minter</td>
         <td>
-          <AppLink path="account" accountId={minter.id}>
+          <AppLink
+            path="account"
+            accountId={minter.id}
+            address={minter.address}
+          >
             <span className="hidden lg:block">{minter.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(minter.address, 10, true)}
@@ -59,7 +63,11 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Receiver</td>
         <td>
-          <AppLink path="account" accountId={receiver.id}>
+          <AppLink
+            path="account"
+            accountId={receiver.id}
+            address={receiver.address}
+          >
             <span className="hidden lg:block">{receiver.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(receiver.address, 10, true)}

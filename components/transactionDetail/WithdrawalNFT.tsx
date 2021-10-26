@@ -31,7 +31,11 @@ const WithdrawalNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">From</td>
         <td>
-          <AppLink path="account" accountId={fromAccount.id}>
+          <AppLink
+            path="account"
+            accountId={fromAccount.id}
+            address={fromAccount.address}
+          >
             <span className="hidden lg:block">{fromAccount.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(fromAccount.address, 10, true)}

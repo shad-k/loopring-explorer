@@ -39,7 +39,11 @@ const Transfer: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">From</td>
         <td>
-          <AppLink path="account" accountId={fromAccount.id}>
+          <AppLink
+            path="account"
+            accountId={fromAccount.id}
+            address={fromAccount.address}
+          >
             <span className="hidden lg:block">{fromAccount.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(fromAccount.address, 10, true)}
@@ -50,7 +54,11 @@ const Transfer: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">to</td>
         <td>
-          <AppLink path="account" accountId={toAccount.id}>
+          <AppLink
+            path="account"
+            accountId={toAccount.id}
+            address={toAccount.address}
+          >
             <span className="hidden lg:block">{toAccount.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(toAccount.address, 10, true)}

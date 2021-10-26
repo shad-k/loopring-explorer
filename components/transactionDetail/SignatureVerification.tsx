@@ -30,7 +30,11 @@ const SignatureVerification: React.FC<{ transaction: any }> = ({
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Account</td>
         <td>
-          <AppLink path="account" accountId={account.id}>
+          <AppLink
+            path="account"
+            accountId={account.id}
+            address={account.address}
+          >
             <span className="hidden lg:block">{account.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(account.address, 10, true)}

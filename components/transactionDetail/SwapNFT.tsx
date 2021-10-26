@@ -29,7 +29,11 @@ const SwapNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Account 1</td>
         <td>
-          <AppLink path="account" accountId={accountA.id}>
+          <AppLink
+            path="account"
+            accountId={accountA.id}
+            address={accountA.address}
+          >
             <span className="hidden lg:block">{accountA.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(accountA.address, 10, true)}
@@ -40,7 +44,11 @@ const SwapNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Account 2</td>
         <td>
-          <AppLink path="account" accountId={accountB.id}>
+          <AppLink
+            path="account"
+            accountId={accountB.id}
+            address={accountB.address}
+          >
             <span className="hidden lg:block">{accountB.address}</span>
             <span className="lg:hidden">
               {getTrimmedTxHash(accountB.address, 10, true)}

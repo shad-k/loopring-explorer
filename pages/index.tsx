@@ -226,15 +226,15 @@ export default function Home() {
           Pairs
         </h2>
         <div className="w-full overflow-x-auto">
-          <table className="table-fixed w-full">
-            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none text-left">
+          <table className="table-auto w-full">
+            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
                 <th className="p-2 whitespace-nowrap">Pair</th>
                 <th className="p-2 whitespace-nowrap">Volume 24H</th>
                 <th className="p-2 whitespace-nowrap">Volume 7D</th>
               </tr>
             </thead>
-            <tbody className="text-left">
+            <tbody className="text-center">
               {pairsData &&
                 pairsData.pairs.map((pair) => {
                   return (

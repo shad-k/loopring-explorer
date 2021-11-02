@@ -37,7 +37,7 @@ const Pairs: React.FC<{}> = () => {
         <table className="table-fixed w-full border-collapse">
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
             <tr>
-              <th className="p-2 whitespace-nowrap">Pair</th>
+              <th className="p-2 whitespace-nowrap  w-56">Pair</th>
               <th className="p-2 whitespace-nowrap">24hr Volume (USD)</th>
               <th className="p-2 whitespace-nowrap">1w Volume (USD)</th>
             </tr>

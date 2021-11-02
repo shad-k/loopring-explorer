@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project starter that supports TypeScrip
 
 ## Getting Started
 
-Create a new NextJS project by using the following command:
+Create a new NextJS project with TailwindCSS and TypeScript support by using the following command:
 
 ```bash
 npx create-next-app -e https://github.com/shad-k/next-fe-starter
@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Non-Vercel Deployment
+
+Check out the [Next.js documentation](https://nextjs.org/docs/deployment#other-hosting-options)

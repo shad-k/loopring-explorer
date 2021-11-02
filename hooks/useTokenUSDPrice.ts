@@ -59,7 +59,6 @@ const useTokenUSDPrice = (token) => {
       const cache = usdPriceCache.get(token.address);
 
       if (cache) {
-        console.log("cache hit", token.symbol);
         setPrice(Number(cache));
       }
     }

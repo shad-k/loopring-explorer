@@ -68,7 +68,6 @@ const getNFTURI = async (nft) => {
   const cacheKey = nft.id;
   let cacheResult = uriCache.get(cacheKey);
   if (cacheResult) {
-    console.log("uriCache: cache hit");
     return cacheResult;
   } else {
     if (nft.nftType === 1) {
@@ -87,7 +86,6 @@ const getNFTMetadata = async (uri, nft) => {
   const cacheKey = nft.id;
   let cacheResult = metadataCache.get(cacheKey);
   if (cacheResult) {
-    console.log("metadataCache: cache hit");
     return cacheResult;
   } else {
     const metadata = await fetch(uri.replace("ipfs://", IPFS_URL)).then((res) =>

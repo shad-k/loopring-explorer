@@ -33,7 +33,7 @@ export const FETCH_PAIRS = gql`
         id
       }
       weeklyEntities(
-        skip: 1
+        skip: 0
         first: 1
         orderBy: weekEnd
         orderDirection: desc

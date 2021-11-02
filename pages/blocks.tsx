@@ -38,7 +38,6 @@ const Blocks: React.FC<{}> = () => {
               <th className="p-2 whitespace-nowrap">Block ID</th>
               <th className="p-2 whitespace-nowrap">L1 Tx</th>
               <th className="p-2 whitespace-nowrap">Size</th>
-              <th className="p-2 whitespace-nowrap">Fee</th>
               <th className="p-2 whitespace-nowrap">Verified At</th>
             </tr>
           </thead>
@@ -66,13 +65,6 @@ const Blocks: React.FC<{}> = () => {
                     </td>
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
                       {block.blockSize}
-                    </td>
-                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
-                      {getTokenAmount(
-                        block.gasPrice * block.gasLimit,
-                        18
-                      ).toFixed(2)}{" "}
-                      ETH
                     </td>
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray dark:text-white whitespace-nowrap">
                       {getTimeFromNow(block.timestamp)}

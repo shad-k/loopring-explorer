@@ -105,7 +105,6 @@ export default function Home() {
                 <th className="p-2 whitespace-nowrap">Block ID</th>
                 <th className="p-2 whitespace-nowrap">L1 Tx</th>
                 <th className="p-2 whitespace-nowrap">Size</th>
-                <th className="p-2 whitespace-nowrap">Fee</th>
                 <th className="p-2 whitespace-nowrap">Verified At</th>
               </tr>
             </thead>
@@ -133,13 +132,6 @@ export default function Home() {
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
                         {block.blockSize}
-                      </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
-                        {getTokenAmount(
-                          block.gasPrice * block.gasLimit,
-                          18
-                        ).toFixed(2)}{" "}
-                        ETH
                       </td>
                       <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
                         {getTimeFromNow(block.timestamp)}

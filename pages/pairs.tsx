@@ -38,8 +38,8 @@ const Pairs: React.FC<{}> = () => {
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
             <tr>
               <th className="p-2 whitespace-nowrap  w-56">Pair</th>
-              <th className="p-2 whitespace-nowrap">24hr Volume (USD)</th>
-              <th className="p-2 whitespace-nowrap">1w Volume (USD)</th>
+              <th className="p-2 whitespace-nowrap">Volume 24H</th>
+              <th className="p-2 whitespace-nowrap">Volume 7D</th>
             </tr>
           </thead>
           <tbody className="text-center">

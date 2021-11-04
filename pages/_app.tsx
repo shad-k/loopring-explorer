@@ -2,7 +2,6 @@ import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 import Link from "next/link";
 
@@ -50,7 +49,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             onClick={() => router.push("/")}
             className="h-full flex items-center w-4/6 cursor-pointer"
           >
-            <Image
+            <img
               src={darkMode ? "/logo-white.svg" : "/logo-blue.svg"}
               width="100"
               height="40"

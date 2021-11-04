@@ -1,27 +1,28 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-import useAccounts from "../../hooks/useAccounts";
-import AppLink from "../../components/AppLink";
-import Transactions from "../transactions";
+import useAccounts from "../hooks/useAccounts";
+import AppLink from "../components/AppLink";
+import Transactions from "./transactions";
 
-import getDateString from "../../utils/getDateString";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
-import AccountTokenBalances from "../../components/accountDetail/AccountTokenBalances";
-import TabbedView from "../../components/TabbedView";
-import AccountNFTs from "../../components/accountDetail/AccountNFTs";
+import getDateString from "../utils/getDateString";
+import getTrimmedTxHash from "../utils/getTrimmedTxHash";
+import AccountTokenBalances from "../components/accountDetail/AccountTokenBalances";
+import TabbedView from "../components/TabbedView";
+import AccountNFTs from "../components/accountDetail/AccountNFTs";
 
 const Account: React.FC<{}> = () => {
   const router = useRouter();
-  const [accountId, setAccountId] = React.useState(router.query.id);
+  const accId = router.asPath.replace(/\/account\/\#\/(\d+)\??/, "$1");
+  const [accountId, setAccountId] = React.useState(accId);
   const { data, error, isLoading } = useAccounts(accountId);
 
   const { address, createdAtTransaction, balances, slots, __typename, id } =
     (data && data.accounts.length > 0 && data.accounts[0]) || {};
 
   React.useEffect(() => {
-    setAccountId(router.query.id);
-  }, [router.query]);
+    setAccountId(accId);
+  }, [router.asPath]);
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">

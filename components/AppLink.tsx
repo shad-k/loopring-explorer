@@ -88,13 +88,15 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
 
   let link;
   if (path === "block") {
-    link = `block/${block}`;
+    link = `block/#/${block}`;
   } else if (path === "transaction") {
     link = `tx/${tx}`;
   } else if (path === "account") {
-    link = `${isExplorerLink ? "address" : "account"}/${
-      isExplorerLink ? address : accountId
-    }`;
+    if (isExplorerLink) {
+      link = `address/${address}`;
+    } else {
+      link = `account/#/${accountId}`;
+    }
   } else if (path === "pair") {
     link = `pair/${pair}`;
   } else if (path === "token") {

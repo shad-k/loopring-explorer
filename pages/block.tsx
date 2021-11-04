@@ -2,15 +2,15 @@ import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import useBlock from "../../hooks/useBlock";
-import getDateString from "../../utils/getDateString";
-import AppLink from "../../components/AppLink";
-import Transactions from "../transactions";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
+import useBlock from "../hooks/useBlock";
+import getDateString from "../utils/getDateString";
+import AppLink from "../components/AppLink";
+import Transactions from "./transactions";
+import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
-  const blockId = router.query.id;
+  const blockId = router.asPath.replace(/\/block\/\#\/(\d+)\??/, "$1");
   const { data, error, isLoading } = useBlock(blockId);
 
   const blockCount = data ? data.proxy.blockCount : null;

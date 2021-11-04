@@ -22,7 +22,7 @@ import DataNFT from "../components/transactionDetail/DataNFT";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
-  const txId = router.asPath.replace(/\/tx\/\#\/(.+)\??/, "$1");
+  const txId = router.query.id;
   const { data, error, isLoading } = useTransaction(txId);
 
   const { __typename, block } = (data && data.transaction) || {};
@@ -74,14 +74,14 @@ const Transaction: React.FC<{}> = () => {
       <h1 className="text-3xl mb-5 flex items-center">
         Transaction #{txId}
         {txInBlock > 0 && (
-          <Link href={block ? `/tx/${block.id}-${txInBlock - 1}` : ""}>
+          <Link href={block ? `/tx?id=${block.id}-${txInBlock - 1}` : ""}>
             <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
               ‹
             </a>
           </Link>
         )}
         {transactionCount && txInBlock < transactionCount && (
-          <Link href={block ? `/tx/${block.id}-${txInBlock + 1}` : ""}>
+          <Link href={block ? `/tx?id=${block.id}-${txInBlock + 1}` : ""}>
             <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
               ›
             </a>

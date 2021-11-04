@@ -12,7 +12,7 @@ import Trades from "../components/pairDetail/Trades";
 
 const Pair: React.FC<{}> = () => {
   const router = useRouter();
-  const pairId = router.asPath.replace(/\/pair\/\#\/(.+)\??/, "$1");
+  const pairId = router.query.id;
   const [swapPage, setSwapPage] = React.useState<number>(1);
   const [orderbookPage, setOrderbookPage] = React.useState<number>(1);
   const [chart, setChart] = React.useState("swap+orderbook");

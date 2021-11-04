@@ -10,7 +10,7 @@ import getTrimmedTxHash from "../utils/getTrimmedTxHash";
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
-  const blockId = router.asPath.replace(/\/block\/\#\/(\d+)\??/, "$1");
+  const blockId = router.query.id;
   const { data, error, isLoading } = useBlock(blockId);
 
   const blockCount = data ? data.proxy.blockCount : null;
@@ -21,14 +21,14 @@ const Block: React.FC<{}> = () => {
       <h1 className="text-3xl mb-5 flex items-center">
         Block #{blockId}
         {blockIdInt > 1 && (
-          <Link href={`/block/${blockIdInt - 1}`}>
+          <Link href={`/block?id=${blockIdInt - 1}`}>
             <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
               ‹
             </a>
           </Link>
         )}
         {blockCount && blockIdInt < blockCount && (
-          <Link href={`/block/${blockIdInt + 1}`}>
+          <Link href={`/block?id=${blockIdInt + 1}`}>
             <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
               ›
             </a>

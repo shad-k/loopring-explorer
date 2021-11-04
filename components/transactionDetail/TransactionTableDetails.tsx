@@ -10,8 +10,8 @@ const makeL1ExplorerCSVLink = (account) => {
 };
 
 const makeCSVLink = (account) => {
-  const loopringExplorerLink = `https://${window.location.host}/account/`;
-  return `"=HYPERLINK(""${loopringExplorerLink}${account.id}"",""${account.address}"")"`;
+  const loopringExplorerLink = `https://${window.location.host}/account`;
+  return `"=HYPERLINK(""${loopringExplorerLink}?id=${account.id}"",""${account.address}"")"`;
 };
 
 const makeCSVTokenAmount = (amount, token) => {

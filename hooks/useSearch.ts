@@ -23,21 +23,21 @@ const useSearch = (query: string) => {
       if (blockData && blockData.block) {
         allResults.push({
           type: "block",
-          link: `/block/${blockData.block.id}`,
+          link: `/block?id=${blockData.block.id}`,
           block: blockData.block,
         });
       }
       if (txData && txData.transaction) {
         allResults.push({
           type: "tx",
-          link: `/tx/${txData.transaction.id}`,
+          link: `/tx?id=${txData.transaction.id}`,
           tx: txData.transaction,
         });
       }
       if (accountData && accountData.accounts[0]) {
         allResults.push({
           type: "account",
-          link: `/account/${accountData.accounts[0].id}`,
+          link: `/account?id=${accountData.accounts[0].id}`,
           account: accountData.accounts[0],
         });
       }

@@ -9,7 +9,7 @@ import NFTTransactions from "../components/nftDetail/NFTTransactions";
 const NFTDetail: React.FC<{}> = () => {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const nftId = router.asPath.replace(/\/nft\/\#\/(.+)\??/, "$1");
+  const nftId = router.query.id;
   const { data } = useNFT(nftId);
   const nft = data ? data?.nonFungibleToken : null;
 

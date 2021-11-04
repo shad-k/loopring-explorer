@@ -10,7 +10,10 @@ class CustomDocument extends Document {
             type="text/javascript"
             dangerouslySetInnerHTML={{
               __html: `
-              document.documentElement.classList.add('dark')
+              var localDarkModeValue = localStorage.getItem('darkMode');
+              if(!localDarkModeValue || localDarkModeValue && JSON.parse(localDarkModeValue)) {
+                document.documentElement.classList.add('dark')
+              }
           `,
             }}
           ></script>

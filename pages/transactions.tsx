@@ -46,7 +46,11 @@ const Transactions: React.FC<{
 
   const pageChangeHandler = (page) => {
     router.push(
-      { pathname: router.pathname, query: { ...router.query, page } },
+      {
+        pathname: router.pathname,
+        query: { ...router.query, page },
+        hash: router.asPath.replace(/\/.*\/\#\/(.*)\??/, "$1"),
+      },
       undefined,
       {
         shallow: true,
@@ -80,6 +84,7 @@ const Transactions: React.FC<{
           {
             pathname: router.pathname,
             query: { ...router.query, block: block.value },
+            hash: router.asPath.replace(/\/.*\/\#\/(.*)\??/, "$1"),
           },
           undefined,
           {
@@ -89,7 +94,11 @@ const Transactions: React.FC<{
       } else {
         const { block, ...restQuery } = router.query;
         router.push(
-          { pathname: router.pathname, query: { ...restQuery, page: 1 } },
+          {
+            pathname: router.pathname,
+            query: { ...restQuery, page: 1 },
+            hash: router.asPath.replace(/\/.*\/\#\/(.*)\??/, "$1"),
+          },
           undefined,
           {
             shallow: true,
@@ -104,6 +113,7 @@ const Transactions: React.FC<{
         {
           pathname: router.pathname,
           query: { ...router.query, type: txTypeInput.value, page: 1 },
+          hash: router.asPath.replace(/\/.*\/\#\/(.*)\??/, "$1"),
         },
         undefined,
         {

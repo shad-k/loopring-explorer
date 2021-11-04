@@ -3,16 +3,16 @@ import { useRouter } from "next/router";
 import numeral from "numeral";
 import { ResponsiveContainer, Tooltip, XAxis, Bar, BarChart } from "recharts";
 
-import usePair from "../../hooks/usePair";
-import useTokenUSDPrice from "../../hooks/useTokenUSDPrice";
-import getTokenAmount from "../../utils/getTokenAmount";
-import getDateString from "../../utils/getDateString";
-import Swaps from "../../components/pairDetail/Swaps";
-import Trades from "../../components/pairDetail/Trades";
+import usePair from "../hooks/usePair";
+import useTokenUSDPrice from "../hooks/useTokenUSDPrice";
+import getTokenAmount from "../utils/getTokenAmount";
+import getDateString from "../utils/getDateString";
+import Swaps from "../components/pairDetail/Swaps";
+import Trades from "../components/pairDetail/Trades";
 
 const Pair: React.FC<{}> = () => {
   const router = useRouter();
-  const pairId = router.query.id;
+  const pairId = router.asPath.replace(/\/pair\/\#\/(.+)\??/, "$1");
   const [swapPage, setSwapPage] = React.useState<number>(1);
   const [orderbookPage, setOrderbookPage] = React.useState<number>(1);
   const [chart, setChart] = React.useState("swap+orderbook");

@@ -2,27 +2,27 @@ import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import useTransaction from "../../hooks/useTransaction";
-import Deposit from "../../components/transactionDetail/Deposit";
-import Withdrawal from "../../components/transactionDetail/Withdrawal";
-import Transfer from "../../components/transactionDetail/Transfer";
-import AccountUpdate from "../../components/transactionDetail/AccountUpdate";
-import SignatureVerification from "../../components/transactionDetail/SignatureVerification";
-import AmmUpdate from "../../components/transactionDetail/AmmUpdate";
-import Add from "../../components/transactionDetail/Add";
-import Remove from "../../components/transactionDetail/Remove";
-import Swap from "../../components/transactionDetail/Swap";
-import OrderbookTrade from "../../components/transactionDetail/OrderbookTrade";
-import TradeNFT from "../../components/transactionDetail/TradeNFT";
-import SwapNFT from "../../components/transactionDetail/SwapNFT";
-import WithdrawalNFT from "../../components/transactionDetail/WithdrawalNFT";
-import TransferNFT from "../../components/transactionDetail/TransferNFT";
-import MintNFT from "../../components/transactionDetail/MintNFT";
-import DataNFT from "../../components/transactionDetail/DataNFT";
+import useTransaction from "../hooks/useTransaction";
+import Deposit from "../components/transactionDetail/Deposit";
+import Withdrawal from "../components/transactionDetail/Withdrawal";
+import Transfer from "../components/transactionDetail/Transfer";
+import AccountUpdate from "../components/transactionDetail/AccountUpdate";
+import SignatureVerification from "../components/transactionDetail/SignatureVerification";
+import AmmUpdate from "../components/transactionDetail/AmmUpdate";
+import Add from "../components/transactionDetail/Add";
+import Remove from "../components/transactionDetail/Remove";
+import Swap from "../components/transactionDetail/Swap";
+import OrderbookTrade from "../components/transactionDetail/OrderbookTrade";
+import TradeNFT from "../components/transactionDetail/TradeNFT";
+import SwapNFT from "../components/transactionDetail/SwapNFT";
+import WithdrawalNFT from "../components/transactionDetail/WithdrawalNFT";
+import TransferNFT from "../components/transactionDetail/TransferNFT";
+import MintNFT from "../components/transactionDetail/MintNFT";
+import DataNFT from "../components/transactionDetail/DataNFT";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
-  const txId = router.query.id;
+  const txId = router.asPath.replace(/\/tx\/\#\/(.+)\??/, "$1");
   const { data, error, isLoading } = useTransaction(txId);
 
   const { __typename, block } = (data && data.transaction) || {};

@@ -13,7 +13,7 @@ import AccountNFTs from "../components/accountDetail/AccountNFTs";
 
 const Account: React.FC<{}> = () => {
   const router = useRouter();
-  const accId = router.asPath.replace(/\/account\/\#\/(\d+)\??/, "$1");
+  const accId = router.asPath.replace(/\/account\/\#\/(\d+)\?./, "$1");
   const [accountId, setAccountId] = React.useState(accId);
   const { data, error, isLoading } = useAccounts(accountId);
 

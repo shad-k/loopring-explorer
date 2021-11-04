@@ -1,15 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
-import useNFT from "../../hooks/useNFT";
-import useCachedNFT from "../../hooks/useCachedNFT";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
-import AppLink from "../../components/AppLink";
-import NFTTransactions from "../../components/nftDetail/NFTTransactions";
+import useNFT from "../hooks/useNFT";
+import useCachedNFT from "../hooks/useCachedNFT";
+import getTrimmedTxHash from "../utils/getTrimmedTxHash";
+import AppLink from "../components/AppLink";
+import NFTTransactions from "../components/nftDetail/NFTTransactions";
 
 const NFTDetail: React.FC<{}> = () => {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const { data } = useNFT(router.query.id);
+  const nftId = router.asPath.replace(/\/nft\/\#\/(.+)\??/, "$1");
+  const { data } = useNFT(nftId);
   const nft = data ? data?.nonFungibleToken : null;
 
   const metadata = useCachedNFT(nft);

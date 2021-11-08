@@ -91,7 +91,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                 About
               </a>
             </Link>
-            <Link href="https://app.loopring.io/">
+            <Link href="https://loopring.io/#/layer2">
               <a
                 target="_blank"
                 className="border-b border-t p-2 lg:border-none lg:p-0"

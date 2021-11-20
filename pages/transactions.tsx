@@ -302,20 +302,14 @@ const Transactions: React.FC<{
             <option value="all" selected={txType === "all"}>
               All Transactions
             </option>
+            <option value="Deposit" selected={txType === "Deposit"}>
+              Deposit
+            </option>
+            <option value="Withdrawal" selected={txType === "Withdrawal"}>
+              Withdrawal
+            </option>
             <option value="Swap" selected={txType === "Swap"}>
               Swap
-            </option>
-            <option value="SwapNFT" selected={txType === "SwapNFT"}>
-              SwapNFT
-            </option>
-            <option
-              value="OrderbookTrade"
-              selected={txType === "OrderbookTrade"}
-            >
-              Trade
-            </option>
-            <option value="TradeNFT" selected={txType === "TradeNFT"}>
-              TradeNFT
             </option>
             <option value="Add" selected={txType === "Add"}>
               Amm Join
@@ -323,23 +317,32 @@ const Transactions: React.FC<{
             <option value="Remove" selected={txType === "Remove"}>
               Amm Exit
             </option>
+            <option
+              value="OrderbookTrade"
+              selected={txType === "OrderbookTrade"}
+            >
+              Trade
+            </option>
             <option value="Transfer" selected={txType === "Transfer"}>
               Transfer
             </option>
-            <option value="TransferNFT" selected={txType === "TransferNFT"}>
-              TransferNFT
-            </option>
-            <option value="Deposit" selected={txType === "Deposit"}>
-              Deposit
-            </option>
             <option value="MintNFT" selected={txType === "MintNFT"}>
-              MintNFT
-            </option>
-            <option value="Withdrawal" selected={txType === "Withdrawal"}>
-              Withdrawal
+              NFT Mint
             </option>
             <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
-              WithdrawalNFT
+              NFT Withdrawal
+            </option>
+            <option value="TransferNFT" selected={txType === "TransferNFT"}>
+              NFT Transfer
+            </option>
+            <option value="SwapNFT" selected={txType === "SwapNFT"}>
+              NFT Swap
+            </option>
+            <option value="TradeNFT" selected={txType === "TradeNFT"}>
+              NFT Trade
+            </option>
+            <option value="DataNFT" selected={txType === "DataNFT"}>
+              NFT Data
             </option>
             <option value="AccountUpdate" selected={txType === "AccountUpdate"}>
               AccountUpdate
@@ -352,9 +355,6 @@ const Transactions: React.FC<{
               selected={txType === "SignatureVerification"}
             >
               SignatureVerification
-            </option>
-            <option value="DataNFT" selected={txType === "DataNFT"}>
-              DataNFT
             </option>
           </select>
           {!blockIDFilter && !accountIdFilter && (

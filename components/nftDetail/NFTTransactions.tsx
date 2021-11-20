@@ -90,23 +90,23 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
             <option value="all" selected={txType === "all"}>
               All Transactions
             </option>
-            <option value="SwapNFT" selected={txType === "SwapNFT"}>
-              SwapNFT
-            </option>
-            <option value="TradeNFT" selected={txType === "TradeNFT"}>
-              TradeNFT
-            </option>
-            <option value="TransferNFT" selected={txType === "TransferNFT"}>
-              TransferNFT
-            </option>
             <option value="MintNFT" selected={txType === "MintNFT"}>
-              MintNFT
+              NFT Mint
             </option>
             <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
-              WithdrawalNFT
+              NFT Withdrawal
+            </option>
+            <option value="TransferNFT" selected={txType === "TransferNFT"}>
+              NFT Transfer
+            </option>
+            <option value="SwapNFT" selected={txType === "SwapNFT"}>
+              NFT Swap
+            </option>
+            <option value="TradeNFT" selected={txType === "TradeNFT"}>
+              NFT Trade
             </option>
             <option value="DataNFT" selected={txType === "DataNFT"}>
-              DataNFT
+              NFT Data
             </option>
           </select>
           <button

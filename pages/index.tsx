@@ -57,19 +57,19 @@ export default function Home() {
     <div className="mt-10 w-11/12 m-auto">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-16">
         <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Transactions</span>
+          <span className=" mb-4">Total Transactions</span>
           <span className="text-3xl flex-1">
             {txsData && numeral(txsData.proxy.transactionCount).format("0,0")}
           </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Blocks</span>
+          <span className=" mb-4">Total Blocks</span>
           <span className="text-3xl flex-1">
             {data && numeral(data.proxy.blockCount).format("0,0")}
           </span>
         </div>
         <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Accounts</span>
+          <span className=" mb-4">Total L2 Accounts</span>
           <span className="text-3xl flex-1">
             {numeral(33219).format("0,0")}
           </span>

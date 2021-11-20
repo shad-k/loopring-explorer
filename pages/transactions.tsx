@@ -161,7 +161,7 @@ const Transactions: React.FC<{
 
   const downloadCSV = async () => {
     setShowDownloadModal(true);
-    if (data.transactions && data.transactions.lenght < 10) {
+    if (data.transactions && data.transactions.length < 10) {
       await makeCSV(data.transactions);
       setShowDownloadButton(true);
     } else {
@@ -455,6 +455,7 @@ const Transactions: React.FC<{
                 )
           }
           entriesPerPage={ENTRIES_PER_PAGE}
+          isLastPage={data && data.transactions.length < ENTRIES_PER_PAGE}
         />
       </div>
       {showDownloadModal && (

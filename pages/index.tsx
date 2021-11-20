@@ -221,9 +221,9 @@ export default function Home() {
           <table className="table-auto w-full">
             <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
-                <th className="p-2 whitespace-nowrap w-56">Pair</th>
-                <th className="p-2 whitespace-nowrap">Volume 24H</th>
-                <th className="p-2 whitespace-nowrap">Volume 7D</th>
+                <th className="p-2 whitespace-nowrap w-64">Pair</th>
+                <th className="p-2 whitespace-nowrap w-64">Volume 24H</th>
+                <th className="p-2 whitespace-nowrap w-64">Volume 7D</th>
               </tr>
             </thead>
             <tbody className="text-center">

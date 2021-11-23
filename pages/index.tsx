@@ -221,8 +221,8 @@ export default function Home() {
           <table className="table-auto w-full">
             <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
               <tr>
-                <th className="p-2 whitespace-nowrap w-64">Pair</th>
-                <th className="p-2 whitespace-nowrap w-64">Volume 24H</th>
+                <th className="p-2 whitespace-nowrap w-28">Pair</th>
+                <th className="p-2 pl-36 whitespace-nowrap w-64">Volume 24H</th>
                 <th className="p-2 whitespace-nowrap w-64">Volume 7D</th>
               </tr>
             </thead>
@@ -257,7 +257,7 @@ export default function Home() {
                           </div>
                         </AppLink>
                       </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
+                      <td className="p-2 pl-36 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                         {stableCoins.includes(pair.token0.symbol) ? (
                           numeral(
                             getTokenAmount(

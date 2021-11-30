@@ -114,7 +114,9 @@ const Transactions: React.FC<{
   };
 
   const makeCSV = async (transactions) => {
-    const csv = ["Tx ID,Type,From,To,Pair,Side,Amount,Fee,Verified At"];
+    const csv = [
+      "Tx ID,Type,From,To,Pair,Side,Amount,Price,Total,Fee,Verified At",
+    ];
     transactions.forEach((tx) => {
       csv.push(
         [

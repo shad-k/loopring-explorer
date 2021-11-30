@@ -27,6 +27,8 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         makeCSVTokenAmount(tx.amount, tx.token),
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Remove":
@@ -36,6 +38,8 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         makeCSVTokenAmount(tx.amount, tx.token),
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Swap":
@@ -44,10 +48,15 @@ export const getCSVTransactionDetailFields = (tx) => {
         makeCSVLink(tx.pool),
         `${tx.pair.token0.symbol}-${tx.pair.token1.symbol}`,
         tx.pair.token0.symbol === tx.tokenA.symbol ? "Buy" : "Sell",
-        `${makeCSVTokenAmount(tx.fillSA, tx.tokenA)} ↔ ${makeCSVTokenAmount(
-          tx.fillSB,
-          tx.tokenB
-        )}`,
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.fillSA, tx.tokenA)
+          : makeCSVTokenAmount(tx.fillSB, tx.tokenB),
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.tokenAPrice, tx.tokenB)
+          : makeCSVTokenAmount(tx.tokenBPrice, tx.tokenA),
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.fillSB, tx.tokenB)
+          : makeCSVTokenAmount(tx.fillSA, tx.tokenA),
         tx.feeA > 0
           ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
           : tx.feeB > 0
@@ -63,6 +72,13 @@ export const getCSVTransactionDetailFields = (tx) => {
         tx.pair.token0.symbol === tx.tokenA.symbol
           ? makeCSVTokenAmount(tx.fillBB, tx.tokenA)
           : makeCSVTokenAmount(tx.fillBA, tx.tokenB),
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.tokenAPrice, tx.tokenB)
+          : makeCSVTokenAmount(tx.tokenBPrice, tx.tokenA),
+        ,
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.fillBA, tx.tokenB)
+          : makeCSVTokenAmount(tx.fillBB, tx.tokenA),
         tx.feeA > 0
           ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
           : tx.feeB > 0
@@ -77,6 +93,8 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         makeCSVTokenAmount(tx.amount, tx.token),
         "",
+        "",
+        "",
       ];
     case "Withdrawal":
       return [
@@ -85,6 +103,8 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         makeCSVTokenAmount(tx.amount, tx.token),
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "Transfer":
@@ -94,6 +114,8 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         makeCSVTokenAmount(tx.amount, tx.token),
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "AccountUpdate":
@@ -103,12 +125,14 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         "",
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "AmmUpdate":
-      return ["", "", "", "", "", ""];
+      return ["", "", "", "", "", "", ""];
     case "SignatureVerification":
-      return [makeCSVLink(tx.account), "", "", "", "", ""];
+      return [makeCSVLink(tx.account), "", "", "", "", "", ""];
     case "TradeNFT":
       return [
         makeCSVLink(tx.accountSeller),
@@ -116,12 +140,16 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         makeCSVTokenAmount(tx.realizedNFTPrice, tx.token),
+        "",
+        "",
         makeCSVTokenAmount(tx.feeBuyer, tx.token),
       ];
     case "SwapNFT":
       return [
         makeCSVLink(tx.accountA),
         makeCSVLink(tx.accountB),
+        "",
+        "",
         "",
         "",
         "",
@@ -134,6 +162,8 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         "",
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "TransferNFT":
@@ -143,14 +173,25 @@ export const getCSVTransactionDetailFields = (tx) => {
         "",
         "",
         "",
+        "",
+        "",
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
     case "MintNFT":
-      return [makeCSVLink(tx.minter), makeCSVLink(tx.receiver), "", "", "", ""];
+      return [
+        makeCSVLink(tx.minter),
+        makeCSVLink(tx.receiver),
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      ];
     case "DataNFT":
-      return ["", "", "", "", "", ""];
+      return ["", "", "", "", "", "", "", ""];
     default:
-      return ["", "", "", "", "", ""];
+      return ["", "", "", "", "", "", "", ""];
   }
 };
 

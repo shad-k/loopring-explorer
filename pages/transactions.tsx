@@ -114,7 +114,7 @@ const Transactions: React.FC<{
   };
 
   const makeCSV = async (transactions) => {
-    const csv = ["Tx ID,Type,From,To,Amount,Fee,Verified At"];
+    const csv = ["Tx ID,Type,From,To,Pair,Side,Amount,Fee,Verified At"];
     transactions.forEach((tx) => {
       csv.push(
         [
@@ -133,6 +133,11 @@ const Transactions: React.FC<{
       "csv-download"
     ) as HTMLAnchorElement;
 
+    if (!downloadLink) {
+      window.open(URL.createObjectURL(csvFile));
+      return;
+    }
+
     // File name
     downloadLink.download = "transactions";
 
@@ -142,8 +147,8 @@ const Transactions: React.FC<{
 
   const getAllTransactions = async (page: number) => {
     const txs = await request(LOOPRING_SUBGRAPH, FETCH_TXS, {
-      skip: page * 20,
-      first: 20,
+      skip: page * 50,
+      first: 50,
       orderBy: "internalID",
       orderDirection: "desc",
       where: {

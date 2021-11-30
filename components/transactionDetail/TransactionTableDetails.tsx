@@ -15,7 +15,7 @@ const makeCSVLink = (account) => {
 };
 
 const makeCSVTokenAmount = (amount, token) => {
-  return `${getTokenAmount(amount, token.decimals).toFixed(4)} ${token.symbol}`;
+  return `${getTokenAmount(amount, token.decimals).toFixed(6)} ${token.symbol}`;
 };
 
 export const getCSVTransactionDetailFields = (tx) => {
@@ -49,14 +49,14 @@ export const getCSVTransactionDetailFields = (tx) => {
         `${tx.pair.token0.symbol}-${tx.pair.token1.symbol}`,
         tx.pair.token0.symbol === tx.tokenA.symbol ? "Buy" : "Sell",
         tx.pair.token0.symbol === tx.tokenA.symbol
-          ? makeCSVTokenAmount(tx.fillSA, tx.tokenA)
-          : makeCSVTokenAmount(tx.fillSB, tx.tokenB),
-        tx.pair.token0.symbol === tx.tokenA.symbol
-          ? makeCSVTokenAmount(tx.tokenAPrice, tx.tokenB)
-          : makeCSVTokenAmount(tx.tokenBPrice, tx.tokenA),
-        tx.pair.token0.symbol === tx.tokenA.symbol
           ? makeCSVTokenAmount(tx.fillSB, tx.tokenB)
           : makeCSVTokenAmount(tx.fillSA, tx.tokenA),
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.tokenBPrice, tx.tokenA)
+          : makeCSVTokenAmount(tx.tokenAPrice, tx.tokenB),
+        tx.pair.token0.symbol === tx.tokenA.symbol
+          ? makeCSVTokenAmount(tx.fillSA, tx.tokenA)
+          : makeCSVTokenAmount(tx.fillSB, tx.tokenB),
         tx.feeA > 0
           ? makeCSVTokenAmount(tx.feeA, tx.tokenB)
           : tx.feeB > 0
@@ -75,7 +75,6 @@ export const getCSVTransactionDetailFields = (tx) => {
         tx.pair.token0.symbol === tx.tokenA.symbol
           ? makeCSVTokenAmount(tx.tokenAPrice, tx.tokenB)
           : makeCSVTokenAmount(tx.tokenBPrice, tx.tokenA),
-        ,
         tx.pair.token0.symbol === tx.tokenA.symbol
           ? makeCSVTokenAmount(tx.fillBA, tx.tokenB)
           : makeCSVTokenAmount(tx.fillBB, tx.tokenA),

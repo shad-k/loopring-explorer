@@ -120,6 +120,12 @@ export const swap = gql`
     }
     pair {
       id
+      token0 {
+        symbol
+      }
+      token1 {
+        symbol
+      }
     }
     tokenAPrice
     tokenBPrice
@@ -149,11 +155,21 @@ export const orderbookTrade = gql`
     tokenB {
       ...TokenFragment
     }
+    pair {
+      id
+      token0 {
+        symbol
+      }
+      token1 {
+        symbol
+      }
+    }
     tokenAPrice
     tokenBPrice
     fillSA
     fillSB
     fillBA
+    fillBB
     fillAmountBorSA
     fillAmountBorSB
     feeA

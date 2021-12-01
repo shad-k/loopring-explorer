@@ -5,6 +5,7 @@ interface Props {
   onPageChange: (page: number) => void;
   total?: number;
   entriesPerPage?: number;
+  isLastPage?: boolean;
 }
 
 const PaginationButton: React.FC<
@@ -39,6 +40,7 @@ const Pagination: React.FC<Props> = ({
   onPageChange,
   total,
   entriesPerPage = 10,
+  isLastPage = false,
 }) => {
   const [pageButtons, setPageButtons] = React.useState([1, 2, 3, 4]);
   const [totalPages, setTotalPages] = React.useState<number>();
@@ -71,6 +73,12 @@ const Pagination: React.FC<Props> = ({
       setPrevTotal(total);
     }
   }, [total]);
+
+  React.useEffect(() => {
+    if (isLastPage) {
+      setTotalPages(currentPage);
+    }
+  }, [isLastPage]);
 
   if (total == 0) {
     return null;

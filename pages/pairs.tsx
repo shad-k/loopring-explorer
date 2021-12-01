@@ -37,9 +37,9 @@ const Pairs: React.FC<{}> = () => {
         <table className="table-fixed w-full border-collapse">
           <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
             <tr>
-              <th className="p-2 whitespace-nowrap  w-56">Pair</th>
-              <th className="p-2 whitespace-nowrap">Volume 24H</th>
-              <th className="p-2 whitespace-nowrap">Volume 7D</th>
+              <th className="p-2 whitespace-nowrap w-28">Pair</th>
+              <th className="p-2 pl-36 whitespace-nowrap w-64">Volume 24H</th>
+              <th className="p-2 whitespace-nowrap w-64">Volume 7D</th>
             </tr>
           </thead>
           <tbody className="text-center">
@@ -74,7 +74,7 @@ const Pairs: React.FC<{}> = () => {
                       </AppLink>
                     </td>
 
-                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
+                    <td className="p-2 pl-36 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {stableCoins.includes(pair.token0.symbol) ? (
                         numeral(
                           getTokenAmount(

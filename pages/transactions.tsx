@@ -114,7 +114,9 @@ const Transactions: React.FC<{
   };
 
   const makeCSV = async (transactions) => {
-    const csv = ["Tx ID,Type,From,To,Amount,Fee,Verified At"];
+    const csv = [
+      "Tx ID,Type,From,To,Pair,Side,Amount,Price,Total,Fee,Verified At",
+    ];
     transactions.forEach((tx) => {
       csv.push(
         [
@@ -133,6 +135,11 @@ const Transactions: React.FC<{
       "csv-download"
     ) as HTMLAnchorElement;
 
+    if (!downloadLink) {
+      window.open(URL.createObjectURL(csvFile));
+      return;
+    }
+
     // File name
     downloadLink.download = "transactions";
 
@@ -142,8 +149,8 @@ const Transactions: React.FC<{
 
   const getAllTransactions = async (page: number) => {
     const txs = await request(LOOPRING_SUBGRAPH, FETCH_TXS, {
-      skip: page * 20,
-      first: 20,
+      skip: page * 50,
+      first: 50,
       orderBy: "internalID",
       orderDirection: "desc",
       where: {
@@ -161,7 +168,7 @@ const Transactions: React.FC<{
 
   const downloadCSV = async () => {
     setShowDownloadModal(true);
-    if (data.transactions && data.transactions.lenght < 10) {
+    if (data.transactions && data.transactions.length < 10) {
       await makeCSV(data.transactions);
       setShowDownloadButton(true);
     } else {
@@ -302,20 +309,14 @@ const Transactions: React.FC<{
             <option value="all" selected={txType === "all"}>
               All Transactions
             </option>
+            <option value="Deposit" selected={txType === "Deposit"}>
+              Deposit
+            </option>
+            <option value="Withdrawal" selected={txType === "Withdrawal"}>
+              Withdrawal
+            </option>
             <option value="Swap" selected={txType === "Swap"}>
               Swap
-            </option>
-            <option value="SwapNFT" selected={txType === "SwapNFT"}>
-              SwapNFT
-            </option>
-            <option
-              value="OrderbookTrade"
-              selected={txType === "OrderbookTrade"}
-            >
-              Trade
-            </option>
-            <option value="TradeNFT" selected={txType === "TradeNFT"}>
-              TradeNFT
             </option>
             <option value="Add" selected={txType === "Add"}>
               Amm Join
@@ -323,23 +324,32 @@ const Transactions: React.FC<{
             <option value="Remove" selected={txType === "Remove"}>
               Amm Exit
             </option>
+            <option
+              value="OrderbookTrade"
+              selected={txType === "OrderbookTrade"}
+            >
+              Trade
+            </option>
             <option value="Transfer" selected={txType === "Transfer"}>
               Transfer
             </option>
-            <option value="TransferNFT" selected={txType === "TransferNFT"}>
-              TransferNFT
-            </option>
-            <option value="Deposit" selected={txType === "Deposit"}>
-              Deposit
-            </option>
             <option value="MintNFT" selected={txType === "MintNFT"}>
-              MintNFT
-            </option>
-            <option value="Withdrawal" selected={txType === "Withdrawal"}>
-              Withdrawal
+              NFT Mint
             </option>
             <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
-              WithdrawalNFT
+              NFT Withdrawal
+            </option>
+            <option value="TransferNFT" selected={txType === "TransferNFT"}>
+              NFT Transfer
+            </option>
+            <option value="SwapNFT" selected={txType === "SwapNFT"}>
+              NFT Swap
+            </option>
+            <option value="TradeNFT" selected={txType === "TradeNFT"}>
+              NFT Trade
+            </option>
+            <option value="DataNFT" selected={txType === "DataNFT"}>
+              NFT Data
             </option>
             <option value="AccountUpdate" selected={txType === "AccountUpdate"}>
               AccountUpdate
@@ -352,9 +362,6 @@ const Transactions: React.FC<{
               selected={txType === "SignatureVerification"}
             >
               SignatureVerification
-            </option>
-            <option value="DataNFT" selected={txType === "DataNFT"}>
-              DataNFT
             </option>
           </select>
           {!blockIDFilter && !accountIdFilter && (
@@ -455,6 +462,7 @@ const Transactions: React.FC<{
                 )
           }
           entriesPerPage={ENTRIES_PER_PAGE}
+          isLastPage={data && data.transactions.length < ENTRIES_PER_PAGE}
         />
       </div>
       {showDownloadModal && (

@@ -15,7 +15,7 @@ const TabbedView: React.FC<Props> = ({ tabs }) => {
       <div className="flex items-center">
         {tabs.map((tab, index) => {
           return (
-            <React.Fragment key={index}>
+            <React.Fragment key={tab.title}>
               <h3
                 className={`text-xl mb-5 cursor-pointer border-b-2 ${
                   currentTab === index
@@ -36,7 +36,10 @@ const TabbedView: React.FC<Props> = ({ tabs }) => {
       <div className="w-full h-full">
         {tabs.map((tab, index) => {
           return (
-            <div className={`${currentTab === index ? "visible" : "hidden"}`}>
+            <div
+              className={`${currentTab === index ? "visible" : "hidden"}`}
+              key={tab.title}
+            >
               {tab.view}
             </div>
           );

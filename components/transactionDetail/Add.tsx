@@ -20,17 +20,19 @@ const Add: React.FC<{ transaction: any }> = ({ transaction }) => {
 
   return (
     <>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2 lg:w-1/5">Block #</td>
-        <td>
-          <AppLink path="block" block={block.id}>
-            {block.id}
-          </AppLink>
-        </td>
-      </tr>
+      {block && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2 lg:w-1/5">Block #</td>
+          <td>
+            <AppLink path="block" block={block.id}>
+              {block.id}
+            </AppLink>
+          </td>
+        </tr>
+      )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Verified at</td>
-        <td>{getDateString(block.timestamp)}</td>
+        <td>{block ? getDateString(block.timestamp) : "pending"}</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
@@ -44,9 +46,13 @@ const Add: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={account.id}
             address={account.address}
           >
-            <span className="hidden lg:block">{account.address}</span>
+            <span className="hidden lg:block">
+              {account.address || account.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(account.address, 10, true)}
+              {account.address
+                ? getTrimmedTxHash(account.address, 10, true)
+                : account.id}
             </span>
           </AppLink>
         </td>
@@ -55,9 +61,11 @@ const Add: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">Pool</td>
         <td>
           <AppLink path="account" accountId={pool.id} address={pool.address}>
-            <span className="hidden lg:block">{pool.address}</span>
+            <span className="hidden lg:block">{pool.address || pool.id}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(pool.address, 10, true)}
+              {pool.address
+                ? getTrimmedTxHash(pool.address, 10, true)
+                : pool.id}
             </span>
           </AppLink>
         </td>
@@ -74,14 +82,16 @@ const Add: React.FC<{ transaction: any }> = ({ transaction }) => {
           {getTokenAmount(fee, feeToken.decimals)} {feeToken.symbol}
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Transaction Data</td>
-        <td>
-          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
-            {data}
-          </div>
-        </td>
-      </tr>
+      {data && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">Transaction Data</td>
+          <td>
+            <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+              {data}
+            </div>
+          </td>
+        </tr>
+      )}
     </>
   );
 };

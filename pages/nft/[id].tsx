@@ -14,7 +14,11 @@ const NFTDetail: React.FC<{}> = () => {
 
   const metadata = useCachedNFT(nft);
   const { image, name } = metadata;
-
+  React.useEffect(() => {
+    if (image && image === "/error") {
+      setIsLoaded(true);
+    }
+  }, [image]);
   return (
     <div className="pt-12">
       <div className="flex flex-col lg:flex-row lg:w-10/12 mx-auto">
@@ -25,18 +29,25 @@ const NFTDetail: React.FC<{}> = () => {
               className="absolute top-0 right-0 h-full w-full object-cover object-center animate-pulse"
             />
           )}
-          {image && (
-            <img
-              src={image as string}
-              alt={name as string}
-              className="z-10 object-contain object-center m-auto h-full"
-              ref={(imageElement) => {
-                if (imageElement) {
-                  imageElement.onload = () => setIsLoaded(true);
-                }
-              }}
-            />
-          )}
+          {image ? (
+            image === "/error" ? (
+              <img
+                src="/nft-error.svg"
+                className="top-0 right-0 h-full w-full object-contain object-center bg-white"
+              />
+            ) : (
+              <img
+                src={image as string}
+                alt={name as string}
+                className="z-10 object-contain object-center m-auto h-full"
+                ref={(imageElement) => {
+                  if (imageElement) {
+                    imageElement.onload = () => setIsLoaded(true);
+                  }
+                }}
+              />
+            )
+          ) : null}
         </div>
         <div className="w-full lg:w-3/5 lg:pl-12 py-4 h-fulls tracking-wider flex flex-col">
           <h1 className="text-2xl lg:text-3xl font-bold p-2 lg:p-0">

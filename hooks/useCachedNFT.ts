@@ -44,7 +44,7 @@ const getERC721URI = async (nft, isFailOver = false) => {
 const getERC1155URI = async (nft, isFailOver = false) => {
   try {
     const contractABIERC1155 = [
-      `function uri(uint256 id) public returns (string memory)`,
+      `function uri(uint256 id) external view returns (string memory)`,
     ];
 
     const nftContract = new ethers.Contract(

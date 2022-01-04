@@ -19,6 +19,7 @@ import WithdrawalNFT from "../../components/transactionDetail/WithdrawalNFT";
 import TransferNFT from "../../components/transactionDetail/TransferNFT";
 import MintNFT from "../../components/transactionDetail/MintNFT";
 import DataNFT from "../../components/transactionDetail/DataNFT";
+import PendingTxOrFallback from "../../components/transactionDetail/PendingTxOrFallback";
 
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
@@ -96,9 +97,7 @@ const Transaction: React.FC<{}> = () => {
         )}
       </div>
       {data && !isLoading && !data.transaction && (
-        <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
-          No transaction found
-        </div>
+        <PendingTxOrFallback txId={txId as string} />
       )}
     </div>
   );

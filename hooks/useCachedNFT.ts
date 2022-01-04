@@ -88,6 +88,12 @@ const getNFTMetadata = async (uri, nft) => {
   if (cacheResult) {
     return cacheResult;
   } else {
+    if (!uri) {
+      return {
+        image: "/error",
+        name: "Couldn't fetch NFT details",
+      };
+    }
     const metadata = await fetch(uri.replace("ipfs://", IPFS_URL)).then((res) =>
       res.json()
     );

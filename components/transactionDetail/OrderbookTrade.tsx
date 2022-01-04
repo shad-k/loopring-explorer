@@ -26,17 +26,19 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
 
   return (
     <>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2 lg:w-1/5">Block #</td>
-        <td>
-          <AppLink path="block" block={block.id}>
-            {block.id}
-          </AppLink>
-        </td>
-      </tr>
+      {block && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2 lg:w-1/5">Block #</td>
+          <td>
+            <AppLink path="block" block={block.id}>
+              {block.id}
+            </AppLink>
+          </td>
+        </tr>
+      )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Verified at</td>
-        <td>{getDateString(block.timestamp)}</td>
+        <td>{block ? getDateString(block.timestamp) : "pending"}</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
@@ -50,9 +52,13 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={accountA.id}
             address={accountA.address}
           >
-            <span className="hidden lg:block">{accountA.address}</span>
+            <span className="hidden lg:block">
+              {accountA.address || accountA.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountA.address, 10, true)}
+              {accountA.address
+                ? getTrimmedTxHash(accountA.address, 10, true)
+                : accountA.id}
             </span>
           </AppLink>
         </td>
@@ -65,9 +71,13 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={accountB.id}
             address={accountB.address}
           >
-            <span className="hidden lg:block">{accountB.address}</span>
+            <span className="hidden lg:block">
+              {accountB.address || accountB.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountB.address, 10, true)}
+              {accountB.address
+                ? getTrimmedTxHash(accountB.address, 10, true)
+                : accountB.id}
             </span>
           </AppLink>
         </td>
@@ -77,24 +87,26 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td>
           {getTokenAmount(fillSA, tokenA.decimals)} {tokenA.symbol} &harr;{" "}
           {getTokenAmount(fillSB, tokenB.decimals)} {tokenB.symbol}
-          <button
-            className="hover:bg-blue-100 lg:p-2 lg:mx-2 rounded hover:underline"
-            onClick={() => setPriceDirectionAtoB((val) => !val)}
-          >
-            (
-            {priceDirectionAtoB ? (
-              <>
-                1 {tokenA.symbol} ={" "}
-                {getTokenAmount(tokenAPrice, tokenB.decimals)} {tokenB.symbol}
-              </>
-            ) : (
-              <>
-                1 {tokenB.symbol} ={" "}
-                {getTokenAmount(tokenBPrice, tokenA.decimals)} {tokenA.symbol}
-              </>
-            )}
-            )
-          </button>
+          {!!tokenAPrice && !!tokenAPrice && (
+            <button
+              className="hover:bg-blue-100 lg:p-2 lg:mx-2 rounded hover:underline"
+              onClick={() => setPriceDirectionAtoB((val) => !val)}
+            >
+              (
+              {priceDirectionAtoB ? (
+                <>
+                  1 {tokenA.symbol} ={" "}
+                  {getTokenAmount(tokenAPrice, tokenB.decimals)} {tokenB.symbol}
+                </>
+              ) : (
+                <>
+                  1 {tokenB.symbol} ={" "}
+                  {getTokenAmount(tokenBPrice, tokenA.decimals)} {tokenA.symbol}
+                </>
+              )}
+              )
+            </button>
+          )}
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
@@ -107,14 +119,16 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
             : null}
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Transaction Data</td>
-        <td>
-          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
-            {data}
-          </div>
-        </td>
-      </tr>
+      {data && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">Transaction Data</td>
+          <td>
+            <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+              {data}
+            </div>
+          </td>
+        </tr>
+      )}
     </>
   );
 };

@@ -30,14 +30,16 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
         <td className="p-2">Transaction Type</td>
         <td>{__typename || "MintNFT"}</td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">NFT</td>
-        <td>
-          <AppLink path="nft" nftId={nft.id}>
-            <span>{nft.id}</span>
-          </AppLink>
-        </td>
-      </tr>
+      {nft.id && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">NFT</td>
+          <td>
+            <AppLink path="nft" nftId={nft.id}>
+              <span>{nft.id}</span>
+            </AppLink>
+          </td>
+        </tr>
+      )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Minter</td>
         <td>

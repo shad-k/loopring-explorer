@@ -22,7 +22,6 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
       case "Withdraw":
       case "JoinAmm":
       case "ExitAmm":
-      case "NftMint":
         return (
           transaction.accountId === parseInt(accountId) &&
           transaction.storageId === parseInt(storageId)
@@ -33,6 +32,11 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
             transaction.orderA.storageID === parseInt(storageId)) ||
           (transaction.orderB.accountID === parseInt(accountId) &&
             transaction.orderB.storageID === parseInt(storageId))
+        );
+      case "NftMint":
+        return (
+          transaction.minterAccountId === parseInt(accountId) &&
+          transaction.storageId === parseInt(storageId)
         );
       default:
         return false;
@@ -147,10 +151,10 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
           tokensData.find(({ tokenId }) => tokenId === transaction.fee.tokenId);
         return {
           minter: {
-            address: transaction.minter,
+            id: transaction.minterAccountId,
           },
           nft: {
-            id: transaction.nftToken.nftId,
+            nftId: transaction.nftToken.nftId,
           },
           receiver: {
             id: transaction.toAccountId,
@@ -174,7 +178,7 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
       case "Transfer":
         return <Transfer transaction={parsedTxData} />;
       case "NftMint":
-        return <MintNFT transaction={transaction} />;
+        return <MintNFT transaction={parsedTxData} />;
       case "Withdraw":
         return <Withdrawal transaction={parsedTxData} />;
       default:

@@ -24,7 +24,7 @@ import PendingTxOrFallback from "../../components/transactionDetail/PendingTxOrF
 const Transaction: React.FC<{}> = () => {
   const router = useRouter();
   const txId = router.query.id;
-  const { data, error, isLoading } = useTransaction(txId);
+  const { data, isLoading } = useTransaction(txId);
 
   const { __typename, block } = (data && data.transaction) || {};
 

@@ -34,7 +34,7 @@ const FETCH_TRANSACTION = gql`
   }
 `;
 
-const useCheckTxConfirmation = (accountFromID, storageID) => {
+const useCheckTxConfirmation = (accountFromID, tokenID, storageID) => {
   const { data, error } = useSWR(
     [FETCH_TRANSACTION, accountFromID, storageID],
     (query, id) =>
@@ -42,26 +42,32 @@ const useCheckTxConfirmation = (accountFromID, storageID) => {
         transferWhere: {
           accountFromID: parseInt(accountFromID),
           storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         withdrawalWhere: {
           fromAccountID: parseInt(accountFromID),
           storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         addWhere: {
           accountFromID: parseInt(accountFromID),
           storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         removeWhere: {
           accountFromID: parseInt(accountFromID),
           storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         orderBookTradeWhere: {
           accountIdA: parseInt(accountFromID),
           storageIdA: parseInt(storageID),
+          tokenIDAS: parseInt(tokenID),
         },
         mintNFTWhere: {
           minterAccountID: parseInt(accountFromID),
           storageID: parseInt(storageID),
+          toTokenID: parseInt(tokenID),
         },
       }),
     {

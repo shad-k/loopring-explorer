@@ -18,7 +18,8 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
 
   const txIdSplit = txId.split("-");
   const accountId = txIdSplit[0];
-  const storageId = txIdSplit[1];
+  const tokenId = txIdSplit[1];
+  const storageId = txIdSplit[2];
 
   const checkIfTxExists = (transaction) => {
     switch (transaction.txType) {
@@ -190,7 +191,7 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
     }
   };
 
-  let confirmedTx = useCheckTxConfirmation(accountId, storageId);
+  let confirmedTx = useCheckTxConfirmation(accountId, tokenId, storageId);
 
   if (isLoading || !confirmedTx.data) {
     return null;

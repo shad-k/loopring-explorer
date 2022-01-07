@@ -1,4 +1,7 @@
 import React from "react";
+import { useRouter } from "next/router";
+
+import useCheckTxConfirmation from "../../hooks/useCheckTxConfirmation";
 import usePendingTxs from "../../hooks/usePendingTxs";
 import useTokens from "../../hooks/useTokens";
 import Add from "./Add";
@@ -9,6 +12,7 @@ import Transfer from "./Transfer";
 import Withdrawal from "./Withdrawal";
 
 const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
+  const router = useRouter();
   const { data, error, isLoading } = usePendingTxs();
   const { data: tokensData } = useTokens();
 
@@ -186,12 +190,42 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
     }
   };
 
-  if (isLoading) {
+  let confirmedTx = useCheckTxConfirmation(accountId, storageId);
+
+  if (isLoading || !confirmedTx.data) {
     return null;
   }
+
   const txData = data.find((tx) => checkIfTxExists(tx));
   const isTxPending = !!txData;
-  if (!isLoading && (!data || !isTxPending)) {
+
+  const isConfirmed =
+    confirmedTx.data.transfers.length > 0 ||
+    confirmedTx.data.withdrawals.length > 0 ||
+    confirmedTx.data.adds.length > 0 ||
+    confirmedTx.data.removes.length > 0 ||
+    confirmedTx.data.orderbookTrades.length > 0 ||
+    confirmedTx.data.mintNFTs.length > 0;
+
+  if (isConfirmed) {
+    if (confirmedTx.data.withdrawals.length > 0)
+      router.replace(`/tx/${confirmedTx.data.withdrawals[0].id}`);
+    if (confirmedTx.data.transfers.length > 0)
+      router.replace(`/tx/${confirmedTx.data.transfers[0].id}`);
+    if (confirmedTx.data.adds.length > 0)
+      router.replace(`/tx/${confirmedTx.data.adds[0].id}`);
+    if (confirmedTx.data.removes.length > 0)
+      router.replace(`/tx/${confirmedTx.data.removes[0].id}`);
+    if (confirmedTx.data.orderbookTrades.length > 0)
+      router.replace(`/tx/${confirmedTx.data.orderbookTrades[0].id}`);
+    if (confirmedTx.data.mintNFTs.length > 0)
+      router.replace(`/tx/${confirmedTx.data.mintNFTs[0].id}`);
+  }
+
+  if (
+    !isLoading &&
+    (!data || (!isTxPending && confirmedTx.data && !isConfirmed))
+  ) {
     return (
       <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
         {error ?? "No transaction found"}

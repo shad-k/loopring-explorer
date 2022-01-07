@@ -220,6 +220,8 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
       router.replace(`/tx/${confirmedTx.data.orderbookTrades[0].id}`);
     if (confirmedTx.data.mintNFTs.length > 0)
       router.replace(`/tx/${confirmedTx.data.mintNFTs[0].id}`);
+
+    return null;
   }
 
   if (

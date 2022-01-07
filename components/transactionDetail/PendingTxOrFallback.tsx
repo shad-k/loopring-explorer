@@ -234,7 +234,7 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         {error ?? (
           <div className="flex flex-col items-center">
             No transaction found
-            <ol className="text-base mt-4 text-center">
+            <ol className="text-base mt-4">
               <li>
                 1) If you have just submitted a transaction please wait for at
                 least 30 seconds before refreshing this page.

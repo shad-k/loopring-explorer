@@ -70,7 +70,7 @@ const Account: React.FC<{}> = () => {
       </div>
       {data && !isLoading && data.accounts.length === 0 && (
         <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
-          No transaction found
+          No account found
         </div>
       )}
       <TabbedView

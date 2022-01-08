@@ -1,4 +1,7 @@
 import React from "react";
+import { useRouter } from "next/router";
+
+import useCheckTxConfirmation from "../../hooks/useCheckTxConfirmation";
 import usePendingTxs from "../../hooks/usePendingTxs";
 import useTokens from "../../hooks/useTokens";
 import Add from "./Add";
@@ -9,12 +12,14 @@ import Transfer from "./Transfer";
 import Withdrawal from "./Withdrawal";
 
 const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
+  const router = useRouter();
   const { data, error, isLoading } = usePendingTxs();
   const { data: tokensData } = useTokens();
 
   const txIdSplit = txId.split("-");
   const accountId = txIdSplit[0];
-  const storageId = txIdSplit[1];
+  const tokenId = txIdSplit[1];
+  const storageId = txIdSplit[2];
 
   const checkIfTxExists = (transaction) => {
     switch (transaction.txType) {
@@ -186,15 +191,69 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
     }
   };
 
-  if (isLoading) {
+  let confirmedTx = useCheckTxConfirmation(accountId, tokenId, storageId);
+
+  if (isLoading || !confirmedTx.data) {
     return null;
   }
+
   const txData = data.find((tx) => checkIfTxExists(tx));
   const isTxPending = !!txData;
-  if (!isLoading && (!data || !isTxPending)) {
+
+  const isConfirmed =
+    confirmedTx.data.transfers.length > 0 ||
+    confirmedTx.data.withdrawals.length > 0 ||
+    confirmedTx.data.adds.length > 0 ||
+    confirmedTx.data.removes.length > 0 ||
+    confirmedTx.data.orderbookTrades.length > 0 ||
+    confirmedTx.data.mintNFTs.length > 0;
+
+  if (isConfirmed) {
+    if (confirmedTx.data.withdrawals.length > 0)
+      router.replace(`/tx/${confirmedTx.data.withdrawals[0].id}`);
+    if (confirmedTx.data.transfers.length > 0)
+      router.replace(`/tx/${confirmedTx.data.transfers[0].id}`);
+    if (confirmedTx.data.adds.length > 0)
+      router.replace(`/tx/${confirmedTx.data.adds[0].id}`);
+    if (confirmedTx.data.removes.length > 0)
+      router.replace(`/tx/${confirmedTx.data.removes[0].id}`);
+    if (confirmedTx.data.orderbookTrades.length > 0)
+      router.replace(`/tx/${confirmedTx.data.orderbookTrades[0].id}`);
+    if (confirmedTx.data.mintNFTs.length > 0)
+      router.replace(`/tx/${confirmedTx.data.mintNFTs[0].id}`);
+
+    return null;
+  }
+
+  if (
+    !isLoading &&
+    (!data || (!isTxPending && confirmedTx.data && !isConfirmed))
+  ) {
     return (
-      <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
-        {error ?? "No transaction found"}
+      <div className="text-gray-400 dark:text-white text-2xl h-48 flex items-center justify-center w-full border">
+        {error ?? (
+          <div className="flex flex-col items-center">
+            No transaction found
+            <ol className="text-base mt-4">
+              <li>
+                1) If you have just submitted a transaction please wait for at
+                least 30 seconds before refreshing this page.
+              </li>
+              <li>
+                2) It could still be pending submission to L1 Ethereum, waiting
+                to be broadcasted. This can take awhile.
+              </li>
+              <li>
+                3) When Ethereum is congested it can take a while for your
+                transaction to be posted onchain.
+              </li>
+              <li>
+                4) If it still does not show up after 1 hour, please check your
+                wallet on loopring.io
+              </li>
+            </ol>
+          </div>
+        )}
       </div>
     );
   }

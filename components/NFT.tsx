@@ -21,7 +21,7 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
       setIsLoaded(true);
     }
   }, [image]);
-  console.log("image", image);
+
   return (
     <div
       className="w-full h-full flex flex-col justify-end relative"

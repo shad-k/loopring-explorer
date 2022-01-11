@@ -38,11 +38,13 @@ const NFTDetail: React.FC<{}> = () => {
   const { image, name } = metadata;
 
   React.useEffect(() => {
-    (async () => {
-      const collectionName = await getCollectionName(nft.token);
-      setCollectionName(collectionName);
-    })();
-  }, []);
+    if (nft) {
+      (async () => {
+        const collectionName = await getCollectionName(nft.token);
+        setCollectionName(collectionName);
+      })();
+    }
+  }, [nft]);
 
   React.useEffect(() => {
     if (image && image === "/error") {
@@ -84,7 +86,7 @@ const NFTDetail: React.FC<{}> = () => {
           <div style={{ minHeight: "10px" }}>
             <AppLink
               path="collection"
-              collection={nft.token}
+              collection={nft?.token}
               className="px-2 md:px-0"
             >
               {collectionName}

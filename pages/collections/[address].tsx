@@ -8,6 +8,7 @@ import useMintNFTs from "../../hooks/useMintNFTs";
 import AppLink from "../../components/AppLink";
 import NFT from "../../components/NFT";
 import { INFURA_ENDPOINT } from "../../utils/config";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 const getMinters = async (address) => {
@@ -87,19 +88,49 @@ const NFTCollection: React.FC<{}> = () => {
 
   const nfts = data.nonFungibleTokens;
   return (
-    <div>
+    <div className="p-10">
       <div className="flex flex-col md:flex-row items-center justify-center py-12">
         {
           <h1 className="text-3xl md:text-6xl w-1/2 text-white text-center">
             {name}
           </h1>
         }
-        <div className="flex items-center w-1/2 justify-center mt-4 md:mt-0">
-          <div className="flex flex-col border-r px-10 items-center">
-            <span className="text-xl text-white">
+        <div className="flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 justify-start mt-4 md:mt-0">
+          <div className="flex flex-col md:border-r px-10 items-center w-full md:w-1/3">
+            <span className="text-2xl text-white">
               {mintData.mintNFTs.length}
             </span>
-            <span>total</span>
+            <span className="text-sm">Total</span>
+          </div>
+          <div className="flex flex-col px-2 md:border-r break-all items-center w-full md:w-1/3 mt-4 md:mt-0">
+            Address:
+            <AppLink
+              path="account"
+              address={router.query.address as string}
+              isExplorerLink
+              accountId=""
+            >
+              {getTrimmedTxHash(router.query.address as string, 14, true)}
+            </AppLink>
+          </div>
+          <div className="w-full flex flex-col px-2 break-all items-center w-full md:w-1/3 mt-4 md:mt-0">
+            Minters:
+            <ul>
+              {minters.map((minter) => {
+                return (
+                  <li>
+                    <AppLink
+                      path="account"
+                      address={minter}
+                      isExplorerLink
+                      accountId=""
+                    >
+                      {getTrimmedTxHash(minter, 14, true)}
+                    </AppLink>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </div>

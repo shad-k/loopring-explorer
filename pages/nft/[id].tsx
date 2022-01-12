@@ -154,7 +154,12 @@ const NFTDetail: React.FC<{}> = () => {
                     Token Address
                   </td>
                   <td className="pl-6 dark:text-white pr-2">
-                    <AppLink path="collection" collection={nft?.token}>
+                    <AppLink
+                      path="account"
+                      address={nft?.token}
+                      isExplorerLink
+                      accountId=""
+                    >
                       <span className="hidden xl:block">{nft?.token}</span>
                       <span className="xl:hidden">
                         {nft?.token && getTrimmedTxHash(nft?.token, 15)}

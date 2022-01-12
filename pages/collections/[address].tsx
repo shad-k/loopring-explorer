@@ -92,7 +92,7 @@ const NFTCollection: React.FC<{}> = () => {
       <div className="flex flex-col md:flex-row items-center justify-center py-12">
         {
           <h1 className="text-3xl md:text-6xl w-1/2 text-white text-center">
-            {name}
+            {name || getTrimmedTxHash(router.query.address as string, 14, true)}
           </h1>
         }
         <div className="flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 justify-start mt-4 md:mt-0">

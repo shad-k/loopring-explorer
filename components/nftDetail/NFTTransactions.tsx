@@ -84,7 +84,7 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
           onSubmit={submitHandler}
         >
           <select
-            className="h-9 rounded-sm px-2 border w-full lg:w-1/5 mb-2 lg:mb-0 lg:mr-2"
+            className="h-9 rounded-sm px-2 border w-full mb-2 lg:mb-0 lg:mr-2"
             name="txType"
           >
             <option value="all" selected={txType === "all"}>

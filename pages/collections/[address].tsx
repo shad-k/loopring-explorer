@@ -44,7 +44,7 @@ const getCollectionName = async (address) => {
 
 const NFTCollection: React.FC<{}> = () => {
   const router = useRouter();
-  const ENTRIES_PER_PAGE = 20;
+  const ENTRIES_PER_PAGE = 21;
   const [page, setPage] = React.useState<number>(1);
   const { data } = useCollection(
     router.query.address,
@@ -103,7 +103,7 @@ const NFTCollection: React.FC<{}> = () => {
             <span className="text-sm">Total</span>
           </div>
           <div className="flex flex-col px-2 md:border-r break-all items-center w-full md:w-1/3 mt-4 md:mt-0">
-            Address:
+            Contract Address:
             <AppLink
               path="account"
               address={router.query.address as string}
@@ -114,7 +114,7 @@ const NFTCollection: React.FC<{}> = () => {
             </AppLink>
           </div>
           <div className="w-full flex flex-col px-2 break-all items-center w-full md:w-1/3 mt-4 md:mt-0">
-            Minters:
+            Minter:
             <ul>
               {minters.map((minter) => {
                 return (
@@ -140,7 +140,10 @@ const NFTCollection: React.FC<{}> = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 m-auto"
+            style={{ maxWidth: 1200 }}
+          >
             {nfts.map((nft) => {
               // if(!minters.includes(nft.minter.address) && nft.minter.address !== router.query.address) {
               //   return null

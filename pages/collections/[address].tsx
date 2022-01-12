@@ -51,7 +51,6 @@ const NFTCollection: React.FC<{}> = () => {
     ENTRIES_PER_PAGE,
     (page - 1) * ENTRIES_PER_PAGE
   );
-  const { data: mintData } = useMintNFTs(router.query.address);
   const [minters, setMinters] = React.useState([]);
   const [name, setName] = React.useState<string>();
 
@@ -82,27 +81,24 @@ const NFTCollection: React.FC<{}> = () => {
     })();
   }, [router.query.address]);
 
-  if (!data || !mintData || minters.length === 0) {
+  if (!data || minters.length === 0) {
     return null;
   }
 
   const nfts = data.nonFungibleTokens;
   return (
     <div className="p-10">
-      <div className="flex flex-col md:flex-row items-center justify-center py-12">
+      <div
+        className="flex flex-col md:flex-row items-center justify-around py-12 m-auto px-4"
+        style={{ maxWidth: 1200 }}
+      >
         {
           <h1 className="text-3xl md:text-6xl w-1/2 text-white text-center">
             {name || getTrimmedTxHash(router.query.address as string, 14, true)}
           </h1>
         }
-        <div className="flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 justify-start mt-4 md:mt-0">
-          <div className="flex flex-col md:border-r px-10 items-center w-full md:w-1/3">
-            <span className="text-2xl text-white">
-              {mintData.mintNFTs.length}
-            </span>
-            <span className="text-sm">Total</span>
-          </div>
-          <div className="flex flex-col px-2 md:border-r break-all items-center w-full md:w-1/3 mt-4 md:mt-0">
+        <div className="flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 justify-center mt-4 md:mt-0">
+          <div className="flex flex-col px-2 md:border-r break-all items-center w-full md:w-1/2 mt-4 md:mt-0">
             Contract Address:
             <AppLink
               path="account"
@@ -113,7 +109,7 @@ const NFTCollection: React.FC<{}> = () => {
               {getTrimmedTxHash(router.query.address as string, 14, true)}
             </AppLink>
           </div>
-          <div className="w-full flex flex-col px-2 break-all items-center w-full md:w-1/3 mt-4 md:mt-0">
+          <div className="w-full flex flex-col px-2 break-all items-center w-full md:w-1/2 mt-4 md:mt-0">
             Minter:
             <ul>
               {minters.map((minter) => {
@@ -136,7 +132,7 @@ const NFTCollection: React.FC<{}> = () => {
       </div>
       {nfts.length === 0 ? (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
-          No NFTs to show
+          {page > 1 ? "That's all we had today!" : "No NFTs to show"}
         </div>
       ) : (
         <>
@@ -167,7 +163,6 @@ const NFTCollection: React.FC<{}> = () => {
           <Pagination
             currentPage={page}
             onPageChange={pageChangeHandler}
-            total={mintData.mintNFTs.length}
             entriesPerPage={ENTRIES_PER_PAGE}
             isLastPage={
               data && data.nonFungibleTokens.length < ENTRIES_PER_PAGE

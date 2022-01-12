@@ -36,7 +36,7 @@ const NFTDetail: React.FC<{}> = () => {
 
   const metadata = useCachedNFT(nft);
   const { image, name } = metadata;
-
+  console.log(metadata);
   React.useEffect(() => {
     if (nft) {
       (async () => {
@@ -55,24 +55,28 @@ const NFTDetail: React.FC<{}> = () => {
   return (
     <div className="pt-12">
       <div className="flex flex-col lg:flex-row lg:w-10/12 mx-auto">
-        <div className="w-full lg:w-4/12 relative" style={{ height: 400 }}>
+        <div
+          className="flex flex-col justify-end w-full lg:w-4/12 relative "
+          style={{ minHeight: 400, width: 400 }}
+        >
           {!isLoaded && (
             <img
               src="/nft-placeholder.svg"
               className="absolute top-0 right-0 h-full w-full object-cover object-center animate-pulse"
+              style={{ height: 400, width: 400 }}
             />
           )}
           {image ? (
             image === "/error" ? (
               <img
                 src="/nft-error.svg"
-                className="top-0 right-0 h-full w-full object-contain object-center bg-white"
+                className="top-0 right-0 h-full w-full object-contain object-center bg-white rounded-xl"
               />
             ) : (
               <img
                 src={image as string}
                 alt={name as string}
-                className="z-10 object-contain object-center m-auto h-full"
+                className="z-10 object-contain object-center m-auto h-full rounded-xl"
                 ref={(imageElement) => {
                   if (imageElement) {
                     imageElement.onload = () => setIsLoaded(true);
@@ -81,6 +85,24 @@ const NFTDetail: React.FC<{}> = () => {
               />
             )
           ) : null}
+          {isLoaded && (
+            <div className="flex items-center px-4 w-full mt-4 justify-center">
+              <a
+                href={metadata.uri as string}
+                target="_blank"
+                className="px-4 py-2 rounded-xl border-2 border-loopring-blue text-white mr-4"
+              >
+                View Metadata
+              </a>
+              <AppLink
+                path="collection"
+                collection={nft?.token}
+                className="px-4 py-2 rounded-xl bg-loopring-blue force-text-white"
+              >
+                View Collection
+              </AppLink>
+            </div>
+          )}
         </div>
         <div className="w-full lg:w-3/5 lg:pl-12 h-fulls tracking-wider flex flex-col items-start text-xl">
           <div style={{ minHeight: "10px" }}>
@@ -157,7 +179,6 @@ const NFTDetail: React.FC<{}> = () => {
           </div>
         </div>
       </div>
-
       <div className="mt-8 mx-auto px-4">
         <NFTTransactions nftId={nft?.id} />
       </div>

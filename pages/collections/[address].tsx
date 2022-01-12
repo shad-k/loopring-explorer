@@ -149,7 +149,7 @@ const NFTCollection: React.FC<{}> = () => {
               return (
                 <AppLink path="nft" nftId={nft.id} key={nft.id}>
                   <div
-                    className="border rounded dark:border-loopring-dark-darkBlue m-4"
+                    className="border rounded-xl overflow-hidden dark:border-loopring-dark-darkBlue m-4"
                     style={{
                       minHeight: 300,
                       minWidth: 300,

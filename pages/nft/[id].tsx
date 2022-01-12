@@ -123,7 +123,7 @@ const NFTDetail: React.FC<{}> = () => {
           </h1>
 
           <div className="w-full overflow-auto mt-8">
-            <table className="border dark:border-loopring-dark-darkBlue w-full">
+            <table className="border dark:border-loopring-dark-darkBlue w-full text-base">
               <tbody>
                 <tr>
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">

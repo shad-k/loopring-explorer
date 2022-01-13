@@ -32,3 +32,9 @@ a {
   color: rgb(86, 90, 105);
   margin: 0 1px;
 }
+
+.force-text-white {
+  a {
+    color: #FFF !important;
+  }
+}

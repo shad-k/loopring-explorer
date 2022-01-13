@@ -34,7 +34,7 @@ const AccountNFTs: React.FC<Props> = ({ slots }) => {
                   <AppLink path="nft" nftId={nft.id}>
                     <div
                       key={id}
-                      className="border rounded dark:border-loopring-dark-darkBlue m-4"
+                      className="border rounded-xl overflow-hidden dark:border-loopring-dark-darkBlue m-4"
                       style={{
                         minHeight: 300,
                         minWidth: 300,

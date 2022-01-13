@@ -94,11 +94,18 @@ const getNFTMetadata = async (uri, nft) => {
         name: "Couldn't fetch NFT details",
       };
     }
-    const metadata = await fetch(uri.replace("ipfs://", IPFS_URL)).then((res) =>
-      res.json()
-    );
-    metadataCache.set(cacheKey, metadata);
-    return metadata;
+    try {
+      const metadata = await fetch(uri.replace("ipfs://", IPFS_URL)).then(
+        (res) => res.json()
+      );
+      metadataCache.set(cacheKey, metadata);
+      return metadata;
+    } catch (error) {
+      return {
+        image: "/error",
+        name: "Couldn't fetch NFT details",
+      };
+    }
   }
 };
 
@@ -115,6 +122,7 @@ const useCachedNFT = (nft) => {
         isMountedRef.current &&
           setMetadata({
             ...metadata,
+            uri: uri.replace("ipfs://", IPFS_URL),
             image: metadata?.image?.replace("ipfs://", IPFS_URL),
           });
       })();

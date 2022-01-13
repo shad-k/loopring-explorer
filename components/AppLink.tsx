@@ -29,42 +29,101 @@ interface NotNFT {
   nftId?: never;
 }
 
-interface TxLink extends NotBlock, NotAccount, NotPair, NotToken, NotNFT {
+interface NotCollection {
+  collection?: never;
+}
+
+interface TxLink
+  extends NotBlock,
+    NotAccount,
+    NotPair,
+    NotToken,
+    NotNFT,
+    NotCollection {
   path: "transaction";
   tx: string;
 }
 
-interface BlockLink extends NotTx, NotAccount, NotToken, NotPair, NotNFT {
+interface BlockLink
+  extends NotTx,
+    NotAccount,
+    NotToken,
+    NotPair,
+    NotNFT,
+    NotCollection {
   path: "block";
   block: string;
 }
 
-interface AccountLink extends NotTx, NotBlock, NotToken, NotPair, NotNFT {
+interface AccountLink
+  extends NotTx,
+    NotBlock,
+    NotToken,
+    NotPair,
+    NotNFT,
+    NotCollection {
   path: "account";
   accountId: string;
   address?: string;
 }
 
-interface TokenLink extends NotTx, NotBlock, NotAccount, NotPair, NotNFT {
+interface TokenLink
+  extends NotTx,
+    NotBlock,
+    NotAccount,
+    NotPair,
+    NotNFT,
+    NotCollection {
   path: "token";
   token: string;
 }
 
-interface PairLink extends NotTx, NotBlock, NotAccount, NotToken, NotNFT {
+interface PairLink
+  extends NotTx,
+    NotBlock,
+    NotAccount,
+    NotToken,
+    NotNFT,
+    NotCollection {
   path: "pair";
   pair: string;
 }
 
-interface NFTSlot extends NotTx, NotBlock, NotAccount, NotToken, NotPair {
+interface NFTSlot
+  extends NotTx,
+    NotBlock,
+    NotAccount,
+    NotToken,
+    NotPair,
+    NotCollection {
   path: "nft";
   nftId: string;
+}
+
+interface Collection
+  extends NotTx,
+    NotBlock,
+    NotAccount,
+    NotToken,
+    NotPair,
+    NotNFT {
+  path: "collection";
+  collection: string;
 }
 
 type Props = {
   isExplorerLink?: boolean;
   explorerURL?: string;
   className?: string;
-} & (TxLink | BlockLink | AccountLink | TokenLink | PairLink | NFTSlot);
+} & (
+  | TxLink
+  | BlockLink
+  | AccountLink
+  | TokenLink
+  | PairLink
+  | NFTSlot
+  | Collection
+);
 
 const makeExplorerURL = (explorerURL: string, link: string): string => {
   return `${explorerURL}${explorerURL.substr(-1) === "/" ? "" : "/"}${link}`;
@@ -83,6 +142,7 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
   explorerURL = EXPLORER_URL,
   children,
   className,
+  collection,
 }) => {
   const router = useRouter();
 
@@ -101,6 +161,8 @@ const AppLink: React.FC<React.PropsWithChildren<Props>> = ({
     link = `token/${token}`;
   } else if (path === "nft") {
     link = `nft/${nftId}`;
+  } else if (path === "collection") {
+    link = `collections/${collection}`;
   }
 
   if (isExplorerLink) {

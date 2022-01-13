@@ -21,7 +21,7 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
       setIsLoaded(true);
     }
   }, [image]);
-  console.log("image", image);
+
   return (
     <div
       className="w-full h-full flex flex-col justify-end relative"
@@ -58,7 +58,7 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
         )
       ) : null}
       {name && (
-        <div className="bg-white text-loopring-gray px-1 py-2 font-medium text-sm z-10 flex-1 flex items-center">
+        <div className="bg-loopring-blue dark:bg-loopring-dark-darkBlue text-white px-1 py-2 font-medium text-sm z-10 flex-1 flex items-center">
           {name}
         </div>
       )}

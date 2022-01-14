@@ -90,7 +90,7 @@ const NFTDetail: React.FC<{}> = () => {
               <a
                 href={metadata.uri as string}
                 target="_blank"
-                className="px-4 py-2 rounded-xl border-2 border-loopring-blue text-white mr-4"
+                className="px-4 py-2 rounded-xl border-2 border-loopring-blue text-loopring-blue dark:text-white mr-4"
               >
                 View Metadata
               </a>

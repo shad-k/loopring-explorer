@@ -15,6 +15,7 @@ const FETCH_BLOCKS = gql`
   ) {
     proxy(id: 0) {
       blockCount
+      userCount
     }
     blocks(
       skip: $skip

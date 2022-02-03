@@ -21,9 +21,12 @@ const getMinters = async (address) => {
   view
   returns (address[] memory)`,
   ];
-  const nftContract = new ethers.Contract(address, abi, provider);
-
-  return await nftContract.minters();
+  try {
+    const nftContract = new ethers.Contract(address, abi, provider);
+    return await nftContract.minters();
+  } catch (error) {
+    return null;
+  }
 };
 
 const getCollectionName = async (address) => {
@@ -66,7 +69,6 @@ const NFTCollection: React.FC<{}> = () => {
 
   React.useEffect(() => {
     const newPage = parseInt(router.query.page as string);
-    console.log("newPage", Boolean(newPage));
     if (router.query && Boolean(newPage) && newPage !== page) {
       setPage(parseInt(router.query.page as string));
     }
@@ -81,7 +83,7 @@ const NFTCollection: React.FC<{}> = () => {
     })();
   }, [router.query.address]);
 
-  if (!data || minters.length === 0) {
+  if (!data || minters?.length === 0) {
     return null;
   }
 
@@ -112,7 +114,7 @@ const NFTCollection: React.FC<{}> = () => {
           <div className="w-full flex flex-col px-2 break-all items-center w-full md:w-1/2 mt-4 md:mt-0">
             Minter:
             <ul>
-              {minters.map((minter) => {
+              {minters?.map((minter) => {
                 return (
                   <li>
                     <AppLink

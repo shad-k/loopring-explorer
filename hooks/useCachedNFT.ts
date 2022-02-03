@@ -122,7 +122,7 @@ const useCachedNFT = (nft) => {
         isMountedRef.current &&
           setMetadata({
             ...metadata,
-            uri: uri.replace("ipfs://", IPFS_URL),
+            uri: uri?.replace("ipfs://", IPFS_URL),
             image: metadata?.image?.replace("ipfs://", IPFS_URL),
           });
       })();

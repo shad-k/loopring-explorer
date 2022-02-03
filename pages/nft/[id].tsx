@@ -36,7 +36,6 @@ const NFTDetail: React.FC<{}> = () => {
 
   const metadata = useCachedNFT(nft);
   const { image, name } = metadata;
-  console.log(metadata);
   React.useEffect(() => {
     if (nft) {
       (async () => {

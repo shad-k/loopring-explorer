@@ -7,3 +7,15 @@ export const INFURA_ENDPOINT =
 export const UNISWAP_SUBGRAPH =
   "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2";
 export const LOOPRING_API = "https://api3.loopring.io/api/v3/";
+export const apiEndpointByTxType = {
+  transfer: "user/transactions",
+  deposit: "user/transactions",
+  withdraw: "user/transactions",
+  trade: "user/trade",
+  nftMint: "user/nft/mints",
+  joinAmm: "user/amm/transactions",
+  exitAmm: "user/amm/transactions",
+  nftWithdraw: "user/nft/withdrawals",
+  nftTransfer: "user/nft/transfers",
+  nftDeposit: "user/nft/deposits",
+};

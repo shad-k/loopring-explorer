@@ -20,10 +20,9 @@ import TransferNFT from "../../components/transactionDetail/TransferNFT";
 import MintNFT from "../../components/transactionDetail/MintNFT";
 import DataNFT from "../../components/transactionDetail/DataNFT";
 import PendingTxOrFallback from "../../components/transactionDetail/PendingTxOrFallback";
+import NoTransactionFound from "../../components/transactionDetail/NoTransactionFound";
 
-const Transaction: React.FC<{}> = () => {
-  const router = useRouter();
-  const txId = router.query.id;
+const Transaction: React.FC<{ txId: string }> = ({ txId }) => {
   const { data, isLoading } = useTransaction(txId);
 
   const { __typename, block } = (data && data.transaction) || {};
@@ -96,11 +95,24 @@ const Transaction: React.FC<{}> = () => {
           </table>
         )}
       </div>
-      {data && !isLoading && !data.transaction && (
-        <PendingTxOrFallback txId={txId as string} />
-      )}
+      {data && !isLoading && !data.transaction && <NoTransactionFound />}
     </div>
   );
 };
 
-export default Transaction;
+const TransactionPage: React.FC<{}> = () => {
+  const router = useRouter();
+  const txId = router.query.id as string;
+
+  if (!txId) {
+    return null;
+  }
+
+  return txId.startsWith("0x") ? (
+    <PendingTxOrFallback txId={txId} />
+  ) : (
+    <Transaction txId={txId} />
+  );
+};
+
+export default TransactionPage;

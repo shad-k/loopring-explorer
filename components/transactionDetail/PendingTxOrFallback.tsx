@@ -1,8 +1,5 @@
 import React from "react";
-import { useRouter } from "next/router";
 
-import useCheckTxConfirmation from "../../hooks/useCheckTxConfirmation";
-import usePendingTxs from "../../hooks/usePendingTxs";
 import useTokens from "../../hooks/useTokens";
 import Add from "./Add";
 import MintNFT from "./MintNFT";
@@ -10,225 +7,201 @@ import OrderbookTrade from "./OrderbookTrade";
 import Remove from "./Remove";
 import Transfer from "./Transfer";
 import Withdrawal from "./Withdrawal";
+import usePendingTransactionData from "../../hooks/usePendingTransactionData";
+import Deposit from "./Deposit";
+import WithdrawalNFT from "./WithdrawalNFT";
+import TransferNFT from "./TransferNFT";
+import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
-  const router = useRouter();
-  const { data, error, isLoading } = usePendingTxs();
   const { data: tokensData } = useTokens();
-
   const txIdSplit = txId.split("-");
-  const accountId = txIdSplit[0];
-  const tokenId = txIdSplit[1];
-  const storageId = txIdSplit[2];
+  const txHash = txIdSplit[0];
+  const txType = txIdSplit[1];
 
-  const checkIfTxExists = (transaction) => {
-    switch (transaction.txType) {
-      case "Transfer":
-      case "Withdraw":
-      case "JoinAmm":
-      case "ExitAmm":
-        return (
-          transaction.accountId === parseInt(accountId) &&
-          transaction.storageId === parseInt(storageId)
-        );
-      case "SpotTrade":
-        return (
-          (transaction.orderA.accountID === parseInt(accountId) &&
-            transaction.orderA.storageID === parseInt(storageId)) ||
-          (transaction.orderB.accountID === parseInt(accountId) &&
-            transaction.orderB.storageID === parseInt(storageId))
-        );
-      case "NftMint":
-        return (
-          transaction.minterAccountId === parseInt(accountId) &&
-          transaction.storageId === parseInt(storageId)
-        );
-      default:
-        return false;
-    }
-  };
+  const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
 
   const getParsedTxData = (transaction) => {
-    switch (transaction.txType) {
-      case "Transfer":
-        const token =
-          tokensData &&
-          tokensData.find(
-            ({ tokenId }) => tokenId === transaction.token.tokenId
-          );
-        const feeToken =
-          tokensData &&
-          tokensData.find(({ tokenId }) => tokenId === transaction.fee.tokenId);
+    switch (txType) {
+      case "trade":
+        // const tradeData = transaction.trades[0];
+        return null;
+      case "joinAmm":
+        return null;
+      case "exitAmm":
+        return null;
+      case "transfer":
+      case "withdraw":
+        const transactionData = transaction.transactions[0];
+        const {
+          receiver,
+          receiverAddress,
+          senderAddress,
+          amount,
+          symbol,
+          feeTokenSymbol,
+          feeAmount,
+          blockIdInfo,
+          storageInfo,
+          timestamp,
+        } = transactionData;
+        console.log(
+          tokensData.find((token) => token.tokenId == storageInfo.tokenId)
+        );
         return {
-          block: null,
+          block: {
+            id: blockIdInfo.blockId,
+            timestamp,
+          },
           fromAccount: {
-            id: transaction.accountId,
+            id: storageInfo.accountId,
+            address: senderAddress,
           },
           toAccount: {
-            id: transaction.toAccountId,
-            address: transaction.toAccountAddress,
+            id: receiver,
+            address: receiverAddress,
           },
-          token,
-          feeToken,
-          amount: transaction.token.amount,
-          fee: transaction.fee.amount,
-        };
-      case "SpotTrade":
-        const tokenA =
-          tokensData &&
-          tokensData.find(
-            ({ tokenId }) => tokenId === transaction.orderA.tokenS
-          );
-        const tokenB =
-          tokensData &&
-          tokensData.find(
-            ({ tokenId }) => tokenId === transaction.orderA.tokenB
-          );
-        return {
-          accountA: { id: transaction.orderA.accountID },
-          accountB: { id: transaction.orderB.accountID },
-          tokenA,
-          tokenB,
-          fillSA: transaction.orderA.fillS,
-          fillSB: transaction.orderB.fillS,
-        };
-      case "Withdraw":
-        const withdrawToken =
-          tokensData &&
-          tokensData.find(
-            ({ tokenId }) => tokenId === transaction.token.tokenId
-          );
-        const withdrawFeeToken =
-          tokensData &&
-          tokensData.find(({ tokenId }) => tokenId === transaction.fee.tokenId);
-        return {
-          fromAccount: {
-            address: transaction.fromAddress,
+          token: {
+            symbol,
+            decimals:
+              tokensData.find((token) => token.tokenId == storageInfo.tokenId)
+                ?.decimals ?? 0,
           },
-          token: withdrawToken,
-          amount: transaction.token.amount,
-          feeToken: withdrawFeeToken,
-          fee: transaction.fee.amount,
-        };
-      case "JoinAmm":
-        const joinToken =
-          tokensData &&
-          tokensData.find(
-            ({ tokenId }) => tokenId === transaction.token.tokenId
-          );
-        const joinFeeToken =
-          tokensData &&
-          tokensData.find(({ tokenId }) => tokenId === transaction.fee.tokenId);
-        return {
-          account: { id: transaction.accountId },
-          token: joinToken,
-          pool: {
-            id: transaction.toAccountId,
-            address: transaction.toAccountAddress,
+          feeToken: {
+            symbol: feeTokenSymbol,
+            decimals:
+              tokensData.find((token) => token.symbol === feeTokenSymbol)
+                ?.decimals ?? 0,
           },
-          amount: transaction.token.amount,
-          feeToken: joinFeeToken,
-          fee: transaction.fee.amount,
+          fee: feeAmount,
+          amount,
         };
-      case "ExitAmm":
-        const removeToken =
-          tokensData &&
-          tokensData.find(
-            ({ tokenId }) => tokenId === transaction.token.tokenId
-          );
-        const removeFeeToken =
-          tokensData &&
-          tokensData.find(({ tokenId }) => tokenId === transaction.fee.tokenId);
+      case "deposit":
+        const depositData = transaction.transactions[0];
         return {
-          account: { id: transaction.accountId },
-          token: removeToken,
-          pool: {
-            id: transaction.toAccountId,
-            address: transaction.toAccountAddress,
+          block: {
+            id: depositData.blockIdInfo.blockId,
+            timestamp: depositData.timestamp,
           },
-          amount: transaction.token.amount,
-          feeToken: removeFeeToken,
-          fee: transaction.fee.amount,
+          toAccount: {
+            id: depositData.storageInfo.accountId,
+            address: depositData.receiverAddress,
+          },
+          token: {
+            symbol: depositData.symbol,
+            decimals:
+              tokensData.find(
+                (token) => token.tokenId == depositData.storageInfo.tokenId
+              )?.decimals ?? 0,
+          },
+          fee: depositData.feeAmount,
+          amount: depositData.amount,
         };
-      case "NftMint":
-        const nftMintFeeToken =
-          tokensData &&
-          tokensData.find(({ tokenId }) => tokenId === transaction.fee.tokenId);
+      case "nftMint":
+        const nftMintData = transaction.mints[0];
+        console.log(nftMintData.blockIdInfo.blockId);
         return {
+          block: { id: nftMintData.blockIdInfo.blockId },
           minter: {
-            id: transaction.minterAccountId,
-          },
-          nft: {
-            nftId: transaction.nftToken.nftId,
+            id: nftMintData.minterId,
+            address: nftMintData.minterAddress,
           },
           receiver: {
-            id: transaction.toAccountId,
-            address: transaction.toAccountAddress,
+            address: nftMintData.owner,
           },
-          fee: transaction.fee.amount,
-          feeToken: nftMintFeeToken,
+          fee: nftMintData.feeAmount,
+          feeToken: {
+            symbol: nftMintData.feeTokenSymbol,
+            decimals:
+              tokensData.find(
+                (token) => token.symbol == nftMintData.feeTokenSymbol
+              )?.decimals ?? 0,
+          },
+          nft: {
+            nftData: nftMintData.nftData,
+          },
+        };
+      case "nftWithdraw":
+        const nftWithdrawData = transaction.transfers[0];
+        return {
+          block: {
+            id: nftWithdrawData.blockIdInfo.blockId,
+            timestamp: nftWithdrawData.updatedAt,
+          },
+          fromAccount: {
+            id: nftWithdrawData.accountId,
+            address: nftWithdrawData.owner,
+          },
+          fee: nftWithdrawData.feeAmount,
+          feeToken: {
+            symbol: nftWithdrawData.feeTokenSymbol,
+            decimals:
+              tokensData.find(
+                (token) => token.symbol == nftWithdrawData.feeTokenSymbol
+              )?.decimals ?? 0,
+          },
+          nfts: [],
+        };
+      case "nftTransfer":
+        const nftTransferData = transaction.transfers[0];
+        return {
+          block: {
+            id: nftTransferData.blockIdInfo.blockId,
+            timestamp: nftTransferData.updatedAt,
+          },
+          fromAccount: {
+            id: nftTransferData.payeeId,
+            address: nftTransferData.payeeAddress,
+          },
+          toAccount: {
+            id: nftTransferData.accountId,
+            address: nftTransferData.owner,
+          },
+          fee: nftTransferData.feeAmount,
+          feeToken: {
+            symbol: nftTransferData.feeTokenSymbol,
+            decimals:
+              tokensData.find(
+                (token) => token.symbol == nftTransferData.feeTokenSymbol
+              )?.decimals ?? 0,
+          },
+          nfts: [],
         };
     }
   };
 
   const renderTransactionDetails = (transaction) => {
     const parsedTxData = getParsedTxData(transaction);
-    switch (transaction.txType) {
-      case "SpotTrade":
-        return <OrderbookTrade transaction={parsedTxData} />;
-      case "JoinAmm":
+    switch (txType) {
+      case "trade":
+        // return <OrderbookTrade transaction={parsedTxData} />;
+        return null;
+      case "joinAmm":
         return <Add transaction={transaction} />;
-      case "ExitAmm":
+      case "exitAmm":
         return <Remove transaction={transaction} />;
-      case "Transfer":
-        return <Transfer transaction={parsedTxData} />;
-      case "NftMint":
-        return <MintNFT transaction={parsedTxData} />;
-      case "Withdraw":
+      case "transfer":
+        return <Transfer transaction={parsedTxData} isPending />;
+      case "withdraw":
         return <Withdrawal transaction={parsedTxData} />;
+      case "deposit":
+        return <Deposit transaction={parsedTxData} />;
+      case "nftMint":
+        return <MintNFT transaction={parsedTxData} />;
+      case "nftWithdraw":
+        return <WithdrawalNFT transaction={parsedTxData} />;
+      case "nftTransfer":
+        return <TransferNFT transaction={parsedTxData} />;
       default:
         return null;
     }
   };
 
-  let confirmedTx = useCheckTxConfirmation(accountId, tokenId, storageId);
-
-  if (isLoading || !confirmedTx.data) {
+  if (isLoading || !tokensData) {
     return null;
   }
 
-  const txData = data.find((tx) => checkIfTxExists(tx));
-  const isTxPending = !!txData;
-
-  const isConfirmed =
-    confirmedTx.data.transfers.length > 0 ||
-    confirmedTx.data.withdrawals.length > 0 ||
-    confirmedTx.data.adds.length > 0 ||
-    confirmedTx.data.removes.length > 0 ||
-    confirmedTx.data.orderbookTrades.length > 0 ||
-    confirmedTx.data.mintNFTs.length > 0;
-
-  if (isConfirmed) {
-    if (confirmedTx.data.withdrawals.length > 0)
-      router.replace(`/tx/${confirmedTx.data.withdrawals[0].id}`);
-    if (confirmedTx.data.transfers.length > 0)
-      router.replace(`/tx/${confirmedTx.data.transfers[0].id}`);
-    if (confirmedTx.data.adds.length > 0)
-      router.replace(`/tx/${confirmedTx.data.adds[0].id}`);
-    if (confirmedTx.data.removes.length > 0)
-      router.replace(`/tx/${confirmedTx.data.removes[0].id}`);
-    if (confirmedTx.data.orderbookTrades.length > 0)
-      router.replace(`/tx/${confirmedTx.data.orderbookTrades[0].id}`);
-    if (confirmedTx.data.mintNFTs.length > 0)
-      router.replace(`/tx/${confirmedTx.data.mintNFTs[0].id}`);
-
-    return null;
-  }
-
-  if (
-    !isLoading &&
-    (!data || (!isTxPending && confirmedTx.data && !isConfirmed))
-  ) {
+  if (!isLoading && !data) {
     return (
       <div className="text-gray-400 dark:text-white text-2xl h-48 flex items-center justify-center w-full border">
         {error ?? (
@@ -259,9 +232,12 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
   }
 
   return (
-    <div className="border dark:border-loopring-dark-darkBlue rounded w-full mb-10 overflow-auto">
+    <div className="bg-white dark:bg-loopring-dark-background rounded p-4">
+      <h1 className="text-3xl mb-5 flex items-center">
+        Transaction #{getTrimmedTxHash(txHash, 10, true)}
+      </h1>
       <table className="w-full table-auto table-fixed">
-        <tbody>{renderTransactionDetails(txData)}</tbody>
+        <tbody>{renderTransactionDetails(data)}</tbody>
       </table>
     </div>
   );

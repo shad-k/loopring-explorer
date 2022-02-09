@@ -6,7 +6,7 @@ import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
 const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, toAccount, token, amount, data, __typename } = transaction;
+  const { block, toAccount, token, amount, data } = transaction;
 
   return (
     <>
@@ -24,7 +24,7 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
-        <td>{__typename}</td>
+        <td>Deposit</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Deposited From</td>
@@ -34,9 +34,13 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={toAccount.id}
             address={toAccount.address}
           >
-            <span className="hidden lg:block">{toAccount.address}</span>
+            <span className="hidden lg:block">
+              {toAccount.address || toAccount.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(toAccount.address, 10, true)}
+              {toAccount.address
+                ? getTrimmedTxHash(toAccount.address, 10, true)
+                : toAccount.id}
             </span>
           </AppLink>
         </td>

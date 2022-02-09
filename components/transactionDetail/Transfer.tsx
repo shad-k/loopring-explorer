@@ -5,7 +5,10 @@ import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
-const Transfer: React.FC<{ transaction: any }> = ({ transaction }) => {
+const Transfer: React.FC<{ transaction: any; isPending?: boolean }> = ({
+  transaction,
+  isPending = false,
+}) => {
   const {
     block,
     fromAccount,
@@ -32,7 +35,7 @@ const Transfer: React.FC<{ transaction: any }> = ({ transaction }) => {
       )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Verified at</td>
-        <td>{block ? getDateString(block.timestamp) : "pending"}</td>
+        <td>{block ? getDateString(block.timestamp, isPending) : "pending"}</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>

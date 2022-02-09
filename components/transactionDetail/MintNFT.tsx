@@ -22,10 +22,12 @@ const MintNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
           </td>
         </tr>
       )}
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Verified at</td>
-        <td>{block ? getDateString(block.timestamp) : "pending"}</td>
-      </tr>
+      {block && block.timestamp && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">Verified at</td>
+          <td>{block ? getDateString(block.timestamp) : "pending"}</td>
+        </tr>
+      )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
         <td>{__typename || "MintNFT"}</td>

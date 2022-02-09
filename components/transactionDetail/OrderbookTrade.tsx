@@ -21,7 +21,6 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
     feeB,
     tokenAPrice,
     tokenBPrice,
-    __typename,
   } = transaction;
 
   return (

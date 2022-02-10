@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 import useTokens from "../../hooks/useTokens";
 import Add from "./Add";
@@ -12,14 +13,32 @@ import Deposit from "./Deposit";
 import WithdrawalNFT from "./WithdrawalNFT";
 import TransferNFT from "./TransferNFT";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
+import useCheckTxConfirmation from "../../hooks/useCheckTxConfirmation";
+import NoTransactionFound from "./NoTransactionFound";
+
+const dataKey = {
+  trade: "trades",
+  joinAmm: "transactions",
+  exitAmm: "transactions",
+  transfer: "transactions",
+  withdraw: "transactions",
+  deposit: "transactions",
+  nftMint: "mints",
+  nftWithdraw: "withdrawals",
+  nftTransfer: "transfers",
+};
 
 const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
+  const router = useRouter();
   const { data: tokensData } = useTokens();
   const txIdSplit = txId.split("-");
   const txHash = txIdSplit[0];
   const txType = txIdSplit[1];
 
   const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
+  const { data: confirmedTx } = useCheckTxConfirmation(
+    data && data[dataKey[txType]]
+  );
 
   const getParsedTxData = (transaction) => {
     switch (txType) {
@@ -32,7 +51,11 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         return null;
       case "transfer":
       case "withdraw":
-        const transactionData = transaction.transactions[0];
+        const transactionData = transaction?.transactions[0];
+        if (!transactionData) {
+          return null;
+        }
+
         const {
           receiver,
           receiverAddress,
@@ -45,9 +68,6 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
           storageInfo,
           timestamp,
         } = transactionData;
-        console.log(
-          tokensData.find((token) => token.tokenId == storageInfo.tokenId)
-        );
         return {
           block: {
             id: blockIdInfo.blockId,
@@ -99,7 +119,6 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         };
       case "nftMint":
         const nftMintData = transaction.mints[0];
-        console.log(nftMintData.blockIdInfo.blockId);
         return {
           block: { id: nftMintData.blockIdInfo.blockId },
           minter: {
@@ -172,6 +191,9 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
 
   const renderTransactionDetails = (transaction) => {
     const parsedTxData = getParsedTxData(transaction);
+    if (!parsedTxData) {
+      return <NoTransactionFound />;
+    }
     switch (txType) {
       case "trade":
         // return <OrderbookTrade transaction={parsedTxData} />;
@@ -197,6 +219,32 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
     }
   };
 
+  const isConfirmed =
+    confirmedTx &&
+    (confirmedTx.transfers.length > 0 ||
+      confirmedTx.withdrawals.length > 0 ||
+      confirmedTx.adds.length > 0 ||
+      confirmedTx.removes.length > 0 ||
+      confirmedTx.orderbookTrades.length > 0 ||
+      confirmedTx.mintNFTs.length > 0);
+
+  if (isConfirmed) {
+    if (confirmedTx.withdrawals.length > 0)
+      router.replace(`/tx/${confirmedTx.withdrawals[0].id}`);
+    if (confirmedTx.transfers.length > 0)
+      router.replace(`/tx/${confirmedTx.transfers[0].id}`);
+    if (confirmedTx.adds.length > 0)
+      router.replace(`/tx/${confirmedTx.adds[0].id}`);
+    if (confirmedTx.removes.length > 0)
+      router.replace(`/tx/${confirmedTx.removes[0].id}`);
+    if (confirmedTx.orderbookTrades.length > 0)
+      router.replace(`/tx/${confirmedTx.orderbookTrades[0].id}`);
+    if (confirmedTx.mintNFTs.length > 0)
+      router.replace(`/tx/${confirmedTx.mintNFTs[0].id}`);
+
+    return null;
+  }
+
   if (isLoading || !tokensData) {
     return null;
   }
@@ -204,29 +252,7 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
   if (!isLoading && !data) {
     return (
       <div className="text-gray-400 dark:text-white text-2xl h-48 flex items-center justify-center w-full border">
-        {error ?? (
-          <div className="flex flex-col items-center">
-            No transaction found
-            <ol className="text-base mt-4">
-              <li>
-                1) If you have just submitted a transaction please wait for at
-                least 30 seconds before refreshing this page.
-              </li>
-              <li>
-                2) It could still be pending submission to L1 Ethereum, waiting
-                to be broadcasted. This can take awhile.
-              </li>
-              <li>
-                3) When Ethereum is congested it can take a while for your
-                transaction to be posted onchain.
-              </li>
-              <li>
-                4) If it still does not show up after 1 hour, please check your
-                wallet on loopring.io
-              </li>
-            </ol>
-          </div>
-        )}
+        {error ?? <NoTransactionFound />}
       </div>
     );
   }

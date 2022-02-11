@@ -199,21 +199,21 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         // return <OrderbookTrade transaction={parsedTxData} />;
         return null;
       case "joinAmm":
-        return <Add transaction={transaction} />;
+        return <Add transaction={transaction} isPending />;
       case "exitAmm":
-        return <Remove transaction={transaction} />;
+        return <Remove transaction={transaction} isPending />;
       case "transfer":
         return <Transfer transaction={parsedTxData} isPending />;
       case "withdraw":
-        return <Withdrawal transaction={parsedTxData} />;
+        return <Withdrawal transaction={parsedTxData} isPending />;
       case "deposit":
-        return <Deposit transaction={parsedTxData} />;
+        return <Deposit transaction={parsedTxData} isPending />;
       case "nftMint":
-        return <MintNFT transaction={parsedTxData} />;
+        return <MintNFT transaction={parsedTxData} isPending />;
       case "nftWithdraw":
-        return <WithdrawalNFT transaction={parsedTxData} />;
+        return <WithdrawalNFT transaction={parsedTxData} isPending />;
       case "nftTransfer":
-        return <TransferNFT transaction={parsedTxData} />;
+        return <TransferNFT transaction={parsedTxData} isPending />;
       default:
         return null;
     }

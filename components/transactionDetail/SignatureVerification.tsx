@@ -1,11 +1,18 @@
 import React from "react";
+import Image from "next/image";
 
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
-const SignatureVerification: React.FC<{ transaction: any }> = ({
+interface ISignatureVerificationProps {
+  transaction: any;
+  isPending?: boolean;
+}
+
+const SignatureVerification: React.FC<ISignatureVerificationProps> = ({
   transaction,
+  isPending = false,
 }) => {
   const { block, account, verificationData, data, __typename } = transaction;
 
@@ -20,8 +27,17 @@ const SignatureVerification: React.FC<{ transaction: any }> = ({
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Verified at</td>
-        <td>{getDateString(block.timestamp)}</td>
+        <td className="p-2">Status</td>
+        <td>
+          {isPending ? (
+            <span className="italic">Pending</span>
+          ) : (
+            <div className="flex items-center ">
+              <Image src={"/green-tick.svg"} height={20} width={20} />{" "}
+              <span className="ml-2">{getDateString(block.timestamp)}</span>
+            </div>
+          )}
+        </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>

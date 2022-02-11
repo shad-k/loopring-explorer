@@ -70,7 +70,7 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         } = transactionData;
         return {
           block: {
-            id: blockIdInfo.blockId,
+            id: blockIdInfo.blockId != "0" ? blockIdInfo.blockId : null,
             timestamp,
           },
           fromAccount: {
@@ -98,9 +98,15 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         };
       case "deposit":
         const depositData = transaction.transactions[0];
+        if (!depositData) {
+          return null;
+        }
         return {
           block: {
-            id: depositData.blockIdInfo.blockId,
+            id:
+              depositData.blockIdInfo.blockId != "0"
+                ? depositData.blockIdInfo.blockId
+                : null,
             timestamp: depositData.timestamp,
           },
           toAccount: {
@@ -119,8 +125,16 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         };
       case "nftMint":
         const nftMintData = transaction.mints[0];
+        if (!nftMintData) {
+          return null;
+        }
         return {
-          block: { id: nftMintData.blockIdInfo.blockId },
+          block: {
+            id:
+              nftMintData.blockIdInfo.blockId != "0"
+                ? nftMintData.blockIdInfo.blockId
+                : null,
+          },
           minter: {
             id: nftMintData.minterId,
             address: nftMintData.minterAddress,
@@ -142,9 +156,15 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         };
       case "nftWithdraw":
         const nftWithdrawData = transaction.transfers[0];
+        if (!nftWithdrawData) {
+          return null;
+        }
         return {
           block: {
-            id: nftWithdrawData.blockIdInfo.blockId,
+            id:
+              nftWithdrawData.blockIdInfo.blockId != "0"
+                ? nftWithdrawData.blockIdInfo.blockId
+                : null,
             timestamp: nftWithdrawData.updatedAt,
           },
           fromAccount: {
@@ -163,9 +183,15 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
         };
       case "nftTransfer":
         const nftTransferData = transaction.transfers[0];
+        if (!nftTransferData) {
+          return null;
+        }
         return {
           block: {
-            id: nftTransferData.blockIdInfo.blockId,
+            id:
+              nftTransferData.blockIdInfo.blockId != "0"
+                ? nftTransferData.blockIdInfo.blockId
+                : null,
             timestamp: nftTransferData.updatedAt,
           },
           fromAccount: {
@@ -252,7 +278,7 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
   if (!isLoading && !data) {
     return (
       <div className="text-gray-400 dark:text-white text-2xl h-48 flex items-center justify-center w-full border">
-        {error ?? <NoTransactionFound />}
+        {<NoTransactionFound />}
       </div>
     );
   }

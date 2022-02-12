@@ -1,11 +1,20 @@
 import React from "react";
+import Image from "next/image";
 
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
-const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
+interface IOrderbookTradeProps {
+  transaction: any;
+  isPending?: boolean;
+}
+
+const OrderbookTrade: React.FC<IOrderbookTradeProps> = ({
+  transaction,
+  isPending = false,
+}) => {
   const [priceDirectionAtoB, setPriceDirectionAtoB] =
     React.useState<boolean>(true);
   const {
@@ -21,7 +30,6 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
     feeB,
     tokenAPrice,
     tokenBPrice,
-    __typename,
   } = transaction;
 
   return (
@@ -37,8 +45,17 @@ const OrderbookTrade: React.FC<{ transaction: any }> = ({ transaction }) => {
         </tr>
       )}
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Verified at</td>
-        <td>{block ? getDateString(block.timestamp) : "pending"}</td>
+        <td className="p-2">Status</td>
+        <td>
+          {isPending ? (
+            <span className="italic">Pending</span>
+          ) : (
+            <div className="flex items-center ">
+              <Image src={"/green-tick.svg"} height={20} width={20} />{" "}
+              <span className="ml-2">{getDateString(block.timestamp)}</span>
+            </div>
+          )}
+        </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>

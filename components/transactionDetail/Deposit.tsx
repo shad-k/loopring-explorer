@@ -1,12 +1,21 @@
 import React from "react";
+import Image from "next/image";
 
 import AppLink from "../AppLink";
 import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
-const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
-  const { block, toAccount, token, amount, data, __typename } = transaction;
+interface IDepositProps {
+  transaction: any;
+  isPending?: boolean;
+}
+
+const Deposit: React.FC<IDepositProps> = ({
+  transaction,
+  isPending = false,
+}) => {
+  const { block, toAccount, token, amount, data } = transaction;
 
   return (
     <>
@@ -19,12 +28,21 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Verified at</td>
-        <td>{getDateString(block.timestamp)}</td>
+        <td className="p-2">Status</td>
+        <td>
+          {isPending ? (
+            <span className="italic">Pending</span>
+          ) : (
+            <div className="flex items-center ">
+              <Image src={"/green-tick.svg"} height={20} width={20} />{" "}
+              <span className="ml-2">{getDateString(block.timestamp)}</span>
+            </div>
+          )}
+        </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
-        <td>{__typename}</td>
+        <td>Deposit</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Deposited From</td>
@@ -34,9 +52,13 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
             accountId={toAccount.id}
             address={toAccount.address}
           >
-            <span className="hidden lg:block">{toAccount.address}</span>
+            <span className="hidden lg:block">
+              {toAccount.address || toAccount.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(toAccount.address, 10, true)}
+              {toAccount.address
+                ? getTrimmedTxHash(toAccount.address, 10, true)
+                : toAccount.id}
             </span>
           </AppLink>
         </td>
@@ -47,14 +69,16 @@ const Deposit: React.FC<{ transaction: any }> = ({ transaction }) => {
           {getTokenAmount(amount, token.decimals)} {token.symbol}
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Transaction Data</td>
-        <td>
-          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
-            {data}
-          </div>
-        </td>
-      </tr>
+      {data && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">Transaction Data</td>
+          <td>
+            <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+              {data}
+            </div>
+          </td>
+        </tr>
+      )}
     </>
   );
 };

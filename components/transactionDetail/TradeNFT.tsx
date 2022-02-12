@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 import AppLink from "../AppLink";
 
@@ -6,7 +7,15 @@ import getDateString from "../../utils/getDateString";
 import getTokenAmount from "../../utils/getTokenAmount";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 
-const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
+interface ITradeNFTProps {
+  transaction: any;
+  isPending?: boolean;
+}
+
+const TradeNFT: React.FC<ITradeNFTProps> = ({
+  transaction,
+  isPending = false,
+}) => {
   const {
     block,
     accountSeller,
@@ -30,8 +39,17 @@ const TradeNFT: React.FC<{ transaction: any }> = ({ transaction }) => {
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Verified at</td>
-        <td>{getDateString(block.timestamp)}</td>
+        <td className="p-2">Status</td>
+        <td>
+          {isPending ? (
+            <span className="italic">Pending</span>
+          ) : (
+            <div className="flex items-center ">
+              <Image src={"/green-tick.svg"} height={20} width={20} />{" "}
+              <span className="ml-2">{getDateString(block.timestamp)}</span>
+            </div>
+          )}
+        </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>

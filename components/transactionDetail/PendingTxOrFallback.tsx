@@ -195,12 +195,12 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
             timestamp: nftTransferData.updatedAt,
           },
           fromAccount: {
-            id: nftTransferData.payeeId,
-            address: nftTransferData.payeeAddress,
-          },
-          toAccount: {
             id: nftTransferData.accountId,
             address: nftTransferData.owner,
+          },
+          toAccount: {
+            id: nftTransferData.payeeId,
+            address: nftTransferData.payeeAddress,
           },
           fee: nftTransferData.feeAmount,
           feeToken: {

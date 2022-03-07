@@ -16,8 +16,7 @@ const WithdrawalNFT: React.FC<IWithdrawalNFTProps> = ({
   transaction,
   isPending = false,
 }) => {
-  const { block, fromAccount, fee, feeToken, data, nfts, __typename } =
-    transaction;
+  const { block, fromAccount, fee, feeToken, data, nfts } = transaction;
 
   return (
     <>
@@ -44,7 +43,7 @@ const WithdrawalNFT: React.FC<IWithdrawalNFTProps> = ({
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
-        <td>{__typename}</td>
+        <td>NFT Withdrawal</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">From</td>
@@ -79,14 +78,16 @@ const WithdrawalNFT: React.FC<IWithdrawalNFTProps> = ({
           </tr>
         );
       })}
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Transaction Data</td>
-        <td>
-          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
-            {data}
-          </div>
-        </td>
-      </tr>
+      {data && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">Transaction Data</td>
+          <td>
+            <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+              {data}
+            </div>
+          </td>
+        </tr>
+      )}
     </>
   );
 };

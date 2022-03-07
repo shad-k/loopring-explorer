@@ -155,7 +155,8 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
           },
         };
       case "nftWithdraw":
-        const nftWithdrawData = transaction.transfers[0];
+        console.log(transaction);
+        const nftWithdrawData = transaction.withdrawals[0];
         if (!nftWithdrawData) {
           return null;
         }

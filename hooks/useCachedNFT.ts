@@ -18,6 +18,27 @@ const uriCache = new LRUCache();
 const metadataCache = new LRUCache();
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
+const getCounterFactualNFT = async (nft) => {
+  console.log("getCounterFactualNFT");
+  try {
+    const contractABIERC1155 = [
+      `function uri(uint256 id) external view returns (string memory)`,
+    ];
+
+    const nftContract = new ethers.Contract(
+      "0xB25f6D711aEbf954fb0265A3b29F7b9Beba7E55d",
+      contractABIERC1155,
+      provider
+    );
+
+    const uri = await nftContract.uri(nft.nftID);
+    return uri;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 const getERC721URI = async (nft, isFailOver = false) => {
   try {
     const contractABIERC721 = [
@@ -36,8 +57,9 @@ const getERC721URI = async (nft, isFailOver = false) => {
     console.error(error);
     if (!isFailOver) {
       return await getERC1155URI(nft, true);
+    } else {
+      return await getCounterFactualNFT(nft);
     }
-    return null;
   }
 };
 
@@ -59,8 +81,9 @@ const getERC1155URI = async (nft, isFailOver = false) => {
     console.error(error);
     if (!isFailOver) {
       return await getERC721URI(nft, true);
+    } else {
+      return await getCounterFactualNFT(nft);
     }
-    return null;
   }
 };
 
@@ -82,7 +105,7 @@ const getNFTURI = async (nft) => {
   }
 };
 
-const getNFTMetadata = async (uri, nft) => {
+const getNFTMetadata = async (uri, nft, isErrorFallback = false) => {
   const cacheKey = nft.id;
   let cacheResult = metadataCache.get(cacheKey);
   if (cacheResult) {
@@ -101,6 +124,9 @@ const getNFTMetadata = async (uri, nft) => {
       metadataCache.set(cacheKey, metadata);
       return metadata;
     } catch (error) {
+      if (!isErrorFallback) {
+        return getNFTMetadata(`${uri}/metadata.json`, nft, true);
+      }
       return {
         image: "/error",
         name: "Couldn't fetch NFT details",

@@ -53,16 +53,12 @@ const NFTDetail: React.FC<{}> = () => {
 
   return (
     <div className="pt-12">
-      <div className="flex flex-col lg:flex-row lg:w-10/12 mx-auto">
-        <div
-          className="flex flex-col justify-end w-full lg:w-4/12 relative "
-          style={{ minHeight: 400, width: 400 }}
-        >
+      <div className="flex flex-col lg:flex-row w-full lg:w-10/12 mx-auto">
+        <div className="flex flex-col justify-end w-full lg:w-4/12 relative nft-image">
           {!isLoaded && (
             <img
               src="/nft-placeholder.svg"
               className="absolute top-0 right-0 h-full w-full object-cover object-center animate-pulse"
-              style={{ height: 400, width: 400 }}
             />
           )}
           {image ? (

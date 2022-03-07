@@ -38,3 +38,23 @@ a {
     color: #FFF !important;
   }
 }
+
+.nft-image {
+  min-height: 400px;
+  width: 400px;
+
+  & img {
+    height: 400px;
+    width: 400px;
+  }
+
+  @media screen and (max-width: 768px) {
+    min-height: 400px;
+    width: 100%;
+
+    & img {
+      height: auto;
+      width: 100%;
+    }
+  }
+}

@@ -1,20 +1,19 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-import useTokens from "../../hooks/useTokens";
-import Add from "./Add";
-import MintNFT from "./MintNFT";
-import OrderbookTrade from "./OrderbookTrade";
-import Remove from "./Remove";
-import Transfer from "./Transfer";
-import Withdrawal from "./Withdrawal";
-import usePendingTransactionData from "../../hooks/usePendingTransactionData";
-import Deposit from "./Deposit";
-import WithdrawalNFT from "./WithdrawalNFT";
-import TransferNFT from "./TransferNFT";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
-import useCheckTxConfirmation from "../../hooks/useCheckTxConfirmation";
-import NoTransactionFound from "./NoTransactionFound";
+import useTokens from "../../../hooks/useTokens";
+import Add from "../Add";
+import MintNFT from "../MintNFT";
+import Remove from "../Remove";
+import Transfer from "../Transfer";
+import Withdrawal from "../Withdrawal";
+import usePendingTransactionData from "../../../hooks/usePendingTransactionData";
+import Deposit from "../Deposit";
+import WithdrawalNFT from "../WithdrawalNFT";
+import TransferNFT from "../TransferNFT";
+import getTrimmedTxHash from "../../../utils/getTrimmedTxHash";
+import useCheckTxConfirmation from "../../../hooks/useCheckTxConfirmation";
+import NoTransactionFound from "../NoTransactionFound";
 
 const dataKey = {
   trade: "trades",
@@ -28,16 +27,27 @@ const dataKey = {
   nftTransfer: "transfers",
 };
 
-const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
+const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
   const router = useRouter();
   const { data: tokensData } = useTokens();
   const txIdSplit = txId.split("-");
+
   const txHash = txIdSplit[0];
   const txType = txIdSplit[1];
 
   const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
+
+  const accountID = data
+    ? data[dataKey[txType]][0].storageInfo.accountId
+    : null;
+  const tokenID = data ? data[dataKey[txType]][0].storageInfo.tokenId : null;
+  const storageID = data
+    ? data[dataKey[txType]][0].storageInfo.storageId
+    : null;
   const { data: confirmedTx } = useCheckTxConfirmation(
-    data && data[dataKey[txType]]
+    accountID,
+    tokenID,
+    storageID
   );
 
   const getParsedTxData = (transaction) => {
@@ -295,4 +305,4 @@ const PendingTxOrFallback: React.FC<{ txId: string }> = ({ txId }) => {
   );
 };
 
-export default PendingTxOrFallback;
+export default PendingTransactionFromAPI;

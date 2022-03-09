@@ -19,10 +19,10 @@ import WithdrawalNFT from "../../components/transactionDetail/WithdrawalNFT";
 import TransferNFT from "../../components/transactionDetail/TransferNFT";
 import MintNFT from "../../components/transactionDetail/MintNFT";
 import DataNFT from "../../components/transactionDetail/DataNFT";
-import PendingTxOrFallback from "../../components/transactionDetail/PendingTxOrFallback";
+import PendingTx from "../../components/transactionDetail/PendingTx";
 import NoTransactionFound from "../../components/transactionDetail/NoTransactionFound";
 
-const Transaction: React.FC<{ txId: string }> = ({ txId }) => {
+export const Transaction: React.FC<{ txId: string }> = ({ txId }) => {
   const { data, isLoading } = useTransaction(txId);
 
   const { __typename, block } = (data && data.transaction) || {};
@@ -108,8 +108,10 @@ const TransactionPage: React.FC<{}> = () => {
     return null;
   }
 
-  return txId.startsWith("0x") ? (
-    <PendingTxOrFallback txId={txId} />
+  const txIdSplit = txId.split("-");
+
+  return txId.startsWith("0x") || txIdSplit.length > 2 ? (
+    <PendingTx txId={txId} />
   ) : (
     <Transaction txId={txId} />
   );

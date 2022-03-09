@@ -11,7 +11,7 @@ export const apiEndpointByTxType = {
   transfer: "user/transactions",
   deposit: "user/transactions",
   withdraw: "user/transactions",
-  trade: "user/trade",
+  trade: "user/trades",
   nftMint: "user/nft/mints",
   joinAmm: "user/amm/transactions",
   exitAmm: "user/amm/transactions",

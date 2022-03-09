@@ -14,6 +14,7 @@ import TransferNFT from "../TransferNFT";
 import getTrimmedTxHash from "../../../utils/getTrimmedTxHash";
 import useCheckTxConfirmation from "../../../hooks/useCheckTxConfirmation";
 import NoTransactionFound from "../NoTransactionFound";
+import TradesList from "./TradesList";
 
 const dataKey = {
   trade: "trades",
@@ -38,11 +39,11 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
   const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
 
   const accountID = data
-    ? data[dataKey[txType]][0].storageInfo.accountId
+    ? data[dataKey[txType]][0].storageInfo?.accountId
     : null;
-  const tokenID = data ? data[dataKey[txType]][0].storageInfo.tokenId : null;
+  const tokenID = data ? data[dataKey[txType]][0].storageInfo?.tokenId : null;
   const storageID = data
-    ? data[dataKey[txType]][0].storageInfo.storageId
+    ? data[dataKey[txType]][0].storageInfo?.storageId
     : null;
   const { data: confirmedTx } = useCheckTxConfirmation(
     accountID,
@@ -53,8 +54,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
   const getParsedTxData = (transaction) => {
     switch (txType) {
       case "trade":
-        // const tradeData = transaction.trades[0];
-        return null;
+        return transaction.trades;
       case "joinAmm":
         return null;
       case "exitAmm":
@@ -232,8 +232,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
     }
     switch (txType) {
       case "trade":
-        // return <OrderbookTrade transaction={parsedTxData} />;
-        return null;
+        return <TradesList trades={parsedTxData} txId={txId} />;
       case "joinAmm":
         return <Add transaction={transaction} isPending />;
       case "exitAmm":

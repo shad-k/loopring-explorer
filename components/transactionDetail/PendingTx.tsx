@@ -4,18 +4,6 @@ import PendingTransactionFromAPI from "./pending/PendingTransactionFromAPI";
 import PendingTransactionBaseScreen from "./pending/PendingTransactionBaseScreen";
 import PendingTransactionWithFallbackToAPI from "./pending/PendingTransactionWithFallbackToAPI";
 
-const dataKey = {
-  trade: "trades",
-  joinAmm: "transactions",
-  exitAmm: "transactions",
-  transfer: "transactions",
-  withdraw: "transactions",
-  deposit: "transactions",
-  nftMint: "mints",
-  nftWithdraw: "withdrawals",
-  nftTransfer: "transfers",
-};
-
 const PendingTx: React.FC<{ txId: string }> = ({ txId }) => {
   const txIdSplit = txId.split("-");
 

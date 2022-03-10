@@ -19,3 +19,7 @@ export const apiEndpointByTxType = {
   nftTransfer: "user/nft/transfers",
   nftDeposit: "user/nft/deposits",
 };
+
+export const NFT_DISALLOW_LIST = [
+  "0x2cc9facecb46905fbf52585588fcefb931b5ff3f-0-0x7fe9aebbb0268e5b7e7d0b1e3d777236773f6c76-0x458b2f73f9e0040ef38f777448c17a1200c0ef4ba5f59320eca1f93952d2d43a-0",
+];

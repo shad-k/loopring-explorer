@@ -7,7 +7,7 @@ import useCachedNFT from "../../hooks/useCachedNFT";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 import AppLink from "../../components/AppLink";
 import NFTTransactions from "../../components/nftDetail/NFTTransactions";
-import { INFURA_ENDPOINT } from "../../utils/config";
+import { INFURA_ENDPOINT, NFT_DISALLOW_LIST } from "../../utils/config";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
@@ -51,17 +51,6 @@ const NFTDetail: React.FC<{}> = () => {
     }
   }, [image]);
 
-  if (
-    router.query.id ===
-    "0x2cc9facecb46905fbf52585588fcefb931b5ff3f-0-0x7fe9aebbb0268e5b7e7d0b1e3d777236773f6c76-0x458b2f73f9e0040ef38f777448c17a1200c0ef4ba5f59320eca1f93952d2d43a-0"
-  ) {
-    return (
-      <div className="p-12 italic text-2xl flex items-center justify-center border border-dashed">
-        Not available
-      </div>
-    );
-  }
-
   return (
     <div className="pt-12">
       <div className="flex flex-col lg:flex-row w-full lg:w-10/12 mx-auto">
@@ -82,7 +71,9 @@ const NFTDetail: React.FC<{}> = () => {
               <img
                 src={image as string}
                 alt={name as string}
-                className="z-10 object-contain object-center m-auto h-full rounded-xl"
+                className={`z-10 object-contain object-center m-auto h-full rounded-xl ${
+                  NFT_DISALLOW_LIST.includes(nft.id) ? "filter blur-xl" : ""
+                }`}
                 ref={(imageElement) => {
                   if (imageElement) {
                     imageElement.onload = () => setIsLoaded(true);

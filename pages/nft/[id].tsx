@@ -8,6 +8,7 @@ import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 import AppLink from "../../components/AppLink";
 import NFTTransactions from "../../components/nftDetail/NFTTransactions";
 import { INFURA_ENDPOINT, NFT_DISALLOW_LIST } from "../../utils/config";
+import useConsentContext from "../../hooks/useConsentContext";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
@@ -33,6 +34,7 @@ const NFTDetail: React.FC<{}> = () => {
   const { data } = useNFT(router.query.id);
   const nft = data ? data?.nonFungibleToken : null;
   const [collectionName, setCollectionName] = React.useState<string>();
+  const { hasConsent, askUserForConsent } = useConsentContext();
 
   const metadata = useCachedNFT(nft);
   const { image, name } = metadata;
@@ -72,7 +74,9 @@ const NFTDetail: React.FC<{}> = () => {
                 src={image as string}
                 alt={name as string}
                 className={`z-10 object-contain object-center m-auto h-full rounded-xl ${
-                  NFT_DISALLOW_LIST.includes(nft.id) ? "filter blur-xl" : ""
+                  NFT_DISALLOW_LIST.includes(nft.id) || !hasConsent
+                    ? "filter blur-xl"
+                    : ""
                 }`}
                 ref={(imageElement) => {
                   if (imageElement) {
@@ -82,8 +86,27 @@ const NFTDetail: React.FC<{}> = () => {
               />
             )
           ) : null}
+          {!hasConsent && (
+            <div
+              style={{ height: "100%", width: "100%" }}
+              className="absolute z-10 top-0 left-0 text-white flex items-center justify-center"
+            >
+              <button
+                className="bg-black bg-opacity-20 rounded-xl px-3 py-2 text-sm text-white"
+                onClick={(e) => {
+                  if (!hasConsent) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    askUserForConsent();
+                  }
+                }}
+              >
+                View Content
+              </button>
+            </div>
+          )}
           {isLoaded && (
-            <div className="flex items-center px-4 w-full mt-4 justify-center">
+            <div className="flex items-center px-4 w-full mt-4 justify-center z-10">
               <a
                 href={metadata.uri as string}
                 target="_blank"

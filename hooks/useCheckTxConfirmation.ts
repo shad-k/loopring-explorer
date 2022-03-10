@@ -15,6 +15,7 @@ const FETCH_TRANSACTION = gql`
     $mintNFTWhere: MintNFT_filter
     $withdrawNFTWhere: WithdrawalNFT_filter
     $transferNFTWhere: TransferNFT_filter
+    $swapWhere: Swap_filter
   ) {
     transfers(where: $transferWhere) {
       id
@@ -40,61 +41,61 @@ const FETCH_TRANSACTION = gql`
     transferNFTs(where: $transferNFTWhere) {
       id
     }
+    swaps(where: $swapWhere) {
+      id
+    }
   }
 `;
 
-const useCheckTxConfirmation = (transactions = []) => {
-  const txData = transactions[0];
-
+const useCheckTxConfirmation = (accountID, tokenID, storageID) => {
   const { data, error } = useSWR(
-    transactions.length > 0
-      ? [
-          FETCH_TRANSACTION,
-          txData?.storageInfo?.accountId,
-          txData?.storageInfo?.storageId,
-        ]
-      : null,
+    accountID ? [FETCH_TRANSACTION, accountID, tokenID, storageID] : null,
     (query) =>
       request(LOOPRING_SUBGRAPH, query, {
         transferWhere: {
-          accountFromID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          tokenID: txData?.storageInfo?.tokenId,
+          accountFromID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         withdrawalWhere: {
-          fromAccountID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          tokenID: txData?.storageInfo?.tokenId,
+          fromAccountID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         addWhere: {
-          accountFromID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          tokenID: txData?.storageInfo?.tokenId,
+          accountFromID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         removeWhere: {
-          accountFromID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          tokenID: txData?.storageInfo?.tokenId,
+          accountFromID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         orderBookTradeWhere: {
-          accountIdA: txData?.storageInfo?.accountId,
-          storageIdA: txData?.storageInfo?.storageId,
-          tokenIDAS: txData?.storageInfo?.tokenId,
+          accountIdA: parseInt(accountID),
+          storageIdA: parseInt(storageID),
+          tokenIDAS: parseInt(tokenID),
+        },
+        swapWhere: {
+          accountIdA: parseInt(accountID),
+          storageIdA: parseInt(storageID),
+          tokenIDAS: parseInt(tokenID),
         },
         mintNFTWhere: {
-          minterAccountID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          toTokenID: txData?.storageInfo?.tokenId,
+          minterAccountID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          toTokenID: parseInt(tokenID),
         },
         withdrawNFTWhere: {
-          fromAccountID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          tokenID: txData?.storageInfo?.tokenId,
+          fromAccountID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
         transferNFTWhere: {
-          accountFromID: txData?.storageInfo?.accountId,
-          storageID: txData?.storageInfo?.storageId,
-          tokenID: txData?.storageInfo?.tokenId,
+          accountFromID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
       }),
     {

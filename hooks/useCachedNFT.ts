@@ -19,7 +19,6 @@ const metadataCache = new LRUCache();
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
 const getCounterFactualNFT = async (nft) => {
-  console.log("getCounterFactualNFT");
   try {
     const contractABIERC1155 = [
       `function uri(uint256 id) external view returns (string memory)`,

@@ -7,7 +7,7 @@ import useCachedNFT from "../../hooks/useCachedNFT";
 import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
 import AppLink from "../../components/AppLink";
 import NFTTransactions from "../../components/nftDetail/NFTTransactions";
-import { INFURA_ENDPOINT } from "../../utils/config";
+import { INFURA_ENDPOINT, NFT_DISALLOW_LIST } from "../../utils/config";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
@@ -71,7 +71,9 @@ const NFTDetail: React.FC<{}> = () => {
               <img
                 src={image as string}
                 alt={name as string}
-                className="z-10 object-contain object-center m-auto h-full rounded-xl"
+                className={`z-10 object-contain object-center m-auto h-full rounded-xl ${
+                  NFT_DISALLOW_LIST.includes(nft.id) ? "filter blur-xl" : ""
+                }`}
                 ref={(imageElement) => {
                   if (imageElement) {
                     imageElement.onload = () => setIsLoaded(true);

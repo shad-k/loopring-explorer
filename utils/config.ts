@@ -21,3 +21,8 @@ export const apiEndpointByTxType = {
 };
 
 export const NFT_DISALLOW_LIST = [];
+
+export enum USER_CONTENT {
+  YES = "yes",
+  NO = "no",
+}

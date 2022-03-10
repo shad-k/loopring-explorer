@@ -1,6 +1,7 @@
 import React from "react";
 
 import useCachedNFT from "../hooks/useCachedNFT";
+import useConsentContext from "../hooks/useConsentContext";
 import { NFT_DISALLOW_LIST } from "../utils/config";
 
 interface NFTData {
@@ -16,6 +17,7 @@ interface NFTData {
 const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
   const metadata = useCachedNFT(nft);
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const { hasConsent, askUserForConsent } = useConsentContext();
 
   const { image, name } = metadata;
   React.useEffect(() => {
@@ -48,7 +50,9 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
             src={image as string}
             alt={name as string}
             className={`z-10 object-cover object-center w-full ${
-              NFT_DISALLOW_LIST.includes(nft.id) ? "filter blur-xl" : ""
+              NFT_DISALLOW_LIST.includes(nft.id) || !hasConsent
+                ? "filter blur-xl"
+                : ""
             }`}
             ref={(imageElement) => {
               if (imageElement) {
@@ -61,6 +65,25 @@ const NFT: React.FC<{ nft: NFTData }> = ({ nft }) => {
           />
         )
       ) : null}
+      {!hasConsent && (
+        <div
+          style={{ height: 300, width: "100%" }}
+          className="absolute z-10 top-0 left-0 text-white flex items-center justify-center"
+        >
+          <button
+            className="bg-black bg-opacity-20 rounded-xl px-3 py-2 text-sm text-white"
+            onClick={(e) => {
+              if (!hasConsent) {
+                e.stopPropagation();
+                e.preventDefault();
+                askUserForConsent();
+              }
+            }}
+          >
+            View Content
+          </button>
+        </div>
+      )}
       {name && (
         <div className="bg-loopring-blue dark:bg-loopring-dark-darkBlue text-white px-1 py-2 font-medium text-sm z-10 flex-1 flex items-center">
           {name}

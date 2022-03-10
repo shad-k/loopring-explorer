@@ -50,8 +50,8 @@ const ConsentContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
     >
       {children}
       {showConsentDialog && (
-        <div className="fixed top-0 left-0 bg-black bg-opacity-40 h-full w-full flex items-center justify-center z-10">
-          <div className="h-48 bg-white rounded-md px-4 py-2 flex flex-col">
+        <div className="fixed top-0 left-0 bg-black bg-opacity-40 h-full w-full flex items-center justify-center z-20">
+          <div className="h-48 bg-white dark:bg-loopring-dark-darkBlue dark:text-white rounded-md px-4 py-2 flex flex-col shadow-xl">
             <div
               className="text-right text-2xl cursor-pointer"
               onClick={() => closeConsentDialog()}
@@ -70,7 +70,7 @@ const ConsentContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
                 Yes
               </button>
               <button
-                className="text-loopring-darkBlue border border-loopring-darkBlue px-12 py-2 rounded-md"
+                className="dark:text-white text-loopring-darkBlue border border-loopring-darkBlue px-12 py-2 rounded-md"
                 onClick={() => setConsent(USER_CONTENT.NO)}
               >
                 No

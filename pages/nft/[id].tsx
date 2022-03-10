@@ -106,7 +106,7 @@ const NFTDetail: React.FC<{}> = () => {
             </div>
           )}
           {isLoaded && (
-            <div className="flex items-center px-4 w-full mt-4 justify-center">
+            <div className="flex items-center px-4 w-full mt-4 justify-center z-10">
               <a
                 href={metadata.uri as string}
                 target="_blank"

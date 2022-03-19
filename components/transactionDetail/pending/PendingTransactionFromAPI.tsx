@@ -88,6 +88,10 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
             id: receiver,
             address: withdrawalInfo.recipient,
           },
+          toAccount: {
+            id: storageInfo.accountId,
+            address: senderAddress,
+          },
           token: {
             symbol,
             decimals:

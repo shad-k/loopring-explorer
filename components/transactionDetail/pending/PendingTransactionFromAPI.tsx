@@ -77,6 +77,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           blockIdInfo,
           storageInfo,
           timestamp,
+          withdrawalInfo,
         } = transactionData;
         return {
           block: {
@@ -84,12 +85,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
             timestamp,
           },
           fromAccount: {
-            id: storageInfo.accountId,
-            address: senderAddress,
-          },
-          toAccount: {
             id: receiver,
-            address: receiverAddress,
+            address: withdrawalInfo.recipient,
           },
           token: {
             symbol,
@@ -261,7 +258,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       confirmedTx.adds.length > 0 ||
       confirmedTx.removes.length > 0 ||
       confirmedTx.orderbookTrades.length > 0 ||
-      confirmedTx.mintNFTs.length > 0);
+      confirmedTx.mintNFTs.length > 0 ||
+      confirmedTx.transferNFTs.length > 0);
 
   if (isConfirmed) {
     if (confirmedTx.withdrawals.length > 0)
@@ -276,6 +274,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       router.replace(`/tx/${confirmedTx.orderbookTrades[0].id}`);
     if (confirmedTx.mintNFTs.length > 0)
       router.replace(`/tx/${confirmedTx.mintNFTs[0].id}`);
+    if (confirmedTx.transferNFTs.length > 0)
+      router.replace(`/tx/${confirmedTx.transferNFTs[0].id}`);
 
     return null;
   }

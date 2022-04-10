@@ -77,7 +77,6 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           blockIdInfo,
           storageInfo,
           timestamp,
-          withdrawalInfo,
         } = transactionData;
         return {
           block: {
@@ -85,12 +84,12 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
             timestamp,
           },
           fromAccount: {
-            id: receiver,
-            address: withdrawalInfo.recipient,
-          },
-          toAccount: {
             id: storageInfo.accountId,
             address: senderAddress,
+          },
+          toAccount: {
+            id: receiver,
+            address: receiverAddress,
           },
           token: {
             symbol,

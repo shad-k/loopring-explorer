@@ -7,6 +7,8 @@ const getQueryParamName = (txType) => {
       return "orderHash";
     case "nftTrade":
       return "tradeHash";
+    case "accountUpdate":
+      return "types=change_password&hashes";
     default:
       return "hashes";
   }

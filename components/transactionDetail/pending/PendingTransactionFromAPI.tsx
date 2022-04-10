@@ -16,6 +16,7 @@ import useCheckTxConfirmation from "../../../hooks/useCheckTxConfirmation";
 import NoTransactionFound from "../NoTransactionFound";
 import TradesList from "./TradesList";
 import TradeNFT from "../TradeNFT";
+import AccountUpdate from "../AccountUpdate";
 
 const dataKey = {
   trade: "trades",
@@ -27,7 +28,8 @@ const dataKey = {
   nftMint: "mints",
   nftWithdraw: "withdrawals",
   nftTransfer: "transfers",
-  nftTrade: "nftTrades",
+  nftTrade: "trades",
+  accountUpdate: "transactions",
 };
 
 const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
@@ -41,15 +43,15 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
   const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
 
   const accountID =
-    data && data[dataKey[txType]]
+    data && data[dataKey[txType]] && data[dataKey[txType]].length > 0
       ? data[dataKey[txType]][0].storageInfo?.accountId
       : null;
   const tokenID =
-    data && data[dataKey[txType]]
+    data && data[dataKey[txType]] && data[dataKey[txType]].length > 0
       ? data[dataKey[txType]][0].storageInfo?.tokenId
       : null;
   const storageID =
-    data && data[dataKey[txType]]
+    data && data[dataKey[txType]] && data[dataKey[txType]].length > 0
       ? data[dataKey[txType]][0].storageInfo?.storageId
       : null;
   const { data: confirmedTx } = useCheckTxConfirmation(
@@ -255,6 +257,29 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           nfts: [],
           __typename: "TradeNFT",
         };
+      case "accountUpdate":
+        const accountUpdateData = transaction.transactions[0];
+        if (!accountUpdateData) {
+          return null;
+        }
+        return {
+          block: {
+            id: accountUpdateData.blockIdInfo.blockId,
+          },
+          user: {
+            addres: accountUpdateData.senderAddress,
+            id: accountUpdateData.storageInfo.accountId,
+          },
+          feeToken: {
+            symbol: accountUpdateData.feeTokenSymbol,
+            decimals:
+              tokensData.find(
+                (token) => token.symbol == accountUpdateData.feeTokenSymbol
+              )?.decimals ?? 0,
+          },
+          fee: accountUpdateData.feeAmount,
+          __typename: "AccountUpdate",
+        };
     }
   };
 
@@ -284,6 +309,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
         return <TransferNFT transaction={parsedTxData} isPending />;
       case "nftTrade":
         return <TradeNFT transaction={parsedTxData} isPending />;
+      case "accountUpdate":
+        return <AccountUpdate transaction={parsedTxData} isPending />;
       default:
         return null;
     }
@@ -298,7 +325,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       confirmedTx.orderbookTrades.length > 0 ||
       confirmedTx.mintNFTs.length > 0 ||
       confirmedTx.transferNFTs.length > 0 ||
-      confirmedTx.tradeNFTs.length > 0);
+      confirmedTx.tradeNFTs.length > 0 ||
+      confirmedTx.accountUpdates.length > 0);
 
   if (isConfirmed) {
     if (confirmedTx.withdrawals.length > 0)
@@ -317,6 +345,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       router.replace(`/tx/${confirmedTx.transferNFTs[0].id}`);
     if (confirmedTx.tradeNFTs.length > 0)
       router.replace(`/tx/${confirmedTx.tradeNFTs[0].id}`);
+    if (confirmedTx.accountUpdates.length > 0)
+      router.replace(`/tx/${confirmedTx.accountUpdates[0].id}`);
 
     return null;
   }

@@ -17,6 +17,7 @@ const FETCH_TRANSACTION = gql`
     $transferNFTWhere: TransferNFT_filter
     $swapWhere: Swap_filter
     $tradeNFTWhere: TradeNFT_filter
+    $accountUpdateWhere: AccountUpdate_filter
   ) {
     transfers(where: $transferWhere) {
       id
@@ -46,6 +47,9 @@ const FETCH_TRANSACTION = gql`
       id
     }
     tradeNFTs(where: $tradeNFTWhere) {
+      id
+    }
+    accountUpdates(where: $accountUpdateWhere) {
       id
     }
   }
@@ -105,6 +109,11 @@ const useCheckTxConfirmation = (accountID, tokenID, storageID) => {
           accountIdA: parseInt(accountID),
           storageIdA: parseInt(storageID),
           tokenIDAS: parseInt(tokenID),
+        },
+        accountUpdateWhere: {
+          accountID: parseInt(accountID),
+          storageID: parseInt(storageID),
+          tokenID: parseInt(tokenID),
         },
       }),
     {

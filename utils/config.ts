@@ -18,6 +18,7 @@ export const apiEndpointByTxType = {
   nftWithdraw: "user/nft/withdrawals",
   nftTransfer: "user/nft/transfers",
   nftDeposit: "user/nft/deposits",
+  nftTrade: "user/nft/trades",
 };
 
 export const NFT_DISALLOW_LIST = [];

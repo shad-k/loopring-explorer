@@ -15,6 +15,7 @@ import getTrimmedTxHash from "../../../utils/getTrimmedTxHash";
 import useCheckTxConfirmation from "../../../hooks/useCheckTxConfirmation";
 import NoTransactionFound from "../NoTransactionFound";
 import TradesList from "./TradesList";
+import TradeNFT from "../TradeNFT";
 
 const dataKey = {
   trade: "trades",
@@ -26,6 +27,7 @@ const dataKey = {
   nftMint: "mints",
   nftWithdraw: "withdrawals",
   nftTransfer: "transfers",
+  nftTrade: "nftTrades",
 };
 
 const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
@@ -38,13 +40,18 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
 
   const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
 
-  const accountID = data
-    ? data[dataKey[txType]][0].storageInfo?.accountId
-    : null;
-  const tokenID = data ? data[dataKey[txType]][0].storageInfo?.tokenId : null;
-  const storageID = data
-    ? data[dataKey[txType]][0].storageInfo?.storageId
-    : null;
+  const accountID =
+    data && data[dataKey[txType]]
+      ? data[dataKey[txType]][0].storageInfo?.accountId
+      : null;
+  const tokenID =
+    data && data[dataKey[txType]]
+      ? data[dataKey[txType]][0].storageInfo?.tokenId
+      : null;
+  const storageID =
+    data && data[dataKey[txType]]
+      ? data[dataKey[txType]][0].storageInfo?.storageId
+      : null;
   const { data: confirmedTx } = useCheckTxConfirmation(
     accountID,
     tokenID,
@@ -222,6 +229,32 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           },
           nfts: [],
         };
+      case "nftTrade":
+        const nftTradeData = transaction.trades[0];
+        if (!nftTradeData) {
+          return null;
+        }
+        const nftTradeDataFeeToken = tokensData.find(
+          (token) => token.id == nftTradeData[8]
+        );
+        return {
+          block: {
+            id: nftTradeData[11],
+          },
+          accountSeller: {
+            id: nftTradeData[13],
+          },
+          accountBuyer: {
+            id: nftTradeData[14],
+          },
+          realizedNFTPrice: nftTradeData[4],
+          feeBuyer: nftTradeData[9],
+          feeSeller: nftTradeData[10],
+          token: nftTradeDataFeeToken,
+          data: nftTradeData[5],
+          nfts: [],
+          __typename: "TradeNFT",
+        };
     }
   };
 
@@ -249,6 +282,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
         return <WithdrawalNFT transaction={parsedTxData} isPending />;
       case "nftTransfer":
         return <TransferNFT transaction={parsedTxData} isPending />;
+      case "nftTrade":
+        return <TradeNFT transaction={parsedTxData} isPending />;
       default:
         return null;
     }
@@ -262,7 +297,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       confirmedTx.removes.length > 0 ||
       confirmedTx.orderbookTrades.length > 0 ||
       confirmedTx.mintNFTs.length > 0 ||
-      confirmedTx.transferNFTs.length > 0);
+      confirmedTx.transferNFTs.length > 0 ||
+      confirmedTx.tradeNFTs.length > 0);
 
   if (isConfirmed) {
     if (confirmedTx.withdrawals.length > 0)
@@ -279,6 +315,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       router.replace(`/tx/${confirmedTx.mintNFTs[0].id}`);
     if (confirmedTx.transferNFTs.length > 0)
       router.replace(`/tx/${confirmedTx.transferNFTs[0].id}`);
+    if (confirmedTx.tradeNFTs.length > 0)
+      router.replace(`/tx/${confirmedTx.tradeNFTs[0].id}`);
 
     return null;
   }

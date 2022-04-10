@@ -15,14 +15,16 @@ const PendingTradeOrSwap: React.FC<{ trade: any }> = ({ trade }) => {
     confirmedTx &&
     (confirmedTx.orderbookTrades.length > 0 || confirmedTx.swaps.length > 0);
 
+  const tx =
+    isConfirmed && (confirmedTx.orderbookTrades[0] ?? confirmedTx.swaps[0]);
   return (
     <tr>
       <td className="p-2 text-center">{trade[2]}</td>
       <td className="p-2 text-center">{trade[5]}</td>
       <td className="p-2 text-center">
-        {isConfirmed ? (
+        {isConfirmed && tx ? (
           <>
-            <Link href={`/tx/${accountId}-${tokenId}-${storageId}`}>
+            <Link href={`/tx/${tx.id}`}>
               <a className="border border-loopring-blue rounded-sm px-2 py-1 text-sm hidden md:block">
                 Go to Verified Transaction
               </a>

@@ -13,7 +13,6 @@ const FETCH_ACCOUNTS = gql`
   query accounts(
     $skip: Int
     $first: Int
-    $orderBy: Transaction_orderBy
     $orderDirection: OrderDirection
     $block: Block_height
     $where: Account_filter
@@ -21,7 +20,6 @@ const FETCH_ACCOUNTS = gql`
     accounts(
       skip: $skip
       first: $first
-      orderBy: $orderBy
       orderDirection: $orderDirection
       block: $block
       where: $where

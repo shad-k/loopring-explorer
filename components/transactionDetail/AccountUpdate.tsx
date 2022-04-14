@@ -20,14 +20,16 @@ const AccountUpdate: React.FC<IAccountUpdateProps> = ({
 
   return (
     <>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2 lg:w-1/5">Block #</td>
-        <td>
-          <AppLink path="block" block={block.id}>
-            {block.id}
-          </AppLink>
-        </td>
-      </tr>
+      {block && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2 lg:w-1/5">Block #</td>
+          <td>
+            <AppLink path="block" block={block.id}>
+              {block.id}
+            </AppLink>
+          </td>
+        </tr>
+      )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Status</td>
         <td>
@@ -56,10 +58,12 @@ const AccountUpdate: React.FC<IAccountUpdateProps> = ({
           </AppLink>
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">New Public Key</td>
-        <td className="break-all">{user.publicKey}</td>
-      </tr>
+      {user.publicKey && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">New Public Key</td>
+          <td className="break-all">{user.publicKey}</td>
+        </tr>
+      )}
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Fee</td>
         <td>

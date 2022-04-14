@@ -63,9 +63,13 @@ const TradeNFT: React.FC<ITradeNFTProps> = ({
             accountId={accountSeller.id}
             address={accountSeller.address}
           >
-            <span className="hidden lg:block">{accountSeller.address}</span>
+            <span className="hidden lg:block">
+              {accountSeller.address || accountSeller.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountSeller.address, 10, true)}
+              {accountSeller.address
+                ? getTrimmedTxHash(accountSeller.address, 10, true)
+                : accountSeller.id}
             </span>
           </AppLink>
         </td>
@@ -78,9 +82,13 @@ const TradeNFT: React.FC<ITradeNFTProps> = ({
             accountId={accountBuyer.id}
             address={accountBuyer.address}
           >
-            <span className="hidden lg:block">{accountBuyer.address}</span>
+            <span className="hidden lg:block">
+              {accountBuyer.address || accountBuyer.id}
+            </span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountBuyer.address, 10, true)}
+              {accountBuyer.address
+                ? getTrimmedTxHash(accountBuyer.address, 10, true)
+                : accountBuyer.id}
             </span>
           </AppLink>
         </td>

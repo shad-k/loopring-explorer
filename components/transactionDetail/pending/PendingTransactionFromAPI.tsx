@@ -237,7 +237,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           return null;
         }
         const nftTradeDataFeeToken = tokensData.find(
-          (token) => token.id == nftTradeData[8]
+          (token) => token.tokenId == parseInt(nftTradeData[8])
         );
         return {
           block: {
@@ -249,7 +249,9 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           accountBuyer: {
             id: nftTradeData[14],
           },
-          realizedNFTPrice: nftTradeData[4],
+          realizedNFTPrice:
+            Math.pow(10, nftTradeDataFeeToken.decimals) *
+            parseFloat(nftTradeData[4]),
           feeBuyer: nftTradeData[9],
           feeSeller: nftTradeData[10],
           token: nftTradeDataFeeToken,
@@ -263,11 +265,8 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           return null;
         }
         return {
-          block: {
-            id: accountUpdateData.blockIdInfo.blockId,
-          },
           user: {
-            addres: accountUpdateData.senderAddress,
+            address: accountUpdateData.senderAddress,
             id: accountUpdateData.storageInfo.accountId,
           },
           feeToken: {

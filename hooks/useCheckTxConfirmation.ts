@@ -112,8 +112,7 @@ const useCheckTxConfirmation = (accountID, tokenID, storageID) => {
         },
         accountUpdateWhere: {
           accountID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
+          nonce: parseInt(storageID),
         },
       }),
     {

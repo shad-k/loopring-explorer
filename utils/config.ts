@@ -1,4 +1,5 @@
 export const LOOPRING_SUBGRAPH =
+  process.env.NEXT_PUBLIC_SUBGRAPH_ENDPOINT ??
   "https://gateway.thegraph.com/api/294a874dfcbae25bcca653a7f56cfb63/subgraphs/id/HgnaENC2oG5hJFsWoHvULBbj7djTJ7TZnqa58iTWA3Rd";
 export const EXPLORER_URL = "https://etherscan.io/";
 export const INFURA_ENDPOINT =

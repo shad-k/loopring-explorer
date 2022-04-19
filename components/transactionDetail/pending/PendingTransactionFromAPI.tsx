@@ -17,6 +17,7 @@ import NoTransactionFound from "../NoTransactionFound";
 import TradesList from "./TradesList";
 import TradeNFT from "../TradeNFT";
 import AccountUpdate from "../AccountUpdate";
+import NFTTradesList from "./NFTTradesList";
 
 const dataKey = {
   trade: "trades",
@@ -232,33 +233,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
           nfts: [],
         };
       case "nftTrade":
-        const nftTradeData = transaction.trades[0];
-        if (!nftTradeData) {
-          return null;
-        }
-        const nftTradeDataFeeToken = tokensData.find(
-          (token) => token.tokenId == parseInt(nftTradeData[8])
-        );
-        return {
-          block: {
-            id: nftTradeData[11],
-          },
-          accountSeller: {
-            id: nftTradeData[13],
-          },
-          accountBuyer: {
-            id: nftTradeData[14],
-          },
-          realizedNFTPrice:
-            Math.pow(10, nftTradeDataFeeToken.decimals) *
-            parseFloat(nftTradeData[4]),
-          feeBuyer: nftTradeData[9],
-          feeSeller: nftTradeData[10],
-          token: nftTradeDataFeeToken,
-          data: nftTradeData[5],
-          nfts: [],
-          __typename: "TradeNFT",
-        };
+        return transaction.trades;
       case "accountUpdate":
         const accountUpdateData = transaction.transactions[0];
         if (!accountUpdateData) {
@@ -307,7 +282,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
       case "nftTransfer":
         return <TransferNFT transaction={parsedTxData} isPending />;
       case "nftTrade":
-        return <TradeNFT transaction={parsedTxData} isPending />;
+        return <NFTTradesList trades={parsedTxData} txId={txId} />;
       case "accountUpdate":
         return <AccountUpdate transaction={parsedTxData} isPending />;
       default:

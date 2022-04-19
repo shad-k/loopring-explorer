@@ -70,14 +70,16 @@ const AccountUpdate: React.FC<IAccountUpdateProps> = ({
           {getTokenAmount(fee, feeToken.decimals)} {feeToken.symbol}
         </td>
       </tr>
-      <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Transaction Data</td>
-        <td>
-          <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
-            {data}
-          </div>
-        </td>
-      </tr>
+      {data && (
+        <tr className="border dark:border-loopring-dark-darkBlue">
+          <td className="p-2">Transaction Data</td>
+          <td>
+            <div className="break-all bg-gray-100 dark:bg-loopring-dark-darkBlue h-32 overflow-auto m-2 rounded p-2 text-gray-500">
+              {data}
+            </div>
+          </td>
+        </tr>
+      )}
     </>
   );
 };

@@ -29,7 +29,7 @@ const Blocks: React.FC<{}> = () => {
   }, [router.query]);
 
   return (
-    <div className="bg-white dark:bg-loopring-dark-background  rounded p-4 min-h-table">
+    <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
       <h1 className="text-3xl mb-2 font-bold">Latest Blocks</h1>
       <div className="w-full overflow-auto">
         <table className="table-auto w-full border-collapse">

@@ -1,9 +1,5 @@
 module.exports = {
-  future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-  },
-  purge: ["./**/*.html", "./**/*.tsx"],
+  content: ["./**/*.html", "./**/*.tsx"],
   theme: {
     extend: {
       colors: {
@@ -32,7 +28,6 @@ module.exports = {
       },
     },
   },
-  variants: {},
   plugins: [],
   darkMode: "class",
 };

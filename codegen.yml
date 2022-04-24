@@ -1,0 +1,22 @@
+overwrite: true
+generates:
+  generated/loopringExplorer.ts:
+    schema:
+      [
+        "https://api.thegraph.com/subgraphs/name/juanmardefago/loopring36v2"
+      ]
+    documents:
+      - ./graphql/queries.ts
+      - ./graphql/fragments.ts
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withRefetchFn: true

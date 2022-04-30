@@ -3,10 +3,10 @@ generates:
   generated/loopringExplorer.ts:
     schema:
       [
-        "https://api.thegraph.com/subgraphs/name/juanmardefago/loopring36v2"
+        "https://api.thegraph.com/subgraphs/name/juanmardefago/loopring36"
       ]
     documents:
-      - ./graphql/queries.ts
+      - ./hooks/useAccounts.ts
       - ./graphql/fragments.ts
     hooks:
       afterOneFileWrite:

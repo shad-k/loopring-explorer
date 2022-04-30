@@ -98,7 +98,7 @@ const FETCH_PAIR = gql`
   ${pool}
 `;
 
-const useAccount = (
+const usePair = (
   id,
   swapPage = 1,
   swapPerPage = 10,
@@ -135,4 +135,4 @@ const useAccount = (
   };
 };
 
-export default useAccount;
+export default usePair;

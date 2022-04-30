@@ -6,26 +6,30 @@ import { ethers } from "ethers";
 
 import { INFURA_ENDPOINT, LOOPRING_SUBGRAPH } from "../utils/config";
 import { account, nft, token } from "../graphql/fragments";
+import { useAccountsQuery } from "../generated/loopringExplorer";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
+type WhereFilter = {
+  address?: string;
+  id?: string;
+};
+
 const FETCH_ACCOUNTS = gql`
   query accounts(
-    $skip: Int
     $first: Int
     $orderDirection: OrderDirection
     $block: Block_height
     $where: Account_filter
   ) {
     accounts(
-      skip: $skip
       first: $first
       orderDirection: $orderDirection
       block: $block
       where: $where
     ) {
       id
-      ...AccountFragment
+      address
       balances {
         id
         balance
@@ -61,7 +65,6 @@ const FETCH_ACCOUNTS = gql`
     }
   }
 
-  ${account}
   ${token}
   ${nft}
 `;
@@ -86,26 +89,28 @@ const useAccounts = (id) => {
   }, [id]);
 
   const memoVariables = React.useMemo(() => {
+    const whereFilter: WhereFilter = {};
+
+    if (address?.startsWith("0x")) {
+      whereFilter.address = address;
+    } else {
+      whereFilter.id = address;
+    }
     return {
-      skip: 0,
       first: 1,
-      where: {
-        ...(address && address.startsWith("0x")
-          ? { address }
-          : { id: address }),
-      },
+      where: whereFilter,
     };
   }, [address]);
 
-  const { data, error } = useSWR(
-    address ? [FETCH_ACCOUNTS, memoVariables] : null,
-    (query) => request(LOOPRING_SUBGRAPH, query, memoVariables)
-  );
+  const { data, error, loading } = useAccountsQuery({
+    skip: !address,
+    variables: memoVariables,
+  });
 
   return {
     data,
     error,
-    isLoading: !data && !error,
+    isLoading: loading,
   };
 };
 

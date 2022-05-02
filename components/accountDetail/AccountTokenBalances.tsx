@@ -2,25 +2,107 @@ import React from "react";
 
 import getTokenAmount from "../../utils/getTokenAmount";
 import Pagination from "../../components/Pagination";
+import { useAccountTokenBalancesQuery } from "../../generated/loopringExplorer";
+import CursorPagination from "../CursorPagination";
+import useTokens from "../../hooks/useTokens";
 
 interface Props {
-  balances: Array<any>;
+  accountId: string;
 }
 
-const AccountTokenBalances: React.FC<Props> = ({ balances }) => {
+const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
   const TOTAL_COUNT = 10;
-  const [balancePage, setBalancePage] = React.useState<number>(1);
+  const [afterCursor, setAfterCursor] = React.useState<string>();
+  const [beforeCursor, setBeforeCursor] = React.useState<string>();
+  const [hasMore, setHasMore] = React.useState<boolean>(true);
+  const { data: tokensData, isLoading } = useTokens();
 
-  const pageStart = (balancePage - 1) * TOTAL_COUNT;
-  const pageEnd = balancePage * TOTAL_COUNT;
+  const { data, fetchMore, error, loading } = useAccountTokenBalancesQuery({
+    variables: {
+      where: {
+        account: accountId,
+      },
+    },
+  });
 
-  const filteredBalances = balances.filter(
-    ({ token, balance }) => !((!token.name && !token.symbol) || balance == 0)
-  );
+  const fetchNextBalances = async () => {
+    if (!hasMore) {
+      return;
+    }
+
+    await fetchMore({
+      variables: {
+        where: {
+          account: accountId,
+          id_gt: afterCursor,
+        },
+      },
+    });
+  };
+
+  const fetchPreviousBalances = async () => {
+    await fetchMore({
+      variables: {
+        where: {
+          account: accountId,
+          id_lt: beforeCursor,
+        },
+      },
+    });
+  };
+
+  React.useEffect(() => {
+    if (data && data.accountTokenBalances) {
+      const firstTokenBalance = data.accountTokenBalances[0];
+      const lastTokenBalance =
+        data.accountTokenBalances[data.accountTokenBalances.length - 1];
+      setAfterCursor(lastTokenBalance.id);
+      setBeforeCursor(firstTokenBalance.id);
+      setHasMore(!(data.accountTokenBalances.length < TOTAL_COUNT));
+    }
+  }, [data]);
+
+  if (loading || isLoading) {
+    return null;
+  }
+
+  if (error) {
+    return (
+      <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+        Couldn't fetch token balances
+      </div>
+    );
+  }
+
+  const accountTokenBalancesWithSymbol = data.accountTokenBalances
+    .filter(({ balance }) => balance > 0)
+    .map((accountTokenBalance) => {
+      const { token } = accountTokenBalance;
+      if (token.name && token.symbol) {
+        return accountTokenBalance;
+      } else {
+        const fullTokenData = tokensData.find(
+          ({ tokenId }) => parseInt(token.id) === tokenId
+        );
+        if (fullTokenData) {
+          return {
+            ...accountTokenBalance,
+            token: {
+              ...accountTokenBalance.token,
+              name: fullTokenData.name,
+              symbol: fullTokenData.symbol,
+              decimals: fullTokenData.decimals,
+            },
+          };
+        } else {
+          return null;
+        }
+      }
+    });
 
   return (
     <div>
-      {filteredBalances.length === 0 ? (
+      {accountTokenBalancesWithSymbol.length === 0 ? (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No token balances to show
         </div>
@@ -34,8 +116,11 @@ const AccountTokenBalances: React.FC<Props> = ({ balances }) => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {filteredBalances.map((accountTokenBalance, index) => {
-                if (index >= pageStart && index < pageEnd) {
+              {accountTokenBalancesWithSymbol.map(
+                (accountTokenBalance, index) => {
+                  if (!accountTokenBalance) {
+                    return null;
+                  }
                   const { id, balance, token } = accountTokenBalance;
                   return (
                     <tr
@@ -50,17 +135,14 @@ const AccountTokenBalances: React.FC<Props> = ({ balances }) => {
                       </td>
                     </tr>
                   );
-                } else {
-                  return null;
                 }
-              })}
+              )}
             </tbody>
           </table>
-          <Pagination
-            currentPage={balancePage}
-            onPageChange={(page) => setBalancePage(page)}
-            total={filteredBalances.length}
-            entriesPerPage={10}
+          <CursorPagination
+            onNextClick={fetchNextBalances}
+            onPreviousClick={fetchPreviousBalances}
+            hasMore={hasMore}
           />
         </>
       )}

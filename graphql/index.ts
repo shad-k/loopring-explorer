@@ -3,7 +3,17 @@ import { LOOPRING_SUBGRAPH } from "../utils/config";
 
 const client = new ApolloClient({
   uri: LOOPRING_SUBGRAPH,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          accountTokenBalances: {
+            keyArgs: false,
+          },
+        },
+      },
+    },
+  }),
 });
 
 export default client;

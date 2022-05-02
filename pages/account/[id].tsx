@@ -26,7 +26,7 @@ const Account: React.FC<{}> = () => {
     return null;
   }
 
-  const { address, createdAtTransaction, balances, slots, __typename, id } =
+  const { address, createdAtTransaction, __typename, id } =
     (data && data.accounts.length > 0 && data.accounts[0]) || {};
 
   return (
@@ -84,13 +84,11 @@ const Account: React.FC<{}> = () => {
         tabs={[
           {
             title: "Token Balances",
-            view: balances ? (
-              <AccountTokenBalances balances={balances} />
-            ) : null,
+            view: <AccountTokenBalances accountId={accountId} />,
           },
           {
             title: "NFTs",
-            view: slots ? <AccountNFTs slots={slots} /> : null,
+            view: <AccountNFTs accountId={accountId} />,
           },
         ]}
       />

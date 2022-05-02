@@ -8,6 +8,7 @@ generates:
     documents:
       - ./hooks/useAccounts.ts
       - ./graphql/fragments.ts
+      - ./graphql/queries/**/
     hooks:
       afterOneFileWrite:
         - prettier --write

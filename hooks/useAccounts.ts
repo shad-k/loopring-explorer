@@ -1,11 +1,7 @@
 import React from "react";
-import { gql } from "graphql-request";
-import useSWR from "swr";
-import request from "graphql-request";
 import { ethers } from "ethers";
 
-import { INFURA_ENDPOINT, LOOPRING_SUBGRAPH } from "../utils/config";
-import { account, nft, token } from "../graphql/fragments";
+import { INFURA_ENDPOINT } from "../utils/config";
 import { useAccountsQuery } from "../generated/loopringExplorer";
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
@@ -14,60 +10,6 @@ type WhereFilter = {
   address?: string;
   id?: string;
 };
-
-const FETCH_ACCOUNTS = gql`
-  query accounts(
-    $first: Int
-    $orderDirection: OrderDirection
-    $block: Block_height
-    $where: Account_filter
-  ) {
-    accounts(
-      first: $first
-      orderDirection: $orderDirection
-      block: $block
-      where: $where
-    ) {
-      id
-      address
-      balances {
-        id
-        balance
-        token {
-          ...TokenFragment
-        }
-      }
-      slots {
-        id
-        nft {
-          ...NFTFragment
-        }
-        balance
-        createdAtTransaction {
-          id
-          block {
-            timestamp
-          }
-        }
-      }
-      createdAtTransaction {
-        id
-        block {
-          timestamp
-        }
-      }
-
-      ... on Pool {
-        feeBipsAMM
-      }
-
-      __typename
-    }
-  }
-
-  ${token}
-  ${nft}
-`;
 
 const useAccounts = (id) => {
   const [address, setAddress] = React.useState(null);

@@ -1,10 +1,7 @@
 overwrite: true
 generates:
   generated/loopringExplorer.ts:
-    schema:
-      [
-        "https://api.thegraph.com/subgraphs/name/juanmardefago/loopring36"
-      ]
+    schema: ['https://api.thegraph.com/subgraphs/name/juanmardefago/loopring36']
     documents:
       - ./hooks/useAccounts.ts
       - ./graphql/fragments.ts
@@ -21,3 +18,4 @@ generates:
     config:
       withHooks: true
       withRefetchFn: true
+      reactApolloVersion: 3

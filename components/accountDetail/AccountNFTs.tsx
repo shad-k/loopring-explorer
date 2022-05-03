@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import NFT from "../NFT";
-import AppLink from "../AppLink";
-import { useAccountNftSlotsQuery } from "../../generated/loopringExplorer";
-import CursorPagination from "../CursorPagination";
+import NFT from '../NFT';
+import AppLink from '../AppLink';
+import { useAccountNftSlotsQuery } from '../../generated/loopringExplorer';
+import CursorPagination from '../CursorPagination';
+import usePagination from '../../hooks/usePagination';
 
 interface Props {
   accountId: string;
@@ -11,10 +12,6 @@ interface Props {
 
 const AccountNFTs: React.FC<Props> = ({ accountId }) => {
   const TOTAL_COUNT = 10;
-  const [afterCursor, setAfterCursor] = React.useState<string>();
-  const [beforeCursor, setBeforeCursor] = React.useState<string>();
-  const [hasMore, setHasMore] = React.useState<boolean>(true);
-
   const { data, fetchMore, error, loading } = useAccountNftSlotsQuery({
     variables: {
       where: {
@@ -23,42 +20,12 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
     },
   });
 
-  const fetchNextBalances = async () => {
-    if (!hasMore) {
-      return;
-    }
-
-    await fetchMore({
-      variables: {
-        where: {
-          account: accountId,
-          id_gt: afterCursor,
-        },
-      },
-    });
-  };
-
-  const fetchPreviousBalances = async () => {
-    await fetchMore({
-      variables: {
-        where: {
-          account: accountId,
-          id_lt: beforeCursor,
-        },
-      },
-    });
-  };
-
-  React.useEffect(() => {
-    if (data && data.accountNFTSlots) {
-      const firstTokenBalance = data.accountNFTSlots[0];
-      const lastTokenBalance =
-        data.accountNFTSlots[data.accountNFTSlots.length - 1];
-      setAfterCursor(lastTokenBalance.id);
-      setBeforeCursor(firstTokenBalance.id);
-      setHasMore(!(data.accountNFTSlots.length < TOTAL_COUNT));
-    }
-  }, [data]);
+  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
+    data,
+    'accountNFTSlots',
+    fetchMore,
+    TOTAL_COUNT
+  );
 
   if (loading) {
     return null;
@@ -103,8 +70,26 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
             })}
           </div>
           <CursorPagination
-            onNextClick={fetchNextBalances}
-            onPreviousClick={fetchPreviousBalances}
+            onNextClick={() =>
+              fetchNext({
+                variables: {
+                  where: {
+                    account: accountId,
+                    id_gt: afterCursor,
+                  },
+                },
+              })
+            }
+            onPreviousClick={() =>
+              fetchPrevious({
+                variables: {
+                  where: {
+                    account: accountId,
+                    id_lt: beforeCursor,
+                  },
+                },
+              })
+            }
             hasMore={hasMore}
           />
         </>

@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import getTokenAmount from "../../utils/getTokenAmount";
-import Pagination from "../../components/Pagination";
-import { useAccountTokenBalancesQuery } from "../../generated/loopringExplorer";
-import CursorPagination from "../CursorPagination";
-import useTokens from "../../hooks/useTokens";
+import getTokenAmount from '../../utils/getTokenAmount';
+import Pagination from '../../components/Pagination';
+import { useAccountTokenBalancesQuery } from '../../generated/loopringExplorer';
+import CursorPagination from '../CursorPagination';
+import useTokens from '../../hooks/useTokens';
+import usePagination from '../../hooks/usePagination';
 
 interface Props {
   accountId: string;
@@ -12,9 +13,6 @@ interface Props {
 
 const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
   const TOTAL_COUNT = 10;
-  const [afterCursor, setAfterCursor] = React.useState<string>();
-  const [beforeCursor, setBeforeCursor] = React.useState<string>();
-  const [hasMore, setHasMore] = React.useState<boolean>(true);
   const { data: tokensData, isLoading } = useTokens();
 
   const { data, fetchMore, error, loading } = useAccountTokenBalancesQuery({
@@ -25,42 +23,12 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
     },
   });
 
-  const fetchNextBalances = async () => {
-    if (!hasMore) {
-      return;
-    }
-
-    await fetchMore({
-      variables: {
-        where: {
-          account: accountId,
-          id_gt: afterCursor,
-        },
-      },
-    });
-  };
-
-  const fetchPreviousBalances = async () => {
-    await fetchMore({
-      variables: {
-        where: {
-          account: accountId,
-          id_lt: beforeCursor,
-        },
-      },
-    });
-  };
-
-  React.useEffect(() => {
-    if (data && data.accountTokenBalances) {
-      const firstTokenBalance = data.accountTokenBalances[0];
-      const lastTokenBalance =
-        data.accountTokenBalances[data.accountTokenBalances.length - 1];
-      setAfterCursor(lastTokenBalance.id);
-      setBeforeCursor(firstTokenBalance.id);
-      setHasMore(!(data.accountTokenBalances.length < TOTAL_COUNT));
-    }
-  }, [data]);
+  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
+    data,
+    'accountTokenBalances',
+    fetchMore,
+    TOTAL_COUNT
+  );
 
   if (loading || isLoading) {
     return null;
@@ -81,9 +49,7 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
       if (token.name && token.symbol) {
         return accountTokenBalance;
       } else {
-        const fullTokenData = tokensData.find(
-          ({ tokenId }) => parseInt(token.id) === tokenId
-        );
+        const fullTokenData = tokensData.find(({ tokenId }) => parseInt(token.id) === tokenId);
         if (fullTokenData) {
           return {
             ...accountTokenBalance,
@@ -116,32 +82,43 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {accountTokenBalancesWithSymbol.map(
-                (accountTokenBalance, index) => {
-                  if (!accountTokenBalance) {
-                    return null;
-                  }
-                  const { id, balance, token } = accountTokenBalance;
-                  return (
-                    <tr
-                      key={id}
-                      className="border rounded dark:border-loopring-dark-background"
-                    >
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue dark:text-white">
-                        {token.name}
-                      </td>
-                      <td className="border-b dark:border-loopring-dark-darkBlue dark:text-white">
-                        {getTokenAmount(balance, token.decimals)} {token.symbol}
-                      </td>
-                    </tr>
-                  );
+              {accountTokenBalancesWithSymbol.map((accountTokenBalance, index) => {
+                if (!accountTokenBalance) {
+                  return null;
                 }
-              )}
+                const { id, balance, token } = accountTokenBalance;
+                return (
+                  <tr key={id} className="border rounded dark:border-loopring-dark-background">
+                    <td className="p-2 border-b dark:border-loopring-dark-darkBlue dark:text-white">{token.name}</td>
+                    <td className="border-b dark:border-loopring-dark-darkBlue dark:text-white">
+                      {getTokenAmount(balance, token.decimals)} {token.symbol}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
           <CursorPagination
-            onNextClick={fetchNextBalances}
-            onPreviousClick={fetchPreviousBalances}
+            onNextClick={() =>
+              fetchNext({
+                variables: {
+                  where: {
+                    account: accountId,
+                    id_gt: afterCursor,
+                  },
+                },
+              })
+            }
+            onPreviousClick={() =>
+              fetchPrevious({
+                variables: {
+                  where: {
+                    account: accountId,
+                    id_lt: beforeCursor,
+                  },
+                },
+              })
+            }
             hasMore={hasMore}
           />
         </>

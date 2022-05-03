@@ -1,11 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import numeral from "numeral";
+import { GetServerSideProps } from "next";
 
 import useBlocks from "../hooks/useBlocks";
 import useTransactions from "../hooks/useTransactions";
 import usePairs from "../hooks/usePairs";
+import client from "../graphql";
 
+import { FETCH_NETWORK_STATS } from "../graphql/queries/home";
 import AppLink from "../components/AppLink";
 import TransactionTableDetails from "../components/transactionDetail/TransactionTableDetails";
 import TableLoader from "../components/TableLoader";
@@ -17,7 +20,16 @@ import getTokenAmount from "../utils/getTokenAmount";
 import stableCoins from "../utils/stableCoins";
 import getTokenIcon from "../utils/getTokenIcon";
 
-export default function Home() {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await client.query({ query: FETCH_NETWORK_STATS });
+
+  return {
+    props: { networkStats: res.data },
+  };
+};
+
+export default function Home({ networkStats }) {
+  console.log(networkStats);
   const { data, error, isLoading } = useBlocks();
   const {
     data: txsData,
@@ -31,19 +43,19 @@ export default function Home() {
   } = usePairs();
 
   let avgBlockDetails = React.useMemo(() => {
-    if (data && data.blocks.length > 0) {
+    if (networkStats && networkStats.blocks.length > 0) {
       let avgTransactionCount = 0;
       let blockTime = Date.now();
       let avgTimeBetweenBlocks = 0;
-      data.blocks.forEach((block) => {
+      networkStats.blocks.forEach((block) => {
         avgTransactionCount += parseInt(block.transactionCount);
         avgTimeBetweenBlocks += blockTime - block.timestamp * 1000;
         blockTime = block.timestamp * 1000;
       });
       return {
-        transactionCount: avgTransactionCount / data.blocks.length,
+        transactionCount: avgTransactionCount / networkStats.blocks.length,
         timeBetweenBlocks: `${Math.floor(
-          avgTimeBetweenBlocks / (data.blocks.length * 1000 * 60)
+          avgTimeBetweenBlocks / (networkStats.blocks.length * 1000 * 60)
         )} mins`,
       };
     }
@@ -51,49 +63,51 @@ export default function Home() {
       transactionCount: null,
       timeBetweenBlocks: null,
     };
-  }, [data]);
+  }, [networkStats]);
 
   return (
     <div className="mt-10 w-11/12 m-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-16">
-        <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Total Transactions</span>
-          <span className="text-3xl flex-1">
-            {txsData && numeral(txsData.proxy.transactionCount).format("0,0")}
-          </span>
+      {networkStats && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-16">
+          <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
+            <span className=" mb-4">Total Transactions</span>
+            <span className="text-3xl flex-1">
+              {numeral(networkStats.proxy.transactionCount).format("0,0")}
+            </span>
+          </div>
+          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
+            <span className=" mb-4">Total Blocks</span>
+            <span className="text-3xl flex-1">
+              {numeral(networkStats.proxy.blockCount).format("0,0")}
+            </span>
+          </div>
+          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
+            <span className=" mb-4">Total L2 Accounts</span>
+            <span className="text-3xl flex-1">
+              {data && numeral(networkStats.proxy.userCount).format("0,0")}
+            </span>
+          </div>
+          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
+            <span className=" mb-4">Avg. Block Time</span>
+            <span className="text-3xl flex-1">
+              {avgBlockDetails.timeBetweenBlocks}
+            </span>
+          </div>
+          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
+            <span className=" mb-4">Avg. Txs per Block</span>
+            <span className="text-3xl flex-1">
+              {avgBlockDetails.transactionCount &&
+                numeral(avgBlockDetails.transactionCount).format("0,0")}
+            </span>
+          </div>
+          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
+            <span className=" mb-4">Last Block Submitted</span>
+            <span className="text-3xl flex-1">
+              {data && getTimeFromNow(networkStats.blocks[0].timestamp)}
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Total Blocks</span>
-          <span className="text-3xl flex-1">
-            {data && numeral(data.proxy.blockCount).format("0,0")}
-          </span>
-        </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Total L2 Accounts</span>
-          <span className="text-3xl flex-1">
-            {data && numeral(data.proxy.userCount).format("0,0")}
-          </span>
-        </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Avg. Block Time</span>
-          <span className="text-3xl flex-1">
-            {avgBlockDetails.timeBetweenBlocks}
-          </span>
-        </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Avg. Txs per Block</span>
-          <span className="text-3xl flex-1">
-            {avgBlockDetails.transactionCount &&
-              numeral(avgBlockDetails.transactionCount).format("0,0")}
-          </span>
-        </div>
-        <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-          <span className=" mb-4">Last Block Submitted</span>
-          <span className="text-3xl flex-1">
-            {data && getTimeFromNow(data.blocks[0].timestamp)}
-          </span>
-        </div>
-      </div>
+      )}
       <div className="w-full mt-8 flex flex-col justify-between">
         <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">
           Latest Blocks

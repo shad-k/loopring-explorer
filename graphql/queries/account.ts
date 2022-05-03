@@ -46,16 +46,27 @@ export const FETCH_ACCOUNT_BALANCES = gql`
   ${token}
 `;
 
-// slots(first: 10) {
-//   id
-//   nft {
-//     ...NFTFragment
-//   }
-//   balance
-//   createdAtTransaction {
-//     id
-//     block {
-//       timestamp
-//     }
-//   }
-// }
+export const FETCH_ACCOUNT_SLOTS = gql`
+  query accountNFTSlots($where: AccountNFTSlot_filter) {
+    accountNFTSlots(
+      orderDirection: asc
+      orderBy: id
+      first: 10
+      where: $where
+    ) {
+      id
+      nft {
+        ...NFTFragment
+      }
+      balance
+      createdAtTransaction {
+        id
+        block {
+          timestamp
+        }
+      }
+    }
+  }
+
+  ${token}
+`;

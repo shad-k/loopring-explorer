@@ -1,5 +1,5 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { LOOPRING_SUBGRAPH } from "../utils/config";
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { LOOPRING_SUBGRAPH } from '../utils/config';
 
 const client = new ApolloClient({
   uri: LOOPRING_SUBGRAPH,
@@ -8,6 +8,9 @@ const client = new ApolloClient({
       Query: {
         fields: {
           accountTokenBalances: {
+            keyArgs: false,
+          },
+          blocks: {
             keyArgs: false,
           },
         },

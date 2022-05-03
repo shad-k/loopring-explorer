@@ -1,32 +1,29 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React from 'react';
 
-import useBlocks from "../hooks/useBlocks";
+import TableLoader from '../components/TableLoader';
+import AppLink from '../components/AppLink';
+import CursorPagination from '../components/CursorPagination';
+import usePagination from '../hooks/usePagination';
+import { OrderDirection, useBlocksQuery } from '../generated/loopringExplorer';
 
-import TableLoader from "../components/TableLoader";
-import Pagination from "../components/Pagination";
-import AppLink from "../components/AppLink";
-
-import getTimeFromNow from "../utils/getTimeFromNow";
-import getTrimmedTxHash from "../utils/getTrimmedTxHash";
-import getTokenAmount from "../utils/getTokenAmount";
+import getTimeFromNow from '../utils/getTimeFromNow';
+import getTrimmedTxHash from '../utils/getTrimmedTxHash';
 
 const Blocks: React.FC<{}> = () => {
-  const router = useRouter();
-  const [currentPage, setPage] = React.useState<number>(1);
-  const { data, error, isLoading } = useBlocks((currentPage - 1) * 25, 25);
+  const TOTAL_COUNT = 25;
+  const { data, error, loading, fetchMore } = useBlocksQuery({
+    variables: {
+      first: TOTAL_COUNT,
+      orderDirection: OrderDirection.Desc,
+    },
+  });
 
-  const pageChangeHandler = (page) => {
-    router.push({ pathname: router.pathname, query: { page } }, undefined, {
-      shallow: true,
-    });
-  };
-
-  React.useEffect(() => {
-    if (router.query && router.query.page) {
-      setPage(parseInt(router.query.page as string));
-    }
-  }, [router.query]);
+  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
+    data,
+    'blocks',
+    fetchMore,
+    TOTAL_COUNT
+  );
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
@@ -45,21 +42,14 @@ const Blocks: React.FC<{}> = () => {
             {data &&
               data.blocks.map((block) => {
                 return (
-                  <tr
-                    key={block.id}
-                    className="border dark:border-loopring-dark-background ml-2"
-                  >
+                  <tr key={block.id} className="border dark:border-loopring-dark-background ml-2">
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
                       <AppLink path="block" block={block.id}>
                         {block.id}
                       </AppLink>
                     </td>
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                      <AppLink
-                        path="transaction"
-                        tx={block.txHash}
-                        isExplorerLink
-                      >
+                      <AppLink path="transaction" tx={block.txHash} isExplorerLink>
                         {getTrimmedTxHash(block.txHash, 15)}
                       </AppLink>
                     </td>
@@ -80,17 +70,34 @@ const Blocks: React.FC<{}> = () => {
           No blocks to show
         </div>
       )}
-      {isLoading && <TableLoader rows={25} />}
-      {error && (
-        <div className="h-40 flex items-center justify-center text-red-400 text-xl">
-          Couldn't fetch blocks
-        </div>
-      )}
-      <Pagination
-        currentPage={currentPage}
-        total={data && data.proxy.blockCount}
-        onPageChange={pageChangeHandler}
-        entriesPerPage={25}
+      {loading && <TableLoader rows={25} />}
+      {error && <div className="h-40 flex items-center justify-center text-red-400 text-xl">Couldn't fetch blocks</div>}
+      <CursorPagination
+        onNextClick={() =>
+          fetchNext({
+            variables: {
+              where: {
+                internalID_lt: afterCursor,
+              },
+            },
+          })
+        }
+        onPreviousClick={() =>
+          fetchPrevious({
+            variables: {
+              where: {
+                internalID_gt: beforeCursor,
+              },
+              orderDirection: OrderDirection.Asc,
+            },
+            updateQuery(_, data) {
+              return {
+                blocks: data.fetchMoreResult.blocks.reverse(),
+              };
+            },
+          })
+        }
+        hasMore={hasMore}
       />
     </div>
   );

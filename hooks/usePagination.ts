@@ -22,8 +22,12 @@ const usePagination = (data, dataKey, fetchMore: QueryResult['fetchMore'], total
     if (data && data[dataKey]) {
       const first = data[dataKey][0];
       const last = data[dataKey][data[dataKey].length - 1];
-      setAfterCursor(last.id);
-      setBeforeCursor(first.id);
+      if (first) {
+        setBeforeCursor(first.id);
+      }
+      if (last) {
+        setAfterCursor(last.id);
+      }
       setHasMore(!(data[dataKey].length < totalCount));
     }
   }, [data]);

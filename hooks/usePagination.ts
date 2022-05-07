@@ -1,7 +1,7 @@
 import { QueryResult } from '@apollo/client';
 import React from 'react';
 
-const usePagination = (data, dataKey, fetchMore: QueryResult['fetchMore'], totalCount = 10) => {
+const usePagination = (data, dataKey, fetchMore: QueryResult['fetchMore'], totalCount = 10, orderBy = 'id') => {
   const [afterCursor, setAfterCursor] = React.useState<string>();
   const [beforeCursor, setBeforeCursor] = React.useState<string>();
   const [hasMore, setHasMore] = React.useState<boolean>(true);
@@ -23,10 +23,10 @@ const usePagination = (data, dataKey, fetchMore: QueryResult['fetchMore'], total
       const first = data[dataKey][0];
       const last = data[dataKey][data[dataKey].length - 1];
       if (first) {
-        setBeforeCursor(first.id);
+        setBeforeCursor(first[orderBy]);
       }
       if (last) {
-        setAfterCursor(last.id);
+        setAfterCursor(last[orderBy]);
       }
       setHasMore(!(data[dataKey].length < totalCount));
     }

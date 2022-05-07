@@ -19,6 +19,7 @@ import getTrimmedTxHash from '../utils/getTrimmedTxHash';
 import getTokenAmount from '../utils/getTokenAmount';
 import stableCoins from '../utils/stableCoins';
 import getTokenIcon from '../utils/getTokenIcon';
+import Blocks from '../components/Blocks';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -93,49 +94,7 @@ export default function Home({ networkStats }) {
       )}
       <div className="w-full mt-8 flex flex-col justify-between">
         <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">Latest Blocks</h2>
-        <div className="w-full overflow-x-auto">
-          <table className="table-auto w-full">
-            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white">
-              <tr>
-                <th className="p-2 whitespace-nowrap">Block ID</th>
-                <th className="p-2 whitespace-nowrap">L1 Tx</th>
-                <th className="p-2 whitespace-nowrap">Size</th>
-                <th className="p-2 whitespace-nowrap">Verified At</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              {data &&
-                data.blocks.map((block) => {
-                  return (
-                    <tr key={block.id} className="border dark:border-loopring-dark-background ml-2">
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                        <AppLink path="block" block={block.id}>
-                          {block.id}
-                        </AppLink>
-                      </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                        <AppLink path="transaction" tx={block.txHash} isExplorerLink>
-                          {getTrimmedTxHash(block.txHash, 15)}
-                        </AppLink>
-                      </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
-                        {block.blockSize}
-                      </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue text-loopring-gray whitespace-nowrap dark:text-white">
-                        {getTimeFromNow(block.timestamp)}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        {isLoading && <TableLoader />}
-        {error && (
-          <div className="flex items-center justify-center text-red-400 text-xl border dark:border-loopring-dark-darkBlue h-4/6">
-            Couldn't fetch blocks
-          </div>
-        )}
+        <Blocks isPaginated={false} blocksCount={10} />
         <Link href="/blocks">
           <a className="bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 lg:self-end">
             View More Blocks

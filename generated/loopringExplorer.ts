@@ -11439,6 +11439,36 @@ export type NetworkStatsQuery = {
   blocks: Array<{ __typename?: 'Block'; id: string; transactionCount: any; timestamp: any }>;
 };
 
+export type PairsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Pair_Filter>;
+  orderDirection?: InputMaybe<OrderDirection>;
+}>;
+
+export type PairsQuery = {
+  __typename?: 'Query';
+  pairs: Array<{
+    __typename?: 'Pair';
+    id: string;
+    internalID: any;
+    tradedVolumeToken0Swap: any;
+    token0: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    token1: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    dailyEntities: Array<{
+      __typename?: 'PairDailyData';
+      tradedVolumeToken1Swap: any;
+      tradedVolumeToken0Swap: any;
+      id: string;
+    }>;
+    weeklyEntities: Array<{
+      __typename?: 'PairWeeklyData';
+      tradedVolumeToken1Swap: any;
+      tradedVolumeToken0Swap: any;
+      id: string;
+    }>;
+  }>;
+};
+
 export const AccountFragmentFragmentDoc = gql`
   fragment AccountFragment on Account {
     id
@@ -12079,4 +12109,63 @@ export type NetworkStatsLazyQueryHookResult = ReturnType<typeof useNetworkStatsL
 export type NetworkStatsQueryResult = Apollo.QueryResult<NetworkStatsQuery, NetworkStatsQueryVariables>;
 export function refetchNetworkStatsQuery(variables?: NetworkStatsQueryVariables) {
   return { query: NetworkStatsDocument, variables: variables };
+}
+export const PairsDocument = gql`
+  query pairs($first: Int, $where: Pair_filter, $orderDirection: OrderDirection) {
+    pairs(first: $first, where: $where, orderBy: tradedVolumeToken0Swap, orderDirection: $orderDirection) {
+      id
+      internalID
+      token0 {
+        ...TokenFragment
+      }
+      token1 {
+        ...TokenFragment
+      }
+      tradedVolumeToken0Swap
+      dailyEntities(skip: 1, first: 1, orderBy: dayEnd, orderDirection: desc) {
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Swap
+        id
+      }
+      weeklyEntities(skip: 0, first: 1, orderBy: weekEnd, orderDirection: desc) {
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Swap
+        id
+      }
+    }
+  }
+  ${TokenFragmentFragmentDoc}
+`;
+
+/**
+ * __usePairsQuery__
+ *
+ * To run a query within a React component, call `usePairsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      where: // value for 'where'
+ *      orderDirection: // value for 'orderDirection'
+ *   },
+ * });
+ */
+export function usePairsQuery(baseOptions?: Apollo.QueryHookOptions<PairsQuery, PairsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PairsQuery, PairsQueryVariables>(PairsDocument, options);
+}
+export function usePairsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PairsQuery, PairsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PairsQuery, PairsQueryVariables>(PairsDocument, options);
+}
+export type PairsQueryHookResult = ReturnType<typeof usePairsQuery>;
+export type PairsLazyQueryHookResult = ReturnType<typeof usePairsLazyQuery>;
+export type PairsQueryResult = Apollo.QueryResult<PairsQuery, PairsQueryVariables>;
+export function refetchPairsQuery(variables?: PairsQueryVariables) {
+  return { query: PairsDocument, variables: variables };
 }

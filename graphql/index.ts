@@ -13,6 +13,9 @@ const client = new ApolloClient({
           blocks: {
             keyArgs: false,
           },
+          pairs: {
+            keyArgs: false,
+          },
         },
       },
     },

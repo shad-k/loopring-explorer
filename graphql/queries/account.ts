@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
-import { nft, token } from "../fragments";
+import { nft, token } from '../fragments';
 
 export const FETCH_ACCOUNTS = gql`
   query accounts($first: Int, $where: Account_filter) {
@@ -27,13 +27,8 @@ export const FETCH_ACCOUNTS = gql`
 `;
 
 export const FETCH_ACCOUNT_BALANCES = gql`
-  query accountTokenBalances($where: AccountTokenBalance_filter) {
-    accountTokenBalances(
-      orderDirection: asc
-      orderBy: id
-      first: 10
-      where: $where
-    ) {
+  query accountTokenBalances($where: AccountTokenBalance_filter, $orderDirection: OrderDirection) {
+    accountTokenBalances(orderDirection: $orderDirection, orderBy: id, first: 10, where: $where) {
       id
       balance
       token {
@@ -47,13 +42,8 @@ export const FETCH_ACCOUNT_BALANCES = gql`
 `;
 
 export const FETCH_ACCOUNT_SLOTS = gql`
-  query accountNFTSlots($where: AccountNFTSlot_filter) {
-    accountNFTSlots(
-      orderDirection: asc
-      orderBy: id
-      first: 10
-      where: $where
-    ) {
+  query accountNFTSlots($where: AccountNFTSlot_filter, $orderDirection: OrderDirection) {
+    accountNFTSlots(orderDirection: $orderDirection, orderBy: id, first: 10, where: $where) {
       id
       nft {
         ...NFTFragment

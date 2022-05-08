@@ -3,7 +3,6 @@ import React from 'react';
 import TableLoader from '../components/TableLoader';
 import AppLink from '../components/AppLink';
 import CursorPagination from '../components/CursorPagination';
-import usePagination from '../hooks/usePagination';
 import { OrderDirection, useBlocksQuery } from '../generated/loopringExplorer';
 
 import getTimeFromNow from '../utils/getTimeFromNow';
@@ -21,15 +20,8 @@ const Blocks: React.FC<BlocksProps> = ({ blocksCount = 25, isPaginated = true })
       first: TOTAL_COUNT,
       orderDirection: OrderDirection.Desc,
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
-
-  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
-    data,
-    'blocks',
-    fetchMore,
-    TOTAL_COUNT
-  );
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded min-h-table">
@@ -75,20 +67,21 @@ const Blocks: React.FC<BlocksProps> = ({ blocksCount = 25, isPaginated = true })
           No blocks to show
         </div>
       )}
-      {loading && <TableLoader rows={25} />}
+      {loading && <TableLoader rows={TOTAL_COUNT} />}
       {error && <div className="h-40 flex items-center justify-center text-red-400 text-xl">Couldn't fetch blocks</div>}
       {isPaginated && (
         <CursorPagination
-          onNextClick={() =>
+          onNextClick={(fetchNext, afterCursor) =>
             fetchNext({
               variables: {
                 where: {
                   internalID_lt: afterCursor,
                 },
+                orderDirection: OrderDirection.Desc,
               },
             })
           }
-          onPreviousClick={() =>
+          onPreviousClick={(fetchPrevious, beforeCursor) =>
             fetchPrevious({
               variables: {
                 where: {
@@ -103,7 +96,9 @@ const Blocks: React.FC<BlocksProps> = ({ blocksCount = 25, isPaginated = true })
               },
             })
           }
-          hasMore={hasMore}
+          data={data}
+          dataKey="blocks"
+          fetchMore={fetchMore}
         />
       )}
     </div>

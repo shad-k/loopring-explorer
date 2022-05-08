@@ -6,17 +6,24 @@ const usePagination = (data, dataKey, fetchMore: QueryResult['fetchMore'], total
   const [beforeCursor, setBeforeCursor] = React.useState<string>();
   const [hasMore, setHasMore] = React.useState<boolean>(true);
 
-  const fetchNext = async (options) => {
-    if (!hasMore) {
-      return;
-    }
+  const fetchNext = React.useCallback(
+    async (options) => {
+      console.log('called');
+      if (!hasMore) {
+        return;
+      }
 
-    await fetchMore(options);
-  };
+      await fetchMore(options);
+    },
+    [fetchMore]
+  );
 
-  const fetchPrevious = async (options) => {
-    await fetchMore(options);
-  };
+  const fetchPrevious = React.useCallback(
+    async (options) => {
+      await fetchMore(options);
+    },
+    [fetchMore]
+  );
 
   React.useEffect(() => {
     if (data && data[dataKey]) {

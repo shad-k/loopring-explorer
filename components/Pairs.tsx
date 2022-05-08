@@ -9,7 +9,6 @@ import stableCoins from '../utils/stableCoins';
 import getTokenAmount from '../utils/getTokenAmount';
 import getTokenIcon from '../utils/getTokenIcon';
 import { OrderDirection, usePairsQuery } from '../generated/loopringExplorer';
-import usePagination from '../hooks/usePagination';
 import CursorPagination from './CursorPagination';
 
 interface PairsProps {
@@ -26,14 +25,6 @@ const Pairs: React.FC<PairsProps> = ({ pairsCount = 10, isPaginated = true }) =>
     },
     fetchPolicy: 'network-only',
   });
-
-  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
-    data,
-    'pairs',
-    fetchMore,
-    TOTAL_COUNT,
-    'tradedVolumeToken0Swap'
-  );
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded min-h-table">
@@ -126,7 +117,7 @@ const Pairs: React.FC<PairsProps> = ({ pairsCount = 10, isPaginated = true }) =>
       {error && <div className="h-40 flex items-center justify-center text-red-400 text-xl">Couldn't fetch pairs</div>}
       {isPaginated && (
         <CursorPagination
-          onNextClick={() =>
+          onNextClick={(fetchNext, afterCursor) =>
             fetchNext({
               variables: {
                 where: {
@@ -135,7 +126,7 @@ const Pairs: React.FC<PairsProps> = ({ pairsCount = 10, isPaginated = true }) =>
               },
             })
           }
-          onPreviousClick={() =>
+          onPreviousClick={(fetchPrevious, beforeCursor) =>
             fetchPrevious({
               variables: {
                 where: {
@@ -150,7 +141,11 @@ const Pairs: React.FC<PairsProps> = ({ pairsCount = 10, isPaginated = true }) =>
               },
             })
           }
-          hasMore={hasMore}
+          data={data}
+          dataKey="pairs"
+          totalCount={TOTAL_COUNT}
+          fetchMore={fetchMore}
+          orderBy="tradedVolumeToken0Swap"
         />
       )}
     </div>

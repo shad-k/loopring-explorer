@@ -11352,6 +11352,7 @@ export type AccountsQuery = {
 
 export type AccountTokenBalancesQueryVariables = Exact<{
   where?: InputMaybe<AccountTokenBalance_Filter>;
+  orderDirection?: InputMaybe<OrderDirection>;
 }>;
 
 export type AccountTokenBalancesQuery = {
@@ -11366,6 +11367,7 @@ export type AccountTokenBalancesQuery = {
 
 export type AccountNftSlotsQueryVariables = Exact<{
   where?: InputMaybe<AccountNftSlot_Filter>;
+  orderDirection?: InputMaybe<OrderDirection>;
 }>;
 
 export type AccountNftSlotsQuery = {
@@ -11911,8 +11913,8 @@ export function refetchAccountsQuery(variables?: AccountsQueryVariables) {
   return { query: AccountsDocument, variables: variables };
 }
 export const AccountTokenBalancesDocument = gql`
-  query accountTokenBalances($where: AccountTokenBalance_filter) {
-    accountTokenBalances(orderDirection: asc, orderBy: id, first: 10, where: $where) {
+  query accountTokenBalances($where: AccountTokenBalance_filter, $orderDirection: OrderDirection) {
+    accountTokenBalances(orderDirection: $orderDirection, orderBy: id, first: 10, where: $where) {
       id
       balance
       token {
@@ -11937,6 +11939,7 @@ export const AccountTokenBalancesDocument = gql`
  * const { data, loading, error } = useAccountTokenBalancesQuery({
  *   variables: {
  *      where: // value for 'where'
+ *      orderDirection: // value for 'orderDirection'
  *   },
  * });
  */
@@ -11968,8 +11971,8 @@ export function refetchAccountTokenBalancesQuery(variables?: AccountTokenBalance
   return { query: AccountTokenBalancesDocument, variables: variables };
 }
 export const AccountNftSlotsDocument = gql`
-  query accountNFTSlots($where: AccountNFTSlot_filter) {
-    accountNFTSlots(orderDirection: asc, orderBy: id, first: 10, where: $where) {
+  query accountNFTSlots($where: AccountNFTSlot_filter, $orderDirection: OrderDirection) {
+    accountNFTSlots(orderDirection: $orderDirection, orderBy: id, first: 10, where: $where) {
       id
       nft {
         ...NFTFragment
@@ -11999,6 +12002,7 @@ export const AccountNftSlotsDocument = gql`
  * const { data, loading, error } = useAccountNftSlotsQuery({
  *   variables: {
  *      where: // value for 'where'
+ *      orderDirection: // value for 'orderDirection'
  *   },
  * });
  */

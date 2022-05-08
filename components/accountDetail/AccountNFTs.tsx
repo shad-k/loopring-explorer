@@ -2,9 +2,8 @@ import React from 'react';
 
 import NFT from '../NFT';
 import AppLink from '../AppLink';
-import { useAccountNftSlotsQuery } from '../../generated/loopringExplorer';
+import { OrderDirection, useAccountNftSlotsQuery } from '../../generated/loopringExplorer';
 import CursorPagination from '../CursorPagination';
-import usePagination from '../../hooks/usePagination';
 
 interface Props {
   accountId: string;
@@ -17,15 +16,9 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
       where: {
         account: accountId,
       },
+      orderDirection: OrderDirection.Asc,
     },
   });
-
-  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
-    data,
-    'accountNFTSlots',
-    fetchMore,
-    TOTAL_COUNT
-  );
 
   if (loading) {
     return null;
@@ -70,7 +63,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
             })}
           </div>
           <CursorPagination
-            onNextClick={() =>
+            onNextClick={(fetchNext, afterCursor) =>
               fetchNext({
                 variables: {
                   where: {
@@ -80,17 +73,26 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
                 },
               })
             }
-            onPreviousClick={() =>
+            onPreviousClick={(fetchPrevious, beforeCursor) =>
               fetchPrevious({
                 variables: {
                   where: {
                     account: accountId,
                     id_lt: beforeCursor,
                   },
+                  orderDirection: OrderDirection.Desc,
+                },
+                updateQuery(_, data) {
+                  return {
+                    accountNFTSlots: data.fetchMoreResult.accountNFTSlots.reverse(),
+                  };
                 },
               })
             }
-            hasMore={hasMore}
+            data={data}
+            dataKey="accountNFTSlots"
+            fetchMore={fetchMore}
+            totalCount={TOTAL_COUNT}
           />
         </>
       )}

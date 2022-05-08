@@ -1,26 +1,49 @@
+import { QueryResult } from '@apollo/client';
 import React from 'react';
 import { HiOutlineArrowRight as Right, HiOutlineArrowLeft as Left } from 'react-icons/hi';
+import usePagination from '../hooks/usePagination';
 
 interface CursorPaginationProps {
-  onNextClick: () => void;
-  onPreviousClick: () => void;
-  hasMore: boolean;
+  onNextClick: (fetchNext, afterCursor) => void;
+  onPreviousClick: (fetchPrevious, beforeCursor) => void;
+  data: QueryResult['data'];
+  dataKey: string;
+  fetchMore: QueryResult['fetchMore'];
+  totalCount?: number;
+  orderBy?: string;
 }
 
-const CursorPagination: React.FC<CursorPaginationProps> = ({ onNextClick, onPreviousClick, hasMore }) => {
+const CursorPagination: React.FC<CursorPaginationProps> = ({
+  onNextClick,
+  onPreviousClick,
+  data,
+  dataKey,
+  fetchMore,
+  totalCount = 25,
+  orderBy,
+}) => {
   const [page, setPage] = React.useState<number>(1);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
+    data,
+    dataKey,
+    fetchMore,
+    totalCount,
+    orderBy
+  );
 
   const next = async () => {
     setPage((val) => val + 1);
     setIsLoading(true);
-    await onNextClick();
+    await onNextClick(fetchNext, afterCursor);
     setIsLoading(false);
   };
 
-  const previous = () => {
+  const previous = async () => {
     setPage((val) => val - 1);
-    onPreviousClick();
+    setIsLoading(true);
+    await onPreviousClick(fetchPrevious, beforeCursor);
+    setIsLoading(false);
   };
 
   return (

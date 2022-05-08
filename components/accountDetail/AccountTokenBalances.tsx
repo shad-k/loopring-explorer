@@ -1,11 +1,9 @@
 import React from 'react';
 
 import getTokenAmount from '../../utils/getTokenAmount';
-import Pagination from '../../components/Pagination';
-import { useAccountTokenBalancesQuery } from '../../generated/loopringExplorer';
+import { OrderDirection, useAccountTokenBalancesQuery } from '../../generated/loopringExplorer';
 import CursorPagination from '../CursorPagination';
 import useTokens from '../../hooks/useTokens';
-import usePagination from '../../hooks/usePagination';
 
 interface Props {
   accountId: string;
@@ -20,15 +18,9 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
       where: {
         account: accountId,
       },
+      orderDirection: OrderDirection.Asc,
     },
   });
-
-  const { afterCursor, beforeCursor, fetchNext, fetchPrevious, hasMore } = usePagination(
-    data,
-    'accountTokenBalances',
-    fetchMore,
-    TOTAL_COUNT
-  );
 
   if (loading || isLoading) {
     return null;
@@ -99,7 +91,7 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
             </tbody>
           </table>
           <CursorPagination
-            onNextClick={() =>
+            onNextClick={(fetchNext, afterCursor) =>
               fetchNext({
                 variables: {
                   where: {
@@ -109,17 +101,26 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
                 },
               })
             }
-            onPreviousClick={() =>
+            onPreviousClick={(fetchPrevious, beforeCursor) =>
               fetchPrevious({
                 variables: {
                   where: {
                     account: accountId,
                     id_lt: beforeCursor,
                   },
+                  orderDirection: OrderDirection.Desc,
+                },
+                updateQuery(_, data) {
+                  return {
+                    accountTokenBalances: data.fetchMoreResult.accountTokenBalances.reverse(),
+                  };
                 },
               })
             }
-            hasMore={hasMore}
+            data={data}
+            dataKey="accountTokenBalances"
+            fetchMore={fetchMore}
+            totalCount={TOTAL_COUNT}
           />
         </>
       )}

@@ -14,6 +14,7 @@ import TableLoader from '../components/TableLoader';
 import getTimeFromNow from '../utils/getTimeFromNow';
 import Blocks from '../components/Blocks';
 import Pairs from '../components/Pairs';
+import Transactions from '../components/Transactions';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -96,53 +97,16 @@ export default function Home({ networkStats }) {
         </Link>
       </div>
       <div className="w-full mt-8 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">Latest Transactions</h2>
-        <div className="w-full overflow-x-auto">
-          <table className="table-auto w-full">
-            <thead className="bg-loopring-blue border border-loopring-blue dark:border-loopring-dark-darkBlue dark:bg-loopring-dark-darkBlue text-white break-none">
-              <tr>
-                <th className="p-2 whitespace-nowrap">Tx ID</th>
-                <th className="p-2 whitespace-nowrap">Type</th>
-                <th className="p-2 whitespace-nowrap">From</th>
-                <th className="p-2 whitespace-nowrap">To</th>
-                <th className="p-2 whitespace-nowrap">Amount</th>
-                <th className="p-2 whitespace-nowrap">Fee</th>
-                <th className="p-2 whitespace-nowrap">Verified At</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              {txsData &&
-                txsData.transactions.map((tx) => {
-                  return (
-                    <tr className="border dark:border-loopring-dark-background" key={tx.id}>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap">
-                        <AppLink path="transaction" tx={tx.id}>
-                          {tx.id}
-                        </AppLink>
-                      </td>
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
-                        {tx.__typename}
-                      </td>
-                      <TransactionTableDetails
-                        type={tx.__typename}
-                        tx={tx}
-                        cellClassName="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white"
-                      />
-                      <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
-                        {getTimeFromNow(tx.block.timestamp)}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        {txIsLoading && <TableLoader />}
-        {txError && (
-          <div className="h-4/6 flex items-center justify-center text-red-400 border dark:border-loopring-dark-darkBlue text-xl">
-            Couldn't fetch transactions
-          </div>
-        )}
+        <Transactions
+          title={
+            <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">
+              Latest Transactions
+            </h2>
+          }
+          isPaginated={false}
+          totalCount={10}
+          showFilters={false}
+        />
         <Link href="/transactions">
           <a className="bg-loopring-darkBlue dark:bg-loopring-dark-blue text-white text-center block rounded-lg py-2 px-6 w-2/3 lg:w-auto m-auto lg:mx-0 mt-5 mb-6  lg:self-end">
             View More Transactions

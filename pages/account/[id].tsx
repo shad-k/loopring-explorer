@@ -1,10 +1,8 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
-import useAccounts from '../../hooks/useAccounts';
 import AppLink from '../../components/AppLink';
-import Transactions from '../transactions';
+import Transactions from '../../components/Transactions';
 
 import getDateString from '../../utils/getDateString';
 import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
@@ -121,7 +119,14 @@ const Account: React.FC<AccountPageProps> = ({ accounts }) => {
           },
         ]}
       />
-      {accounts.length > 0 && <Transactions accountIdFilter={[accountId]} />}
+      {accounts.length > 0 && (
+        <div className="pt-8 pb-4">
+          <Transactions
+            accountIdFilter={[accountId]}
+            title={<h2 className="text-2xl font-semibold">Transactions in account #{accountId}</h2>}
+          />
+        </div>
+      )}
     </div>
   );
 };

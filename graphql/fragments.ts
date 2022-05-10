@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from '@apollo/client';
 
 export const account = gql`
   fragment AccountFragment on Account {
@@ -197,10 +197,10 @@ export const withdrawal = gql`
     fromAccount {
       ...AccountFragment
     }
-    token {
+    withdrawalToken: token {
       ...TokenFragment
     }
-    feeToken {
+    withdrawalFeeToken: feeToken {
       ...TokenFragment
     }
     amount
@@ -318,7 +318,7 @@ export const withdrawalNFT = gql`
       ...AccountFragment
     }
     fee
-    feeToken {
+    withdrawalNFTFeeToken: feeToken {
       ...TokenFragment
     }
     nfts {

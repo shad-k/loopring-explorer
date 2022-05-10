@@ -81,19 +81,6 @@ const Block: React.FC<{}> = () => {
         <div className="p-4">
           <Transactions
             blockIDFilter={blockId as string}
-            transactionCounts={{
-              transactionCount: data.block.transactionCount,
-              depositCount: data.block.depositCount,
-              withdrawalCount: data.block.withdrawalCount,
-              transferCount: data.block.transferCount,
-              addCount: data.block.addCount,
-              removeCount: data.block.removeCount,
-              orderbookTradeCount: data.block.orderbookTradeCount,
-              swapCount: data.block.swapCount,
-              accountUpdateCount: data.block.accountUpdateCount,
-              ammUpdateCount: data.block.ammUpdateCount,
-              signatureVerificationCount: data.block.signatureVerificationCount,
-            }}
             title={<h2 className="text-2xl font-semibold">Transactions in block #{blockId}</h2>}
           />
         </div>

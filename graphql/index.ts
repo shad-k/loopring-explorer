@@ -16,8 +16,14 @@ const client = new ApolloClient({
           pairs: {
             keyArgs: false,
           },
+          transactions: {
+            keyArgs: false,
+          },
         },
       },
+    },
+    possibleTypes: {
+      Account: ['User', 'Pool', 'ProtocolAccount'],
     },
   }),
 });

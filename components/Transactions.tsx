@@ -2,10 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import request from 'graphql-request';
 
-import useTransactions, { FETCH_TXS } from '../hooks/useTransactions';
+import { FETCH_TXS } from '../graphql/queries/transactions';
 
 import TableLoader from '../components/TableLoader';
-import Pagination from '../components/Pagination';
 import AppLink from '../components/AppLink';
 import getDateString from '../utils/getDateString';
 import { LOOPRING_SUBGRAPH } from '../utils/config';
@@ -13,11 +12,12 @@ import TransactionTableDetails, {
   getCSVTransactionDetailFields,
 } from '../components/transactionDetail/TransactionTableDetails';
 import getTimeFromNow from '../utils/getTimeFromNow';
+import { OrderDirection, Transaction_OrderBy, useTransactionsQuery } from '../generated/loopringExplorer';
+import CursorPagination from './CursorPagination';
 
 const Transactions: React.FC<{
   blockIDFilter?: string;
   accountIdFilter?: Array<string>;
-  transactionCounts?: { [index: string]: number };
   title?: React.ReactNode;
   isPaginated?: boolean;
   totalCount?: number;
@@ -25,14 +25,12 @@ const Transactions: React.FC<{
 }> = ({
   blockIDFilter,
   accountIdFilter,
-  transactionCounts,
   title = <h1 className="text-3xl font-bold mb-2 w-1/3">Latest Transactions</h1>,
   isPaginated = true,
   totalCount = 25,
   showFilters = true,
 }) => {
   const router = useRouter();
-  const [currentPage, setPage] = React.useState<number>(1);
   const [blockId, setBlockId] = React.useState(router.query.block || blockIDFilter);
 
   const [txType, setTxType] = React.useState((router.query.type as string) || 'all');
@@ -40,26 +38,38 @@ const Transactions: React.FC<{
   const [showDownloadButton, setShowDownloadButton] = React.useState<boolean>(false);
 
   const ENTRIES_PER_PAGE = accountIdFilter || blockIDFilter ? 10 : totalCount;
-  const { data, error, isLoading } = useTransactions(
-    (currentPage - 1) * ENTRIES_PER_PAGE,
-    ENTRIES_PER_PAGE,
-    'internalID',
-    'desc',
-    blockId,
-    txType === 'all' ? null : txType,
-    accountIdFilter
-  );
-
-  const pageChangeHandler = (page) => {
-    router.push({ pathname: router.pathname, query: { ...router.query, page } }, undefined, {
-      shallow: true,
-    });
+  const variables = {
+    first: ENTRIES_PER_PAGE,
+    orderBy: Transaction_OrderBy.InternalId,
+    orderDirection: OrderDirection.Desc,
+    where: {},
   };
 
+  if (blockIDFilter) {
+    variables.where = {
+      ...variables.where,
+      block: blockIDFilter,
+    };
+  }
+  if (accountIdFilter) {
+    variables.where = {
+      ...variables.where,
+      accounts_contains: accountIdFilter,
+    };
+  }
+  if (txType && txType !== 'all') {
+    variables.where = {
+      ...variables.where,
+      typename: txType,
+    };
+  }
+
+  const { data, error, loading, fetchMore } = useTransactionsQuery({
+    variables,
+    fetchPolicy: 'cache-and-network',
+  });
+
   React.useEffect(() => {
-    if (router.query && router.query.page) {
-      setPage(parseInt(router.query.page as string));
-    }
     if (router.query && router.query.block) {
       setBlockId(router.query.block);
     } else if (!blockIDFilter) {
@@ -178,93 +188,6 @@ const Transactions: React.FC<{
         return type;
     }
   };
-
-  const getTotalTransactionCount = (type, proxy) => {
-    if (!proxy) {
-      return null;
-    }
-
-    switch (type) {
-      case 'all':
-        return proxy.transactionCount;
-      case 'Deposit':
-        return proxy.depositCount;
-      case 'Withdrawal':
-        return proxy.withdrawalCount;
-      case 'Transfer':
-        return proxy.transferCount;
-      case 'Add':
-        return proxy.addCount;
-      case 'Remove':
-        return proxy.removeCount;
-      case 'OrderbookTrade':
-        return proxy.orderbookTradeCount;
-      case 'Swap':
-        return proxy.swapCount;
-      case 'AccountUpdate':
-        return proxy.accountUpdateCount;
-      case 'AmmUpdate':
-        return proxy.ammUpdateCount;
-      case 'SignatureVerification':
-        return proxy.signatureVerificationCount;
-      case 'TradeNFT':
-        return proxy.tradeNFTCount;
-      case 'SwapNFT':
-        return proxy.swapNFTCount;
-      case 'WithdrawalNFT':
-        return proxy.withdrawalNFTCount;
-      case 'TransferNFT':
-        return proxy.transferNFTCount;
-      case 'MintNFT':
-        return proxy.nftMintCount;
-      case 'DataNFT':
-        return proxy.nftDataCount;
-      default:
-        return null;
-    }
-  };
-
-  let blockTransactionCounts;
-  if (blockId && data && data.transactions.length > 0) {
-    const {
-      transactionCount,
-      depositCount,
-      withdrawalCount,
-      transferCount,
-      addCount,
-      removeCount,
-      orderbookTradeCount,
-      swapCount,
-      accountUpdateCount,
-      ammUpdateCount,
-      signatureVerificationCount,
-      tradeNFTCount,
-      swapNFTCount,
-      withdrawalNFTCount,
-      transferNFTCount,
-      nftMintCount,
-      nftDataCount,
-    } = data.transactions[0].block;
-    blockTransactionCounts = {
-      transactionCount,
-      depositCount,
-      withdrawalCount,
-      transferCount,
-      addCount,
-      removeCount,
-      orderbookTradeCount,
-      swapCount,
-      accountUpdateCount,
-      ammUpdateCount,
-      signatureVerificationCount,
-      tradeNFTCount,
-      swapNFTCount,
-      withdrawalNFTCount,
-      transferNFTCount,
-      nftMintCount,
-      nftDataCount,
-    };
-  }
 
   return (
     <div className={`bg-white dark:bg-loopring-dark-background rounded min-h-table`}>
@@ -391,14 +314,14 @@ const Transactions: React.FC<{
           No transactions to show
         </div>
       )}
-      {isLoading && <TableLoader rows={ENTRIES_PER_PAGE} columns={6} />}
+      {loading && <TableLoader rows={ENTRIES_PER_PAGE} columns={6} />}
       {error && (
         <div className="h-40 flex items-center justify-center text-red-400 text-xl">Couldn't fetch transactions</div>
       )}
-      <div className="flex flex-col lg:flex-row justify-between w-full">
+      <div className="flex flex-col lg:flex-row w-full relative">
         {accountIdFilter ? (
           <button
-            className="bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm order-2 lg:order-none"
+            className="bg-loopring-darkBlue px-6 mt-2 rounded text-white h-9 text-sm order-2 lg:order-none lg:absolute left-0"
             onClick={downloadCSV}
           >
             Download as CSV
@@ -407,20 +330,41 @@ const Transactions: React.FC<{
           <span />
         )}
         {isPaginated && (
-          <Pagination
-            currentPage={currentPage}
-            onPageChange={pageChangeHandler}
-            total={
-              accountIdFilter
-                ? null
-                : getTotalTransactionCount(
-                    txType,
-                    blockId ? blockTransactionCounts : blockIDFilter ? transactionCounts : data && data.proxy
-                  )
-            }
-            entriesPerPage={ENTRIES_PER_PAGE}
-            isLastPage={data && data.transactions.length < ENTRIES_PER_PAGE}
-          />
+          <div className="flex-1">
+            <CursorPagination
+              onNextClick={(fetchNext, afterCursor) =>
+                fetchNext({
+                  variables: {
+                    where: {
+                      ...variables.where,
+                      internalID_lt: afterCursor,
+                    },
+                  },
+                })
+              }
+              onPreviousClick={(fetchPrevious, beforeCursor) =>
+                fetchPrevious({
+                  variables: {
+                    where: {
+                      ...variables.where,
+                      internalID_gt: beforeCursor,
+                    },
+                    orderDirection: OrderDirection.Asc,
+                  },
+                  updateQuery(_, data) {
+                    return {
+                      transactions: data.fetchMoreResult.transactions.reverse(),
+                    };
+                  },
+                })
+              }
+              data={data}
+              dataKey="transactions"
+              fetchMore={fetchMore}
+              totalCount={ENTRIES_PER_PAGE}
+              orderBy="internalID"
+            />
+          </div>
         )}
       </div>
       {showDownloadModal && (

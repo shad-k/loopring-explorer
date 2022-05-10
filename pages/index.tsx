@@ -3,13 +3,8 @@ import Link from 'next/link';
 import numeral from 'numeral';
 import { GetServerSideProps } from 'next';
 
-import useTransactions from '../hooks/useTransactions';
 import client from '../graphql';
-
 import { FETCH_NETWORK_STATS } from '../graphql/queries/home';
-import AppLink from '../components/AppLink';
-import TransactionTableDetails from '../components/transactionDetail/TransactionTableDetails';
-import TableLoader from '../components/TableLoader';
 
 import getTimeFromNow from '../utils/getTimeFromNow';
 import Blocks from '../components/Blocks';
@@ -30,8 +25,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 export default function Home({ networkStats }) {
-  const { data: txsData, error: txError, isLoading: txIsLoading } = useTransactions();
-
   let avgBlockDetails = React.useMemo(() => {
     if (networkStats && networkStats.blocks.length > 0) {
       let avgTransactionCount = 0;

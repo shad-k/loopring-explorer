@@ -11910,6 +11910,395 @@ export type TransactionsQuery = {
   >;
 };
 
+export type TransactionQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type TransactionQuery = {
+  __typename?: 'Query';
+  transaction?:
+    | {
+        __typename: 'AccountUpdate';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        nonce: number;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        user: { __typename?: 'User'; id: string; address: any; publicKey?: string | null };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'Add';
+        id: string;
+        internalID: any;
+        data: string;
+        amount: any;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        account:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        pool: {
+          __typename?: 'Pool';
+          id: string;
+          address: any;
+          balances: Array<{
+            __typename?: 'AccountTokenBalance';
+            id: string;
+            balance: any;
+            token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+          }>;
+        };
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'AmmUpdate';
+        id: string;
+        internalID: any;
+        data: string;
+        tokenID: number;
+        feeBips: number;
+        tokenWeight: any;
+        nonce: number;
+        balance: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        pool: {
+          __typename?: 'Pool';
+          id: string;
+          address: any;
+          balances: Array<{
+            __typename?: 'AccountTokenBalance';
+            id: string;
+            balance: any;
+            token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+          }>;
+        };
+        tokenBalances?: Array<{
+          __typename?: 'AccountTokenBalance';
+          id: string;
+          balance: any;
+          token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        }> | null;
+      }
+    | {
+        __typename: 'DataNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+      }
+    | {
+        __typename: 'Deposit';
+        id: string;
+        internalID: any;
+        data: string;
+        amount: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        toAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'MintNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        amount: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        minter:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        receiver:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        receiverSlot: { __typename?: 'AccountNFTSlot'; id: string };
+        nft: { __typename?: 'NonFungibleToken'; id: string };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'OrderbookTrade';
+        id: string;
+        internalID: any;
+        data: string;
+        tokenAPrice: any;
+        tokenBPrice: any;
+        fillSA: any;
+        fillSB: any;
+        fillBA: any;
+        fillBB: any;
+        fillAmountBorSA: boolean;
+        fillAmountBorSB: boolean;
+        feeA: any;
+        feeB: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        accountA:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        accountB:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        pair: {
+          __typename?: 'Pair';
+          id: string;
+          token0: { __typename?: 'Token'; symbol: string };
+          token1: { __typename?: 'Token'; symbol: string };
+        };
+      }
+    | {
+        __typename: 'Remove';
+        id: string;
+        internalID: any;
+        data: string;
+        amount: any;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        account:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        pool: {
+          __typename?: 'Pool';
+          id: string;
+          address: any;
+          balances: Array<{
+            __typename?: 'AccountTokenBalance';
+            id: string;
+            balance: any;
+            token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+          }>;
+        };
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'SignatureVerification';
+        id: string;
+        internalID: any;
+        data: string;
+        verificationData: string;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        account:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+      }
+    | {
+        __typename: 'Swap';
+        id: string;
+        internalID: any;
+        data: string;
+        tokenAPrice: any;
+        tokenBPrice: any;
+        fillSA: any;
+        fillSB: any;
+        fillBA: any;
+        protocolFeeA: any;
+        protocolFeeB: any;
+        feeA: any;
+        feeB: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        account:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        pool: {
+          __typename?: 'Pool';
+          id: string;
+          address: any;
+          balances: Array<{
+            __typename?: 'AccountTokenBalance';
+            id: string;
+            balance: any;
+            token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+          }>;
+        };
+        tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        pair: {
+          __typename?: 'Pair';
+          id: string;
+          token0: { __typename?: 'Token'; symbol: string };
+          token1: { __typename?: 'Token'; symbol: string };
+        };
+      }
+    | {
+        __typename: 'SwapNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        accountA:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        accountB:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | {
+        __typename: 'TradeNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        realizedNFTPrice: any;
+        feeBuyer: any;
+        protocolFeeBuyer: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        accountSeller:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        accountBuyer:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | {
+        __typename: 'Transfer';
+        id: string;
+        internalID: any;
+        data: string;
+        amount: any;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        fromAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        toAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'TransferNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        fromAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        toAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | {
+        __typename: 'Withdrawal';
+        id: string;
+        internalID: any;
+        data: string;
+        amount: any;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        fromAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        withdrawalToken?: {
+          __typename?: 'Token';
+          id: string;
+          name: string;
+          symbol: string;
+          decimals: number;
+          address: any;
+        } | null;
+        withdrawalFeeToken?: {
+          __typename?: 'Token';
+          id: string;
+          name: string;
+          symbol: string;
+          decimals: number;
+          address: any;
+        } | null;
+      }
+    | {
+        __typename: 'WithdrawalNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        fromAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        withdrawalNFTFeeToken?: {
+          __typename?: 'Token';
+          id: string;
+          name: string;
+          symbol: string;
+          decimals: number;
+          address: any;
+        } | null;
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | null;
+};
+
 export const AccountFragmentFragmentDoc = gql`
   fragment AccountFragment on Account {
     id
@@ -12746,4 +13135,84 @@ export type TransactionsLazyQueryHookResult = ReturnType<typeof useTransactionsL
 export type TransactionsQueryResult = Apollo.QueryResult<TransactionsQuery, TransactionsQueryVariables>;
 export function refetchTransactionsQuery(variables?: TransactionsQueryVariables) {
   return { query: TransactionsDocument, variables: variables };
+}
+export const TransactionDocument = gql`
+  query transaction($id: ID!) {
+    transaction(id: $id) {
+      id
+      internalID
+      block {
+        id
+        blockHash
+        timestamp
+        transactionCount
+      }
+      data
+      ...AddFragment
+      ...RemoveFragment
+      ...SwapFragment
+      ...OrderbookTradeFragment
+      ...DepositFragment
+      ...WithdrawalFragment
+      ...TransferFragment
+      ...AccountUpdateFragment
+      ...AmmUpdateFragment
+      ...SignatureVerificationFragment
+      ...TradeNFTFragment
+      ...SwapNFTFragment
+      ...WithdrawalNFTFragment
+      ...TransferNFTFragment
+      ...MintNFTFragment
+      ...DataNFTFragment
+    }
+  }
+  ${AddFragmentFragmentDoc}
+  ${RemoveFragmentFragmentDoc}
+  ${SwapFragmentFragmentDoc}
+  ${OrderbookTradeFragmentFragmentDoc}
+  ${DepositFragmentFragmentDoc}
+  ${WithdrawalFragmentFragmentDoc}
+  ${TransferFragmentFragmentDoc}
+  ${AccountUpdateFragmentFragmentDoc}
+  ${AmmUpdateFragmentFragmentDoc}
+  ${SignatureVerificationFragmentFragmentDoc}
+  ${TradeNftFragmentFragmentDoc}
+  ${SwapNftFragmentFragmentDoc}
+  ${WithdrawalNftFragmentFragmentDoc}
+  ${TransferNftFragmentFragmentDoc}
+  ${MintNftFragmentFragmentDoc}
+  ${DataNftFragmentFragmentDoc}
+`;
+
+/**
+ * __useTransactionQuery__
+ *
+ * To run a query within a React component, call `useTransactionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTransactionQuery(baseOptions: Apollo.QueryHookOptions<TransactionQuery, TransactionQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<TransactionQuery, TransactionQueryVariables>(TransactionDocument, options);
+}
+export function useTransactionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<TransactionQuery, TransactionQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<TransactionQuery, TransactionQueryVariables>(TransactionDocument, options);
+}
+export type TransactionQueryHookResult = ReturnType<typeof useTransactionQuery>;
+export type TransactionLazyQueryHookResult = ReturnType<typeof useTransactionLazyQuery>;
+export type TransactionQueryResult = Apollo.QueryResult<TransactionQuery, TransactionQueryVariables>;
+export function refetchTransactionQuery(variables: TransactionQueryVariables) {
+  return { query: TransactionDocument, variables: variables };
 }

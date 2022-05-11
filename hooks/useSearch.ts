@@ -1,7 +1,6 @@
 import React from 'react';
-import { useBlockQuery } from '../generated/loopringExplorer';
+import { useBlockQuery, useTransactionQuery } from '../generated/loopringExplorer';
 import useAccounts from './useAccounts';
-import useTransaction from './useTransaction';
 
 const useSearch = (query: string) => {
   const { data: blockData, loading: blockIsLoading } = useBlockQuery({
@@ -9,7 +8,11 @@ const useSearch = (query: string) => {
       id: query,
     },
   });
-  const { data: txData, isLoading: txIsLoading } = useTransaction(query);
+  const { data: txData, loading: txIsLoading } = useTransactionQuery({
+    variables: {
+      id: query,
+    },
+  });
   const { data: accountData, isLoading: accountIsLoading } = useAccounts(query);
 
   const [resultLoaded, setResultLoaded] = React.useState(false);

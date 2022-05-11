@@ -81,3 +81,58 @@ export const FETCH_TXS = gql`
   ${mintNFT}
   ${dataNFT}
 `;
+
+export const FETCH_TX = gql`
+  query transaction($id: ID!) {
+    transaction(id: $id) {
+      id
+      internalID
+      block {
+        id
+        blockHash
+        timestamp
+        transactionCount
+      }
+      data
+
+      ...AddFragment
+      ...RemoveFragment
+      ...SwapFragment
+      ...OrderbookTradeFragment
+      ...DepositFragment
+      ...WithdrawalFragment
+      ...TransferFragment
+      ...AccountUpdateFragment
+      ...AmmUpdateFragment
+      ...SignatureVerificationFragment
+      ...TradeNFTFragment
+      ...SwapNFTFragment
+      ...WithdrawalNFTFragment
+      ...TransferNFTFragment
+      ...MintNFTFragment
+      ...DataNFTFragment
+    }
+  }
+
+  ${account}
+  ${token}
+  ${pool}
+  ${nft}
+
+  ${add}
+  ${remove}
+  ${swap}
+  ${orderbookTrade}
+  ${deposit}
+  ${withdrawal}
+  ${transfer}
+  ${accountUpdate}
+  ${ammUpdate}
+  ${signatureVerification}
+  ${tradeNFT}
+  ${swapNFT}
+  ${withdrawalNFT}
+  ${transferNFT}
+  ${mintNFT}
+  ${dataNFT}
+`;

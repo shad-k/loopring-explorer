@@ -2,16 +2,20 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import useBlock from '../../hooks/useBlock';
 import getDateString from '../../utils/getDateString';
 import AppLink from '../../components/AppLink';
 import Transactions from '../../components/Transactions';
 import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import { useBlockQuery } from '../../generated/loopringExplorer';
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
   const blockId = router.query.id;
-  const { data, error, isLoading } = useBlock(blockId);
+  const { data, error, loading } = useBlockQuery({
+    variables: {
+      id: blockId as string,
+    },
+  });
 
   const blockCount = data ? data.proxy.blockCount : null;
   const blockIdInt = blockId ? parseInt(blockId as string) : null;
@@ -85,7 +89,7 @@ const Block: React.FC<{}> = () => {
           />
         </div>
       )}
-      {data && !isLoading && !data.block && (
+      {data && !loading && !data.block && (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">No block found</div>
       )}
     </div>

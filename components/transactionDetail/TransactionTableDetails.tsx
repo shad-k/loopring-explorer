@@ -298,10 +298,10 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)} {tx.token.symbol}
+            {getTokenAmount(tx.amount, tx.withdrawalToken.decimals).toFixed(4)} {tx.withdrawalToken.symbol}
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+            {getTokenAmount(tx.fee, tx.withdrawalFeeToken.decimals)} {tx.withdrawalFeeToken.symbol}
           </td>
         </>
       );
@@ -416,7 +416,7 @@ const TransactionTableDetails: React.FC<{
           </td>
           <td className={cellClassName}></td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+            {getTokenAmount(tx.fee, tx.withdrawalNFTFeeToken.decimals)} {tx.withdrawalNFTFeeToken.symbol}
           </td>
         </>
       );

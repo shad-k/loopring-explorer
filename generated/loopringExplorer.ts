@@ -11454,6 +11454,31 @@ export type BlocksQuery = {
   }>;
 };
 
+export type BlockQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type BlockQuery = {
+  __typename?: 'Query';
+  proxy?: { __typename?: 'Proxy'; blockCount: any } | null;
+  block?: {
+    __typename?: 'Block';
+    data: string;
+    id: string;
+    timestamp: any;
+    txHash: string;
+    gasLimit: any;
+    gasPrice: any;
+    height: any;
+    blockHash: string;
+    blockSize: number;
+    operatorAccount:
+      | { __typename?: 'Pool'; id: string; address: any }
+      | { __typename?: 'ProtocolAccount'; id: string; address: any }
+      | { __typename?: 'User'; id: string; address: any };
+  } | null;
+};
+
 export type NetworkStatsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type NetworkStatsQuery = {
@@ -12480,6 +12505,49 @@ export type BlocksLazyQueryHookResult = ReturnType<typeof useBlocksLazyQuery>;
 export type BlocksQueryResult = Apollo.QueryResult<BlocksQuery, BlocksQueryVariables>;
 export function refetchBlocksQuery(variables?: BlocksQueryVariables) {
   return { query: BlocksDocument, variables: variables };
+}
+export const BlockDocument = gql`
+  query block($id: ID!) {
+    proxy(id: 0) {
+      blockCount
+    }
+    block(id: $id) {
+      ...BlockFragment
+      data
+    }
+  }
+  ${BlockFragmentFragmentDoc}
+`;
+
+/**
+ * __useBlockQuery__
+ *
+ * To run a query within a React component, call `useBlockQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBlockQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useBlockQuery(baseOptions: Apollo.QueryHookOptions<BlockQuery, BlockQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<BlockQuery, BlockQueryVariables>(BlockDocument, options);
+}
+export function useBlockLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlockQuery, BlockQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<BlockQuery, BlockQueryVariables>(BlockDocument, options);
+}
+export type BlockQueryHookResult = ReturnType<typeof useBlockQuery>;
+export type BlockLazyQueryHookResult = ReturnType<typeof useBlockLazyQuery>;
+export type BlockQueryResult = Apollo.QueryResult<BlockQuery, BlockQueryVariables>;
+export function refetchBlockQuery(variables: BlockQueryVariables) {
+  return { query: BlockDocument, variables: variables };
 }
 export const NetworkStatsDocument = gql`
   query networkStats {

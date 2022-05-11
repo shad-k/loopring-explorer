@@ -1,10 +1,14 @@
-import React from "react";
-import useAccounts from "./useAccounts";
-import useBlock from "./useBlock";
-import useTransaction from "./useTransaction";
+import React from 'react';
+import { useBlockQuery } from '../generated/loopringExplorer';
+import useAccounts from './useAccounts';
+import useTransaction from './useTransaction';
 
 const useSearch = (query: string) => {
-  const { data: blockData, isLoading: blockIsLoading } = useBlock(query);
+  const { data: blockData, loading: blockIsLoading } = useBlockQuery({
+    variables: {
+      id: query,
+    },
+  });
   const { data: txData, isLoading: txIsLoading } = useTransaction(query);
   const { data: accountData, isLoading: accountIsLoading } = useAccounts(query);
 
@@ -22,21 +26,21 @@ const useSearch = (query: string) => {
       const allResults = [];
       if (blockData && blockData.block) {
         allResults.push({
-          type: "block",
+          type: 'block',
           link: `/block/${blockData.block.id}`,
           block: blockData.block,
         });
       }
       if (txData && txData.transaction) {
         allResults.push({
-          type: "tx",
+          type: 'tx',
           link: `/tx/${txData.transaction.id}`,
           tx: txData.transaction,
         });
       }
       if (accountData && accountData.accounts[0]) {
         allResults.push({
-          type: "account",
+          type: 'account',
           link: `/account/${accountData.accounts[0].id}`,
           account: accountData.accounts[0],
         });
@@ -45,15 +49,7 @@ const useSearch = (query: string) => {
       setResults(allResults);
       setResultLoaded(true);
     }
-  }, [
-    blockIsLoading,
-    blockData,
-    txIsLoading,
-    txData,
-    accountIsLoading,
-    accountData,
-    query,
-  ]);
+  }, [blockIsLoading, blockData, txIsLoading, txData, accountIsLoading, accountData, query]);
 
   return {
     loaded: resultLoaded,

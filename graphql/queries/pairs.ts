@@ -48,15 +48,6 @@ export const FETCH_PAIR = gql`
       tradedVolumeToken0Orderbook
       tradedVolumeToken1Orderbook
 
-      swaps(skip: $swapSkip, first: $swapFirst, orderDirection: desc, orderBy: internalID) {
-        block {
-          id
-          blockHash
-          timestamp
-        }
-        ...SwapFragment
-      }
-
       trades(skip: $orderbookSkip, first: $orderbookFirst, orderDirection: desc, orderBy: internalID) {
         block {
           id
@@ -92,4 +83,20 @@ export const FETCH_PAIR = gql`
   ${token}
   ${account}
   ${pool}
+`;
+
+export const FETCH_PAIR_SWAPS = gql`
+  query pairSwaps($where: Swap_filter, $orderDirection: OrderDirection) {
+    swaps(first: 10, orderDirection: $orderDirection, orderBy: internalID, where: $where) {
+      block {
+        id
+        blockHash
+        timestamp
+      }
+      internalID
+
+      ...SwapFragment
+    }
+  }
+  ${swap}
 `;

@@ -165,13 +165,7 @@ const Pair: React.FC<{}> = () => {
       </div>
 
       <h3 className="text-2xl font-light mt-5">Swap Transactions</h3>
-      <Swaps
-        transactions={swaps}
-        pageChangeHandler={(page) => setSwapPage(page)}
-        page={swapPage}
-        token0USDPrice={token0USDPrice}
-        token0={token0.symbol}
-      />
+      <Swaps pairId={pairId as string} token0USDPrice={token0USDPrice} token0={token0.symbol} />
       <h3 className="text-2xl font-light mt-5">Order Book Transactions</h3>
       <Trades
         transactions={trades}

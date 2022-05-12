@@ -11539,43 +11539,6 @@ export type PairQuery = {
     tradedVolumeToken1Orderbook: any;
     token0: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
     token1: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
-    swaps: Array<{
-      __typename: 'Swap';
-      id: string;
-      tokenAPrice: any;
-      tokenBPrice: any;
-      fillSA: any;
-      fillSB: any;
-      fillBA: any;
-      protocolFeeA: any;
-      protocolFeeB: any;
-      feeA: any;
-      feeB: any;
-      block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
-      account:
-        | { __typename?: 'Pool'; id: string; address: any }
-        | { __typename?: 'ProtocolAccount'; id: string; address: any }
-        | { __typename?: 'User'; id: string; address: any };
-      pool: {
-        __typename?: 'Pool';
-        id: string;
-        address: any;
-        balances: Array<{
-          __typename?: 'AccountTokenBalance';
-          id: string;
-          balance: any;
-          token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
-        }>;
-      };
-      tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
-      tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
-      pair: {
-        __typename?: 'Pair';
-        id: string;
-        token0: { __typename?: 'Token'; symbol: string };
-        token1: { __typename?: 'Token'; symbol: string };
-      };
-    }>;
     trades: Array<{
       __typename: 'OrderbookTrade';
       id: string;
@@ -11628,6 +11591,53 @@ export type PairQuery = {
       tradedVolumeToken1Orderbook: any;
     }>;
   } | null;
+};
+
+export type PairSwapsQueryVariables = Exact<{
+  where?: InputMaybe<Swap_Filter>;
+  orderDirection?: InputMaybe<OrderDirection>;
+}>;
+
+export type PairSwapsQuery = {
+  __typename?: 'Query';
+  swaps: Array<{
+    __typename: 'Swap';
+    internalID: any;
+    id: string;
+    tokenAPrice: any;
+    tokenBPrice: any;
+    fillSA: any;
+    fillSB: any;
+    fillBA: any;
+    protocolFeeA: any;
+    protocolFeeB: any;
+    feeA: any;
+    feeB: any;
+    block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+    account:
+      | { __typename?: 'Pool'; id: string; address: any }
+      | { __typename?: 'ProtocolAccount'; id: string; address: any }
+      | { __typename?: 'User'; id: string; address: any };
+    pool: {
+      __typename?: 'Pool';
+      id: string;
+      address: any;
+      balances: Array<{
+        __typename?: 'AccountTokenBalance';
+        id: string;
+        balance: any;
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }>;
+    };
+    tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    pair: {
+      __typename?: 'Pair';
+      id: string;
+      token0: { __typename?: 'Token'; symbol: string };
+      token1: { __typename?: 'Token'; symbol: string };
+    };
+  }>;
 };
 
 export type TransactionsQueryVariables = Exact<{
@@ -13175,14 +13185,6 @@ export const PairDocument = gql`
       tradedVolumeToken1Swap
       tradedVolumeToken0Orderbook
       tradedVolumeToken1Orderbook
-      swaps(skip: $swapSkip, first: $swapFirst, orderDirection: desc, orderBy: internalID) {
-        block {
-          id
-          blockHash
-          timestamp
-        }
-        ...SwapFragment
-      }
       trades(skip: $orderbookSkip, first: $orderbookFirst, orderDirection: desc, orderBy: internalID) {
         block {
           id
@@ -13213,7 +13215,6 @@ export const PairDocument = gql`
     }
   }
   ${TokenFragmentFragmentDoc}
-  ${SwapFragmentFragmentDoc}
   ${OrderbookTradeFragmentFragmentDoc}
 `;
 
@@ -13250,6 +13251,54 @@ export type PairLazyQueryHookResult = ReturnType<typeof usePairLazyQuery>;
 export type PairQueryResult = Apollo.QueryResult<PairQuery, PairQueryVariables>;
 export function refetchPairQuery(variables: PairQueryVariables) {
   return { query: PairDocument, variables: variables };
+}
+export const PairSwapsDocument = gql`
+  query pairSwaps($where: Swap_filter, $orderDirection: OrderDirection) {
+    swaps(first: 10, orderDirection: $orderDirection, orderBy: internalID, where: $where) {
+      block {
+        id
+        blockHash
+        timestamp
+      }
+      internalID
+      ...SwapFragment
+    }
+  }
+  ${SwapFragmentFragmentDoc}
+`;
+
+/**
+ * __usePairSwapsQuery__
+ *
+ * To run a query within a React component, call `usePairSwapsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairSwapsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairSwapsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderDirection: // value for 'orderDirection'
+ *   },
+ * });
+ */
+export function usePairSwapsQuery(baseOptions?: Apollo.QueryHookOptions<PairSwapsQuery, PairSwapsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PairSwapsQuery, PairSwapsQueryVariables>(PairSwapsDocument, options);
+}
+export function usePairSwapsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PairSwapsQuery, PairSwapsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PairSwapsQuery, PairSwapsQueryVariables>(PairSwapsDocument, options);
+}
+export type PairSwapsQueryHookResult = ReturnType<typeof usePairSwapsQuery>;
+export type PairSwapsLazyQueryHookResult = ReturnType<typeof usePairSwapsLazyQuery>;
+export type PairSwapsQueryResult = Apollo.QueryResult<PairSwapsQuery, PairSwapsQueryVariables>;
+export function refetchPairSwapsQuery(variables?: PairSwapsQueryVariables) {
+  return { query: PairSwapsDocument, variables: variables };
 }
 export const TransactionsDocument = gql`
   query transactions(

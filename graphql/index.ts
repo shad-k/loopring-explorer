@@ -22,6 +22,9 @@ const client = new ApolloClient({
           swaps: {
             keyArgs: false,
           },
+          orderbookTrades: {
+            keyArgs: false,
+          },
         },
       },
     },

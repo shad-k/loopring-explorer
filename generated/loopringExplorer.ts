@@ -11640,6 +11640,47 @@ export type PairSwapsQuery = {
   }>;
 };
 
+export type PairTradesQueryVariables = Exact<{
+  where?: InputMaybe<OrderbookTrade_Filter>;
+  orderDirection?: InputMaybe<OrderDirection>;
+}>;
+
+export type PairTradesQuery = {
+  __typename?: 'Query';
+  orderbookTrades: Array<{
+    __typename: 'OrderbookTrade';
+    internalID: any;
+    id: string;
+    tokenAPrice: any;
+    tokenBPrice: any;
+    fillSA: any;
+    fillSB: any;
+    fillBA: any;
+    fillBB: any;
+    fillAmountBorSA: boolean;
+    fillAmountBorSB: boolean;
+    feeA: any;
+    feeB: any;
+    block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+    accountA:
+      | { __typename?: 'Pool'; id: string; address: any }
+      | { __typename?: 'ProtocolAccount'; id: string; address: any }
+      | { __typename?: 'User'; id: string; address: any };
+    accountB:
+      | { __typename?: 'Pool'; id: string; address: any }
+      | { __typename?: 'ProtocolAccount'; id: string; address: any }
+      | { __typename?: 'User'; id: string; address: any };
+    tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    pair: {
+      __typename?: 'Pair';
+      id: string;
+      token0: { __typename?: 'Token'; symbol: string };
+      token1: { __typename?: 'Token'; symbol: string };
+    };
+  }>;
+};
+
 export type TransactionsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Transaction_OrderBy>;
@@ -13299,6 +13340,54 @@ export type PairSwapsLazyQueryHookResult = ReturnType<typeof usePairSwapsLazyQue
 export type PairSwapsQueryResult = Apollo.QueryResult<PairSwapsQuery, PairSwapsQueryVariables>;
 export function refetchPairSwapsQuery(variables?: PairSwapsQueryVariables) {
   return { query: PairSwapsDocument, variables: variables };
+}
+export const PairTradesDocument = gql`
+  query pairTrades($where: OrderbookTrade_filter, $orderDirection: OrderDirection) {
+    orderbookTrades(first: 10, orderDirection: $orderDirection, orderBy: internalID, where: $where) {
+      block {
+        id
+        blockHash
+        timestamp
+      }
+      internalID
+      ...OrderbookTradeFragment
+    }
+  }
+  ${OrderbookTradeFragmentFragmentDoc}
+`;
+
+/**
+ * __usePairTradesQuery__
+ *
+ * To run a query within a React component, call `usePairTradesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairTradesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairTradesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderDirection: // value for 'orderDirection'
+ *   },
+ * });
+ */
+export function usePairTradesQuery(baseOptions?: Apollo.QueryHookOptions<PairTradesQuery, PairTradesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PairTradesQuery, PairTradesQueryVariables>(PairTradesDocument, options);
+}
+export function usePairTradesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PairTradesQuery, PairTradesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PairTradesQuery, PairTradesQueryVariables>(PairTradesDocument, options);
+}
+export type PairTradesQueryHookResult = ReturnType<typeof usePairTradesQuery>;
+export type PairTradesLazyQueryHookResult = ReturnType<typeof usePairTradesLazyQuery>;
+export type PairTradesQueryResult = Apollo.QueryResult<PairTradesQuery, PairTradesQueryVariables>;
+export function refetchPairTradesQuery(variables?: PairTradesQueryVariables) {
+  return { query: PairTradesDocument, variables: variables };
 }
 export const TransactionsDocument = gql`
   query transactions(

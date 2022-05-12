@@ -100,3 +100,19 @@ export const FETCH_PAIR_SWAPS = gql`
   }
   ${swap}
 `;
+
+export const FETCH_PAIR_TRADES = gql`
+  query pairTrades($where: OrderbookTrade_filter, $orderDirection: OrderDirection) {
+    orderbookTrades(first: 10, orderDirection: $orderDirection, orderBy: internalID, where: $where) {
+      block {
+        id
+        blockHash
+        timestamp
+      }
+      internalID
+
+      ...OrderbookTradeFragment
+    }
+  }
+  ${orderbookTrade}
+`;

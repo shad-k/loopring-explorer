@@ -11517,6 +11517,119 @@ export type PairsQuery = {
   }>;
 };
 
+export type PairQueryVariables = Exact<{
+  id: Scalars['ID'];
+  swapSkip?: InputMaybe<Scalars['Int']>;
+  swapFirst?: InputMaybe<Scalars['Int']>;
+  orderbookSkip?: InputMaybe<Scalars['Int']>;
+  orderbookFirst?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type PairQuery = {
+  __typename?: 'Query';
+  pair?: {
+    __typename: 'Pair';
+    id: string;
+    internalID: any;
+    token0Price: any;
+    token1Price: any;
+    tradedVolumeToken0Swap: any;
+    tradedVolumeToken1Swap: any;
+    tradedVolumeToken0Orderbook: any;
+    tradedVolumeToken1Orderbook: any;
+    token0: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    token1: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+    swaps: Array<{
+      __typename: 'Swap';
+      id: string;
+      tokenAPrice: any;
+      tokenBPrice: any;
+      fillSA: any;
+      fillSB: any;
+      fillBA: any;
+      protocolFeeA: any;
+      protocolFeeB: any;
+      feeA: any;
+      feeB: any;
+      block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+      account:
+        | { __typename?: 'Pool'; id: string; address: any }
+        | { __typename?: 'ProtocolAccount'; id: string; address: any }
+        | { __typename?: 'User'; id: string; address: any };
+      pool: {
+        __typename?: 'Pool';
+        id: string;
+        address: any;
+        balances: Array<{
+          __typename?: 'AccountTokenBalance';
+          id: string;
+          balance: any;
+          token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        }>;
+      };
+      tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      pair: {
+        __typename?: 'Pair';
+        id: string;
+        token0: { __typename?: 'Token'; symbol: string };
+        token1: { __typename?: 'Token'; symbol: string };
+      };
+    }>;
+    trades: Array<{
+      __typename: 'OrderbookTrade';
+      id: string;
+      tokenAPrice: any;
+      tokenBPrice: any;
+      fillSA: any;
+      fillSB: any;
+      fillBA: any;
+      fillBB: any;
+      fillAmountBorSA: boolean;
+      fillAmountBorSB: boolean;
+      feeA: any;
+      feeB: any;
+      block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+      accountA:
+        | { __typename?: 'Pool'; id: string; address: any }
+        | { __typename?: 'ProtocolAccount'; id: string; address: any }
+        | { __typename?: 'User'; id: string; address: any };
+      accountB:
+        | { __typename?: 'Pool'; id: string; address: any }
+        | { __typename?: 'ProtocolAccount'; id: string; address: any }
+        | { __typename?: 'User'; id: string; address: any };
+      tokenA: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      tokenB: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      pair: {
+        __typename?: 'Pair';
+        id: string;
+        token0: { __typename?: 'Token'; symbol: string };
+        token1: { __typename?: 'Token'; symbol: string };
+      };
+    }>;
+    dailyEntities: Array<{
+      __typename?: 'PairDailyData';
+      dayEnd: any;
+      tradedVolumeToken0: any;
+      tradedVolumeToken1: any;
+      tradedVolumeToken0Swap: any;
+      tradedVolumeToken1Swap: any;
+      tradedVolumeToken0Orderbook: any;
+      tradedVolumeToken1Orderbook: any;
+    }>;
+    weeklyEntities: Array<{
+      __typename?: 'PairWeeklyData';
+      weekEnd: any;
+      tradedVolumeToken0: any;
+      tradedVolumeToken1: any;
+      tradedVolumeToken0Swap: any;
+      tradedVolumeToken1Swap: any;
+      tradedVolumeToken0Orderbook: any;
+      tradedVolumeToken1Orderbook: any;
+    }>;
+  } | null;
+};
+
 export type TransactionsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Transaction_OrderBy>;
@@ -13044,6 +13157,99 @@ export type PairsLazyQueryHookResult = ReturnType<typeof usePairsLazyQuery>;
 export type PairsQueryResult = Apollo.QueryResult<PairsQuery, PairsQueryVariables>;
 export function refetchPairsQuery(variables?: PairsQueryVariables) {
   return { query: PairsDocument, variables: variables };
+}
+export const PairDocument = gql`
+  query pair($id: ID!, $swapSkip: Int, $swapFirst: Int, $orderbookSkip: Int, $orderbookFirst: Int) {
+    pair(id: $id) {
+      id
+      internalID
+      token0 {
+        ...TokenFragment
+      }
+      token1 {
+        ...TokenFragment
+      }
+      token0Price
+      token1Price
+      tradedVolumeToken0Swap
+      tradedVolumeToken1Swap
+      tradedVolumeToken0Orderbook
+      tradedVolumeToken1Orderbook
+      swaps(skip: $swapSkip, first: $swapFirst, orderDirection: desc, orderBy: internalID) {
+        block {
+          id
+          blockHash
+          timestamp
+        }
+        ...SwapFragment
+      }
+      trades(skip: $orderbookSkip, first: $orderbookFirst, orderDirection: desc, orderBy: internalID) {
+        block {
+          id
+          blockHash
+          timestamp
+        }
+        ...OrderbookTradeFragment
+      }
+      dailyEntities(skip: 1, first: 90, orderDirection: desc, orderBy: dayEnd) {
+        dayEnd
+        tradedVolumeToken0
+        tradedVolumeToken1
+        tradedVolumeToken0Swap
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Orderbook
+        tradedVolumeToken1Orderbook
+      }
+      weeklyEntities(skip: 1, first: 90, orderDirection: desc, orderBy: weekEnd) {
+        weekEnd
+        tradedVolumeToken0
+        tradedVolumeToken1
+        tradedVolumeToken0Swap
+        tradedVolumeToken1Swap
+        tradedVolumeToken0Orderbook
+        tradedVolumeToken1Orderbook
+      }
+      __typename
+    }
+  }
+  ${TokenFragmentFragmentDoc}
+  ${SwapFragmentFragmentDoc}
+  ${OrderbookTradeFragmentFragmentDoc}
+`;
+
+/**
+ * __usePairQuery__
+ *
+ * To run a query within a React component, call `usePairQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      swapSkip: // value for 'swapSkip'
+ *      swapFirst: // value for 'swapFirst'
+ *      orderbookSkip: // value for 'orderbookSkip'
+ *      orderbookFirst: // value for 'orderbookFirst'
+ *   },
+ * });
+ */
+export function usePairQuery(baseOptions: Apollo.QueryHookOptions<PairQuery, PairQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PairQuery, PairQueryVariables>(PairDocument, options);
+}
+export function usePairLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PairQuery, PairQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PairQuery, PairQueryVariables>(PairDocument, options);
+}
+export type PairQueryHookResult = ReturnType<typeof usePairQuery>;
+export type PairLazyQueryHookResult = ReturnType<typeof usePairLazyQuery>;
+export type PairQueryResult = Apollo.QueryResult<PairQuery, PairQueryVariables>;
+export function refetchPairQuery(variables: PairQueryVariables) {
+  return { query: PairDocument, variables: variables };
 }
 export const TransactionsDocument = gql`
   query transactions(

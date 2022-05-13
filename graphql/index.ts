@@ -25,6 +25,9 @@ const client = new ApolloClient({
           orderbookTrades: {
             keyArgs: false,
           },
+          transactionNFTs: {
+            keyArgs: false,
+          },
         },
       },
     },

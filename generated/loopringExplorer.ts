@@ -11487,6 +11487,178 @@ export type NetworkStatsQuery = {
   blocks: Array<{ __typename?: 'Block'; id: string; transactionCount: any; timestamp: any }>;
 };
 
+export type NonFungibleTokenQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type NonFungibleTokenQuery = {
+  __typename?: 'Query';
+  nonFungibleToken?: {
+    __typename: 'NonFungibleToken';
+    id: string;
+    nftID: string;
+    nftType: number;
+    token: string;
+    minter:
+      | { __typename?: 'Pool'; id: string; address: any }
+      | { __typename?: 'ProtocolAccount'; id: string; address: any }
+      | { __typename?: 'User'; id: string; address: any };
+  } | null;
+};
+
+export type TransactionNfTsQueryVariables = Exact<{
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TransactionNft_Filter>;
+}>;
+
+export type TransactionNfTsQuery = {
+  __typename?: 'Query';
+  transactionNFTs: Array<
+    | {
+        __typename: 'DataNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+      }
+    | {
+        __typename: 'MintNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        amount: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        minter:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        receiver:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        receiverSlot: { __typename?: 'AccountNFTSlot'; id: string };
+        nft: { __typename?: 'NonFungibleToken'; id: string };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+      }
+    | {
+        __typename: 'SwapNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        accountA:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        accountB:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | {
+        __typename: 'TradeNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        realizedNFTPrice: any;
+        feeBuyer: any;
+        protocolFeeBuyer: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        accountSeller:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        accountBuyer:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | {
+        __typename: 'TransferNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        fromAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        toAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+    | {
+        __typename: 'WithdrawalNFT';
+        id: string;
+        internalID: any;
+        data: string;
+        fee: any;
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        fromAccount:
+          | { __typename?: 'Pool'; id: string; address: any }
+          | { __typename?: 'ProtocolAccount'; id: string; address: any }
+          | { __typename?: 'User'; id: string; address: any };
+        withdrawalNFTFeeToken?: {
+          __typename?: 'Token';
+          id: string;
+          name: string;
+          symbol: string;
+          decimals: number;
+          address: any;
+        } | null;
+        nfts: Array<{
+          __typename?: 'NonFungibleToken';
+          id: string;
+          nftID: string;
+          nftType: number;
+          token: string;
+          minter:
+            | { __typename?: 'Pool'; id: string; address: any }
+            | { __typename?: 'ProtocolAccount'; id: string; address: any }
+            | { __typename?: 'User'; id: string; address: any };
+        }>;
+      }
+  >;
+};
+
 export type PairsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<Pair_Filter>;
@@ -13149,6 +13321,112 @@ export type NetworkStatsLazyQueryHookResult = ReturnType<typeof useNetworkStatsL
 export type NetworkStatsQueryResult = Apollo.QueryResult<NetworkStatsQuery, NetworkStatsQueryVariables>;
 export function refetchNetworkStatsQuery(variables?: NetworkStatsQueryVariables) {
   return { query: NetworkStatsDocument, variables: variables };
+}
+export const NonFungibleTokenDocument = gql`
+  query nonFungibleToken($id: ID!) {
+    nonFungibleToken(id: $id) {
+      ...NFTFragment
+      __typename
+    }
+  }
+  ${NftFragmentFragmentDoc}
+`;
+
+/**
+ * __useNonFungibleTokenQuery__
+ *
+ * To run a query within a React component, call `useNonFungibleTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNonFungibleTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNonFungibleTokenQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useNonFungibleTokenQuery(
+  baseOptions: Apollo.QueryHookOptions<NonFungibleTokenQuery, NonFungibleTokenQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<NonFungibleTokenQuery, NonFungibleTokenQueryVariables>(NonFungibleTokenDocument, options);
+}
+export function useNonFungibleTokenLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<NonFungibleTokenQuery, NonFungibleTokenQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<NonFungibleTokenQuery, NonFungibleTokenQueryVariables>(NonFungibleTokenDocument, options);
+}
+export type NonFungibleTokenQueryHookResult = ReturnType<typeof useNonFungibleTokenQuery>;
+export type NonFungibleTokenLazyQueryHookResult = ReturnType<typeof useNonFungibleTokenLazyQuery>;
+export type NonFungibleTokenQueryResult = Apollo.QueryResult<NonFungibleTokenQuery, NonFungibleTokenQueryVariables>;
+export function refetchNonFungibleTokenQuery(variables: NonFungibleTokenQueryVariables) {
+  return { query: NonFungibleTokenDocument, variables: variables };
+}
+export const TransactionNfTsDocument = gql`
+  query transactionNFTs($orderDirection: OrderDirection, $where: TransactionNFT_filter) {
+    transactionNFTs(first: 10, orderBy: internalID, orderDirection: $orderDirection, where: $where) {
+      id
+      internalID
+      block {
+        id
+        blockHash
+        timestamp
+      }
+      data
+      ...TradeNFTFragment
+      ...SwapNFTFragment
+      ...WithdrawalNFTFragment
+      ...TransferNFTFragment
+      ...MintNFTFragment
+      ...DataNFTFragment
+    }
+  }
+  ${TradeNftFragmentFragmentDoc}
+  ${SwapNftFragmentFragmentDoc}
+  ${WithdrawalNftFragmentFragmentDoc}
+  ${TransferNftFragmentFragmentDoc}
+  ${MintNftFragmentFragmentDoc}
+  ${DataNftFragmentFragmentDoc}
+`;
+
+/**
+ * __useTransactionNfTsQuery__
+ *
+ * To run a query within a React component, call `useTransactionNfTsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionNfTsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionNfTsQuery({
+ *   variables: {
+ *      orderDirection: // value for 'orderDirection'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useTransactionNfTsQuery(
+  baseOptions?: Apollo.QueryHookOptions<TransactionNfTsQuery, TransactionNfTsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<TransactionNfTsQuery, TransactionNfTsQueryVariables>(TransactionNfTsDocument, options);
+}
+export function useTransactionNfTsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<TransactionNfTsQuery, TransactionNfTsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<TransactionNfTsQuery, TransactionNfTsQueryVariables>(TransactionNfTsDocument, options);
+}
+export type TransactionNfTsQueryHookResult = ReturnType<typeof useTransactionNfTsQuery>;
+export type TransactionNfTsLazyQueryHookResult = ReturnType<typeof useTransactionNfTsLazyQuery>;
+export type TransactionNfTsQueryResult = Apollo.QueryResult<TransactionNfTsQuery, TransactionNfTsQueryVariables>;
+export function refetchTransactionNfTsQuery(variables?: TransactionNfTsQueryVariables) {
+  return { query: TransactionNfTsDocument, variables: variables };
 }
 export const PairsDocument = gql`
   query pairs($first: Int, $where: Pair_filter, $orderDirection: OrderDirection) {

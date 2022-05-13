@@ -11659,6 +11659,27 @@ export type TransactionNfTsQuery = {
   >;
 };
 
+export type NonFungibleTokensQueryVariables = Exact<{
+  where?: InputMaybe<NonFungibleToken_Filter>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderDirection?: InputMaybe<OrderDirection>;
+}>;
+
+export type NonFungibleTokensQuery = {
+  __typename?: 'Query';
+  nonFungibleTokens: Array<{
+    __typename: 'NonFungibleToken';
+    id: string;
+    nftID: string;
+    nftType: number;
+    token: string;
+    minter:
+      | { __typename?: 'Pool'; id: string; address: any }
+      | { __typename?: 'ProtocolAccount'; id: string; address: any }
+      | { __typename?: 'User'; id: string; address: any };
+  }>;
+};
+
 export type PairsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<Pair_Filter>;
@@ -13427,6 +13448,55 @@ export type TransactionNfTsLazyQueryHookResult = ReturnType<typeof useTransactio
 export type TransactionNfTsQueryResult = Apollo.QueryResult<TransactionNfTsQuery, TransactionNfTsQueryVariables>;
 export function refetchTransactionNfTsQuery(variables?: TransactionNfTsQueryVariables) {
   return { query: TransactionNfTsDocument, variables: variables };
+}
+export const NonFungibleTokensDocument = gql`
+  query nonFungibleTokens($where: NonFungibleToken_filter, $first: Int, $orderDirection: OrderDirection) {
+    nonFungibleTokens(where: $where, first: $first, orderDirection: $orderDirection, orderBy: nftID) {
+      ...NFTFragment
+      __typename
+    }
+  }
+  ${NftFragmentFragmentDoc}
+`;
+
+/**
+ * __useNonFungibleTokensQuery__
+ *
+ * To run a query within a React component, call `useNonFungibleTokensQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNonFungibleTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNonFungibleTokensQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      first: // value for 'first'
+ *      orderDirection: // value for 'orderDirection'
+ *   },
+ * });
+ */
+export function useNonFungibleTokensQuery(
+  baseOptions?: Apollo.QueryHookOptions<NonFungibleTokensQuery, NonFungibleTokensQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<NonFungibleTokensQuery, NonFungibleTokensQueryVariables>(NonFungibleTokensDocument, options);
+}
+export function useNonFungibleTokensLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<NonFungibleTokensQuery, NonFungibleTokensQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<NonFungibleTokensQuery, NonFungibleTokensQueryVariables>(
+    NonFungibleTokensDocument,
+    options
+  );
+}
+export type NonFungibleTokensQueryHookResult = ReturnType<typeof useNonFungibleTokensQuery>;
+export type NonFungibleTokensLazyQueryHookResult = ReturnType<typeof useNonFungibleTokensLazyQuery>;
+export type NonFungibleTokensQueryResult = Apollo.QueryResult<NonFungibleTokensQuery, NonFungibleTokensQueryVariables>;
+export function refetchNonFungibleTokensQuery(variables?: NonFungibleTokensQueryVariables) {
+  return { query: NonFungibleTokensDocument, variables: variables };
 }
 export const PairsDocument = gql`
   query pairs($first: Int, $where: Pair_filter, $orderDirection: OrderDirection) {

@@ -45,3 +45,15 @@ export const FETCH_NFT_TXS = gql`
   ${mintNFT}
   ${dataNFT}
 `;
+
+export const FETCH_NFTS_BY_COLLECTION = gql`
+  query nonFungibleTokens($where: NonFungibleToken_filter, $first: Int, $orderDirection: OrderDirection) {
+    nonFungibleTokens(where: $where, first: $first, orderDirection: $orderDirection, orderBy: nftID) {
+      ...NFTFragment
+      __typename
+    }
+  }
+
+  ${account}
+  ${nft}
+`;

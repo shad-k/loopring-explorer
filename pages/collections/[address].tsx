@@ -1,14 +1,13 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { ethers } from "ethers";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 
-import useCollection from "../../hooks/useCollection";
-import Pagination from "../../components/Pagination";
-import useMintNFTs from "../../hooks/useMintNFTs";
-import AppLink from "../../components/AppLink";
-import NFT from "../../components/NFT";
-import { INFURA_ENDPOINT } from "../../utils/config";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
+import AppLink from '../../components/AppLink';
+import NFT from '../../components/NFT';
+import { INFURA_ENDPOINT } from '../../utils/config';
+import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import { OrderDirection, useNonFungibleTokensQuery } from '../../generated/loopringExplorer';
+import CursorPagination from '../../components/CursorPagination';
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 const getMinters = async (address) => {
@@ -34,9 +33,7 @@ const getCollectionName = async (address) => {
     return [];
   }
   try {
-    const abi = [
-      `function name() public view virtual override returns (string memory)`,
-    ];
+    const abi = [`function name() public view virtual override returns (string memory)`];
     const nftContract = new ethers.Contract(address, abi, provider);
 
     return await nftContract.name();
@@ -48,31 +45,18 @@ const getCollectionName = async (address) => {
 const NFTCollection: React.FC<{}> = () => {
   const router = useRouter();
   const ENTRIES_PER_PAGE = 21;
-  const [page, setPage] = React.useState<number>(1);
-  const { data } = useCollection(
-    router.query.address,
-    ENTRIES_PER_PAGE,
-    (page - 1) * ENTRIES_PER_PAGE
-  );
+  const { data, loading, fetchMore } = useNonFungibleTokensQuery({
+    skip: !router.query.address,
+    variables: {
+      where: {
+        token_in: [router.query.address as string],
+      },
+      first: ENTRIES_PER_PAGE,
+      orderDirection: OrderDirection.Desc,
+    },
+  });
   const [minters, setMinters] = React.useState([]);
   const [name, setName] = React.useState<string>();
-
-  const pageChangeHandler = (page) => {
-    router.push(
-      { pathname: router.pathname, query: { ...router.query, page } },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-  };
-
-  React.useEffect(() => {
-    const newPage = parseInt(router.query.page as string);
-    if (router.query && Boolean(newPage) && newPage !== page) {
-      setPage(parseInt(router.query.page as string));
-    }
-  }, [router.query]);
 
   React.useEffect(() => {
     (async () => {
@@ -83,7 +67,7 @@ const NFTCollection: React.FC<{}> = () => {
     })();
   }, [router.query.address]);
 
-  if (!data || minters?.length === 0) {
+  if (!data || minters?.length === 0 || loading) {
     return null;
   }
 
@@ -102,12 +86,7 @@ const NFTCollection: React.FC<{}> = () => {
         <div className="flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 justify-center mt-4 md:mt-0">
           <div className="flex flex-col px-2 md:border-r break-all items-center w-full md:w-1/2 mt-4 md:mt-0">
             Contract Address:
-            <AppLink
-              path="account"
-              address={router.query.address as string}
-              isExplorerLink
-              accountId=""
-            >
+            <AppLink path="account" address={router.query.address as string} isExplorerLink accountId="">
               {getTrimmedTxHash(router.query.address as string, 14, true)}
             </AppLink>
           </div>
@@ -117,12 +96,7 @@ const NFTCollection: React.FC<{}> = () => {
               {minters?.map((minter) => {
                 return (
                   <li>
-                    <AppLink
-                      path="account"
-                      address={minter}
-                      isExplorerLink
-                      accountId=""
-                    >
+                    <AppLink path="account" address={minter} isExplorerLink accountId="" key={minter}>
                       {getTrimmedTxHash(minter, 14, true)}
                     </AppLink>
                   </li>
@@ -134,19 +108,12 @@ const NFTCollection: React.FC<{}> = () => {
       </div>
       {nfts.length === 0 ? (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
-          {page > 1 ? "That's all we had today!" : "No NFTs to show"}
+          {'No NFTs to show'}
         </div>
       ) : (
         <>
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 m-auto"
-            style={{ maxWidth: 1200 }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 m-auto" style={{ maxWidth: 1200 }}>
             {nfts.map((nft) => {
-              // if(!minters.includes(nft.minter.address) && nft.minter.address !== router.query.address) {
-              //   return null
-              // }
-
               return (
                 <AppLink path="nft" nftId={nft.id} key={nft.id}>
                   <div
@@ -162,13 +129,38 @@ const NFTCollection: React.FC<{}> = () => {
               );
             })}
           </div>
-          <Pagination
-            currentPage={page}
-            onPageChange={pageChangeHandler}
-            entriesPerPage={ENTRIES_PER_PAGE}
-            isLastPage={
-              data && data.nonFungibleTokens.length < ENTRIES_PER_PAGE
+          <CursorPagination
+            onNextClick={(fetchNext, afterCursor) =>
+              fetchNext({
+                variables: {
+                  where: {
+                    token_in: [router.query.address as string],
+                    nftID_lt: afterCursor,
+                  },
+                },
+              })
             }
+            onPreviousClick={(fetchPrevious, beforeCursor) =>
+              fetchPrevious({
+                variables: {
+                  where: {
+                    token_in: [router.query.address as string],
+                    nftID_gt: beforeCursor,
+                  },
+                  orderDirection: OrderDirection.Asc,
+                },
+                updateQuery(_, data) {
+                  return {
+                    nonFungibleTokens: data.fetchMoreResult.nonFungibleTokens.reverse(),
+                  };
+                },
+              })
+            }
+            data={data}
+            dataKey="nonFungibleTokens"
+            fetchMore={fetchMore}
+            totalCount={ENTRIES_PER_PAGE}
+            orderBy="nftID"
           />
         </>
       )}

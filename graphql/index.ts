@@ -28,6 +28,9 @@ const client = new ApolloClient({
           transactionNFTs: {
             keyArgs: false,
           },
+          nonFungibleTokens: {
+            keyArgs: false,
+          },
         },
       },
     },

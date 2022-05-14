@@ -43,7 +43,7 @@ export const FETCH_ACCOUNT_BALANCES = gql`
 
 export const FETCH_ACCOUNT_SLOTS = gql`
   query accountNFTSlots($where: AccountNFTSlot_filter, $orderDirection: OrderDirection) {
-    accountNFTSlots(orderDirection: $orderDirection, orderBy: id, first: 10, where: $where) {
+    accountNFTSlots(orderDirection: $orderDirection, orderBy: id, first: 8, where: $where) {
       id
       nft {
         ...NFTFragment
@@ -59,4 +59,5 @@ export const FETCH_ACCOUNT_SLOTS = gql`
   }
 
   ${token}
+  ${nft}
 `;

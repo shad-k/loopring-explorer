@@ -10,13 +10,13 @@ interface Props {
 }
 
 const AccountNFTs: React.FC<Props> = ({ accountId }) => {
-  const TOTAL_COUNT = 10;
+  const TOTAL_COUNT = 8;
   const { data, fetchMore, error, loading } = useAccountNftSlotsQuery({
     variables: {
       where: {
         account: accountId,
       },
-      orderDirection: OrderDirection.Asc,
+      orderDirection: OrderDirection.Desc,
     },
   });
 
@@ -68,7 +68,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
                 variables: {
                   where: {
                     account: accountId,
-                    id_gt: afterCursor,
+                    id_lt: afterCursor,
                   },
                 },
               })
@@ -78,9 +78,9 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
                 variables: {
                   where: {
                     account: accountId,
-                    id_lt: beforeCursor,
+                    id_gt: beforeCursor,
                   },
-                  orderDirection: OrderDirection.Desc,
+                  orderDirection: OrderDirection.Asc,
                 },
                 updateQuery(_, data) {
                   return {
@@ -93,6 +93,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
             dataKey="accountNFTSlots"
             fetchMore={fetchMore}
             totalCount={TOTAL_COUNT}
+            orderBy="id"
           />
         </>
       )}

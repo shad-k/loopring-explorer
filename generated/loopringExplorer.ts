@@ -13187,7 +13187,7 @@ export function refetchAccountTokenBalancesQuery(variables?: AccountTokenBalance
 }
 export const AccountNftSlotsDocument = gql`
   query accountNFTSlots($where: AccountNFTSlot_filter, $orderDirection: OrderDirection) {
-    accountNFTSlots(orderDirection: $orderDirection, orderBy: id, first: 10, where: $where) {
+    accountNFTSlots(orderDirection: $orderDirection, orderBy: id, first: 8, where: $where) {
       id
       nft {
         ...NFTFragment

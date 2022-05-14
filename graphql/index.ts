@@ -10,6 +10,9 @@ const client = new ApolloClient({
           accountTokenBalances: {
             keyArgs: false,
           },
+          accountNFTSlots: {
+            keyArgs: false,
+          },
           blocks: {
             keyArgs: false,
           },

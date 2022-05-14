@@ -93,7 +93,7 @@ const Transactions: React.FC<{
         );
       } else {
         const { block, ...restQuery } = router.query;
-        router.push({ pathname: router.pathname, query: { ...restQuery, page: 1 } }, undefined, {
+        router.push({ pathname: router.pathname, query: { ...restQuery } }, undefined, {
           shallow: true,
         });
       }
@@ -104,7 +104,7 @@ const Transactions: React.FC<{
       router.push(
         {
           pathname: router.pathname,
-          query: { ...router.query, type: txTypeInput.value, page: 1 },
+          query: { ...router.query, type: txTypeInput.value },
         },
         undefined,
         {

@@ -136,3 +136,53 @@ export const FETCH_TX = gql`
   ${mintNFT}
   ${dataNFT}
 `;
+
+export const FETCH_TX_CONFIRMATION = gql`
+  query pendingTransactions(
+    $transferWhere: Transfer_filter
+    $withdrawalWhere: Withdrawal_filter
+    $addWhere: Add_filter
+    $removeWhere: Remove_filter
+    $orderBookTradeWhere: OrderbookTrade_filter
+    $mintNFTWhere: MintNFT_filter
+    $withdrawNFTWhere: WithdrawalNFT_filter
+    $transferNFTWhere: TransferNFT_filter
+    $swapWhere: Swap_filter
+    $tradeNFTWhere: TradeNFT_filter
+    $accountUpdateWhere: AccountUpdate_filter
+  ) {
+    transfers(where: $transferWhere) {
+      id
+    }
+    withdrawals(where: $withdrawalWhere) {
+      id
+    }
+    adds(where: $addWhere) {
+      id
+    }
+    removes(where: $removeWhere) {
+      id
+    }
+    orderbookTrades(where: $orderBookTradeWhere) {
+      id
+    }
+    mintNFTs(where: $mintNFTWhere) {
+      id
+    }
+    withdrawalNFTs(where: $withdrawNFTWhere) {
+      id
+    }
+    transferNFTs(where: $transferNFTWhere) {
+      id
+    }
+    swaps(where: $swapWhere) {
+      id
+    }
+    tradeNFTs(where: $tradeNFTWhere) {
+      id
+    }
+    accountUpdates(where: $accountUpdateWhere) {
+      id
+    }
+  }
+`;

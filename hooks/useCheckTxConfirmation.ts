@@ -1,129 +1,72 @@
-import React from "react";
-import { gql } from "graphql-request";
-import useSWR from "swr";
-import request from "graphql-request";
-
-import { LOOPRING_SUBGRAPH } from "../utils/config";
-
-const FETCH_TRANSACTION = gql`
-  query transactions(
-    $transferWhere: Transfer_filter
-    $withdrawalWhere: Withdrawal_filter
-    $addWhere: Add_filter
-    $removeWhere: Remove_filter
-    $orderBookTradeWhere: OrderbookTrade_filter
-    $mintNFTWhere: MintNFT_filter
-    $withdrawNFTWhere: WithdrawalNFT_filter
-    $transferNFTWhere: TransferNFT_filter
-    $swapWhere: Swap_filter
-    $tradeNFTWhere: TradeNFT_filter
-    $accountUpdateWhere: AccountUpdate_filter
-  ) {
-    transfers(where: $transferWhere) {
-      id
-    }
-    withdrawals(where: $withdrawalWhere) {
-      id
-    }
-    adds(where: $addWhere) {
-      id
-    }
-    removes(where: $removeWhere) {
-      id
-    }
-    orderbookTrades(where: $orderBookTradeWhere) {
-      id
-    }
-    mintNFTs(where: $mintNFTWhere) {
-      id
-    }
-    withdrawalNFTs(where: $withdrawNFTWhere) {
-      id
-    }
-    transferNFTs(where: $transferNFTWhere) {
-      id
-    }
-    swaps(where: $swapWhere) {
-      id
-    }
-    tradeNFTs(where: $tradeNFTWhere) {
-      id
-    }
-    accountUpdates(where: $accountUpdateWhere) {
-      id
-    }
-  }
-`;
+import React from 'react';
+import { usePendingTransactionsQuery } from '../generated/loopringExplorer';
 
 const useCheckTxConfirmation = (accountID, tokenID, storageID) => {
-  const { data, error } = useSWR(
-    accountID ? [FETCH_TRANSACTION, accountID, tokenID, storageID] : null,
-    (query) =>
-      request(LOOPRING_SUBGRAPH, query, {
-        transferWhere: {
-          accountFromID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
-        },
-        withdrawalWhere: {
-          fromAccountID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
-        },
-        addWhere: {
-          accountFromID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
-        },
-        removeWhere: {
-          accountFromID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
-        },
-        orderBookTradeWhere: {
-          accountIdA: parseInt(accountID),
-          storageIdA: parseInt(storageID),
-          tokenIDAS: parseInt(tokenID),
-        },
-        swapWhere: {
-          accountIdA: parseInt(accountID),
-          storageIdA: parseInt(storageID),
-          tokenIDAS: parseInt(tokenID),
-        },
-        mintNFTWhere: {
-          minterAccountID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          toTokenID: parseInt(tokenID),
-        },
-        withdrawNFTWhere: {
-          fromAccountID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
-        },
-        transferNFTWhere: {
-          accountFromID: parseInt(accountID),
-          storageID: parseInt(storageID),
-          tokenID: parseInt(tokenID),
-        },
-        tradeNFTWhere: {
-          accountIdA: parseInt(accountID),
-          storageIdA: parseInt(storageID),
-          tokenIDAS: parseInt(tokenID),
-        },
-        accountUpdateWhere: {
-          accountID: parseInt(accountID),
-          nonce: parseInt(storageID),
-        },
-      }),
-    {
-      refreshInterval: 60000,
-    }
-  );
+  const { data, error, loading } = usePendingTransactionsQuery({
+    skip: !accountID,
+    variables: {
+      transferWhere: {
+        accountFromID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        tokenID: parseInt(tokenID),
+      },
+      withdrawalWhere: {
+        fromAccountID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        tokenID: parseInt(tokenID),
+      },
+      addWhere: {
+        accountFromID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        tokenID: parseInt(tokenID),
+      },
+      removeWhere: {
+        accountFromID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        tokenID: parseInt(tokenID),
+      },
+      orderBookTradeWhere: {
+        accountIdA: parseInt(accountID),
+        storageIdA: parseInt(storageID),
+        tokenIDAS: parseInt(tokenID),
+      },
+      swapWhere: {
+        accountIdA: parseInt(accountID),
+        storageIdA: parseInt(storageID),
+        tokenIDAS: parseInt(tokenID),
+      },
+      mintNFTWhere: {
+        minterAccountID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        toTokenID: parseInt(tokenID),
+      },
+      withdrawNFTWhere: {
+        fromAccountID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        tokenID: parseInt(tokenID),
+      },
+      transferNFTWhere: {
+        accountFromID: parseInt(accountID),
+        storageID: parseInt(storageID),
+        tokenID: parseInt(tokenID),
+      },
+      tradeNFTWhere: {
+        accountIdA: parseInt(accountID),
+        storageIdA: parseInt(storageID),
+        tokenIDAS: parseInt(tokenID),
+      },
+      accountUpdateWhere: {
+        accountID: parseInt(accountID),
+        nonce: parseInt(storageID),
+      },
+    },
+    pollInterval: 60000,
+  });
 
   return {
     data,
     error,
-    isLoading: !data && !error,
+    isLoading: loading,
   };
 };
 

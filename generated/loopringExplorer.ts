@@ -12656,6 +12656,35 @@ export type TransactionQuery = {
     | null;
 };
 
+export type PendingTransactionsQueryVariables = Exact<{
+  transferWhere?: InputMaybe<Transfer_Filter>;
+  withdrawalWhere?: InputMaybe<Withdrawal_Filter>;
+  addWhere?: InputMaybe<Add_Filter>;
+  removeWhere?: InputMaybe<Remove_Filter>;
+  orderBookTradeWhere?: InputMaybe<OrderbookTrade_Filter>;
+  mintNFTWhere?: InputMaybe<MintNft_Filter>;
+  withdrawNFTWhere?: InputMaybe<WithdrawalNft_Filter>;
+  transferNFTWhere?: InputMaybe<TransferNft_Filter>;
+  swapWhere?: InputMaybe<Swap_Filter>;
+  tradeNFTWhere?: InputMaybe<TradeNft_Filter>;
+  accountUpdateWhere?: InputMaybe<AccountUpdate_Filter>;
+}>;
+
+export type PendingTransactionsQuery = {
+  __typename?: 'Query';
+  transfers: Array<{ __typename?: 'Transfer'; id: string }>;
+  withdrawals: Array<{ __typename?: 'Withdrawal'; id: string }>;
+  adds: Array<{ __typename?: 'Add'; id: string }>;
+  removes: Array<{ __typename?: 'Remove'; id: string }>;
+  orderbookTrades: Array<{ __typename?: 'OrderbookTrade'; id: string }>;
+  mintNFTs: Array<{ __typename?: 'MintNFT'; id: string }>;
+  withdrawalNFTs: Array<{ __typename?: 'WithdrawalNFT'; id: string }>;
+  transferNFTs: Array<{ __typename?: 'TransferNFT'; id: string }>;
+  swaps: Array<{ __typename?: 'Swap'; id: string }>;
+  tradeNFTs: Array<{ __typename?: 'TradeNFT'; id: string }>;
+  accountUpdates: Array<{ __typename?: 'AccountUpdate'; id: string }>;
+};
+
 export const AccountFragmentFragmentDoc = gql`
   fragment AccountFragment on Account {
     id
@@ -13907,4 +13936,107 @@ export type TransactionLazyQueryHookResult = ReturnType<typeof useTransactionLaz
 export type TransactionQueryResult = Apollo.QueryResult<TransactionQuery, TransactionQueryVariables>;
 export function refetchTransactionQuery(variables: TransactionQueryVariables) {
   return { query: TransactionDocument, variables: variables };
+}
+export const PendingTransactionsDocument = gql`
+  query pendingTransactions(
+    $transferWhere: Transfer_filter
+    $withdrawalWhere: Withdrawal_filter
+    $addWhere: Add_filter
+    $removeWhere: Remove_filter
+    $orderBookTradeWhere: OrderbookTrade_filter
+    $mintNFTWhere: MintNFT_filter
+    $withdrawNFTWhere: WithdrawalNFT_filter
+    $transferNFTWhere: TransferNFT_filter
+    $swapWhere: Swap_filter
+    $tradeNFTWhere: TradeNFT_filter
+    $accountUpdateWhere: AccountUpdate_filter
+  ) {
+    transfers(where: $transferWhere) {
+      id
+    }
+    withdrawals(where: $withdrawalWhere) {
+      id
+    }
+    adds(where: $addWhere) {
+      id
+    }
+    removes(where: $removeWhere) {
+      id
+    }
+    orderbookTrades(where: $orderBookTradeWhere) {
+      id
+    }
+    mintNFTs(where: $mintNFTWhere) {
+      id
+    }
+    withdrawalNFTs(where: $withdrawNFTWhere) {
+      id
+    }
+    transferNFTs(where: $transferNFTWhere) {
+      id
+    }
+    swaps(where: $swapWhere) {
+      id
+    }
+    tradeNFTs(where: $tradeNFTWhere) {
+      id
+    }
+    accountUpdates(where: $accountUpdateWhere) {
+      id
+    }
+  }
+`;
+
+/**
+ * __usePendingTransactionsQuery__
+ *
+ * To run a query within a React component, call `usePendingTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePendingTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePendingTransactionsQuery({
+ *   variables: {
+ *      transferWhere: // value for 'transferWhere'
+ *      withdrawalWhere: // value for 'withdrawalWhere'
+ *      addWhere: // value for 'addWhere'
+ *      removeWhere: // value for 'removeWhere'
+ *      orderBookTradeWhere: // value for 'orderBookTradeWhere'
+ *      mintNFTWhere: // value for 'mintNFTWhere'
+ *      withdrawNFTWhere: // value for 'withdrawNFTWhere'
+ *      transferNFTWhere: // value for 'transferNFTWhere'
+ *      swapWhere: // value for 'swapWhere'
+ *      tradeNFTWhere: // value for 'tradeNFTWhere'
+ *      accountUpdateWhere: // value for 'accountUpdateWhere'
+ *   },
+ * });
+ */
+export function usePendingTransactionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<PendingTransactionsQuery, PendingTransactionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PendingTransactionsQuery, PendingTransactionsQueryVariables>(
+    PendingTransactionsDocument,
+    options
+  );
+}
+export function usePendingTransactionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PendingTransactionsQuery, PendingTransactionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PendingTransactionsQuery, PendingTransactionsQueryVariables>(
+    PendingTransactionsDocument,
+    options
+  );
+}
+export type PendingTransactionsQueryHookResult = ReturnType<typeof usePendingTransactionsQuery>;
+export type PendingTransactionsLazyQueryHookResult = ReturnType<typeof usePendingTransactionsLazyQuery>;
+export type PendingTransactionsQueryResult = Apollo.QueryResult<
+  PendingTransactionsQuery,
+  PendingTransactionsQueryVariables
+>;
+export function refetchPendingTransactionsQuery(variables?: PendingTransactionsQueryVariables) {
+  return { query: PendingTransactionsDocument, variables: variables };
 }

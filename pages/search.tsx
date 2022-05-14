@@ -1,8 +1,8 @@
-import React from "react";
-import { useRouter } from "next/router";
-import useSearch from "../hooks/useSearch";
+import React from 'react';
+import { useRouter } from 'next/router';
+import useSearch from '../hooks/useSearch';
 
-import AppLink from "../components/AppLink";
+import AppLink from '../components/AppLink';
 
 const Search: React.FC<{}> = () => {
   const router = useRouter();
@@ -28,12 +28,9 @@ const Search: React.FC<{}> = () => {
   if (loaded && results.length === 0) {
     return (
       <div className="bg-white dark:bg-loopring-dark-background rounded px-4 py-10 h-40 mt-24 flex items-center justify-between flex-col text-center">
-        <h2 className="text-3xl text-loopring-blue dark:text-white">
-          No results found
-        </h2>
+        <h2 className="text-3xl text-loopring-blue dark:text-white">No results found</h2>
         <div className="text-lg text-loopring-blue dark:text-white">
-          We couldn't find any block, transaction or account with
-          ID/address/ENS:&nbsp;
+          We couldn't find any block, transaction or account with ID/address/ENS:&nbsp;
           <span className="font-bold">{searchQuery}</span>
         </div>
       </div>
@@ -43,28 +40,26 @@ const Search: React.FC<{}> = () => {
   if (loaded && results.length > 1) {
     return (
       <div className="bg-white dark:bg-loopring-dark-background rounded px-4 py-10 min-h-table mt-24">
-        <h2 className="text-3xl text-loopring-blue dark:text-loopring-dark-gray">
-          Search Results
-        </h2>
+        <h2 className="text-3xl text-loopring-blue dark:text-loopring-dark-gray">Search Results</h2>
         <span className="mb-4">
           We found {results.length} results with ID {searchQuery}
         </span>
         {results.map((result) => {
           let appLinkProps;
 
-          if (result.type === "block") {
+          if (result.type === 'block') {
             appLinkProps = {
-              path: "block",
+              path: 'block',
               block: searchQuery,
             };
-          } else if (result.type === "tx") {
+          } else if (result.type === 'tx') {
             appLinkProps = {
-              path: "transaction",
+              path: 'transaction',
               tx: searchQuery,
             };
-          } else if (result.type === "account") {
+          } else if (result.type === 'account') {
             appLinkProps = {
-              path: "account",
+              path: 'account',
               accountId: searchQuery,
             };
           }
@@ -77,9 +72,7 @@ const Search: React.FC<{}> = () => {
                 <span className="text-lg capitalize">
                   {result.type} #{searchQuery}
                 </span>
-                <button className="px-4 py-1 rounded-sm dark:text-loopring-dark-gray">
-                  View
-                </button>
+                <button className="px-4 py-1 rounded-sm dark:text-loopring-dark-gray">View</button>
               </div>
             </AppLink>
           );

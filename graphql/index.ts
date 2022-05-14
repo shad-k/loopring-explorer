@@ -1,8 +1,16 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { LOOPRING_SUBGRAPH } from '../utils/config';
+import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
+import { LOOPRING_SUBGRAPH, UNISWAP_SUBGRAPH } from '../utils/config';
+
+const loopringLink = new HttpLink({
+  uri: LOOPRING_SUBGRAPH,
+});
+
+const uniswapLink = new HttpLink({
+  uri: UNISWAP_SUBGRAPH,
+});
 
 const client = new ApolloClient({
-  uri: LOOPRING_SUBGRAPH,
+  link: split((op) => op.getContext().protocol === 'uniswap', uniswapLink, loopringLink),
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

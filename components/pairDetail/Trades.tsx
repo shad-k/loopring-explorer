@@ -1,7 +1,6 @@
 import React from 'react';
 
 import AppLink from '../AppLink';
-import Pagination from '../Pagination';
 import getTokenAmount from '../../utils/getTokenAmount';
 import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
 import getTimeFromNow from '../../utils/getTimeFromNow';

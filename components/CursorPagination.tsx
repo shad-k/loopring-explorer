@@ -56,7 +56,7 @@ const CursorPagination: React.FC<CursorPaginationProps> = ({
   return (
     <div className="text-white flex items-center justify-center p-4">
       {previousLoading ? (
-        <Loader className="animate-spin" />
+        <Loader className="animate-spin" size={25} />
       ) : (
         <button onClick={previous} disabled={page === 1 || isLoading}>
           <Left size={25} color={page === 1 ? '#656567' : 'white'} />
@@ -64,7 +64,7 @@ const CursorPagination: React.FC<CursorPaginationProps> = ({
       )}
       <div className="mx-4">Page {page}</div>
       {nextLoading ? (
-        <Loader className="animate-spin" />
+        <Loader className="animate-spin" size={25} />
       ) : (
         <button onClick={next} disabled={!hasMore || isLoading}>
           {' '}

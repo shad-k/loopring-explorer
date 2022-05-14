@@ -332,6 +332,7 @@ const Transactions: React.FC<{
         {isPaginated && (
           <div className="flex-1">
             <CursorPagination
+              key={accountIdFilter[0] ?? blockIDFilter}
               onNextClick={(fetchNext, afterCursor) =>
                 fetchNext({
                   variables: {

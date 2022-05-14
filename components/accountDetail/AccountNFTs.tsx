@@ -54,6 +54,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
                     style={{
                       minHeight: 300,
                       minWidth: 300,
+                      maxWidth: 300,
                     }}
                   >
                     <NFT nft={nft} />

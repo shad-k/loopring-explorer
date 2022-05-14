@@ -18,6 +18,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
       },
       orderDirection: OrderDirection.Desc,
     },
+    fetchPolicy: 'cache-and-network',
   });
 
   if (loading) {

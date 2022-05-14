@@ -20,6 +20,7 @@ const AccountTokenBalances: React.FC<Props> = ({ accountId }) => {
       },
       orderDirection: OrderDirection.Asc,
     },
+    fetchPolicy: 'cache-and-network',
   });
 
   if (loading || isLoading) {

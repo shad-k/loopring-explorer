@@ -41,7 +41,7 @@ const PendingTransactionFromAPI: React.FC<{ txId: string }> = ({ txId }) => {
   const txHash = txIdSplit[0];
   const txType = txIdSplit[1];
 
-  const { data, isLoading, error } = usePendingTransactionData(txType, txHash);
+  const { data, isLoading } = usePendingTransactionData(txType, txHash);
 
   const accountID =
     data && data[dataKey[txType]] && data[dataKey[txType]].length > 0

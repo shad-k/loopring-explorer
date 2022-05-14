@@ -1,31 +1,40 @@
-import useSWR from "swr";
-import { apiEndpointByTxType, LOOPRING_API } from "../utils/config";
+import React from 'react';
+
+import { apiEndpointByTxType, LOOPRING_API } from '../utils/config';
 
 const getQueryParamName = (txType) => {
   switch (txType) {
-    case "trade":
-      return "orderHash";
-    case "nftTrade":
-      return "tradeHash";
-    case "accountUpdate":
-      return "types=change_password&hashes";
+    case 'trade':
+      return 'orderHash';
+    case 'nftTrade':
+      return 'tradeHash';
+    case 'accountUpdate':
+      return 'types=change_password&hashes';
     default:
-      return "hashes";
+      return 'hashes';
   }
 };
 
 const usePendingTransactionData = (txType, txHash) => {
-  const endpoint = `${LOOPRING_API}${
-    apiEndpointByTxType[txType]
-  }?${getQueryParamName(txType)}=${txHash}&accountId=0`;
-  const { data, error } = useSWR(endpoint, (endpoint) =>
-    fetch(endpoint).then((res) => res.json())
-  );
+  const [data, setData] = React.useState<object>();
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const endpoint = `${LOOPRING_API}${apiEndpointByTxType[txType]}?${getQueryParamName(
+          txType
+        )}=${txHash}&accountId=0`;
+        const res = await fetch(endpoint).then((res) => res.json());
+        setData(res);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   return {
     data,
-    error,
-    isLoading: !data && !error,
+    isLoading: !data,
   };
 };
 

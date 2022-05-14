@@ -101,10 +101,10 @@ export const getCSVTransactionDetailFields = (tx) => {
         makeL1ExplorerCSVLink(tx.fromAccount),
         '',
         '',
-        makeCSVTokenAmount(tx.amount, tx.token),
+        makeCSVTokenAmount(tx.amount, tx.withdrawalToken),
         '',
         '',
-        makeCSVTokenAmount(tx.fee, tx.feeToken),
+        makeCSVTokenAmount(tx.fee, tx.withdrawalFeeToken),
       ];
     case 'Transfer':
       return [
@@ -145,7 +145,7 @@ export const getCSVTransactionDetailFields = (tx) => {
         '',
         '',
         '',
-        makeCSVTokenAmount(tx.fee, tx.feeToken),
+        makeCSVTokenAmount(tx.fee, tx.withdrawalNFTFeeToken),
       ];
     case 'TransferNFT':
       return [

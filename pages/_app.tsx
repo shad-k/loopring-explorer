@@ -50,15 +50,17 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           </Head>
           <header className="bg-white w-screen px-4 py-2 dark:bg-loopring-dark-background">
             <div className="container h-full w-full lg:w-11/12 m-auto flex md:items-center justify-between">
-              <div onClick={() => router.push('/')} className="h-full flex items-center w-4/6 cursor-pointer">
-                <Image
-                  src={darkMode ? '/logo-white.svg' : '/logo-blue.svg'}
-                  width="100"
-                  height="40"
-                  className="h-full"
-                  alt="Loopring Logo"
-                />
-              </div>
+              <Link href="/">
+                <a className="h-full flex items-center w-4/6 cursor-pointer">
+                  <Image
+                    src={darkMode ? '/logo-white.svg' : '/logo-blue.svg'}
+                    width="100"
+                    height="40"
+                    className="h-full"
+                    alt="Loopring Logo"
+                  />
+                </a>
+              </Link>
               {showNav && (
                 <div
                   className="fixed bg-black bg-opacity-30 h-full w-full top-0 left-0 lg:hidden"

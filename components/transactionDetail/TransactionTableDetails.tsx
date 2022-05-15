@@ -380,7 +380,7 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.realizedNFTPrice, tx.token.decimals)} {tx.token.symbol}
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.feeBuyer, tx.token.decimals)} {tx.token.symbol}
+            {getTokenAmount(parseInt(tx.feeBuyer) + parseInt(tx.feeSeller), tx.token.decimals)} {tx.token.symbol}
           </td>
         </>
       );

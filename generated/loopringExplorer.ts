@@ -11175,6 +11175,7 @@ export type TradeNftFragmentFragment = {
   __typename: 'TradeNFT';
   realizedNFTPrice: any;
   feeBuyer: any;
+  feeSeller: any;
   protocolFeeBuyer: any;
   accountSeller:
     | { __typename?: 'Pool'; id: string; address: any }
@@ -11574,6 +11575,7 @@ export type TransactionNfTsQuery = {
         data: string;
         realizedNFTPrice: any;
         feeBuyer: any;
+        feeSeller: any;
         protocolFeeBuyer: any;
         block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
         accountSeller:
@@ -12134,6 +12136,7 @@ export type TransactionsQuery = {
         data: string;
         realizedNFTPrice: any;
         feeBuyer: any;
+        feeSeller: any;
         protocolFeeBuyer: any;
         block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         accountSeller:
@@ -12600,6 +12603,7 @@ export type TransactionQuery = {
         data: string;
         realizedNFTPrice: any;
         feeBuyer: any;
+        feeSeller: any;
         protocolFeeBuyer: any;
         block: {
           __typename?: 'Block';
@@ -13097,6 +13101,7 @@ export const TradeNftFragmentFragmentDoc = gql`
     }
     realizedNFTPrice
     feeBuyer
+    feeSeller
     protocolFeeBuyer
     __typename
   }

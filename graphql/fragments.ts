@@ -292,6 +292,7 @@ export const tradeNFT = gql`
     }
     realizedNFTPrice
     feeBuyer
+    feeSeller
     protocolFeeBuyer
     __typename
   }

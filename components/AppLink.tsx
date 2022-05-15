@@ -75,7 +75,7 @@ type Props = {
   className?: string;
 } & (TxLink | BlockLink | AccountLink | TokenLink | PairLink | NFTSlot | Collection);
 
-const makeExplorerURL = (explorerURL: string, link: string): string => {
+export const makeExplorerURL = (explorerURL: string, link: string): string => {
   return `${explorerURL}${explorerURL.substr(-1) === '/' ? '' : '/'}${link}`;
 };
 

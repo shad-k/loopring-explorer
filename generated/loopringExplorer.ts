@@ -11892,7 +11892,7 @@ export type TransactionsQuery = {
         data: string;
         fee: any;
         nonce: number;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         user: { __typename?: 'User'; id: string; address: any; publicKey?: string | null };
         feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
       }
@@ -11903,7 +11903,7 @@ export type TransactionsQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -11932,7 +11932,7 @@ export type TransactionsQuery = {
         tokenWeight: any;
         nonce: number;
         balance: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         pool: {
           __typename?: 'Pool';
           id: string;
@@ -11956,7 +11956,7 @@ export type TransactionsQuery = {
         id: string;
         internalID: any;
         data: string;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
       }
     | {
         __typename: 'Deposit';
@@ -11964,7 +11964,7 @@ export type TransactionsQuery = {
         internalID: any;
         data: string;
         amount: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         toAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -11978,7 +11978,7 @@ export type TransactionsQuery = {
         data: string;
         fee: any;
         amount: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         minter:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12006,7 +12006,7 @@ export type TransactionsQuery = {
         fillAmountBorSB: boolean;
         feeA: any;
         feeB: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         accountA:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12031,7 +12031,7 @@ export type TransactionsQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12056,7 +12056,7 @@ export type TransactionsQuery = {
         internalID: any;
         data: string;
         verificationData: string;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12076,7 +12076,7 @@ export type TransactionsQuery = {
         protocolFeeB: any;
         feeA: any;
         feeB: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12106,7 +12106,7 @@ export type TransactionsQuery = {
         id: string;
         internalID: any;
         data: string;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         accountA:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12135,7 +12135,7 @@ export type TransactionsQuery = {
         realizedNFTPrice: any;
         feeBuyer: any;
         protocolFeeBuyer: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         accountSeller:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12164,7 +12164,7 @@ export type TransactionsQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12182,7 +12182,7 @@ export type TransactionsQuery = {
         internalID: any;
         data: string;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12211,7 +12211,7 @@ export type TransactionsQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12239,7 +12239,7 @@ export type TransactionsQuery = {
         internalID: any;
         data: string;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any };
+        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; txHash: string };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12281,7 +12281,14 @@ export type TransactionQuery = {
         data: string;
         fee: any;
         nonce: number;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         user: { __typename?: 'User'; id: string; address: any; publicKey?: string | null };
         feeToken: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: number; address: any };
       }
@@ -12292,7 +12299,14 @@ export type TransactionQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12321,7 +12335,14 @@ export type TransactionQuery = {
         tokenWeight: any;
         nonce: number;
         balance: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         pool: {
           __typename?: 'Pool';
           id: string;
@@ -12345,7 +12366,14 @@ export type TransactionQuery = {
         id: string;
         internalID: any;
         data: string;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
       }
     | {
         __typename: 'Deposit';
@@ -12353,7 +12381,14 @@ export type TransactionQuery = {
         internalID: any;
         data: string;
         amount: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         toAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12367,7 +12402,14 @@ export type TransactionQuery = {
         data: string;
         fee: any;
         amount: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         minter:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12395,7 +12437,14 @@ export type TransactionQuery = {
         fillAmountBorSB: boolean;
         feeA: any;
         feeB: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         accountA:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12420,7 +12469,14 @@ export type TransactionQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12445,7 +12501,14 @@ export type TransactionQuery = {
         internalID: any;
         data: string;
         verificationData: string;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12465,7 +12528,14 @@ export type TransactionQuery = {
         protocolFeeB: any;
         feeA: any;
         feeB: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         account:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12495,7 +12565,14 @@ export type TransactionQuery = {
         id: string;
         internalID: any;
         data: string;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         accountA:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12524,7 +12601,14 @@ export type TransactionQuery = {
         realizedNFTPrice: any;
         feeBuyer: any;
         protocolFeeBuyer: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         accountSeller:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12553,7 +12637,14 @@ export type TransactionQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12571,7 +12662,14 @@ export type TransactionQuery = {
         internalID: any;
         data: string;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12600,7 +12698,14 @@ export type TransactionQuery = {
         data: string;
         amount: any;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -12628,7 +12733,14 @@ export type TransactionQuery = {
         internalID: any;
         data: string;
         fee: any;
-        block: { __typename?: 'Block'; id: string; blockHash: string; timestamp: any; transactionCount: any };
+        block: {
+          __typename?: 'Block';
+          id: string;
+          blockHash: string;
+          timestamp: any;
+          transactionCount: any;
+          txHash: string;
+        };
         fromAccount:
           | { __typename?: 'Pool'; id: string; address: any }
           | { __typename?: 'ProtocolAccount'; id: string; address: any }
@@ -13781,6 +13893,7 @@ export const TransactionsDocument = gql`
         id
         blockHash
         timestamp
+        txHash
       }
       data
       ...AddFragment
@@ -13867,6 +13980,7 @@ export const TransactionDocument = gql`
         blockHash
         timestamp
         transactionCount
+        txHash
       }
       data
       ...AddFragment

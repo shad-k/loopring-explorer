@@ -37,6 +37,7 @@ export const FETCH_TXS = gql`
         id
         blockHash
         timestamp
+        txHash
       }
       data
 
@@ -92,6 +93,7 @@ export const FETCH_TX = gql`
         blockHash
         timestamp
         transactionCount
+        txHash
       }
       data
 

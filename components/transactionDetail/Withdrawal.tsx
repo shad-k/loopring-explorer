@@ -1,10 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 
-import AppLink from '../AppLink';
+import AppLink, { makeExplorerURL } from '../AppLink';
 import getDateString from '../../utils/getDateString';
 import getTokenAmount from '../../utils/getTokenAmount';
 import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import { EXPLORER_URL } from '../../utils/config';
 
 interface IWithdrawalProps {
   transaction: any;
@@ -53,11 +54,10 @@ const Withdrawal: React.FC<IWithdrawalProps> = ({ transaction, isPending = false
         <td>{__typename || 'Withdrawal'}</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Withdrawn To</td>
+        <td className="p-2">Withdraw Tx</td>
         <td>
-          <AppLink path="account" accountId={fromAccount.id} address={fromAccount.address}>
-            <span className="hidden lg:block">{fromAccount.address}</span>
-            <span className="lg:hidden">{getTrimmedTxHash(fromAccount.address, 10, true)}</span>
+          <AppLink path="transaction" isExplorerLink tx={block.txHash} className="break-words">
+            {makeExplorerURL(EXPLORER_URL, `tx/${block.txHash}`)}
           </AppLink>
         </td>
       </tr>

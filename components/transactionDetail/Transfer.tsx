@@ -1,10 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
+import { AiOutlineLoading3Quarters as Loader } from 'react-icons/ai';
 
 import AppLink from '../AppLink';
 import getDateString from '../../utils/getDateString';
 import getTokenAmount from '../../utils/getTokenAmount';
 import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import useTokens from '../../hooks/useTokens';
 
 interface ITransferProps {
   transaction: any;
@@ -13,6 +15,12 @@ interface ITransferProps {
 
 const Transfer: React.FC<ITransferProps> = ({ transaction, isPending = false }) => {
   const { block, fromAccount, toAccount, token, amount, feeToken, fee, data, __typename } = transaction;
+  const { data: tokens } = useTokens();
+
+  let tokenDetails = null;
+  if (!token.symbol) {
+    tokenDetails = tokens.find(({ tokenId }) => tokenId === parseInt(token.id));
+  }
 
   return (
     <>
@@ -66,9 +74,17 @@ const Transfer: React.FC<ITransferProps> = ({ transaction, isPending = false }) 
       {token && (
         <tr className="border dark:border-loopring-dark-darkBlue">
           <td className="p-2">Amount</td>
-          <td>
-            {getTokenAmount(amount, token.decimals)} {token.symbol}
-          </td>
+          {token.symbol ? (
+            <td>
+              {getTokenAmount(amount, token.decimals)} {token.symbol}
+            </td>
+          ) : tokenDetails ? (
+            <td>
+              {getTokenAmount(amount, tokenDetails.decimals)} {tokenDetails.symbol}
+            </td>
+          ) : (
+            <Loader className="animate-spin" />
+          )}
         </tr>
       )}
       {feeToken && (

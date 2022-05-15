@@ -1,5 +1,5 @@
 {
-  "name": "next-fe-starter",
+  "name": "loopring-explorer",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "build": "run-p codegen build:next",
     "build:next": "next build",
     "start": "next start",
+    "export": "next export",
     "prepare": "husky install",
     "test": "jest --watch",
     "codegen": "graphql-codegen --config codegen.yml",

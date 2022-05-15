@@ -1,3 +1,4 @@
+// TODO: remove once env variables are added to vercel.
 export const LOOPRING_SUBGRAPH =
   process.env.NEXT_PUBLIC_SUBGRAPH_ENDPOINT ??
   'https://gateway.thegraph.com/api/294a874dfcbae25bcca653a7f56cfb63/subgraphs/id/7QP7oCLbEAjejkp7wSLTD1zbRMSiDydAmALksBB5E6i1';

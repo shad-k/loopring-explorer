@@ -1,16 +1,16 @@
-import React from "react";
-import { AppProps } from "next/app";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { ApolloProvider } from "@apollo/client";
-import Link from "next/link";
+import React from 'react';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { ApolloProvider } from '@apollo/client';
+import Link from 'next/link';
 
-import SearchForm from "../components/SearchForm";
-import "../styles/globals.scss";
-import DarkModeToggle from "../components/DarkModeToggle";
-import ConsentContextProvider from "../components/ConsentContextProvider";
-import apolloClient from "../graphql";
+import SearchForm from '../components/SearchForm';
+import '../styles/globals.scss';
+import DarkModeToggle from '../components/DarkModeToggle';
+import ConsentContextProvider from '../components/ConsentContextProvider';
+import apolloClient from '../graphql';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -18,23 +18,23 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [darkMode, setDarkMode] = React.useState(false);
 
   let isHomePage = false;
-  if (router && router.pathname === "/") {
+  if (router && router.pathname === '/') {
     isHomePage = true;
   }
 
   React.useEffect(() => {
-    if (document.documentElement.classList.contains("dark")) {
+    if (document.documentElement.classList.contains('dark')) {
       setDarkMode(true);
     }
   });
 
   const toggleDarkMode = () => {
     if (darkMode) {
-      localStorage.setItem("darkMode", "false");
-      document.documentElement.classList.remove("dark");
+      localStorage.setItem('darkMode', 'false');
+      document.documentElement.classList.remove('dark');
     } else {
-      localStorage.setItem("darkMode", "true");
-      document.documentElement.classList.add("dark");
+      localStorage.setItem('darkMode', 'true');
+      document.documentElement.classList.add('dark');
     }
     setDarkMode((val) => !val);
     setShowNav(false);
@@ -45,17 +45,14 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <ConsentContextProvider>
         <main className="w-screen h-screen text-loopring-gray dark:text-loopring-dark-gray">
           <Head>
-            <title>Loopring V2 Explorer</title>
+            <title>Loopring Layer2 Explorer</title>
             <link rel="icon" href="/favicon.png" />
           </Head>
           <header className="bg-white w-screen px-4 py-2 dark:bg-loopring-dark-background">
             <div className="container h-full w-full lg:w-11/12 m-auto flex md:items-center justify-between">
-              <div
-                onClick={() => router.push("/")}
-                className="h-full flex items-center w-4/6 cursor-pointer"
-              >
+              <div onClick={() => router.push('/')} className="h-full flex items-center w-4/6 cursor-pointer">
                 <Image
-                  src={darkMode ? "/logo-white.svg" : "/logo-blue.svg"}
+                  src={darkMode ? '/logo-white.svg' : '/logo-blue.svg'}
                   width="100"
                   height="40"
                   className="h-full"
@@ -75,14 +72,11 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
               </button>
               <nav
                 className={`flex-1 flex flex-col lg:flex-row lg:justify-between text-loopring-blue fixed w-3/4 h-full lg:static bg-white top-0 -right-2 text-xl lg:text-base transition-transform duration-500 transform lg:transform-none ${
-                  showNav ? "translate-x-0" : "translate-x-full"
+                  showNav ? 'translate-x-0' : 'translate-x-full'
                 } dark:bg-loopring-dark-background dark:text-loopring-dark-gray z-20`}
               >
                 <Link href="/">
-                  <a
-                    className="border-b border-t p-2 lg:border-none lg:p-0"
-                    onClick={() => setShowNav(false)}
-                  >
+                  <a className="border-b border-t p-2 lg:border-none lg:p-0" onClick={() => setShowNav(false)}>
                     Home
                   </a>
                 </Link>
@@ -95,7 +89,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                     About
                   </a>
                 </Link>
-                <Link href="https://app.loopring.io/">
+                <Link href="https://loopring.io/#/layer2">
                   <a
                     target="_blank"
                     className="border-b border-t p-2 lg:border-none lg:p-0"
@@ -104,19 +98,16 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                     Layer2 App
                   </a>
                 </Link>
-                <Link href="https://loopring.io/">
+                <Link href="https://loopring.io/#/wallet">
                   <a
                     target="_blank"
                     className="border-b border-t p-2 lg:border-none lg:p-0"
                     onClick={() => setShowNav(false)}
                   >
-                    Wallet
+                    Smart Wallet
                   </a>
                 </Link>
-                <button
-                  onClick={toggleDarkMode}
-                  className="self-start p-2 lg:p-0"
-                >
+                <button onClick={toggleDarkMode} className="self-start p-2 lg:p-0">
                   <DarkModeToggle isDarkModeOn={darkMode} />
                 </button>
               </nav>
@@ -126,9 +117,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             {isHomePage ? (
               <div className="px-10 py-8 bg-loopring-blue pb-20 dark:bg-loopring-dark-darkBlue">
                 <div className="lg:w-11/12 m-auto">
-                  <h1 className="text-4xl text-white">
-                    Loopring zkRollup Explorer
-                  </h1>
+                  <h1 className="text-4xl text-white">Loopring zkRollup Explorer</h1>
                   <SearchForm className="flex md:w-3/5 mt-4" />
                 </div>
               </div>

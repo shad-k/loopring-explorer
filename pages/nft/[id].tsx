@@ -1,14 +1,14 @@
-import React from "react";
-import { ethers } from "ethers";
+import React from 'react';
+import { ethers } from 'ethers';
 
-import { useRouter } from "next/router";
-import useNFT from "../../hooks/useNFT";
-import useCachedNFT from "../../hooks/useCachedNFT";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
-import AppLink from "../../components/AppLink";
-import NFTTransactions from "../../components/nftDetail/NFTTransactions";
-import { INFURA_ENDPOINT, NFT_DISALLOW_LIST } from "../../utils/config";
-import useConsentContext from "../../hooks/useConsentContext";
+import { useRouter } from 'next/router';
+import useCachedNFT from '../../hooks/useCachedNFT';
+import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import AppLink from '../../components/AppLink';
+import NFTTransactions from '../../components/nftDetail/NFTTransactions';
+import { INFURA_ENDPOINT, NFT_DISALLOW_LIST } from '../../utils/config';
+import useConsentContext from '../../hooks/useConsentContext';
+import { useNonFungibleTokenQuery } from '../../generated/loopringExplorer';
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
@@ -17,9 +17,7 @@ const getCollectionName = async (address) => {
     return [];
   }
   try {
-    const abi = [
-      `function name() public view virtual override returns (string memory)`,
-    ];
+    const abi = [`function name() public view virtual override returns (string memory)`];
     const nftContract = new ethers.Contract(address, abi, provider);
 
     return await nftContract.name();
@@ -31,10 +29,16 @@ const getCollectionName = async (address) => {
 const NFTDetail: React.FC<{}> = () => {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const { data } = useNFT(router.query.id);
+  const { data } = useNonFungibleTokenQuery({
+    variables: {
+      id: router.query.id as string,
+    },
+  });
+
   const nft = data ? data?.nonFungibleToken : null;
   const [collectionName, setCollectionName] = React.useState<string>();
   const { hasConsent, askUserForConsent } = useConsentContext();
+  const [hideConsentButton, setHideConsentButton] = React.useState<boolean>(false);
 
   const metadata = useCachedNFT(nft);
   const { image, name } = metadata;
@@ -48,10 +52,16 @@ const NFTDetail: React.FC<{}> = () => {
   }, [nft]);
 
   React.useEffect(() => {
-    if (image && image === "/error") {
+    if (image && image === '/error') {
       setIsLoaded(true);
     }
   }, [image]);
+
+  React.useEffect(() => {
+    if (hasConsent) {
+      setHideConsentButton(hasConsent);
+    }
+  }, [hasConsent]);
 
   return (
     <div className="pt-12">
@@ -64,7 +74,7 @@ const NFTDetail: React.FC<{}> = () => {
             />
           )}
           {image ? (
-            image === "/error" ? (
+            image === '/error' ? (
               <img
                 src="/nft-error.svg"
                 className="top-0 right-0 h-full w-full object-contain object-center bg-white rounded-xl"
@@ -74,9 +84,7 @@ const NFTDetail: React.FC<{}> = () => {
                 src={image as string}
                 alt={name as string}
                 className={`z-10 object-contain object-center m-auto h-full rounded-xl ${
-                  NFT_DISALLOW_LIST.includes(nft.id) || !hasConsent
-                    ? "filter blur-xl"
-                    : ""
+                  NFT_DISALLOW_LIST.includes(nft.id) || !hasConsent ? 'filter blur-xl' : ''
                 }`}
                 ref={(imageElement) => {
                   if (imageElement) {
@@ -86,10 +94,12 @@ const NFTDetail: React.FC<{}> = () => {
               />
             )
           ) : null}
-          {!hasConsent && (
+          {
             <div
-              style={{ height: "100%", width: "100%" }}
-              className="absolute z-10 top-0 left-0 text-white flex items-center justify-center"
+              style={{ height: '100%', width: '100%' }}
+              className={`absolute z-10 top-0 left-0 text-white flex items-center justify-center ${
+                !hideConsentButton ? '' : 'hidden'
+              }`}
             >
               <button
                 className="bg-black bg-opacity-20 rounded-xl px-3 py-2 text-sm text-white"
@@ -104,7 +114,7 @@ const NFTDetail: React.FC<{}> = () => {
                 View Content
               </button>
             </div>
-          )}
+          }
           {isLoaded && (
             <div className="flex items-center px-4 w-full mt-4 justify-center z-10">
               <a
@@ -125,21 +135,13 @@ const NFTDetail: React.FC<{}> = () => {
           )}
         </div>
         <div className="w-full lg:w-3/5 lg:pl-12 h-fulls tracking-wider flex flex-col items-start text-xl">
-          <div style={{ minHeight: "10px" }}>
-            <AppLink
-              path="collection"
-              collection={nft?.token}
-              className="px-2 md:px-0"
-            >
+          <div style={{ minHeight: '10px' }}>
+            <AppLink path="collection" collection={nft?.token} className="px-2 md:px-0">
               {collectionName}
             </AppLink>
           </div>
           <h1 className="text-2xl lg:text-3xl font-bold p-2 lg:p-0">
-            {name ? (
-              name
-            ) : (
-              <div className="w-2/3 animate-pulse h-8 bg-gray-400 rounded" />
-            )}
+            {name ? name : <div className="w-2/3 animate-pulse h-8 bg-gray-400 rounded" />}
           </h1>
 
           <div className="w-full overflow-auto mt-8">
@@ -149,9 +151,7 @@ const NFTDetail: React.FC<{}> = () => {
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
                     NFT ID
                   </td>
-                  <td className="pl-6 dark:text-white break-all pr-2">
-                    {nft?.nftID}
-                  </td>
+                  <td className="pl-6 dark:text-white break-all pr-2">{nft?.nftID}</td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
@@ -159,12 +159,9 @@ const NFTDetail: React.FC<{}> = () => {
                   </td>
                   <td className="pl-6 dark:text-white">
                     <AppLink path="account" accountId={nft?.minter?.id}>
-                      <span className="hidden xl:block">
-                        {nft?.minter?.address}
-                      </span>
+                      <span className="hidden xl:block">{nft?.minter?.address}</span>
                       <span className="xl:hidden">
-                        {nft?.minter?.address &&
-                          getTrimmedTxHash(nft?.minter?.address, 15)}
+                        {nft?.minter?.address && getTrimmedTxHash(nft?.minter?.address, 15)}
                       </span>
                     </AppLink>
                   </td>
@@ -174,16 +171,9 @@ const NFTDetail: React.FC<{}> = () => {
                     Token Address
                   </td>
                   <td className="pl-6 dark:text-white pr-2">
-                    <AppLink
-                      path="account"
-                      address={nft?.token}
-                      isExplorerLink
-                      accountId=""
-                    >
+                    <AppLink path="account" address={nft?.token} isExplorerLink accountId="">
                       <span className="hidden xl:block">{nft?.token}</span>
-                      <span className="xl:hidden">
-                        {nft?.token && getTrimmedTxHash(nft?.token, 15)}
-                      </span>
+                      <span className="xl:hidden">{nft?.token && getTrimmedTxHash(nft?.token, 15)}</span>
                     </AppLink>
                   </td>
                 </tr>
@@ -192,11 +182,7 @@ const NFTDetail: React.FC<{}> = () => {
                     Token Standard
                   </td>
                   <td className="pl-6 dark:text-white">
-                    {nft?.nftType === 1
-                      ? "ERC-721"
-                      : nft?.nftType === 0
-                      ? "ERC-1155"
-                      : null}
+                    {nft?.nftType === 1 ? 'ERC-721' : nft?.nftType === 0 ? 'ERC-1155' : null}
                   </td>
                 </tr>
               </tbody>

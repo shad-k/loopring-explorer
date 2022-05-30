@@ -1,59 +1,101 @@
-import React from "react";
+import React from 'react';
 
-import NFT from "../NFT";
-import Pagination from "../Pagination";
-import AppLink from "../AppLink";
+import NFT from '../NFT';
+import AppLink from '../AppLink';
+import { OrderDirection, useAccountNftSlotsQuery } from '../../generated/loopringExplorer';
+import CursorPagination from '../CursorPagination';
 
 interface Props {
-  slots: Array<any>;
+  accountId: string;
 }
 
-const AccountNFTs: React.FC<Props> = ({ slots }) => {
-  const TOTAL_COUNT = 4;
-  const [nftPage, setNFTPage] = React.useState<number>(1);
+const AccountNFTs: React.FC<Props> = ({ accountId }) => {
+  const TOTAL_COUNT = 8;
+  const { data, fetchMore, error, loading } = useAccountNftSlotsQuery({
+    variables: {
+      where: {
+        account: accountId,
+      },
+      orderDirection: OrderDirection.Desc,
+    },
+    fetchPolicy: 'cache-and-network',
+  });
 
-  const pageStart = (nftPage - 1) * TOTAL_COUNT;
-  const pageEnd = nftPage * TOTAL_COUNT;
+  if (loading) {
+    return null;
+  }
+
+  if (error) {
+    return (
+      <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
+        Couldn't fetch token balances
+      </div>
+    );
+  }
 
   return (
     <div>
-      {slots.length === 0 ? (
+      {data.accountNFTSlots.length === 0 ? (
         <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
           No NFTs to show
         </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            {slots.map((slot, index) => {
-              if (index >= pageStart && index < pageEnd) {
-                const { id, balance, nft } = slot;
-                if (balance == 0) {
-                  return null;
-                }
-                return (
-                  <AppLink path="nft" nftId={nft.id}>
-                    <div
-                      key={id}
-                      className="border rounded-xl overflow-hidden dark:border-loopring-dark-darkBlue m-4"
-                      style={{
-                        minHeight: 300,
-                        minWidth: 300,
-                      }}
-                    >
-                      <NFT nft={nft} />
-                    </div>
-                  </AppLink>
-                );
-              } else {
+            {data.accountNFTSlots.map((slot, index) => {
+              const { id, balance, nft } = slot;
+              if (balance == 0) {
                 return null;
               }
+              return (
+                <AppLink path="nft" nftId={nft.id}>
+                  <div
+                    key={id}
+                    className="border rounded-xl overflow-hidden dark:border-loopring-dark-darkBlue m-4"
+                    style={{
+                      minHeight: 300,
+                      minWidth: 300,
+                      maxWidth: 300,
+                    }}
+                  >
+                    <NFT nft={nft} />
+                  </div>
+                </AppLink>
+              );
             })}
           </div>
-          <Pagination
-            currentPage={nftPage}
-            onPageChange={(page) => setNFTPage(page)}
-            total={slots.length}
-            entriesPerPage={TOTAL_COUNT}
+          <CursorPagination
+            onNextClick={(fetchNext, afterCursor) =>
+              fetchNext({
+                variables: {
+                  where: {
+                    account: accountId,
+                    id_lt: afterCursor,
+                  },
+                },
+              })
+            }
+            onPreviousClick={(fetchPrevious, beforeCursor) =>
+              fetchPrevious({
+                variables: {
+                  where: {
+                    account: accountId,
+                    id_gt: beforeCursor,
+                  },
+                  orderDirection: OrderDirection.Asc,
+                },
+                updateQuery(_, data) {
+                  return {
+                    accountNFTSlots: data.fetchMoreResult.accountNFTSlots.reverse(),
+                  };
+                },
+              })
+            }
+            data={data}
+            dataKey="accountNFTSlots"
+            fetchMore={fetchMore}
+            totalCount={TOTAL_COUNT}
+            orderBy="id"
           />
         </>
       )}

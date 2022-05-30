@@ -1,9 +1,9 @@
-import numeral from "numeral";
+import numeral from 'numeral';
 
-import AppLink from "../AppLink";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
-import getTokenAmount from "../../utils/getTokenAmount";
-import { EXPLORER_URL } from "../../utils/config";
+import AppLink from '../AppLink';
+import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import getTokenAmount from '../../utils/getTokenAmount';
+import { EXPLORER_URL } from '../../utils/config';
 
 const makeL1ExplorerCSVLink = (account) => {
   return `"=HYPERLINK(""${EXPLORER_URL}address/${account.address}"",""${account.address}"")"`;
@@ -20,34 +20,34 @@ const makeCSVTokenAmount = (amount, token) => {
 
 export const getCSVTransactionDetailFields = (tx) => {
   switch (tx.__typename) {
-    case "Add":
+    case 'Add':
       return [
         makeCSVLink(tx.account),
         makeCSVLink(tx.pool),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.amount, tx.token),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
-    case "Remove":
+    case 'Remove':
       return [
         makeCSVLink(tx.pool),
         makeCSVLink(tx.account),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.amount, tx.token),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
-    case "Swap":
+    case 'Swap':
       return [
         makeCSVLink(tx.account),
         makeCSVLink(tx.pool),
         `${tx.pair.token0.symbol}-${tx.pair.token1.symbol}`,
-        tx.pair.token0.symbol === tx.tokenA.symbol ? "Buy" : "Sell",
+        tx.pair.token0.symbol === tx.tokenA.symbol ? 'Buy' : 'Sell',
         tx.pair.token0.symbol === tx.tokenA.symbol
           ? makeCSVTokenAmount(tx.fillSB, tx.tokenB)
           : makeCSVTokenAmount(tx.fillSA, tx.tokenA),
@@ -63,12 +63,12 @@ export const getCSVTransactionDetailFields = (tx) => {
           ? makeCSVTokenAmount(tx.feeB, tx.tokenA)
           : null,
       ];
-    case "OrderbookTrade":
+    case 'OrderbookTrade':
       return [
         makeCSVLink(tx.accountA),
         makeCSVLink(tx.accountB),
         `${tx.pair.token0.symbol}-${tx.pair.token1.symbol}`,
-        tx.pair.token0.symbol === tx.tokenA.symbol ? "Buy" : "Sell",
+        tx.pair.token0.symbol === tx.tokenA.symbol ? 'Buy' : 'Sell',
         tx.pair.token0.symbol === tx.tokenA.symbol
           ? makeCSVTokenAmount(tx.fillBB, tx.tokenA)
           : makeCSVTokenAmount(tx.fillBA, tx.tokenB),
@@ -84,113 +84,86 @@ export const getCSVTransactionDetailFields = (tx) => {
           ? makeCSVTokenAmount(tx.feeB, tx.tokenA)
           : null,
       ];
-    case "Deposit":
+    case 'Deposit':
       return [
         makeL1ExplorerCSVLink(tx.toAccount),
         makeCSVLink(tx.toAccount),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.amount, tx.token),
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
       ];
-    case "Withdrawal":
+    case 'Withdrawal':
       return [
         makeCSVLink(tx.fromAccount),
         makeL1ExplorerCSVLink(tx.fromAccount),
-        "",
-        "",
-        makeCSVTokenAmount(tx.amount, tx.token),
-        "",
-        "",
-        makeCSVTokenAmount(tx.fee, tx.feeToken),
+        '',
+        '',
+        makeCSVTokenAmount(tx.amount, tx.withdrawalToken),
+        '',
+        '',
+        makeCSVTokenAmount(tx.fee, tx.withdrawalFeeToken),
       ];
-    case "Transfer":
+    case 'Transfer':
       return [
         makeCSVLink(tx.fromAccount),
         makeCSVLink(tx.toAccount),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.amount, tx.token),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
-    case "AccountUpdate":
-      return [
-        makeCSVLink(tx.user),
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        makeCSVTokenAmount(tx.fee, tx.feeToken),
-      ];
-    case "AmmUpdate":
-      return ["", "", "", "", "", "", ""];
-    case "SignatureVerification":
-      return [makeCSVLink(tx.account), "", "", "", "", "", ""];
-    case "TradeNFT":
+    case 'AccountUpdate':
+      return [makeCSVLink(tx.user), '', '', '', '', '', '', makeCSVTokenAmount(tx.fee, tx.feeToken)];
+    case 'AmmUpdate':
+      return ['', '', '', '', '', '', ''];
+    case 'SignatureVerification':
+      return [makeCSVLink(tx.account), '', '', '', '', '', ''];
+    case 'TradeNFT':
       return [
         makeCSVLink(tx.accountSeller),
         makeCSVLink(tx.accountBuyer),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.realizedNFTPrice, tx.token),
-        "",
-        "",
+        '',
+        '',
         makeCSVTokenAmount(tx.feeBuyer, tx.token),
       ];
-    case "SwapNFT":
-      return [
-        makeCSVLink(tx.accountA),
-        makeCSVLink(tx.accountB),
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ];
-    case "WithdrawalNFT":
+    case 'SwapNFT':
+      return [makeCSVLink(tx.accountA), makeCSVLink(tx.accountB), '', '', '', '', '', ''];
+    case 'WithdrawalNFT':
       return [
         makeCSVLink(tx.fromAccount),
         makeL1ExplorerCSVLink(tx.fromAccount),
-        "",
-        "",
-        "",
-        "",
-        "",
-        makeCSVTokenAmount(tx.fee, tx.feeToken),
+        '',
+        '',
+        '',
+        '',
+        '',
+        makeCSVTokenAmount(tx.fee, tx.withdrawalNFTFeeToken),
       ];
-    case "TransferNFT":
+    case 'TransferNFT':
       return [
         makeCSVLink(tx.fromAccount),
         makeCSVLink(tx.toAccount),
-        "",
-        "",
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
+        '',
+        '',
         makeCSVTokenAmount(tx.fee, tx.feeToken),
       ];
-    case "MintNFT":
-      return [
-        makeCSVLink(tx.minter),
-        makeCSVLink(tx.receiver),
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ];
-    case "DataNFT":
-      return ["", "", "", "", "", "", "", ""];
+    case 'MintNFT':
+      return [makeCSVLink(tx.minter), makeCSVLink(tx.receiver), '', '', '', '', '', ''];
+    case 'DataNFT':
+      return ['', '', '', '', '', '', '', ''];
     default:
-      return ["", "", "", "", "", "", "", ""];
+      return ['', '', '', '', '', '', '', ''];
   }
 };
 
@@ -200,7 +173,7 @@ const TransactionTableDetails: React.FC<{
   cellClassName?: string;
 }> = ({ type, tx, cellClassName }) => {
   switch (type) {
-    case "Add":
+    case 'Add':
       return (
         <>
           <td className={cellClassName}>
@@ -214,15 +187,14 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
-            {tx.token.symbol}
+            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)} {tx.token.symbol}
           </td>
           <td className={cellClassName}>
             {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
           </td>
         </>
       );
-    case "Remove":
+    case 'Remove':
       return (
         <>
           <td className={cellClassName}>
@@ -236,15 +208,14 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
-            {tx.token.symbol}
+            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)} {tx.token.symbol}
           </td>
           <td className={cellClassName}>
             {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
           </td>
         </>
       );
-    case "Swap":
+    case 'Swap':
       return (
         <>
           <td className={cellClassName}>
@@ -258,25 +229,18 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {numeral(getTokenAmount(tx.fillBA, tx.tokenB.decimals)).format(
-              "0[.]00[00]"
-            )}{" "}
-            {tx.tokenB.symbol}
+            {numeral(getTokenAmount(tx.fillBA, tx.tokenB.decimals)).format('0[.]00[00]')} {tx.tokenB.symbol}
           </td>
           <td className={cellClassName}>
             {tx.feeA > 0
-              ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${
-                  tx.tokenB.symbol
-                }`
+              ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${tx.tokenB.symbol}`
               : tx.feeB > 0
-              ? `${getTokenAmount(tx.feeB, tx.tokenA.decimals)} ${
-                  tx.tokenA.symbol
-                }`
+              ? `${getTokenAmount(tx.feeB, tx.tokenA.decimals)} ${tx.tokenA.symbol}`
               : null}
           </td>
         </>
       );
-    case "OrderbookTrade":
+    case 'OrderbookTrade':
       return (
         <>
           <td className={cellClassName}>
@@ -290,32 +254,22 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.fillBA, tx.tokenB.decimals).toFixed(4)}{" "}
-            {tx.tokenB.symbol}
+            {getTokenAmount(tx.fillBA, tx.tokenB.decimals).toFixed(4)} {tx.tokenB.symbol}
           </td>
           <td className={cellClassName}>
             {tx.feeA > 0
-              ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${
-                  tx.tokenB.symbol
-                }`
+              ? `${getTokenAmount(tx.feeA, tx.tokenB.decimals)} ${tx.tokenB.symbol}`
               : tx.feeB > 0
-              ? `${getTokenAmount(tx.feeB, tx.tokenA.decimals)} ${
-                  tx.tokenA.symbol
-                }`
+              ? `${getTokenAmount(tx.feeB, tx.tokenA.decimals)} ${tx.tokenA.symbol}`
               : null}
           </td>
         </>
       );
-    case "Deposit":
+    case 'Deposit':
       return (
         <>
           <td className={cellClassName}>
-            <AppLink
-              path="account"
-              accountId={tx.toAccount.id}
-              address={tx.toAccount.address}
-              isExplorerLink
-            >
+            <AppLink path="account" accountId={tx.toAccount.id} address={tx.toAccount.address} isExplorerLink>
               {getTrimmedTxHash(tx.toAccount.address, 10, true)}
             </AppLink>
           </td>
@@ -325,13 +279,12 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
-            {tx.token.symbol}
+            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)} {tx.token.symbol}
           </td>
           <td className={cellClassName}></td>
         </>
       );
-    case "Withdrawal":
+    case 'Withdrawal':
       return (
         <>
           <td className={cellClassName}>
@@ -340,25 +293,19 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            <AppLink
-              path="account"
-              accountId={tx.fromAccount.id}
-              address={tx.fromAccount.address}
-              isExplorerLink
-            >
+            <AppLink path="account" accountId={tx.fromAccount.id} address={tx.fromAccount.address} isExplorerLink>
               {getTrimmedTxHash(tx.fromAccount.address, 10, true)}
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
-            {tx.token.symbol}
+            {getTokenAmount(tx.amount, tx.withdrawalToken.decimals).toFixed(4)} {tx.withdrawalToken.symbol}
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+            {getTokenAmount(tx.fee, tx.withdrawalFeeToken.decimals)} {tx.withdrawalFeeToken.symbol}
           </td>
         </>
       );
-    case "Transfer":
+    case 'Transfer':
       return (
         <>
           <td className={cellClassName}>
@@ -372,15 +319,14 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)}{" "}
-            {tx.token.symbol}
+            {getTokenAmount(tx.amount, tx.token.decimals).toFixed(4)} {tx.token.symbol}
           </td>
           <td className={cellClassName}>
             {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
           </td>
         </>
       );
-    case "AccountUpdate":
+    case 'AccountUpdate':
       return (
         <>
           <td className={cellClassName}>
@@ -395,7 +341,7 @@ const TransactionTableDetails: React.FC<{
           </td>
         </>
       );
-    case "AmmUpdate":
+    case 'AmmUpdate':
       return (
         <>
           <td className={cellClassName}></td>
@@ -404,7 +350,7 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}></td>
         </>
       );
-    case "SignatureVerification":
+    case 'SignatureVerification':
       return (
         <>
           <td className={cellClassName}>
@@ -417,7 +363,7 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}></td>
         </>
       );
-    case "TradeNFT":
+    case 'TradeNFT':
       return (
         <>
           <td className={cellClassName}>
@@ -431,15 +377,14 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.realizedNFTPrice, tx.token.decimals)}{" "}
-            {tx.token.symbol}
+            {getTokenAmount(tx.realizedNFTPrice, tx.token.decimals)} {tx.token.symbol}
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.feeBuyer, tx.token.decimals)} {tx.token.symbol}
+            {getTokenAmount(parseInt(tx.feeBuyer) + parseInt(tx.feeSeller), tx.token.decimals)} {tx.token.symbol}
           </td>
         </>
       );
-    case "SwapNFT":
+    case 'SwapNFT':
       return (
         <>
           <td className={cellClassName}>
@@ -456,7 +401,7 @@ const TransactionTableDetails: React.FC<{
           <td className={cellClassName}></td>
         </>
       );
-    case "WithdrawalNFT":
+    case 'WithdrawalNFT':
       return (
         <>
           <td className={cellClassName}>
@@ -465,22 +410,17 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}>
-            <AppLink
-              path="account"
-              accountId={tx.fromAccount.id}
-              address={tx.fromAccount.address}
-              isExplorerLink
-            >
+            <AppLink path="account" accountId={tx.fromAccount.id} address={tx.fromAccount.address} isExplorerLink>
               {getTrimmedTxHash(tx.fromAccount.address, 10, true)}
             </AppLink>
           </td>
           <td className={cellClassName}></td>
           <td className={cellClassName}>
-            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+            {getTokenAmount(tx.fee, tx.withdrawalNFTFeeToken.decimals)} {tx.withdrawalNFTFeeToken.symbol}
           </td>
         </>
       );
-    case "TransferNFT":
+    case 'TransferNFT':
       return (
         <>
           <td className={cellClassName}>
@@ -499,7 +439,7 @@ const TransactionTableDetails: React.FC<{
           </td>
         </>
       );
-    case "MintNFT":
+    case 'MintNFT':
       return (
         <>
           <td className={cellClassName}>
@@ -513,12 +453,10 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}></td>
-          <td className={cellClassName}>
-            {/* {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol} */}
-          </td>
+          <td className={cellClassName}>{/* {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol} */}</td>
         </>
       );
-    case "DataNFT":
+    case 'DataNFT':
       return (
         <>
           <td className={cellClassName}></td>

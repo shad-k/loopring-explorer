@@ -1,32 +1,20 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
-import AppLink from "../AppLink";
+import AppLink from '../AppLink';
 
-import getDateString from "../../utils/getDateString";
-import getTokenAmount from "../../utils/getTokenAmount";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
+import getDateString from '../../utils/getDateString';
+import getTokenAmount from '../../utils/getTokenAmount';
+import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
 
 interface ITradeNFTProps {
   transaction: any;
   isPending?: boolean;
 }
 
-const TradeNFT: React.FC<ITradeNFTProps> = ({
-  transaction,
-  isPending = false,
-}) => {
-  const {
-    block,
-    accountSeller,
-    accountBuyer,
-    realizedNFTPrice,
-    feeBuyer,
-    token,
-    data,
-    nfts,
-    __typename,
-  } = transaction;
+const TradeNFT: React.FC<ITradeNFTProps> = ({ transaction, isPending = false }) => {
+  const { block, accountSeller, accountBuyer, realizedNFTPrice, feeBuyer, feeSeller, token, data, nfts, __typename } =
+    transaction;
 
   return (
     <>
@@ -45,7 +33,7 @@ const TradeNFT: React.FC<ITradeNFTProps> = ({
             <span className="italic">Pending</span>
           ) : (
             <div className="flex items-center ">
-              <Image src={"/green-tick.svg"} height={20} width={20} />{" "}
+              <Image src={'/green-tick.svg'} height={20} width={20} />{' '}
               <span className="ml-2">{getDateString(block.timestamp)}</span>
             </div>
           )}
@@ -58,14 +46,10 @@ const TradeNFT: React.FC<ITradeNFTProps> = ({
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Seller</td>
         <td>
-          <AppLink
-            path="account"
-            accountId={accountSeller.id}
-            address={accountSeller.address}
-          >
-            <span className="hidden lg:block">{accountSeller.address}</span>
+          <AppLink path="account" accountId={accountSeller.id} address={accountSeller.address}>
+            <span className="hidden lg:block">{accountSeller.address || accountSeller.id}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountSeller.address, 10, true)}
+              {accountSeller.address ? getTrimmedTxHash(accountSeller.address, 10, true) : accountSeller.id}
             </span>
           </AppLink>
         </td>
@@ -73,14 +57,10 @@ const TradeNFT: React.FC<ITradeNFTProps> = ({
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Buyer</td>
         <td>
-          <AppLink
-            path="account"
-            accountId={accountBuyer.id}
-            address={accountBuyer.address}
-          >
-            <span className="hidden lg:block">{accountBuyer.address}</span>
+          <AppLink path="account" accountId={accountBuyer.id} address={accountBuyer.address}>
+            <span className="hidden lg:block">{accountBuyer.address || accountBuyer.id}</span>
             <span className="lg:hidden">
-              {getTrimmedTxHash(accountBuyer.address, 10, true)}
+              {accountBuyer.address ? getTrimmedTxHash(accountBuyer.address, 10, true) : accountBuyer.id}
             </span>
           </AppLink>
         </td>
@@ -104,9 +84,15 @@ const TradeNFT: React.FC<ITradeNFTProps> = ({
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">Fee</td>
+        <td className="p-2">Buyer Fee</td>
         <td>
           {getTokenAmount(feeBuyer, token.decimals)} {token.symbol}
+        </td>
+      </tr>
+      <tr className="border dark:border-loopring-dark-darkBlue">
+        <td className="p-2">Seller Fee</td>
+        <td>
+          {getTokenAmount(feeSeller, token.decimals)} {token.symbol}
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">

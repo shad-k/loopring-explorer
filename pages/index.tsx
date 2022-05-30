@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 export default function Home({ networkStats }) {
+  console.log({ networkStats });
   let avgBlockDetails = React.useMemo(() => {
     if (networkStats && networkStats.blocks.length > 0) {
       let avgTransactionCount = 0;

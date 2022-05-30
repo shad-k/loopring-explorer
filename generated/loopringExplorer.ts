@@ -11880,7 +11880,6 @@ export type TransactionsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Transaction_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  block?: InputMaybe<Block_Height>;
   where?: InputMaybe<Transaction_Filter>;
 }>;
 
@@ -13888,10 +13887,9 @@ export const TransactionsDocument = gql`
     $first: Int
     $orderBy: Transaction_orderBy
     $orderDirection: OrderDirection
-    $block: Block_height
     $where: Transaction_filter
   ) {
-    transactions(first: $first, orderBy: $orderBy, orderDirection: $orderDirection, block: $block, where: $where) {
+    transactions(first: $first, orderBy: $orderBy, orderDirection: $orderDirection, where: $where) {
       id
       internalID
       block {
@@ -13952,7 +13950,6 @@ export const TransactionsDocument = gql`
  *      first: // value for 'first'
  *      orderBy: // value for 'orderBy'
  *      orderDirection: // value for 'orderDirection'
- *      block: // value for 'block'
  *      where: // value for 'where'
  *   },
  * });

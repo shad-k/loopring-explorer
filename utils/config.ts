@@ -1,5 +1,6 @@
 export const LOOPRING_SUBGRAPH =
-  "https://api.thegraph.com/subgraphs/name/juanmardefago/loopring36";
+  process.env.NEXT_PUBLIC_SUBGRAPH_ENDPOINT ??
+  "https://gateway.thegraph.com/api/294a874dfcbae25bcca653a7f56cfb63/subgraphs/id/7QP7oCLbEAjejkp7wSLTD1zbRMSiDydAmALksBB5E6i1";
 export const EXPLORER_URL = "https://etherscan.io/";
 export const INFURA_ENDPOINT =
   process.env.NEXT_PUBLIC_INFURA_ENDPOINT ??

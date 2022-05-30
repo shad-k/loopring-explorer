@@ -43,7 +43,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     <ConsentContextProvider>
       <main className="w-screen h-screen text-loopring-gray dark:text-loopring-dark-gray">
         <Head>
-          <title>Loopring V2 Explorer</title>
+          <title>Loopring Layer2 Explorer</title>
           <link rel="icon" href="/favicon.png" />
         </Head>
         <header className="bg-white w-screen px-4 py-2 dark:bg-loopring-dark-background">
@@ -93,7 +93,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                   About
                 </a>
               </Link>
-              <Link href="https://app.loopring.io/">
+              <Link href="https://loopring.io/#/layer2">
                 <a
                   target="_blank"
                   className="border-b border-t p-2 lg:border-none lg:p-0"
@@ -102,13 +102,13 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                   Layer2 App
                 </a>
               </Link>
-              <Link href="https://loopring.io/">
+              <Link href="https://loopring.io/#/wallet">
                 <a
                   target="_blank"
                   className="border-b border-t p-2 lg:border-none lg:p-0"
                   onClick={() => setShowNav(false)}
                 >
-                  Wallet
+                  Smart Wallet
                 </a>
               </Link>
               <button

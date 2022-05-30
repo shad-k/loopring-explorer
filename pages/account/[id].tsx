@@ -1,5 +1,4 @@
 import React from 'react';
-import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import AppLink from '../../components/AppLink';
 import Transactions from '../../components/Transactions';
@@ -9,58 +8,38 @@ import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
 import AccountTokenBalances from '../../components/accountDetail/AccountTokenBalances';
 import TabbedView from '../../components/TabbedView';
 import AccountNFTs from '../../components/accountDetail/AccountNFTs';
-import client from '../../graphql';
-import { FETCH_ACCOUNTS } from '../../graphql/queries/account';
-import { AccountsQueryResult } from '../../generated/loopringExplorer';
-
-interface AccountPageProps {
-  accounts: AccountsQueryResult['data']['accounts'];
-}
+import { useAccountsQuery } from '../../generated/loopringExplorer';
+import { useRouter } from 'next/router';
 
 type WhereFilter = {
   address?: string;
   id?: string;
 };
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const { id } = context.params;
+const Account: React.FC<{}> = () => {
+  const router = useRouter();
+  const { id } = router.query;
 
   const whereFilter: WhereFilter = {};
-  if ((id as string).startsWith('0x')) {
+  if (id && (id as string).startsWith('0x')) {
     whereFilter.address = (id as string).toLowerCase();
   } else {
     whereFilter.id = id as string;
   }
 
-  try {
-    const { data } = await client.query({
-      query: FETCH_ACCOUNTS,
-      variables: {
-        where: whereFilter,
-        first: 1,
-      },
-    });
+  const { data } = useAccountsQuery({
+    variables: {
+      where: whereFilter,
+      first: 1,
+    },
+    skip: !id,
+  });
 
-    return {
-      props: {
-        accounts: data.accounts,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        accounts: null,
-      },
-    };
-  }
-};
-
-const Account: React.FC<AccountPageProps> = ({ accounts }) => {
-  if (!accounts) {
+  if (!data || !data.accounts) {
     return null;
   }
 
-  if (accounts.length === 0) {
+  if (data.accounts.length === 0) {
     return (
       <div className="text-gray-400 dark:text-white text-2xl h-40 flex items-center justify-center w-full border">
         No account found
@@ -68,13 +47,18 @@ const Account: React.FC<AccountPageProps> = ({ accounts }) => {
     );
   }
 
-  const { address, createdAtTransaction, __typename, id: accountId } = (accounts.length > 0 && accounts[0]) || {};
+  const {
+    address,
+    createdAtTransaction,
+    __typename,
+    id: accountId,
+  } = (data.accounts.length > 0 && data.accounts[0]) || {};
 
   return (
     <div className="bg-white dark:bg-loopring-dark-background rounded p-4 min-h-table">
       <h1 className="text-3xl mb-5">Account #{accountId}</h1>
       <div className="border dark:border-loopring-dark-darkBlue rounded w-full mb-10 overflow-auto">
-        {accounts.length > 0 && (
+        {data.accounts.length > 0 && (
           <table className="w-full table-auto table-fixed">
             <tbody>
               <tr className="border dark:border-loopring-dark-darkBlue">
@@ -119,7 +103,7 @@ const Account: React.FC<AccountPageProps> = ({ accounts }) => {
           },
         ]}
       />
-      {accounts.length > 0 && (
+      {data.accounts.length > 0 && (
         <div className="pt-8 pb-4">
           <Transactions
             accountIdFilter={[accountId]}

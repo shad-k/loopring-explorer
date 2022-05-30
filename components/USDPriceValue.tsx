@@ -1,10 +1,10 @@
-import React from "react";
-import useTokenUSDPrice from "../hooks/useTokenUSDPrice";
-import numeral from "numeral";
+import React from 'react';
+import useTokenUSDPrice from '../hooks/useTokenUSDPrice';
+import numeral from 'numeral';
 
 interface Token {
   symbol: string;
-  decimal: number;
+  decimals: number;
 }
 
 interface Props {
@@ -22,9 +22,9 @@ const USDPriceValue: React.FC<Props> = ({ token0, value0, token1, value1 }) => {
     return null;
   }
   if (price0) {
-    return <span>{numeral(price0 * value0).format("$0.0a")}</span>;
+    return <span>{numeral(price0 * value0).format('$0.0a')}</span>;
   } else if (price1) {
-    return <span>{numeral(price1 * value1).format("$0.0a")}</span>;
+    return <span>{numeral(price1 * value1).format('$0.0a')}</span>;
   } else {
     return null;
   }

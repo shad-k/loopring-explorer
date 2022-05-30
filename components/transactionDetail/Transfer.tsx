@@ -1,31 +1,26 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+import { AiOutlineLoading3Quarters as Loader } from 'react-icons/ai';
 
-import AppLink from "../AppLink";
-import getDateString from "../../utils/getDateString";
-import getTokenAmount from "../../utils/getTokenAmount";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
+import AppLink from '../AppLink';
+import getDateString from '../../utils/getDateString';
+import getTokenAmount from '../../utils/getTokenAmount';
+import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import useTokens from '../../hooks/useTokens';
 
 interface ITransferProps {
   transaction: any;
   isPending?: boolean;
 }
 
-const Transfer: React.FC<ITransferProps> = ({
-  transaction,
-  isPending = false,
-}) => {
-  const {
-    block,
-    fromAccount,
-    toAccount,
-    token,
-    amount,
-    feeToken,
-    fee,
-    data,
-    __typename,
-  } = transaction;
+const Transfer: React.FC<ITransferProps> = ({ transaction, isPending = false }) => {
+  const { block, fromAccount, toAccount, token, amount, feeToken, fee, data, __typename } = transaction;
+  const { data: tokens } = useTokens();
+
+  let tokenDetails = null;
+  if (!token.symbol) {
+    tokenDetails = tokens.find(({ tokenId }) => tokenId === parseInt(token.id));
+  }
 
   return (
     <>
@@ -46,7 +41,7 @@ const Transfer: React.FC<ITransferProps> = ({
             <span className="italic">Pending</span>
           ) : (
             <div className="flex items-center ">
-              <Image src={"/green-tick.svg"} height={20} width={20} />{" "}
+              <Image src={'/green-tick.svg'} height={20} width={20} />{' '}
               <span className="ml-2">{getDateString(block.timestamp)}</span>
             </div>
           )}
@@ -54,48 +49,42 @@ const Transfer: React.FC<ITransferProps> = ({
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">Transaction Type</td>
-        <td>{__typename || "Transfer"}</td>
+        <td>{__typename || 'Transfer'}</td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
         <td className="p-2">From</td>
         <td>
-          <AppLink
-            path="account"
-            accountId={fromAccount.id}
-            address={fromAccount.address}
-          >
-            <span className="hidden lg:block">
-              {fromAccount.address || fromAccount.id}
-            </span>
+          <AppLink path="account" accountId={fromAccount.id} address={fromAccount.address}>
+            <span className="hidden lg:block">{fromAccount.address || fromAccount.id}</span>
             <span className="lg:hidden">
-              {fromAccount.address
-                ? getTrimmedTxHash(fromAccount.address, 10, true)
-                : fromAccount.id}
+              {fromAccount.address ? getTrimmedTxHash(fromAccount.address, 10, true) : fromAccount.id}
             </span>
           </AppLink>
         </td>
       </tr>
       <tr className="border dark:border-loopring-dark-darkBlue">
-        <td className="p-2">to</td>
+        <td className="p-2">To</td>
         <td>
-          <AppLink
-            path="account"
-            accountId={toAccount.id}
-            address={toAccount.address}
-          >
+          <AppLink path="account" accountId={toAccount.id} address={toAccount.address}>
             <span className="hidden lg:block">{toAccount.address}</span>
-            <span className="lg:hidden">
-              {getTrimmedTxHash(toAccount.address, 10, true)}
-            </span>
+            <span className="lg:hidden">{getTrimmedTxHash(toAccount.address, 10, true)}</span>
           </AppLink>
         </td>
       </tr>
       {token && (
         <tr className="border dark:border-loopring-dark-darkBlue">
           <td className="p-2">Amount</td>
-          <td>
-            {getTokenAmount(amount, token.decimals)} {token.symbol}
-          </td>
+          {token.symbol ? (
+            <td>
+              {getTokenAmount(amount, token.decimals)} {token.symbol}
+            </td>
+          ) : tokenDetails ? (
+            <td>
+              {getTokenAmount(amount, tokenDetails.decimals)} {tokenDetails.symbol}
+            </td>
+          ) : (
+            <Loader className="animate-spin" />
+          )}
         </tr>
       )}
       {feeToken && (

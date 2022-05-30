@@ -1,17 +1,21 @@
-import React from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-import useBlock from "../../hooks/useBlock";
-import getDateString from "../../utils/getDateString";
-import AppLink from "../../components/AppLink";
-import Transactions from "../transactions";
-import getTrimmedTxHash from "../../utils/getTrimmedTxHash";
+import getDateString from '../../utils/getDateString';
+import AppLink from '../../components/AppLink';
+import Transactions from '../../components/Transactions';
+import getTrimmedTxHash from '../../utils/getTrimmedTxHash';
+import { useBlockQuery } from '../../generated/loopringExplorer';
 
 const Block: React.FC<{}> = () => {
   const router = useRouter();
   const blockId = router.query.id;
-  const { data, error, isLoading } = useBlock(blockId);
+  const { data, error, loading } = useBlockQuery({
+    variables: {
+      id: blockId as string,
+    },
+  });
 
   const blockCount = data ? data.proxy.blockCount : null;
   const blockIdInt = blockId ? parseInt(blockId as string) : null;
@@ -22,16 +26,12 @@ const Block: React.FC<{}> = () => {
         Block #{blockId}
         {blockIdInt > 1 && (
           <Link href={`/block/${blockIdInt - 1}`}>
-            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
-              ‹
-            </a>
+            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">‹</a>
           </Link>
         )}
         {blockCount && blockIdInt < blockCount && (
           <Link href={`/block/${blockIdInt + 1}`}>
-            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">
-              ›
-            </a>
+            <a className="text-sm bg-loopring-lightBlue px-2 text-white relative h-5 rounded ml-2">›</a>
           </Link>
         )}
       </h1>
@@ -50,15 +50,9 @@ const Block: React.FC<{}> = () => {
               <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">L1 Transaction Hash</td>
                 <td className="break-all">
-                  <AppLink
-                    path="transaction"
-                    isExplorerLink
-                    tx={data.block.txHash}
-                  >
+                  <AppLink path="transaction" isExplorerLink tx={data.block.txHash}>
                     <span className="hidden lg:block">{data.block.txHash}</span>
-                    <span className="lg:hidden">
-                      {getTrimmedTxHash(data.block.txHash, 10)}
-                    </span>
+                    <span className="lg:hidden">{getTrimmedTxHash(data.block.txHash, 10)}</span>
                   </AppLink>
                 </td>
               </tr>
@@ -69,20 +63,9 @@ const Block: React.FC<{}> = () => {
               <tr className="border dark:border-loopring-dark-darkBlue">
                 <td className="p-2">Operator Address</td>
                 <td className="break-all">
-                  <AppLink
-                    path="account"
-                    accountId={data.block.operatorAccount.id}
-                  >
-                    <span className="hidden lg:block">
-                      {data.block.operatorAccount.address}
-                    </span>
-                    <span className="lg:hidden">
-                      {getTrimmedTxHash(
-                        data.block.operatorAccount.address,
-                        10,
-                        true
-                      )}
-                    </span>
+                  <AppLink path="account" accountId={data.block.operatorAccount.id}>
+                    <span className="hidden lg:block">{data.block.operatorAccount.address}</span>
+                    <span className="lg:hidden">{getTrimmedTxHash(data.block.operatorAccount.address, 10, true)}</span>
                   </AppLink>
                 </td>
               </tr>
@@ -99,27 +82,15 @@ const Block: React.FC<{}> = () => {
         )}
       </div>
       {data && data.block && (
-        <Transactions
-          blockIDFilter={blockId as string}
-          transactionCounts={{
-            transactionCount: data.block.transactionCount,
-            depositCount: data.block.depositCount,
-            withdrawalCount: data.block.withdrawalCount,
-            transferCount: data.block.transferCount,
-            addCount: data.block.addCount,
-            removeCount: data.block.removeCount,
-            orderbookTradeCount: data.block.orderbookTradeCount,
-            swapCount: data.block.swapCount,
-            accountUpdateCount: data.block.accountUpdateCount,
-            ammUpdateCount: data.block.ammUpdateCount,
-            signatureVerificationCount: data.block.signatureVerificationCount,
-          }}
-        />
-      )}
-      {data && !isLoading && !data.block && (
-        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">
-          No block found
+        <div className="p-4">
+          <Transactions
+            blockIDFilter={blockId as string}
+            title={<h2 className="text-2xl font-semibold">Transactions in block #{blockId}</h2>}
+          />
         </div>
+      )}
+      {data && !loading && !data.block && (
+        <div className="text-gray-400 text-2xl h-40 flex items-center justify-center w-full border">No block found</div>
       )}
     </div>
   );

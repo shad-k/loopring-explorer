@@ -1,7 +1,7 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-@import "./darkModeToggle.scss";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './darkModeToggle.scss';
 
 html {
   height: 100vh;
@@ -11,7 +11,7 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font-family: Roboto, Helvetica, Arial, 华文细黑, "Microsoft YaHei", 微软雅黑, SimSun, 宋体, Heiti, 黑体, sans-serif;
+  font-family: Roboto, Helvetica, Arial, 华文细黑, 'Microsoft YaHei', 微软雅黑, SimSun, 宋体, Heiti, 黑体, sans-serif;
 }
 
 a {
@@ -35,7 +35,7 @@ a {
 
 .force-text-white {
   a {
-    color: #FFF !important;
+    color: #fff !important;
   }
 }
 

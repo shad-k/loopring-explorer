@@ -1,16 +1,31 @@
-import useSWR from "swr";
+import React from 'react';
 
-import { LOOPRING_API } from "../utils/config";
+import { LOOPRING_API } from '../utils/config';
+
+let tokensCached;
 
 const useTokens = () => {
-  const { data, error } = useSWR(`${LOOPRING_API}exchange/tokens`, (endpoint) =>
-    fetch(endpoint).then((res) => res.json())
-  );
+  const [tokens, setTokens] = React.useState([]);
+
+  React.useEffect(() => {
+    (async () => {
+      if (!tokensCached) {
+        try {
+          const res = await fetch(`${LOOPRING_API}exchange/tokens`).then((res) => res.json());
+          setTokens(res);
+          tokensCached = res;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setTokens(tokensCached);
+      }
+    })();
+  }, []);
 
   return {
-    data,
-    error,
-    isLoading: !data && !error,
+    data: tokens,
+    isLoading: !tokens,
   };
 };
 

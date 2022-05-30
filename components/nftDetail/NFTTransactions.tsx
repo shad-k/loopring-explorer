@@ -1,60 +1,46 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useRouter } from 'next/router';
 
-import useNFTTransactions from "../../hooks/useNFTTransactions";
-
-import TableLoader from "../../components/TableLoader";
-import Pagination from "../../components/Pagination";
-import AppLink from "../../components/AppLink";
-import TransactionTableDetails from "../../components/transactionDetail/TransactionTableDetails";
-import getTimeFromNow from "../../utils/getTimeFromNow";
+import TableLoader from '../../components/TableLoader';
+import AppLink from '../../components/AppLink';
+import TransactionTableDetails from '../../components/transactionDetail/TransactionTableDetails';
+import getTimeFromNow from '../../utils/getTimeFromNow';
+import { OrderDirection, useTransactionNfTsQuery } from '../../generated/loopringExplorer';
+import CursorPagination from '../CursorPagination';
 
 const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
   const router = useRouter();
-  const [currentPage, setPage] = React.useState<number>(1);
 
-  const [txType, setTxType] = React.useState(
-    (router.query.type as string) || "all"
-  );
-
-  const [nfts, setNFTs] = React.useState([nftId]);
+  const [txType, setTxType] = React.useState((router.query.type as string) || 'all');
 
   const ENTRIES_PER_PAGE = 10;
-  const { data, error, isLoading } = useNFTTransactions(
-    (currentPage - 1) * ENTRIES_PER_PAGE,
-    ENTRIES_PER_PAGE,
-    "internalID",
-    "desc",
-    txType === "all" ? null : txType,
-    nfts
-  );
-
-  const pageChangeHandler = (page) => {
-    router.push(
-      { pathname: router.pathname, query: { ...router.query, page } },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
+  const variables = {
+    orderDirection: OrderDirection.Desc,
+    where: {},
   };
+  if (nftId) {
+    variables.where = {
+      ...variables.where,
+      nfts_contains: [nftId],
+    };
+  }
+  if (txType && txType !== 'all') {
+    variables.where = {
+      ...variables.where,
+      typename: txType,
+    };
+  }
+  const { data, error, loading, fetchMore } = useTransactionNfTsQuery({
+    variables,
+  });
 
   React.useEffect(() => {
-    setNFTs([nftId]);
-  }, [nftId]);
-
-  React.useEffect(() => {
-    if (router.query && router.query.page) {
-      setPage(parseInt(router.query.page as string));
-    }
     if (router.query && router.query.type) {
       setTxType(router.query.type as string);
     }
   }, [router.query]);
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const submitHandler: React.FormEventHandler<HTMLFormElement> = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { txType: txTypeInput } = event.currentTarget;
 
@@ -74,38 +60,30 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
   };
 
   return (
-    <div
-      className={`bg-white dark:bg-loopring-dark-background pt-12 rounded min-h-table`}
-    >
+    <div className={`bg-white dark:bg-loopring-dark-background pt-12 rounded min-h-table`}>
       <div className="flex flex-col lg:flex-row lg:items-center justify-between">
         <h2 className="text-2xl font-bold">Trading History</h2>
-        <form
-          className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center"
-          onSubmit={submitHandler}
-        >
-          <select
-            className="h-9 rounded-sm px-2 border w-full mb-2 lg:mb-0 lg:mr-2"
-            name="txType"
-          >
-            <option value="all" selected={txType === "all"}>
+        <form className="my-2 flex flex-col lg:flex-row justify-end items-end lg:items-center" onSubmit={submitHandler}>
+          <select className="h-9 rounded-sm px-2 border w-full mb-2 lg:mb-0 lg:mr-2" name="txType">
+            <option value="all" selected={txType === 'all'}>
               All Transactions
             </option>
-            <option value="MintNFT" selected={txType === "MintNFT"}>
+            <option value="MintNFT" selected={txType === 'MintNFT'}>
               NFT Mint
             </option>
-            <option value="WithdrawalNFT" selected={txType === "WithdrawalNFT"}>
+            <option value="WithdrawalNFT" selected={txType === 'WithdrawalNFT'}>
               NFT Withdrawal
             </option>
-            <option value="TransferNFT" selected={txType === "TransferNFT"}>
+            <option value="TransferNFT" selected={txType === 'TransferNFT'}>
               NFT Transfer
             </option>
-            <option value="SwapNFT" selected={txType === "SwapNFT"}>
+            <option value="SwapNFT" selected={txType === 'SwapNFT'}>
               NFT Swap
             </option>
-            <option value="TradeNFT" selected={txType === "TradeNFT"}>
+            <option value="TradeNFT" selected={txType === 'TradeNFT'}>
               NFT Trade
             </option>
-            <option value="DataNFT" selected={txType === "DataNFT"}>
+            <option value="DataNFT" selected={txType === 'DataNFT'}>
               NFT Data
             </option>
           </select>
@@ -134,10 +112,7 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
             {data &&
               data.transactionNFTs.map((tx) => {
                 return (
-                  <tr
-                    className="border dark:border-loopring-dark-background"
-                    key={tx.id}
-                  >
+                  <tr className="border dark:border-loopring-dark-background" key={tx.id}>
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       <AppLink path="transaction" tx={tx.id}>
                         {tx.id}
@@ -165,18 +140,43 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
           No transactions to show
         </div>
       )}
-      {isLoading && <TableLoader rows={ENTRIES_PER_PAGE} columns={6} />}
+      {loading && <TableLoader rows={ENTRIES_PER_PAGE} columns={6} />}
       {error && (
-        <div className="h-40 flex items-center justify-center text-red-400 text-xl">
-          Couldn't fetch transactions
-        </div>
+        <div className="h-40 flex items-center justify-center text-red-400 text-xl">Couldn't fetch transactions</div>
       )}
-      <div className="flex flex-col lg:flex-row justify-end w-full">
-        <Pagination
-          currentPage={currentPage}
-          onPageChange={pageChangeHandler}
-          total={null}
-          entriesPerPage={ENTRIES_PER_PAGE}
+      <div className="flex flex-col lg:flex-row justify-center w-full">
+        <CursorPagination
+          onNextClick={(fetchNext, afterCursor) =>
+            fetchNext({
+              variables: {
+                where: {
+                  ...variables.where,
+                  internalID_lt: afterCursor,
+                },
+              },
+            })
+          }
+          onPreviousClick={(fetchPrevious, beforeCursor) =>
+            fetchPrevious({
+              variables: {
+                where: {
+                  ...variables.where,
+                  internalID_gt: beforeCursor,
+                },
+                orderDirection: OrderDirection.Asc,
+              },
+              updateQuery(_, data) {
+                return {
+                  transactionNFTs: data.fetchMoreResult.transactionNFTs.reverse(),
+                };
+              },
+            })
+          }
+          data={data}
+          dataKey="transactionNFTs"
+          fetchMore={fetchMore}
+          totalCount={ENTRIES_PER_PAGE}
+          orderBy="internalID"
         />
       </div>
     </div>

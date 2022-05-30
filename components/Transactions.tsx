@@ -9,7 +9,13 @@ import AppLink from '../components/AppLink';
 import DownloadCSV from '../components/transactionDetail/DownloadCSV';
 import TransactionTableDetails from '../components/transactionDetail/TransactionTableDetails';
 import getTimeFromNow from '../utils/getTimeFromNow';
-import { OrderDirection, Transaction_OrderBy, useTransactionsQuery } from '../generated/loopringExplorer';
+import {
+  OrderDirection,
+  TransactionsQueryVariables,
+  TransactionType,
+  Transaction_OrderBy,
+  useTransactionsQuery,
+} from '../generated/loopringExplorer';
 import CursorPagination from './CursorPagination';
 
 const Transactions: React.FC<{
@@ -33,11 +39,10 @@ const Transactions: React.FC<{
   const [txType, setTxType] = React.useState((router.query.type as string) || 'all');
 
   const ENTRIES_PER_PAGE = accountIdFilter || blockIDFilter ? 10 : totalCount;
-  const variables = {
+  const variables: TransactionsQueryVariables = {
     first: ENTRIES_PER_PAGE,
     orderBy: Transaction_OrderBy.InternalId,
     orderDirection: OrderDirection.Desc,
-    where: {},
   };
 
   if (blockIDFilter) {
@@ -55,7 +60,7 @@ const Transactions: React.FC<{
   if (txType && txType !== 'all') {
     variables.where = {
       ...variables.where,
-      typename: txType,
+      typename: TransactionType[txType],
     };
   }
 

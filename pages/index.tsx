@@ -1,15 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import numeral from 'numeral';
 import { GetServerSideProps } from 'next';
 
 import client from '../graphql';
 import { FETCH_NETWORK_STATS } from '../graphql/queries/home';
 
-import getTimeFromNow from '../utils/getTimeFromNow';
 import Blocks from '../components/Blocks';
 import Pairs from '../components/Pairs';
 import Transactions from '../components/Transactions';
+import NetworkStats from '../components/NetworkStats';
+import { useNetworkStatsQuery } from '../generated/loopringExplorer';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -25,62 +25,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 export default function Home({ networkStats }) {
-  console.log({ networkStats });
-  let avgBlockDetails = React.useMemo(() => {
-    if (networkStats && networkStats.blocks.length > 0) {
-      let avgTransactionCount = 0;
-      let blockTime = Date.now();
-      let avgTimeBetweenBlocks = 0;
-      networkStats.blocks.forEach((block) => {
-        avgTransactionCount += parseInt(block.transactionCount);
-        avgTimeBetweenBlocks += blockTime - block.timestamp * 1000;
-        blockTime = block.timestamp * 1000;
-      });
-      return {
-        transactionCount: avgTransactionCount / networkStats.blocks.length,
-        timeBetweenBlocks: `${Math.floor(avgTimeBetweenBlocks / (networkStats.blocks.length * 1000 * 60))} mins`,
-      };
-    }
-    return {
-      transactionCount: null,
-      timeBetweenBlocks: null,
-    };
-  }, [networkStats]);
+  const { data: networkStatsData } = useNetworkStatsQuery({
+    skip: networkStats,
+    fetchPolicy: 'network-only',
+  });
 
   return (
     <div className="mt-10 w-11/12 m-auto">
-      {networkStats && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-16">
-          <div className="flex flex-col px-8 py-4 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-            <span className=" mb-4">Total Transactions</span>
-            <span className="text-3xl flex-1">{numeral(networkStats.proxy.transactionCount).format('0,0')}</span>
-          </div>
-          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-            <span className=" mb-4">Total Blocks</span>
-            <span className="text-3xl flex-1">{numeral(networkStats.proxy.blockCount).format('0,0')}</span>
-          </div>
-          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-            <span className=" mb-4">Total L2 Accounts</span>
-            <span className="text-3xl flex-1">
-              {networkStats && numeral(networkStats.proxy.userCount).format('0,0')}
-            </span>
-          </div>
-          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-            <span className=" mb-4">Avg. Block Time</span>
-            <span className="text-3xl flex-1">{avgBlockDetails.timeBetweenBlocks}</span>
-          </div>
-          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-            <span className=" mb-4">Avg. Txs per Block</span>
-            <span className="text-3xl flex-1">
-              {avgBlockDetails.transactionCount && numeral(avgBlockDetails.transactionCount).format('0,0')}
-            </span>
-          </div>
-          <div className="flex flex-col px-8 py-2 rounded-xl pb-10 border-2 border-loopring-blue dark:border-loopring-dark-gray text-loopring-lightBlue dark:text-white items-center justify-center h-32">
-            <span className=" mb-4">Last Block Submitted</span>
-            <span className="text-3xl flex-1">{networkStats && getTimeFromNow(networkStats.blocks[0].timestamp)}</span>
-          </div>
-        </div>
-      )}
+      <NetworkStats networkStats={networkStats ?? networkStatsData} />
       <div className="w-full mt-8 flex flex-col justify-between">
         <h2 className="text-2xl font-bold p-2 text-loopring-blue dark:text-loopring-dark-gray">Latest Blocks</h2>
         <Blocks isPaginated={false} blocksCount={10} />

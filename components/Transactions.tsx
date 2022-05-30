@@ -51,6 +51,12 @@ const Transactions: React.FC<{
       block: blockIDFilter,
     };
   }
+  if (blockId) {
+    variables.where = {
+      ...variables.where,
+      block: blockId as string,
+    };
+  }
   if (accountIdFilter) {
     variables.where = {
       ...variables.where,

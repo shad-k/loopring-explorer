@@ -27,10 +27,9 @@ export const FETCH_TXS = gql`
     $first: Int
     $orderBy: Transaction_orderBy
     $orderDirection: OrderDirection
-    $block: Block_height
     $where: Transaction_filter
   ) {
-    transactions(first: $first, orderBy: $orderBy, orderDirection: $orderDirection, block: $block, where: $where) {
+    transactions(first: $first, orderBy: $orderBy, orderDirection: $orderDirection, where: $where) {
       id
       internalID
       block {

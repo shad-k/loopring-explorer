@@ -172,22 +172,22 @@ const Transactions: React.FC<{
               <option value="Transfer" selected={txType === 'Transfer'}>
                 Transfer
               </option>
-              <option value="MintNFT" selected={txType === 'MintNFT'}>
+              <option value="MintNft" selected={txType === 'MintNft'}>
                 NFT Mint
               </option>
-              <option value="WithdrawalNFT" selected={txType === 'WithdrawalNFT'}>
+              <option value="WithdrawalNft" selected={txType === 'WithdrawalNft'}>
                 NFT Withdrawal
               </option>
-              <option value="TransferNFT" selected={txType === 'TransferNFT'}>
+              <option value="TransferNft" selected={txType === 'TransferNft'}>
                 NFT Transfer
               </option>
-              <option value="SwapNFT" selected={txType === 'SwapNFT'}>
+              <option value="SwapNft" selected={txType === 'SwapNft'}>
                 NFT Swap
               </option>
-              <option value="TradeNFT" selected={txType === 'TradeNFT'}>
+              <option value="TradeNft" selected={txType === 'TradeNft'}>
                 NFT Trade
               </option>
-              <option value="DataNFT" selected={txType === 'DataNFT'}>
+              <option value="DataNft" selected={txType === 'DataNft'}>
                 NFT Data
               </option>
               <option value="AccountUpdate" selected={txType === 'AccountUpdate'}>

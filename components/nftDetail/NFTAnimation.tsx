@@ -14,7 +14,7 @@ const NFTAnimation: React.FC<{ animationURL: string; animationType: string }> = 
       />
     );
   } else {
-    return null;
+    return <img src={animationURL as string} />;
   }
 };
 

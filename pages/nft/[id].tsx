@@ -9,6 +9,7 @@ import NFTTransactions from '../../components/nftDetail/NFTTransactions';
 import { INFURA_ENDPOINT, NFT_DISALLOW_LIST } from '../../utils/config';
 import useConsentContext from '../../hooks/useConsentContext';
 import { useNonFungibleTokenQuery } from '../../generated/loopringExplorer';
+import NFTAnimation from '../../components/nftDetail/NFTAnimation';
 
 const provider = new ethers.providers.JsonRpcProvider(INFURA_ENDPOINT);
 
@@ -39,9 +40,10 @@ const NFTDetail: React.FC<{}> = () => {
   const [collectionName, setCollectionName] = React.useState<string>();
   const { hasConsent, askUserForConsent } = useConsentContext();
   const [hideConsentButton, setHideConsentButton] = React.useState<boolean>(false);
-
+  const [animationType, setAnimationType] = React.useState<string>();
   const metadata = useCachedNFT(nft);
-  const { image, name } = metadata;
+  const { image, name, animation_url } = metadata;
+
   React.useEffect(() => {
     if (nft) {
       (async () => {
@@ -56,6 +58,20 @@ const NFTDetail: React.FC<{}> = () => {
       setIsLoaded(true);
     }
   }, [image]);
+
+  React.useEffect(() => {
+    if (animation_url) {
+      (async () => {
+        const res = await fetch(animation_url as string, {
+          method: 'HEAD',
+        }).then((res) => {
+          const animType = res.headers.get('content-type');
+          setAnimationType(animType);
+          setIsLoaded(true);
+        });
+      })();
+    }
+  }, [animation_url]);
 
   React.useEffect(() => {
     if (hasConsent) {
@@ -73,7 +89,14 @@ const NFTDetail: React.FC<{}> = () => {
               className="absolute top-0 right-0 h-full w-full object-cover object-center animate-pulse"
             />
           )}
-          {image ? (
+          {animation_url ? (
+            <NFTAnimation animationURL={animation_url as string} animationType={animationType} />
+          ) : animation_url === '/error' ? (
+            <img
+              src="/nft-error.svg"
+              className="top-0 right-0 h-full w-full object-contain object-center bg-white rounded-xl"
+            />
+          ) : image ? (
             image === '/error' ? (
               <img
                 src="/nft-error.svg"
@@ -185,6 +208,14 @@ const NFTDetail: React.FC<{}> = () => {
                     {nft?.nftType === 1 ? 'ERC-721' : nft?.nftType === 0 ? 'ERC-1155' : null}
                   </td>
                 </tr>
+                {metadata.royalty_percentage && (
+                  <tr>
+                    <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
+                      Royalty %
+                    </td>
+                    <td className="pl-6 dark:text-white">{metadata.royalty_percentage}%</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

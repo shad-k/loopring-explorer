@@ -15,6 +15,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
     variables: {
       where: {
         account: accountId,
+        balance_gt: 0,
       },
       orderDirection: OrderDirection.Desc,
     },

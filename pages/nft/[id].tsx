@@ -90,7 +90,11 @@ const NFTDetail: React.FC<{}> = () => {
             />
           )}
           {animation_url ? (
-            <NFTAnimation animationURL={animation_url as string} animationType={animationType} />
+            <NFTAnimation
+              animationURL={animation_url as string}
+              animationType={animationType}
+              image={image as string}
+            />
           ) : animation_url === '/error' ? (
             <img
               src="/nft-error.svg"
@@ -208,7 +212,7 @@ const NFTDetail: React.FC<{}> = () => {
                     {nft?.nftType === 1 ? 'ERC-721' : nft?.nftType === 0 ? 'ERC-1155' : null}
                   </td>
                 </tr>
-                {metadata.royalty_percentage && (
+                {Boolean(metadata.royalty_percentage) && (
                   <tr>
                     <td className="p-4 bg-loopring-blue dark:bg-loopring-dark-darkBlue w-40 lg:w-44 text-white">
                       Royalty %

@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import React from 'react';
 
 const NFTAnimation: React.FC<{ animationURL: string; animationType: string; image: string }> = ({
@@ -39,6 +40,29 @@ const NFTAnimation: React.FC<{ animationURL: string; animationType: string; imag
           controlsList="nodownload"
         />
       </div>
+    );
+  } else if (animationType?.startsWith('model')) {
+    return (
+      <>
+        <Script
+          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+          strategy="lazyOnload"
+          type="module"
+        />
+        <model-viewer
+          className="z-10 h-full"
+          bounds="tight"
+          enable-pan
+          autoplay
+          src={animationURL}
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          environment-image="neutral"
+          poster="@NftMetadataService.MakeIPFSLink(nftMetadata?.image)"
+          shadow-intensity="1"
+        />
+      </>
     );
   } else {
     return <img src={image as string} />;

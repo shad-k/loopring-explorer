@@ -43,7 +43,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ApolloProvider client={apolloClient}>
       <ConsentContextProvider>
-        <main className="w-screen h-screen text-loopring-gray dark:text-loopring-dark-gray">
+        <main className="w-screen h-screen text-loopring-gray dark:text-loopring-dark-gray overflow-x-hidden">
           <Head>
             <title>Loopring Layer2 Explorer</title>
             <link rel="icon" href="/favicon.png" />

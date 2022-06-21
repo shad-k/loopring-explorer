@@ -181,9 +181,6 @@ const Transactions: React.FC<{
               <option value="TransferNft" selected={txType === 'TransferNft'}>
                 NFT Transfer
               </option>
-              <option value="SwapNft" selected={txType === 'SwapNft'}>
-                NFT Swap
-              </option>
               <option value="TradeNft" selected={txType === 'TradeNft'}>
                 NFT Trade
               </option>

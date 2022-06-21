@@ -72,6 +72,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
                   where: {
                     account: accountId,
                     id_lt: afterCursor,
+                    balance_gt: 0,
                   },
                 },
               })
@@ -82,6 +83,7 @@ const AccountNFTs: React.FC<Props> = ({ accountId }) => {
                   where: {
                     account: accountId,
                     id_gt: beforeCursor,
+                    balance_gt: 0,
                   },
                   orderDirection: OrderDirection.Asc,
                 },

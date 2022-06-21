@@ -22,7 +22,7 @@ const NFTAnimation: React.FC<{ animationURL: string; animationType: string; imag
     return (
       <iframe
         src={animationURL as string}
-        className="z-10 h-full"
+        className="z-10 h-full w-full"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         frameBorder="0"
         sandbox="allow-scripts allow-same-origin"

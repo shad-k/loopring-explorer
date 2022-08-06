@@ -149,7 +149,8 @@ export const FETCH_TX_CONFIRMATION = gql`
     $withdrawNFTWhere: WithdrawalNFT_filter
     $transferNFTWhere: TransferNFT_filter
     $swapWhere: Swap_filter
-    $tradeNFTWhere: TradeNFT_filter
+    $tradeNFTWhereA: TradeNFT_filter
+    $tradeNFTWhereB: TradeNFT_filter
     $accountUpdateWhere: AccountUpdate_filter
   ) {
     transfers(where: $transferWhere) {
@@ -179,7 +180,10 @@ export const FETCH_TX_CONFIRMATION = gql`
     swaps(where: $swapWhere) {
       id
     }
-    tradeNFTs(where: $tradeNFTWhere) {
+    tradeNFTs(where: $tradeNFTWhereA) {
+      id
+    }
+    tradeNFTsB: tradeNFTs(where: $tradeNFTWhereB) {
       id
     }
     accountUpdates(where: $accountUpdateWhere) {

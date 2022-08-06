@@ -50,10 +50,15 @@ const useCheckTxConfirmation = (accountID, tokenID, storageID) => {
         storageID: parseInt(storageID),
         tokenID: parseInt(tokenID),
       },
-      tradeNFTWhere: {
+      tradeNFTWhereA: {
         accountIdA: parseInt(accountID),
         storageIdA: parseInt(storageID),
         tokenIDAS: parseInt(tokenID),
+      },
+      tradeNFTWhereB: {
+        accountIdB: parseInt(accountID),
+        storageIdB: parseInt(storageID),
+        tokenIDBS: parseInt(tokenID),
       },
       accountUpdateWhere: {
         accountID: parseInt(accountID),

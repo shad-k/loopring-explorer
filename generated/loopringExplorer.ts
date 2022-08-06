@@ -11293,6 +11293,14 @@ export type SignatureVerificationFragmentFragment = {
 
 export type TradeNftFragmentFragment = {
   __typename: 'TradeNFT';
+  accountIdA: number;
+  accountIdB: number;
+  storageIdA: number;
+  storageIdB: number;
+  tokenIDAS: number;
+  tokenIDAB: number;
+  tokenIDBS: number;
+  tokenIDBB: number;
   realizedNFTPrice: any;
   feeBuyer: any;
   feeSeller: any;
@@ -11693,6 +11701,14 @@ export type TransactionNfTsQuery = {
         id: string;
         internalID: any;
         data: string;
+        accountIdA: number;
+        accountIdB: number;
+        storageIdA: number;
+        storageIdB: number;
+        tokenIDAS: number;
+        tokenIDAB: number;
+        tokenIDBS: number;
+        tokenIDBB: number;
         realizedNFTPrice: any;
         feeBuyer: any;
         feeSeller: any;
@@ -12253,6 +12269,14 @@ export type TransactionsQuery = {
         id: string;
         internalID: any;
         data: string;
+        accountIdA: number;
+        accountIdB: number;
+        storageIdA: number;
+        storageIdB: number;
+        tokenIDAS: number;
+        tokenIDAB: number;
+        tokenIDBS: number;
+        tokenIDBB: number;
         realizedNFTPrice: any;
         feeBuyer: any;
         feeSeller: any;
@@ -12720,6 +12744,14 @@ export type TransactionQuery = {
         id: string;
         internalID: any;
         data: string;
+        accountIdA: number;
+        accountIdB: number;
+        storageIdA: number;
+        storageIdB: number;
+        tokenIDAS: number;
+        tokenIDAB: number;
+        tokenIDBS: number;
+        tokenIDBB: number;
         realizedNFTPrice: any;
         feeBuyer: any;
         feeSeller: any;
@@ -12901,7 +12933,8 @@ export type PendingTransactionsQueryVariables = Exact<{
   withdrawNFTWhere?: InputMaybe<WithdrawalNft_Filter>;
   transferNFTWhere?: InputMaybe<TransferNft_Filter>;
   swapWhere?: InputMaybe<Swap_Filter>;
-  tradeNFTWhere?: InputMaybe<TradeNft_Filter>;
+  tradeNFTWhereA?: InputMaybe<TradeNft_Filter>;
+  tradeNFTWhereB?: InputMaybe<TradeNft_Filter>;
   accountUpdateWhere?: InputMaybe<AccountUpdate_Filter>;
 }>;
 
@@ -12917,6 +12950,7 @@ export type PendingTransactionsQuery = {
   transferNFTs: Array<{ __typename?: 'TransferNFT'; id: string }>;
   swaps: Array<{ __typename?: 'Swap'; id: string }>;
   tradeNFTs: Array<{ __typename?: 'TradeNFT'; id: string }>;
+  tradeNFTsB: Array<{ __typename?: 'TradeNFT'; id: string }>;
   accountUpdates: Array<{ __typename?: 'AccountUpdate'; id: string }>;
 };
 
@@ -13209,6 +13243,14 @@ export const TradeNftFragmentFragmentDoc = gql`
     accountSeller {
       ...AccountFragment
     }
+    accountIdA
+    accountIdB
+    storageIdA
+    storageIdB
+    tokenIDAS
+    tokenIDAB
+    tokenIDBS
+    tokenIDBB
     accountBuyer {
       ...AccountFragment
     }
@@ -14184,7 +14226,8 @@ export const PendingTransactionsDocument = gql`
     $withdrawNFTWhere: WithdrawalNFT_filter
     $transferNFTWhere: TransferNFT_filter
     $swapWhere: Swap_filter
-    $tradeNFTWhere: TradeNFT_filter
+    $tradeNFTWhereA: TradeNFT_filter
+    $tradeNFTWhereB: TradeNFT_filter
     $accountUpdateWhere: AccountUpdate_filter
   ) {
     transfers(where: $transferWhere) {
@@ -14214,7 +14257,10 @@ export const PendingTransactionsDocument = gql`
     swaps(where: $swapWhere) {
       id
     }
-    tradeNFTs(where: $tradeNFTWhere) {
+    tradeNFTs(where: $tradeNFTWhereA) {
+      id
+    }
+    tradeNFTsB: tradeNFTs(where: $tradeNFTWhereB) {
       id
     }
     accountUpdates(where: $accountUpdateWhere) {
@@ -14244,7 +14290,8 @@ export const PendingTransactionsDocument = gql`
  *      withdrawNFTWhere: // value for 'withdrawNFTWhere'
  *      transferNFTWhere: // value for 'transferNFTWhere'
  *      swapWhere: // value for 'swapWhere'
- *      tradeNFTWhere: // value for 'tradeNFTWhere'
+ *      tradeNFTWhereA: // value for 'tradeNFTWhereA'
+ *      tradeNFTWhereB: // value for 'tradeNFTWhereB'
  *      accountUpdateWhere: // value for 'accountUpdateWhere'
  *   },
  * });

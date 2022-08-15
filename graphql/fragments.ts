@@ -281,6 +281,14 @@ export const tradeNFT = gql`
     accountSeller {
       ...AccountFragment
     }
+    accountIdA
+    accountIdB
+    storageIdA
+    storageIdB
+    tokenIDAS
+    tokenIDAB
+    tokenIDBS
+    tokenIDBB
     accountBuyer {
       ...AccountFragment
     }

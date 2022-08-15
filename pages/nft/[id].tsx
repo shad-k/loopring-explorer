@@ -32,7 +32,7 @@ const NFTDetail: React.FC<{}> = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const { data } = useNonFungibleTokenQuery({
     variables: {
-      id: router.query.id as string,
+      id: router.query.id && (router.query.id as string).toLowerCase(),
     },
   });
 

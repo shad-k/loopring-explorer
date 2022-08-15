@@ -2,10 +2,6 @@
   "name": "loopring-explorer",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "^14.0.0",
-    "yarn": "3.2.2"
-  },
   "scripts": {
     "dev": "run-p codegen:watch dev:next",
     "dev:next": "TAILWIND_MODE=watch next dev",

@@ -40,7 +40,7 @@ const useDownloadCSV = (accountIdFilter: Array<string>) => {
   };
 
   const makeCSV = async (transactions) => {
-    const csv = ['Tx ID,Type,From,To,Pair,Side,Amount,Price,Total,Fee,Verified At'];
+    const csv = ['Tx ID,Type,From,To,Pair,Side,Amount,Price,Total,Fee,Fee (Seller),Verified At'];
     transactions.forEach((tx) => {
       const loopringTxExplorerLink = `https://${window.location.host}/tx/${tx.id}`;
       csv.push(

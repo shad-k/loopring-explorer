@@ -172,8 +172,9 @@ export const getCSVTransactionDetailFields = (tx, account) => {
 const TransactionTableDetails: React.FC<{
   type: string;
   tx: any;
+  account: string;
   cellClassName?: string;
-}> = ({ type, tx, cellClassName }) => {
+}> = ({ type, tx, account, cellClassName }) => {
   switch (type) {
     case 'Add':
       return (
@@ -382,7 +383,12 @@ const TransactionTableDetails: React.FC<{
             {getTokenAmount(tx.realizedNFTPrice, tx.token.decimals)} {tx.token.symbol}
           </td>
           <td className={cellClassName}>
-            {getTokenAmount(parseInt(tx.feeBuyer) + parseInt(tx.feeSeller), tx.token.decimals)} {tx.token.symbol}
+            {account === 'none'
+              ? `${getTokenAmount(parseInt(tx.feeBuyer) + parseInt(tx.feeSeller), tx.token.decimals)}`
+              : tx.accountSeller.id === account
+                ? `${getTokenAmount(tx.feeSeller, tx.token.decimals)}`
+                : `${getTokenAmount(tx.feeBuyer, tx.token.decimals)}`
+            } {tx.token.symbol}
           </td>
         </>
       );
@@ -455,7 +461,9 @@ const TransactionTableDetails: React.FC<{
             </AppLink>
           </td>
           <td className={cellClassName}></td>
-          <td className={cellClassName}>{/* {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol} */}</td>
+          <td className={cellClassName}>
+            {getTokenAmount(tx.fee, tx.feeToken.decimals)} {tx.feeToken.symbol}
+          </td>
         </>
       );
     case 'DataNFT':

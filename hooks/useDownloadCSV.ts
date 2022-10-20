@@ -36,18 +36,23 @@ const useDownloadCSV = (accountIdFilter: Array<string>) => {
       return getAllTransactions(txs, fetchMoreData.transactions[fetchMoreData.transactions.length - 1].internalID);
     }
 
-    return txs;
+    const transactions = {
+      txs: txs,
+      account: accountIdFilter[0]
+    }
+
+    return transactions;
   };
 
   const makeCSV = async (transactions) => {
-    const csv = ['Tx ID,Type,From,To,Pair,Side,Amount,Price,Total,Fee,Fee (Seller),Verified At'];
-    transactions.forEach((tx) => {
+    const csv = ['Tx ID,Type,From,To,Pair,Side,Amount,Price,Total,Fee,Verified At'];
+    transactions.txs.forEach((tx) => {
       const loopringTxExplorerLink = `https://${window.location.host}/tx/${tx.id}`;
       csv.push(
         [
           `"=HYPERLINK(""${loopringTxExplorerLink}"",""${tx.id}"")"`,
           tx.__typename,
-          ...getCSVTransactionDetailFields(tx),
+          ...getCSVTransactionDetailFields(tx, transactions.account),
           getDateString(tx.block.timestamp),
         ].join(',')
       );

@@ -128,9 +128,9 @@ export const getCSVTransactionDetailFields = (tx, account) => {
         makeCSVLink(tx.accountSeller),
         makeCSVLink(tx.accountBuyer),
         '',
+        tx.accountSeller.id === account ? 'Seller' : 'Buyer',
         '',
         makeCSVTokenAmount(tx.realizedNFTPrice, tx.token),
-        '',
         '',
         tx.accountSeller.id === account
           ? makeCSVTokenAmount(tx.feeSeller, tx.token)

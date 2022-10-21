@@ -47,7 +47,7 @@ const useDownloadCSV = (accountIdFilter: Array<string>) => {
         [
           `"=HYPERLINK(""${loopringTxExplorerLink}"",""${tx.id}"")"`,
           tx.__typename,
-          ...getCSVTransactionDetailFields(tx),
+          ...getCSVTransactionDetailFields(tx, accountIdFilter[0]),
           getDateString(tx.block.timestamp),
         ].join(',')
       );

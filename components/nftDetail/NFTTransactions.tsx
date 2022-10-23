@@ -122,6 +122,7 @@ const NFTTransactions: React.FC<{ nftId: string }> = ({ nftId }) => {
                       tx={tx}
                       type={tx.__typename}
                       cellClassName="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white"
+                      account="none"
                     />
                     <td className="p-2 border-b dark:border-loopring-dark-darkBlue whitespace-nowrap dark:text-white">
                       {getTimeFromNow(tx.block.timestamp)}

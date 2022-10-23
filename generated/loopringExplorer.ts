@@ -100,6 +100,7 @@ export type AccountNftSlot_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   account?: InputMaybe<Scalars['String']>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -129,6 +130,7 @@ export type AccountNftSlot_Filter = {
   balance_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   createdAt?: InputMaybe<Scalars['BigDecimal']>;
   createdAtTransaction?: InputMaybe<Scalars['String']>;
+  createdAtTransaction_?: InputMaybe<Transaction_Filter>;
   createdAtTransaction_contains?: InputMaybe<Scalars['String']>;
   createdAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   createdAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -165,6 +167,7 @@ export type AccountNftSlot_Filter = {
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
   lastUpdatedAt?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAtTransaction?: InputMaybe<Scalars['String']>;
+  lastUpdatedAtTransaction_?: InputMaybe<Transaction_Filter>;
   lastUpdatedAtTransaction_contains?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -212,6 +215,7 @@ export type AccountNftSlot_Filter = {
   nft_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   nft_starts_with?: InputMaybe<Scalars['String']>;
   nft_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  transactions_?: InputMaybe<TransactionNft_Filter>;
 };
 
 export enum AccountNftSlot_OrderBy {
@@ -317,6 +321,7 @@ export type AccountTokenBalanceDailyData_Filter = {
   accountTokenBalance_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accountTokenBalance_starts_with?: InputMaybe<Scalars['String']>;
   accountTokenBalance_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -499,6 +504,7 @@ export type AccountTokenBalanceWeeklyData_Filter = {
   accountTokenBalance_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accountTokenBalance_starts_with?: InputMaybe<Scalars['String']>;
   accountTokenBalance_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -632,6 +638,7 @@ export type AccountTokenBalance_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   account?: InputMaybe<Scalars['String']>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -689,6 +696,7 @@ export type AccountTokenBalance_Filter = {
   token_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   token_starts_with?: InputMaybe<Scalars['String']>;
   token_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  transactions_?: InputMaybe<Transaction_Filter>;
   weeklyData_?: InputMaybe<AccountTokenBalanceWeeklyData_Filter>;
 };
 
@@ -761,6 +769,7 @@ export type AccountUpdate_Filter = {
   accountID_not?: InputMaybe<Scalars['Int']>;
   accountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -981,6 +990,7 @@ export type Account_Filter = {
   balances_?: InputMaybe<AccountTokenBalance_Filter>;
   createdAt?: InputMaybe<Scalars['BigDecimal']>;
   createdAtTransaction?: InputMaybe<Scalars['String']>;
+  createdAtTransaction_?: InputMaybe<Transaction_Filter>;
   createdAtTransaction_contains?: InputMaybe<Scalars['String']>;
   createdAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   createdAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -1025,6 +1035,7 @@ export type Account_Filter = {
   internalID_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   lastUpdatedAt?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAtTransaction?: InputMaybe<Scalars['String']>;
+  lastUpdatedAtTransaction_?: InputMaybe<Transaction_Filter>;
   lastUpdatedAtTransaction_contains?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -1052,6 +1063,7 @@ export type Account_Filter = {
   lastUpdatedAt_not?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAt_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   slots_?: InputMaybe<AccountNftSlot_Filter>;
+  transactions_?: InputMaybe<Transaction_Filter>;
 };
 
 export enum Account_OrderBy {
@@ -1146,6 +1158,7 @@ export type Add_Filter = {
   accountToID_lte?: InputMaybe<Scalars['Int']>;
   accountToID_not?: InputMaybe<Scalars['Int']>;
   accountToID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -1166,6 +1179,7 @@ export type Add_Filter = {
   account_starts_with?: InputMaybe<Scalars['String']>;
   account_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -1477,6 +1491,7 @@ export type AmmUpdate_Filter = {
   accountID_not?: InputMaybe<Scalars['Int']>;
   accountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -1917,6 +1932,7 @@ export type Block_Filter = {
   operatorAccountID_lte?: InputMaybe<Scalars['Int']>;
   operatorAccountID_not?: InputMaybe<Scalars['Int']>;
   operatorAccountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  operatorAccount_?: InputMaybe<Account_Filter>;
   operatorAccount_contains?: InputMaybe<Scalars['String']>;
   operatorAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   operatorAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -2026,6 +2042,7 @@ export type Block_Filter = {
   transactionCount_lte?: InputMaybe<Scalars['BigInt']>;
   transactionCount_not?: InputMaybe<Scalars['BigInt']>;
   transactionCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  transactions_?: InputMaybe<Transaction_Filter>;
   transferCount?: InputMaybe<Scalars['BigInt']>;
   transferCount_gt?: InputMaybe<Scalars['BigInt']>;
   transferCount_gte?: InputMaybe<Scalars['BigInt']>;
@@ -2195,6 +2212,7 @@ export type DataNft_Filter = {
   accountID_not?: InputMaybe<Scalars['Int']>;
   accountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -2441,6 +2459,7 @@ export type Deposit_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -2521,6 +2540,7 @@ export type Deposit_Filter = {
   toAccountID_lte?: InputMaybe<Scalars['Int']>;
   toAccountID_not?: InputMaybe<Scalars['Int']>;
   toAccountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  toAccount_?: InputMaybe<Account_Filter>;
   toAccount_contains?: InputMaybe<Scalars['String']>;
   toAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   toAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -2750,6 +2770,7 @@ export type MintNft_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -2894,6 +2915,7 @@ export type MintNft_Filter = {
   minterAccountID_lte?: InputMaybe<Scalars['Int']>;
   minterAccountID_not?: InputMaybe<Scalars['Int']>;
   minterAccountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  minter_?: InputMaybe<Account_Filter>;
   minter_contains?: InputMaybe<Scalars['String']>;
   minter_contains_nocase?: InputMaybe<Scalars['String']>;
   minter_ends_with?: InputMaybe<Scalars['String']>;
@@ -2991,6 +3013,7 @@ export type MintNft_Filter = {
   receiverSlot_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   receiverSlot_starts_with?: InputMaybe<Scalars['String']>;
   receiverSlot_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  receiver_?: InputMaybe<Account_Filter>;
   receiver_contains?: InputMaybe<Scalars['String']>;
   receiver_contains_nocase?: InputMaybe<Scalars['String']>;
   receiver_ends_with?: InputMaybe<Scalars['String']>;
@@ -3226,6 +3249,7 @@ export type NonFungibleToken_Filter = {
   mintedAt_not?: InputMaybe<Scalars['BigDecimal']>;
   mintedAt_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   minter?: InputMaybe<Scalars['String']>;
+  minter_?: InputMaybe<Account_Filter>;
   minter_contains?: InputMaybe<Scalars['String']>;
   minter_contains_nocase?: InputMaybe<Scalars['String']>;
   minter_ends_with?: InputMaybe<Scalars['String']>;
@@ -3294,6 +3318,7 @@ export type NonFungibleToken_Filter = {
   token_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   token_starts_with?: InputMaybe<Scalars['String']>;
   token_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  transactions_?: InputMaybe<TransactionNft_Filter>;
 };
 
 export enum NonFungibleToken_OrderBy {
@@ -3418,6 +3443,7 @@ export type OrderbookTrade_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accountA?: InputMaybe<Scalars['String']>;
+  accountA_?: InputMaybe<Account_Filter>;
   accountA_contains?: InputMaybe<Scalars['String']>;
   accountA_contains_nocase?: InputMaybe<Scalars['String']>;
   accountA_ends_with?: InputMaybe<Scalars['String']>;
@@ -3438,6 +3464,7 @@ export type OrderbookTrade_Filter = {
   accountA_starts_with?: InputMaybe<Scalars['String']>;
   accountA_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accountB?: InputMaybe<Scalars['String']>;
+  accountB_?: InputMaybe<Account_Filter>;
   accountB_contains?: InputMaybe<Scalars['String']>;
   accountB_contains_nocase?: InputMaybe<Scalars['String']>;
   accountB_ends_with?: InputMaybe<Scalars['String']>;
@@ -3474,6 +3501,7 @@ export type OrderbookTrade_Filter = {
   accountIdB_not?: InputMaybe<Scalars['Int']>;
   accountIdB_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -4610,6 +4638,7 @@ export type Pool_Filter = {
   balances_?: InputMaybe<AccountTokenBalance_Filter>;
   createdAt?: InputMaybe<Scalars['BigDecimal']>;
   createdAtTransaction?: InputMaybe<Scalars['String']>;
+  createdAtTransaction_?: InputMaybe<Transaction_Filter>;
   createdAtTransaction_contains?: InputMaybe<Scalars['String']>;
   createdAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   createdAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -4662,6 +4691,7 @@ export type Pool_Filter = {
   internalID_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   lastUpdatedAt?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAtTransaction?: InputMaybe<Scalars['String']>;
+  lastUpdatedAtTransaction_?: InputMaybe<Transaction_Filter>;
   lastUpdatedAtTransaction_contains?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -4689,6 +4719,7 @@ export type Pool_Filter = {
   lastUpdatedAt_not?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAt_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   slots_?: InputMaybe<AccountNftSlot_Filter>;
+  transactions_?: InputMaybe<Transaction_Filter>;
 };
 
 export enum Pool_OrderBy {
@@ -4763,6 +4794,7 @@ export type ProtocolAccount_Filter = {
   balances_?: InputMaybe<AccountTokenBalance_Filter>;
   createdAt?: InputMaybe<Scalars['BigDecimal']>;
   createdAtTransaction?: InputMaybe<Scalars['String']>;
+  createdAtTransaction_?: InputMaybe<Transaction_Filter>;
   createdAtTransaction_contains?: InputMaybe<Scalars['String']>;
   createdAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   createdAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -4807,6 +4839,7 @@ export type ProtocolAccount_Filter = {
   internalID_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   lastUpdatedAt?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAtTransaction?: InputMaybe<Scalars['String']>;
+  lastUpdatedAtTransaction_?: InputMaybe<Transaction_Filter>;
   lastUpdatedAtTransaction_contains?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -4834,6 +4867,7 @@ export type ProtocolAccount_Filter = {
   lastUpdatedAt_not?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAt_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   slots_?: InputMaybe<AccountNftSlot_Filter>;
+  transactions_?: InputMaybe<Transaction_Filter>;
 };
 
 export enum ProtocolAccount_OrderBy {
@@ -5887,6 +5921,7 @@ export type Remove_Filter = {
   accountToID_lte?: InputMaybe<Scalars['Int']>;
   accountToID_not?: InputMaybe<Scalars['Int']>;
   accountToID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -5907,6 +5942,7 @@ export type Remove_Filter = {
   account_starts_with?: InputMaybe<Scalars['String']>;
   account_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -6215,6 +6251,7 @@ export type SignatureVerification_Filter = {
   accountID_lte?: InputMaybe<Scalars['Int']>;
   accountID_not?: InputMaybe<Scalars['Int']>;
   accountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -6235,6 +6272,7 @@ export type SignatureVerification_Filter = {
   account_starts_with?: InputMaybe<Scalars['String']>;
   account_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -7233,6 +7271,7 @@ export type SwapNft_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accountA?: InputMaybe<Scalars['String']>;
+  accountA_?: InputMaybe<Account_Filter>;
   accountA_contains?: InputMaybe<Scalars['String']>;
   accountA_contains_nocase?: InputMaybe<Scalars['String']>;
   accountA_ends_with?: InputMaybe<Scalars['String']>;
@@ -7253,6 +7292,7 @@ export type SwapNft_Filter = {
   accountA_starts_with?: InputMaybe<Scalars['String']>;
   accountA_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accountB?: InputMaybe<Scalars['String']>;
+  accountB_?: InputMaybe<Account_Filter>;
   accountB_contains?: InputMaybe<Scalars['String']>;
   accountB_contains_nocase?: InputMaybe<Scalars['String']>;
   accountB_ends_with?: InputMaybe<Scalars['String']>;
@@ -7289,6 +7329,7 @@ export type SwapNft_Filter = {
   accountIdB_not?: InputMaybe<Scalars['Int']>;
   accountIdB_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -7692,6 +7733,7 @@ export type Swap_Filter = {
   accountIdB_lte?: InputMaybe<Scalars['Int']>;
   accountIdB_not?: InputMaybe<Scalars['Int']>;
   accountIdB_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  account_?: InputMaybe<Account_Filter>;
   account_contains?: InputMaybe<Scalars['String']>;
   account_contains_nocase?: InputMaybe<Scalars['String']>;
   account_ends_with?: InputMaybe<Scalars['String']>;
@@ -7712,6 +7754,7 @@ export type Swap_Filter = {
   account_starts_with?: InputMaybe<Scalars['String']>;
   account_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -8652,6 +8695,7 @@ export type TradeNft_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accountBuyer?: InputMaybe<Scalars['String']>;
+  accountBuyer_?: InputMaybe<Account_Filter>;
   accountBuyer_contains?: InputMaybe<Scalars['String']>;
   accountBuyer_contains_nocase?: InputMaybe<Scalars['String']>;
   accountBuyer_ends_with?: InputMaybe<Scalars['String']>;
@@ -8688,6 +8732,7 @@ export type TradeNft_Filter = {
   accountIdB_not?: InputMaybe<Scalars['Int']>;
   accountIdB_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accountSeller?: InputMaybe<Scalars['String']>;
+  accountSeller_?: InputMaybe<Account_Filter>;
   accountSeller_contains?: InputMaybe<Scalars['String']>;
   accountSeller_contains_nocase?: InputMaybe<Scalars['String']>;
   accountSeller_ends_with?: InputMaybe<Scalars['String']>;
@@ -8708,6 +8753,7 @@ export type TradeNft_Filter = {
   accountSeller_starts_with?: InputMaybe<Scalars['String']>;
   accountSeller_starts_with_nocase?: InputMaybe<Scalars['String']>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -9289,6 +9335,7 @@ export type Transaction_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -9533,6 +9580,7 @@ export type TransferNft_Filter = {
   accountToID_not?: InputMaybe<Scalars['Int']>;
   accountToID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -9626,6 +9674,7 @@ export type TransferNft_Filter = {
   fee_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   from?: InputMaybe<Scalars['String']>;
   fromAccount?: InputMaybe<Scalars['String']>;
+  fromAccount_?: InputMaybe<Account_Filter>;
   fromAccount_contains?: InputMaybe<Scalars['String']>;
   fromAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   fromAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -9725,6 +9774,7 @@ export type TransferNft_Filter = {
   storageID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   to?: InputMaybe<Scalars['String']>;
   toAccount?: InputMaybe<Scalars['String']>;
+  toAccount_?: InputMaybe<Account_Filter>;
   toAccount_contains?: InputMaybe<Scalars['String']>;
   toAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   toAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -9869,6 +9919,7 @@ export type Transfer_Filter = {
   accountToID_not?: InputMaybe<Scalars['Int']>;
   accountToID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -9962,6 +10013,7 @@ export type Transfer_Filter = {
   fee_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   from?: InputMaybe<Scalars['String']>;
   fromAccount?: InputMaybe<Scalars['String']>;
+  fromAccount_?: InputMaybe<Account_Filter>;
   fromAccount_contains?: InputMaybe<Scalars['String']>;
   fromAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   fromAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -10026,6 +10078,7 @@ export type Transfer_Filter = {
   storageID_not_in?: InputMaybe<Array<Scalars['Int']>>;
   to?: InputMaybe<Scalars['String']>;
   toAccount?: InputMaybe<Scalars['String']>;
+  toAccount_?: InputMaybe<Account_Filter>;
   toAccount_contains?: InputMaybe<Scalars['String']>;
   toAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   toAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -10207,6 +10260,7 @@ export type User_Filter = {
   balances_?: InputMaybe<AccountTokenBalance_Filter>;
   createdAt?: InputMaybe<Scalars['BigDecimal']>;
   createdAtTransaction?: InputMaybe<Scalars['String']>;
+  createdAtTransaction_?: InputMaybe<Transaction_Filter>;
   createdAtTransaction_contains?: InputMaybe<Scalars['String']>;
   createdAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   createdAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -10251,6 +10305,7 @@ export type User_Filter = {
   internalID_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   lastUpdatedAt?: InputMaybe<Scalars['BigDecimal']>;
   lastUpdatedAtTransaction?: InputMaybe<Scalars['String']>;
+  lastUpdatedAtTransaction_?: InputMaybe<Transaction_Filter>;
   lastUpdatedAtTransaction_contains?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_contains_nocase?: InputMaybe<Scalars['String']>;
   lastUpdatedAtTransaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -10298,6 +10353,7 @@ export type User_Filter = {
   publicKey_starts_with?: InputMaybe<Scalars['String']>;
   publicKey_starts_with_nocase?: InputMaybe<Scalars['String']>;
   slots_?: InputMaybe<AccountNftSlot_Filter>;
+  transactions_?: InputMaybe<Transaction_Filter>;
 };
 
 export enum User_OrderBy {
@@ -10447,6 +10503,7 @@ export type WithdrawalNft_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -10548,6 +10605,7 @@ export type WithdrawalNft_Filter = {
   fromAccountID_lte?: InputMaybe<Scalars['Int']>;
   fromAccountID_not?: InputMaybe<Scalars['Int']>;
   fromAccountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  fromAccount_?: InputMaybe<Account_Filter>;
   fromAccount_contains?: InputMaybe<Scalars['String']>;
   fromAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   fromAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -10727,6 +10785,7 @@ export type Withdrawal_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   accounts?: InputMaybe<Array<Scalars['String']>>;
+  accounts_?: InputMaybe<Account_Filter>;
   accounts_contains?: InputMaybe<Array<Scalars['String']>>;
   accounts_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   accounts_not?: InputMaybe<Array<Scalars['String']>>;
@@ -10828,6 +10887,7 @@ export type Withdrawal_Filter = {
   fromAccountID_lte?: InputMaybe<Scalars['Int']>;
   fromAccountID_not?: InputMaybe<Scalars['Int']>;
   fromAccountID_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  fromAccount_?: InputMaybe<Account_Filter>;
   fromAccount_contains?: InputMaybe<Scalars['String']>;
   fromAccount_contains_nocase?: InputMaybe<Scalars['String']>;
   fromAccount_ends_with?: InputMaybe<Scalars['String']>;
@@ -10993,6 +11053,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   number: Scalars['Int'];
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  timestamp?: Maybe<Scalars['Int']>;
 };
 
 /** The type for the top-level _meta field */
